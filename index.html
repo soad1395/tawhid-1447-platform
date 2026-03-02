@@ -1,0 +1,189 @@
+ <!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>منصة الإتقان الذكي 1447</title>
+
+<style>
+:root{
+--main:#1e8e3e;
+--light:#f4f6f9;
+--white:#ffffff;
+--dark:#1b1b1b;
+}
+
+body{
+font-family:Tahoma, Arial;
+margin:0;
+background:var(--light);
+}
+
+header{
+background:var(--main);
+color:white;
+padding:25px;
+text-align:center;
+}
+
+header h1{
+margin:0;
+font-size:26px;
+}
+
+nav{
+margin-top:15px;
+}
+
+nav button{
+background:white;
+border:none;
+padding:10px 15px;
+margin:5px;
+border-radius:25px;
+cursor:pointer;
+font-weight:bold;
+}
+
+section{
+display:none;
+padding:20px;
+}
+
+.active{
+display:block;
+}
+
+.card{
+background:white;
+padding:15px;
+border-radius:10px;
+margin-bottom:15px;
+box-shadow:0 4px 10px rgba(0,0,0,0.05);
+}
+
+input,select,textarea{
+width:100%;
+padding:8px;
+margin:5px 0;
+border:1px solid #ccc;
+border-radius:6px;
+}
+
+button.action{
+background:var(--main);
+color:white;
+border:none;
+padding:8px 12px;
+border-radius:6px;
+cursor:pointer;
+margin-top:5px;
+}
+
+footer{
+text-align:center;
+padding:15px;
+font-size:12px;
+color:#777;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>منصة الإتقان الذكي</h1>
+<p>قابلة للتعديل والحفظ والطباعة</p>
+
+<nav>
+<button onclick="show('data')">البيانات</button>
+<button onclick="show('skills')">المهارات</button>
+<button onclick="show('plans')">الخطط العلاجية والإثرائية</button>
+<button onclick="show('reports')">التقارير</button>
+<button onclick="show('awards')">التكريم</button>
+<button onclick="show('sources')">المصادر</button>
+</nav>
+</header>
+
+<!-- البيانات -->
+<section id="data" class="active">
+<div class="card">
+<h3>إدخال الطالبة</h3>
+<input placeholder="اسم الطالبة">
+<select>
+<option>ضمن المتوسط</option>
+<option>فوق المتوسط</option>
+<option>دون المتوسط</option>
+</select>
+<textarea placeholder="ملاحظات المعلمة"></textarea>
+<button class="action" onclick="alert('تم الحفظ (تجريبي)')">حفظ</button>
+</div>
+</section>
+
+<!-- المهارات -->
+<section id="skills">
+<div class="card">
+<h3>بنك المهارات</h3>
+<textarea placeholder="أدخلي المهارات حسب الكتاب"></textarea>
+<button class="action">حفظ المهارات</button>
+</div>
+</section>
+
+<!-- الخطط -->
+<section id="plans">
+<div class="card">
+<h3>خطة علاجية</h3>
+<textarea placeholder="اكتبي الخطة العلاجية هنا"></textarea>
+</div>
+
+<div class="card">
+<h3>خطة إثرائية</h3>
+<textarea placeholder="اكتبي الخطة الإثرائية هنا"></textarea>
+</div>
+</section>
+
+<!-- التقارير -->
+<section id="reports">
+<div class="card">
+<h3>تقرير الطالبة</h3>
+<textarea placeholder="سيظهر هنا تقرير الطالبة"></textarea>
+<button class="action" onclick="window.print()">طباعة</button>
+</div>
+</section>
+
+<!-- التكريم -->
+<section id="awards">
+<div class="card">
+<h3>شهادة تكريم</h3>
+<input placeholder="اسم الطالبة المكرمة">
+<textarea placeholder="سبب التكريم"></textarea>
+<button class="action" onclick="window.print()">طباعة الشهادة</button>
+</div>
+</section>
+
+<!-- المصادر -->
+<section id="sources">
+<div class="card">
+<h3>المصادر التعليمية</h3>
+<ul>
+<li>منصة مدرستي</li>
+<li>منصة عين</li>
+<li>الكتاب المدرسي</li>
+<li>بوابة التعليم</li>
+</ul>
+</div>
+</section>
+
+<footer>
+جميع الحقوق محفوظة © 1447
+</footer>
+
+<script>
+function show(id){
+document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+}
+</script>
+
+</body>
+</html>
