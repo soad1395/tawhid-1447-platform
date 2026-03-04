@@ -1,11 +1,14 @@
  <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>منصة الإتقان الذكي — 1447</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>منصة الإتقان الذكي 1447</title>
 
+  <!-- Charts -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <!-- Word export -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/docx/8.5.0/docx.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 
@@ -13,8 +16,6 @@
     :root{
       --g1:#0E7A3E;
       --g2:#0B6232;
-      --a:#19A45B;
-      --gold:#C9A227;
       --bg:#F3F7F4;
       --card:#FFFFFF;
       --ink:#0F172A;
@@ -22,6 +23,7 @@
       --line:#DDE7E0;
       --soft:#E7F3EC;
       --danger:#B42318;
+      --gold:#C9A227;
       --shadow: 0 14px 28px rgba(15,23,42,.10);
       --r:18px;
     }
@@ -49,7 +51,7 @@
       border:1px solid rgba(255,255,255,.25);
       background:rgba(255,255,255,.12);
       color:#fff;padding:8px 12px;border-radius:999px;
-      cursor:pointer;font-weight:800;
+      cursor:pointer;font-weight:900;
       display:inline-flex;align-items:center;gap:8px;
     }
     nav{padding:10px 16px 14px;display:flex;gap:8px;flex-wrap:wrap}
@@ -60,6 +62,20 @@
       cursor:pointer;font-weight:900;display:inline-flex;gap:8px;align-items:center;
     }
     .tab.active{background:#fff;color:var(--g1);border-color:#fff}
+    .basicbar{
+      margin:0 16px 12px;
+      background:rgba(255,255,255,.14);
+      border:1px solid rgba(255,255,255,.22);
+      padding:8px 10px;border-radius:14px;
+      font-size:12px;font-weight:900;
+      display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;
+    }
+    .basicbar .chip{
+      background:rgba(255,255,255,.18);
+      border:1px solid rgba(255,255,255,.22);
+      padding:6px 10px;border-radius:999px;
+      display:inline-flex;gap:6px;align-items:center;
+    }
     .wrap{max-width:1200px;margin:0 auto;padding:16px}
     .card{
       background:var(--card);border:1px solid var(--line);border-radius:var(--r);
@@ -108,30 +124,7 @@
     .kpi .v{font-size:20px;font-weight:900}
     .kpi .t{font-size:12px;color:var(--mut);font-weight:900}
     .footer{padding:18px 0;text-align:center;color:var(--mut);font-weight:800}
-    .dangerText{color:var(--danger);font-weight:900}
-    *{pointer-events:auto}
-
-    /* شريط البيانات الأساسية أعلى */
-    .basicbar{
-      margin:0 16px 12px;
-      background:rgba(255,255,255,.14);
-      border:1px solid rgba(255,255,255,.22);
-      padding:8px 10px;
-      border-radius:14px;
-      font-size:12px;
-      font-weight:900;
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px 12px;
-      align-items:center;
-    }
-    .basicbar span{opacity:.98}
-    .basicbar .chip{
-      background:rgba(255,255,255,.18);
-      border:1px solid rgba(255,255,255,.22);
-      padding:6px 10px;border-radius:999px;
-      display:inline-flex;gap:6px;align-items:center;
-    }
+    .sep{height:12px}
   </style>
 </head>
 
@@ -139,27 +132,26 @@
 <header>
   <div class="topbar">
     <div class="brand">
-      <h1 id="appTitle">منصة الإتقان الذكي</h1>
-      <div class="sub" id="appSub">تحليل + خطط + أولياء أمور + ألعاب + مصادر — حفظ تلقائي ✅</div>
+      <h1>منصة الإتقان الذكي</h1>
+      <div class="sub">تحليل + خطط + أولياء أمور + ألعاب + مصادر — حفظ تلقائي ✅</div>
     </div>
     <div class="actions">
       <button class="pill" id="btnTheme">🌓 الوضع</button>
       <button class="pill" id="btnExport">⬇️ تصدير بيانات</button>
       <button class="pill" id="btnImport">⬆️ استيراد بيانات</button>
-      <button class="pill" id="btnWord">📝 تصدير Word</button>
-      <button class="pill" id="btnPrint">🖨️ طباعة / PDF</button>
+      <button class="pill" id="btnWord">📝 Word</button>
+      <button class="pill" id="btnPrint">🖨️ PDF</button>
     </div>
   </div>
 
-  <!-- شريط البيانات الأساسية -->
   <div class="basicbar" id="basicBar">
-    <span class="chip">👩‍🏫 <span id="bbTeacher">سعاد صالح الغامدي</span></span>
-    <span class="chip">👩‍💼 <span id="bbPrincipal">آمال باربود</span></span>
-    <span class="chip">🏫 <span id="bbSchool">المتوسطة الثانية والأربعون والثانوية السادسة والثلاثون</span></span>
-    <span class="chip">🎓 <span id="bbStage">الثانوي — ثاني ثانوي</span></span>
-    <span class="chip">📚 <span id="bbSubject">توحيد</span></span>
-    <span class="chip">📆 <span id="bbYear">1447</span></span>
-    <span class="chip">© <span id="bbRights">حقوق الطبع محفوظة</span></span>
+    <span class="chip">👩‍🏫 <span id="bbTeacher"></span></span>
+    <span class="chip">👩‍💼 <span id="bbPrincipal"></span></span>
+    <span class="chip">🏫 <span id="bbSchool"></span></span>
+    <span class="chip">🎓 <span id="bbStage"></span></span>
+    <span class="chip">📚 <span id="bbSubject"></span></span>
+    <span class="chip">📆 <span id="bbYear"></span></span>
+    <span class="chip">© <span id="bbRights"></span></span>
   </div>
 
   <nav id="navTabs">
@@ -168,7 +160,8 @@
     <button class="tab" data-tab="classes">🏫 الفصول/الطالبات</button>
     <button class="tab" data-tab="skills">🧠 المهارات</button>
     <button class="tab" data-tab="grades">🧮 الدرجات</button>
-    <button class="tab" data-tab="reports">📊 التقارير</button>
+    <button class="tab" data-tab="reports">📊 تقرير فصل</button>
+    <button class="tab" data-tab="final">🏁 التحليل النهائي</button>
     <button class="tab" data-tab="plans">🧩 الخطط</button>
     <button class="tab" data-tab="parents">👩‍👧‍👦 أولياء الأمور</button>
     <button class="tab" data-tab="games">🎮 الألعاب</button>
@@ -179,40 +172,45 @@
 
 <div class="wrap">
 
+  <!-- HOME -->
   <section id="tab-home" class="card">
     <div class="title"><h2>لوحة التحكم</h2><span class="tag">حفظ تلقائي ✅</span></div>
+
     <div class="hint">
-      <b>طريقة العمل لكل فصل لوحده:</b>
-      1) أضيفي الفصل → 2) أضيفي طالباته → 3) اختاري الفصل في صفحة الدرجات → يظهر لك نفس طالبات هذا الفصل فقط.
+      ✅ <b>الخطوات الصحيحة:</b>
+      1) البيانات الأساسية → 2) الفصول والطالبات → 3) المهارات → 4) الدرجات (ف1 وف2) → 5) التقارير.
+      <br>📌 إذا كانت قوائم أولياء الأمور/الدرجات فاضية: يعني ما أضفتِ فصول أو طالبات بعد.
     </div>
-    <div style="height:12px"></div>
+
+    <div class="sep"></div>
+
     <div class="kpi">
       <div class="box"><div class="v" id="kpiClasses">0</div><div class="t">عدد الفصول</div></div>
       <div class="box"><div class="v" id="kpiStudents">0</div><div class="t">عدد الطالبات</div></div>
       <div class="box"><div class="v" id="kpiSkills">0</div><div class="t">عدد المهارات</div></div>
-      <div class="box"><div class="v" id="kpiNotes">0</div><div class="t">سجلات أولياء الأمور</div></div>
+      <div class="box"><div class="v" id="kpiLogs">0</div><div class="t">سجلات أولياء الأمور</div></div>
     </div>
-    <div style="height:12px"></div>
+
+    <div class="sep"></div>
+
     <div class="row">
       <button class="btn" onclick="goTab('basic')">📋 البيانات الأساسية</button>
-      <button class="btn" onclick="goTab('classes')">🏫 أضيفي الفصول/الطالبات</button>
-      <button class="btn" onclick="goTab('skills')">🧠 أضيفي المهارات</button>
-      <button class="btn" onclick="goTab('grades')">🧮 أدخلي الدرجات</button>
-      <button class="btn" onclick="goTab('reports')">📊 شاهدي التقرير</button>
+      <button class="btn" onclick="goTab('classes')">🏫 الفصول/الطالبات</button>
+      <button class="btn" onclick="goTab('skills')">🧠 المهارات</button>
+      <button class="btn" onclick="goTab('grades')">🧮 الدرجات</button>
+      <button class="btn" onclick="goTab('final')">🏁 التحليل النهائي</button>
     </div>
   </section>
 
-  <!-- BASIC INFO -->
+  <!-- BASIC -->
   <section id="tab-basic" class="card hide">
-    <div class="title"><h2>البيانات الأساسية</h2><span class="tag">تظهر في أعلى المنصة + التقارير + Word</span></div>
-    <div class="hint">
-      اكتبي بياناتك مرة واحدة فقط. يتم حفظها تلقائيًا وتقدرين تعدلينها بأي وقت.
-    </div>
-    <div style="height:12px"></div>
+    <div class="title"><h2>البيانات الأساسية</h2><span class="tag">تظهر أعلى المنصة + في التقارير</span></div>
+
+    <div class="hint">اكتبي بياناتك مرة واحدة. سيتم الحفظ تلقائيًا. تقدرين تعدلين بأي وقت.</div>
+    <div class="sep"></div>
 
     <div class="two">
       <div class="card flat">
-        <div class="title"><h2>بيانات المدرسة</h2><span class="muted">قابلة للتعديل</span></div>
         <div class="row">
           <div class="field"><label>اسم المعلمة</label><input id="biTeacher"></div>
           <div class="field"><label>اسم المديرة</label><input id="biPrincipal"></div>
@@ -228,18 +226,17 @@
         <div class="row">
           <div class="field"><label>حقوق الطبع</label><input id="biRights" placeholder="حقوق الطبع محفوظة"></div>
         </div>
-
         <div class="row">
-          <button class="btn" onclick="saveBasicInfo()">💾 حفظ البيانات الأساسية</button>
-          <button class="btn secondary" onclick="loadBasicInfoToFields()">↩️ استرجاع من الحفظ</button>
+          <button class="btn" onclick="saveBasicInfo()">💾 حفظ</button>
+          <button class="btn secondary" onclick="loadBasicInfoToFields()">↩️ تحميل</button>
         </div>
       </div>
 
       <div class="card flat">
-        <div class="title"><h2>ملاحظة</h2><span class="muted">مهم</span></div>
+        <div class="title"><h2>ملاحظة مهمة للآيباد</h2><span class="muted">Word</span></div>
         <div class="hint">
-          بعد الحفظ: بتلاحظين البيانات ظهرت فورًا أعلى المنصة (الشريط الأخضر).<br>
-          وتدخل تلقائيًا في: <b>التقارير</b> + <b>تصدير Word</b> + <b>الطباعة PDF</b>.
+          زر Word قد لا يعمل في Safari على iOS. افتحي الرابط في <b>Chrome/Edge</b> لينزل الملف.
+          <br>زر PDF يعمل دائمًا: 🖨️ ثم Save as PDF.
         </div>
       </div>
     </div>
@@ -247,45 +244,43 @@
 
   <!-- CLASSES -->
   <section id="tab-classes" class="card hide">
-    <div class="title"><h2>الفصول والطالبات</h2><span class="tag">يُحدّث القوائم فورًا ✅</span></div>
+    <div class="title"><h2>الفصول والطالبات</h2><span class="tag">تحرير/حذف</span></div>
 
     <div class="two">
       <div class="card flat">
         <div class="title"><h2>إضافة فصل</h2><span class="muted">مثال: 2ث/1</span></div>
         <div class="row">
-          <div class="field"><label>اسم الفصل</label><input id="cName" placeholder="اكتبي اسم الفصل"></div>
+          <div class="field"><label>اسم الفصل</label><input id="cName" placeholder="2ث/1"></div>
           <button class="btn" onclick="addClass()">➕ إضافة</button>
         </div>
-        <div class="hint" style="margin-top:10px">
-          إذا أضفتِ فصل وما ظهر في القائمة: اضغطي <b>تحديث القوائم</b>.
-          <div style="height:8px"></div>
-          <button class="btn secondary" onclick="refreshAll(true)">🔄 تحديث القوائم</button>
-        </div>
 
-        <div style="height:12px"></div>
+        <div class="sep"></div>
 
-        <div class="title"><h2>إضافة طالبة</h2><span class="muted">اختاري الفصل أولًا</span></div>
+        <div class="title"><h2>إضافة طالبة</h2><span class="muted">اختاري الفصل</span></div>
         <div class="row">
           <div class="field"><label>الفصل</label><select id="cSel"></select></div>
-          <div class="field"><label>اسم الطالبة</label><input id="sName" placeholder="اكتبي الاسم"></div>
+          <div class="field"><label>اسم الطالبة</label><input id="sName" placeholder="أبرار"></div>
           <button class="btn" onclick="addStudent()">➕ إضافة</button>
         </div>
 
-        <div style="height:12px"></div>
+        <div class="sep"></div>
 
-        <div class="title"><h2>إضافة جماعية</h2><span class="muted">كل اسم بسطر</span></div>
+        <div class="title"><h2>إدخال جماعي</h2><span class="muted">كل اسم بسطر</span></div>
         <div class="field">
-          <label>الأسماء</label>
-          <textarea id="bulkNames" placeholder="سارة&#10;نورة&#10;..."></textarea>
+          <label>أسماء الطالبات</label>
+          <textarea id="bulkNames" placeholder="أبرار&#10;سارة&#10;نورة"></textarea>
         </div>
         <div class="row">
           <button class="btn" onclick="bulkAddStudents()">📥 إدخال</button>
           <button class="btn secondary" onclick="document.getElementById('bulkNames').value=''">🧹 مسح</button>
         </div>
+
+        <div class="sep"></div>
+        <button class="btn secondary" onclick="refreshAll(true)">🔄 تحديث القوائم</button>
       </div>
 
       <div class="card flat">
-        <div class="title"><h2>عرض الفصول</h2><span class="muted">تحرير/حذف</span></div>
+        <div class="title"><h2>عرض الفصول</h2><span class="muted">وتحرير الطالبات</span></div>
         <div id="classesView"></div>
       </div>
     </div>
@@ -296,31 +291,28 @@
     <div class="title"><h2>بنك المهارات</h2><span class="tag">قابل للتعديل</span></div>
 
     <div class="hint">
-      اكتبي مهارات الكتاب (حتى لو ما خلصتم الكتاب كامل في الفترة الأولى).
-      <br>هنا المهارات فقط — الدرجات تدخلينها لاحقًا.
+      اكتبي مهارات الكتاب. تقدرين تضيفين مهارات فقط للفترة الأولى (مو لازم الكتاب كامل).
     </div>
-
-    <div style="height:12px"></div>
+    <div class="sep"></div>
 
     <div class="card flat">
-      <div class="title"><h2>إضافة مهارة</h2><span class="muted">مثال: تمييز أنواع التوحيد</span></div>
       <div class="row">
-        <div class="field" style="min-width:280px"><label>اسم المهارة</label><input id="skName" placeholder="اكتبي المهارة"></div>
+        <div class="field" style="min-width:280px"><label>اسم المهارة</label><input id="skName" placeholder="تمييز أنواع التوحيد"></div>
         <button class="btn" onclick="addSkill()">➕ إضافة</button>
       </div>
       <div class="row">
-        <button class="btn secondary" onclick="seedSampleSkills()">✨ توليد مهارات افتراضية (تقدرين تحذفينها)</button>
+        <button class="btn secondary" onclick="seedSampleSkills()">✨ توليد مهارات افتراضية (اختياري)</button>
         <button class="btn danger" onclick="clearSkills()">🗑️ مسح المهارات</button>
       </div>
     </div>
 
-    <div style="height:12px"></div>
+    <div class="sep"></div>
     <div id="skillsView"></div>
   </section>
 
   <!-- GRADES -->
   <section id="tab-grades" class="card hide">
-    <div class="title"><h2>الدرجات</h2><span class="tag">لكل فصل لوحده</span></div>
+    <div class="title"><h2>الدرجات</h2><span class="tag">ف1 + ف2</span></div>
 
     <div class="row">
       <div class="field"><label>الفصل</label><select id="gClass"></select></div>
@@ -334,53 +326,76 @@
       <button class="btn" onclick="renderGradeTable()">عرض</button>
     </div>
 
-    <div style="height:12px"></div>
+    <div class="sep"></div>
     <div id="gradeWrap"></div>
   </section>
 
-  <!-- REPORTS -->
+  <!-- REPORTS (CLASS) -->
   <section id="tab-reports" class="card hide">
-    <div class="title"><h2>التقارير والتحليل</h2><span class="tag">نص + رسوم</span></div>
+    <div class="title"><h2>تقرير فصل</h2><span class="tag">نص + رسوم</span></div>
+
     <div class="row">
       <div class="field"><label>الفصل</label><select id="rClass"></select></div>
-      <button class="btn" onclick="buildReports()">📊 توليد تقرير الفصل</button>
+      <button class="btn" onclick="buildClassReport()">📊 توليد تقرير الفصل</button>
+      <button class="btn secondary" onclick="window.print()">🖨️ PDF</button>
     </div>
-    <div style="height:12px"></div>
+
+    <div class="sep"></div>
     <div id="reportsView"></div>
+  </section>
+
+  <!-- FINAL ALL CLASSES -->
+  <section id="tab-final" class="card hide">
+    <div class="title"><h2>🏁 التحليل النهائي لجميع الفصول</h2><span class="tag">ف1 + ف2 + مقارنة</span></div>
+
+    <div class="row">
+      <button class="btn" onclick="buildFinalAllClasses()">⚡ توليد التحليل النهائي</button>
+      <button class="btn secondary" onclick="window.print()">🖨️ PDF</button>
+    </div>
+
+    <div class="sep"></div>
+    <div id="finalAllView"></div>
+
+    <div class="sep"></div>
+    <div class="two">
+      <div class="card flat">
+        <div class="title"><h2>📊 متوسطات الفصول</h2><span class="muted">أعمدة</span></div>
+        <canvas id="chartFinalBars" height="220"></canvas>
+      </div>
+      <div class="card flat">
+        <div class="title"><h2>🧩 توزيع التصنيف (ف2)</h2><span class="muted">قطاعات</span></div>
+        <canvas id="chartFinalDist" height="220"></canvas>
+      </div>
+    </div>
   </section>
 
   <!-- PLANS -->
   <section id="tab-plans" class="card hide">
-    <div class="title"><h2>الخطط (علاجية/إثرائية)</h2><span class="tag">تتولد من المهارة</span></div>
-    <div class="hint">
-      لكل مهارة: خطة علاجية + خطة إثرائية. تقدرين تعدلينها أو تحذفين بنودها.
-    </div>
-    <div style="height:12px"></div>
+    <div class="title"><h2>الخطط العلاجية والإثرائية</h2><span class="tag">مرتبطة بالمهارات</span></div>
+    <div class="hint">كل مهارة لها بنود علاجية وإثرائية. تقدرين تعديل/حذف/إضافة بنود.</div>
+    <div class="sep"></div>
     <div id="plansView"></div>
   </section>
 
   <!-- PARENTS -->
   <section id="tab-parents" class="card hide">
-    <div class="title"><h2>متابعة أولياء الأمور</h2><span class="tag">مرتبطة بالفصل والطالبة</span></div>
+    <div class="title"><h2>متابعة أولياء الأمور</h2><span class="tag">سجل تواصل</span></div>
 
     <div class="card flat">
-      <div class="title"><h2>إضافة سجل</h2><span class="muted">قابل للحذف</span></div>
       <div class="row">
         <div class="field"><label>الفصل</label><select id="pClass"></select></div>
         <div class="field"><label>الطالبة</label><select id="pStudent"></select></div>
         <div class="field"><label>التاريخ</label><input id="pDate" type="date"></div>
       </div>
       <div class="row">
-        <div class="field"><label>سبب التواصل</label><input id="pReason" placeholder="ضعف / غياب / تفوق / سلوك / ..."></div>
+        <div class="field"><label>سبب التواصل</label><input id="pReason" placeholder="ضعف / غياب / تفوق ..."></div>
         <div class="field"><label>وسيلة التواصل</label>
-          <select id="pChannel">
-            <option>هاتف</option><option>رسالة</option><option>واتساب</option><option>اجتماع</option>
-          </select>
+          <select id="pChannel"><option>هاتف</option><option>رسالة</option><option>واتساب</option><option>اجتماع</option></select>
         </div>
       </div>
       <div class="row">
-        <div class="field"><label>الإجراء</label><textarea id="pAction" placeholder="ما الذي تم اتخاذه؟"></textarea></div>
-        <div class="field"><label>النتيجة/الملاحظة</label><textarea id="pResult" placeholder="نتيجة المتابعة"></textarea></div>
+        <div class="field"><label>الإجراء</label><textarea id="pAction"></textarea></div>
+        <div class="field"><label>النتيجة</label><textarea id="pResult"></textarea></div>
       </div>
       <div class="row">
         <button class="btn" onclick="addParentLog()">➕ حفظ السجل</button>
@@ -388,99 +403,85 @@
       </div>
     </div>
 
-    <div style="height:12px"></div>
+    <div class="sep"></div>
     <div id="parentsView"></div>
   </section>
 
   <!-- GAMES -->
   <section id="tab-games" class="card hide">
-    <div class="title"><h2>الألعاب التفاعلية</h2><span class="tag">روابط قابلة للتعديل</span></div>
-    <div class="hint">
-      روابط عامة لإنشاء/تشغيل. تقدرين تضيفين روابط مسابقاتك داخل المنصة لاحقًا.
-    </div>
-    <div style="height:12px"></div>
-
+    <div class="title"><h2>الألعاب التفاعلية</h2><span class="tag">روابط</span></div>
     <div class="two">
       <div class="card flat">
         <div class="title"><h2>Kahoot</h2><span class="muted">إنشاء/تشغيل</span></div>
         <div class="row">
-          <a class="btn secondary" href="https://create.kahoot.it/" target="_blank" rel="noopener">إنشاء كاهوت</a>
-          <a class="btn" href="https://kahoot.it/" target="_blank" rel="noopener">تشغيل (Enter PIN)</a>
+          <a class="btn secondary" href="https://create.kahoot.it/" target="_blank" rel="noopener">إنشاء</a>
+          <a class="btn" href="https://kahoot.it/" target="_blank" rel="noopener">تشغيل</a>
         </div>
       </div>
       <div class="card flat">
         <div class="title"><h2>Wordwall</h2><span class="muted">أنشطة</span></div>
-        <div class="row">
-          <a class="btn secondary" href="https://wordwall.net/" target="_blank" rel="noopener">فتح Wordwall</a>
-        </div>
+        <div class="row"><a class="btn secondary" href="https://wordwall.net/" target="_blank" rel="noopener">فتح</a></div>
       </div>
       <div class="card flat">
         <div class="title"><h2>Quizizz</h2><span class="muted">اختبارات</span></div>
-        <div class="row">
-          <a class="btn secondary" href="https://quizizz.com/" target="_blank" rel="noopener">فتح Quizizz</a>
-        </div>
+        <div class="row"><a class="btn secondary" href="https://quizizz.com/" target="_blank" rel="noopener">فتح</a></div>
       </div>
       <div class="card flat">
-        <div class="title"><h2>Nearpod</h2><span class="muted">دروس</span></div>
-        <div class="row">
-          <a class="btn secondary" href="https://nearpod.com/" target="_blank" rel="noopener">فتح Nearpod</a>
-        </div>
+        <div class="title"><h2>Liveworksheets</h2><span class="muted">أوراق تفاعلية</span></div>
+        <div class="row"><a class="btn secondary" href="https://www.liveworksheets.com/" target="_blank" rel="noopener">فتح</a></div>
       </div>
     </div>
   </section>
 
   <!-- SOURCES -->
   <section id="tab-sources" class="card hide">
-    <div class="title"><h2>المصادر</h2><span class="tag">مدرستي/عين…</span></div>
-    <div class="two">
-      <div class="card flat">
-        <div class="title"><h2>مصادر افتراضية</h2><span class="muted">قابلة للتعديل</span></div>
-        <div class="row">
-          <button class="btn secondary" onclick="seedSources()">✨ إضافة مصادر افتراضية</button>
-          <button class="btn" onclick="addSource()">➕ إضافة مصدر</button>
-        </div>
-      </div>
-      <div class="card flat">
-        <div class="title"><h2>قائمة المصادر</h2><span class="muted">فتح/تعديل/حذف</span></div>
-        <div id="sourcesView"></div>
-      </div>
+    <div class="title"><h2>المصادر</h2><span class="tag">قابلة للتعديل</span></div>
+    <div class="row">
+      <button class="btn secondary" onclick="seedSources()">✨ إضافة مصادر افتراضية</button>
+      <button class="btn" onclick="addSource()">➕ إضافة مصدر</button>
     </div>
+    <div class="sep"></div>
+    <div id="sourcesView"></div>
   </section>
 
   <!-- SETTINGS -->
   <section id="tab-settings" class="card hide">
-    <div class="title"><h2>الإعدادات</h2><span class="tag">تصنيف + ألوان</span></div>
+    <div class="title"><h2>الإعدادات</h2><span class="tag">التصنيف</span></div>
+
     <div class="two">
       <div class="card flat">
-        <div class="title"><h2>حدود التصنيف</h2><span class="muted">تؤثر على التقارير</span></div>
         <div class="row">
           <div class="field"><label>فوق المتوسط (≥)</label><input id="tHigh" type="number" min="0" max="100"></div>
           <div class="field"><label>ضمن المتوسط (≥)</label><input id="tMid" type="number" min="0" max="100"></div>
           <div class="field"><label>حد الإتقان (≥)</label><input id="tMastery" type="number" min="0" max="100"></div>
         </div>
         <div class="row">
-          <button class="btn" onclick="saveSettings()">💾 حفظ الإعدادات</button>
+          <button class="btn" onclick="saveSettings()">💾 حفظ</button>
           <button class="btn secondary" onclick="resetThresholds()">↩️ افتراضي</button>
         </div>
       </div>
 
       <div class="card flat">
-        <div class="title"><h2>ملاحظة Word على الآيفون</h2><span class="muted">مهم</span></div>
         <div class="hint">
-          زر Word أحيانًا ما ينزل ملف على Safari/iOS بسبب سياسة التحميل.<br>
-          الحل: افتحي الرابط في <b>Chrome</b> أو نزّلي Word من جهاز كمبيوتر.<br>
-          (الطباعة إلى PDF تشتغل دائمًا: 🖨️ Print → Save as PDF)
+          💡 تصنيف الطالبة يعتمد على متوسطها (أو درجة المهارة عند الإدخال).<br>
+          🟢 فوق المتوسط — 🟡 ضمن المتوسط — 🔴 دون المتوسط
         </div>
       </div>
     </div>
   </section>
 
-  <div class="footer"><span class="muted">نسخة نهائية — حفظ تلقائي — قابلة للتطوير</span></div>
+  <div class="footer">نسخة نهائية — قابلة للتعديل والحذف — حفظ تلقائي</div>
 </div>
 
 <script>
-/* ========= STATE ========= */
-const STORE_KEY = "smart_platform_final_with_basic_1447";
+/* =========================
+   STORAGE + HELPERS
+========================= */
+const STORE_KEY = "smart_itqan_final_1447_v2";
+const uid = () => Math.random().toString(16).slice(2) + Date.now().toString(16);
+const esc = s => String(s??"").replace(/[&<>"']/g,m=>({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[m]));
+const avg = arr => arr.length ? arr.reduce((a,b)=>a+b,0)/arr.length : null;
+const fmt = v => (v==null || isNaN(v)) ? "—" : Number(v).toFixed(1);
 
 const state = {
   meta:{
@@ -489,77 +490,45 @@ const state = {
     basic:{
       teacher:"سعاد صالح الغامدي",
       principal:"آمال باربود",
-      school:"المتوسطة الثانيه والأربعون والثانوية السادسة والثلاثون",
+      school:"المدرسة المتوسطة الثانيه والأربعون والثانوية السادسة والثلاثون",
       stage:"الثانوي — ثاني ثانوي",
       subject:"توحيد",
       year:"1447",
       rights:"حقوق الطبع محفوظة"
     }
   },
-  classes:[],
-  students:[],
-  skills:[],
-  grades:{},       // studentId_skillId => {t1,t2}
-  parentLogs:[],   // {id,classId,studentId,date,reason,channel,action,result}
-  sources:[]
+  classes:[],            // {id,name}
+  students:[],           // {id,classId,name}
+  skills:[],             // {id,name,plans:{remedial[],enrich[]}}
+  grades:{},             // key: sid_skillId => {t1,t2}
+  parentLogs:[],         // {id,classId,studentId,date,reason,channel,action,result}
+  sources:[]             // {id,name,url}
 };
-
-const uid=()=>Math.random().toString(16).slice(2)+Date.now().toString(16);
-const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[m]));
 
 function save(){ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }
 function load(){
-  const raw=localStorage.getItem(STORE_KEY);
-  if(raw){ try{ Object.assign(state, JSON.parse(raw)); }catch(e){} }
+  const raw = localStorage.getItem(STORE_KEY);
+  if(raw){
+    try{ Object.assign(state, JSON.parse(raw)); }catch(e){}
+  }
   applyTheme(state.meta.theme||"light");
   applyBasicBar();
-  refreshAll(true);
   loadBasicInfoToFields();
+  refreshAll(true);
 }
+
+/* =========================
+   THEME + NAV
+========================= */
 function applyTheme(t){
   state.meta.theme=t;
   document.body.setAttribute("data-theme", t);
   save();
 }
+document.getElementById("btnTheme").addEventListener("click", ()=>{
+  applyTheme(state.meta.theme==="dark"?"light":"dark");
+});
 
-/* ========= BASIC INFO ========= */
-function applyBasicBar(){
-  const b = state.meta.basic || {};
-  document.getElementById("bbTeacher").textContent   = b.teacher || "";
-  document.getElementById("bbPrincipal").textContent = b.principal || "";
-  document.getElementById("bbSchool").textContent    = b.school || "";
-  document.getElementById("bbStage").textContent     = b.stage || "";
-  document.getElementById("bbSubject").textContent   = b.subject || "";
-  document.getElementById("bbYear").textContent      = b.year || "";
-  document.getElementById("bbRights").textContent    = b.rights || "";
-}
-function loadBasicInfoToFields(){
-  const b = state.meta.basic || {};
-  const set=(id,v)=>{ const el=document.getElementById(id); if(el) el.value = v||""; };
-  set("biTeacher", b.teacher);
-  set("biPrincipal", b.principal);
-  set("biSchool", b.school);
-  set("biStage", b.stage);
-  set("biSubject", b.subject);
-  set("biYear", b.year);
-  set("biRights", b.rights);
-}
-function saveBasicInfo(){
-  state.meta.basic = {
-    teacher: (document.getElementById("biTeacher").value||"").trim(),
-    principal: (document.getElementById("biPrincipal").value||"").trim(),
-    school: (document.getElementById("biSchool").value||"").trim(),
-    stage: (document.getElementById("biStage").value||"").trim(),
-    subject: (document.getElementById("biSubject").value||"").trim(),
-    year: (document.getElementById("biYear").value||"").trim(),
-    rights: (document.getElementById("biRights").value||"").trim()
-  };
-  save();
-  applyBasicBar();
-  alert("تم حفظ البيانات الأساسية ✅");
-}
-
-/* ========= NAV ========= */
 function goTab(tab){
   document.querySelectorAll(".tab").forEach(b=>b.classList.remove("active"));
   document.querySelectorAll("section[id^='tab-']").forEach(s=>s.classList.add("hide"));
@@ -573,10 +542,49 @@ document.getElementById("navTabs").addEventListener("click",(e)=>{
   goTab(btn.dataset.tab);
 });
 
-/* ========= TOP BUTTONS ========= */
-document.getElementById("btnTheme").addEventListener("click", ()=>{
-  applyTheme(state.meta.theme==="dark"?"light":"dark");
-});
+/* =========================
+   BASIC INFO
+========================= */
+function applyBasicBar(){
+  const b=state.meta.basic||{};
+  document.getElementById("bbTeacher").textContent=b.teacher||"";
+  document.getElementById("bbPrincipal").textContent=b.principal||"";
+  document.getElementById("bbSchool").textContent=b.school||"";
+  document.getElementById("bbStage").textContent=b.stage||"";
+  document.getElementById("bbSubject").textContent=b.subject||"";
+  document.getElementById("bbYear").textContent=b.year||"";
+  document.getElementById("bbRights").textContent=b.rights||"";
+}
+function loadBasicInfoToFields(){
+  const b=state.meta.basic||{};
+  const set=(id,v)=>{ const el=document.getElementById(id); if(el) el.value=v||""; };
+  set("biTeacher", b.teacher);
+  set("biPrincipal", b.principal);
+  set("biSchool", b.school);
+  set("biStage", b.stage);
+  set("biSubject", b.subject);
+  set("biYear", b.year);
+  set("biRights", b.rights);
+}
+function saveBasicInfo(){
+  state.meta.basic={
+    teacher:(document.getElementById("biTeacher").value||"").trim(),
+    principal:(document.getElementById("biPrincipal").value||"").trim(),
+    school:(document.getElementById("biSchool").value||"").trim(),
+    stage:(document.getElementById("biStage").value||"").trim(),
+    subject:(document.getElementById("biSubject").value||"").trim(),
+    year:(document.getElementById("biYear").value||"").trim(),
+    rights:(document.getElementById("biRights").value||"").trim(),
+  };
+  save();
+  applyBasicBar();
+  alert("تم حفظ البيانات الأساسية ✅");
+}
+
+/* =========================
+   EXPORT / IMPORT / PRINT / WORD
+========================= */
+document.getElementById("btnPrint").addEventListener("click", ()=>window.print());
 
 document.getElementById("btnExport").addEventListener("click", ()=>{
   save();
@@ -599,40 +607,87 @@ document.getElementById("btnImport").addEventListener("click", ()=>{
       applyBasicBar();
       loadBasicInfoToFields();
       refreshAll(true);
-      alert("تم ✅");
-    } catch(e){ alert("ملف غير صالح"); }
+      alert("تم الاستيراد ✅");
+    }catch(e){
+      alert("ملف غير صالح");
+    }
   };
   inp.click();
 });
 
-document.getElementById("btnPrint").addEventListener("click", ()=>window.print());
 document.getElementById("btnWord").addEventListener("click", exportWord);
 
-/* ========= CLASSES ========= */
+async function exportWord(){
+  try{
+    const { Document, Packer, Paragraph, TextRun, HeadingLevel } = window.docx;
+    const b = state.meta.basic || {};
+    const h1 = (t)=>new Paragraph({text:t, heading: HeadingLevel.HEADING_1});
+    const h2 = (t)=>new Paragraph({text:t, heading: HeadingLevel.HEADING_2});
+    const p  = (t)=>new Paragraph({children:[new TextRun({text:t})]});
+
+    const children=[];
+    children.push(h1("تقرير منصة الإتقان الذكي"));
+    children.push(p(`المدرسة: ${b.school||""}`));
+    children.push(p(`المرحلة/الصف: ${b.stage||""}`));
+    children.push(p(`المادة: ${b.subject||""}`));
+    children.push(p(`العام: ${b.year||""}`));
+    children.push(p(`اسم المعلمة: ${b.teacher||""}`));
+    children.push(p(`اسم المديرة: ${b.principal||""}`));
+    if(b.rights) children.push(p(`${b.rights}`));
+    children.push(p(" "));
+
+    children.push(h2("ملخص عام"));
+    children.push(p(`عدد الفصول: ${state.classes.length}`));
+    children.push(p(`عدد الطالبات: ${state.students.length}`));
+    children.push(p(`عدد المهارات: ${state.skills.length}`));
+    children.push(p(" "));
+
+    children.push(h2("الفصول والطالبات"));
+    state.classes.forEach(c=>{
+      children.push(p(`• ${c.name}`));
+      state.students.filter(s=>s.classId===c.id).forEach(st=>{
+        children.push(p(`  - ${st.name}`));
+      });
+    });
+
+    const doc = new Document({ sections:[{ children }] });
+    const blob = await Packer.toBlob(doc);
+    saveAs(blob, `تقرير_الإتقان_${(b.year||"1447")}.docx`);
+  }catch(e){
+    alert("زر Word قد لا يعمل على Safari. افتحي من Chrome/Edge على الآيباد.");
+  }
+}
+
+/* =========================
+   CLASSES + STUDENTS
+========================= */
+function className(id){ return state.classes.find(c=>c.id===id)?.name || "—"; }
+function studentName(id){ return state.students.find(s=>s.id===id)?.name || "—"; }
+
 function addClass(){
   const name=(document.getElementById("cName").value||"").trim();
   if(!name) return alert("اكتبي اسم الفصل");
-  if(state.classes.some(c=>c.name.trim()===name)) return alert("هذا الفصل موجود مسبقًا");
-  state.classes.push({id:uid(), name});
+  if(state.classes.some(c=>c.name.trim()===name)) return alert("الفصل موجود");
+  state.classes.push({id:uid(),name});
   document.getElementById("cName").value="";
   save(); refreshAll(true);
 }
 function addStudent(){
   const classId=document.getElementById("cSel").value;
   const name=(document.getElementById("sName").value||"").trim();
-  if(!classId) return alert("اختاري فصل");
+  if(!classId) return alert("اختاري الفصل");
   if(!name) return alert("اكتبي اسم الطالبة");
-  state.students.push({id:uid(), classId, name});
+  state.students.push({id:uid(),classId,name});
   document.getElementById("sName").value="";
   save(); refreshAll(true);
 }
 function bulkAddStudents(){
   const classId=document.getElementById("cSel").value;
-  if(!classId) return alert("اختاري فصل");
+  if(!classId) return alert("اختاري الفصل");
   const txt=(document.getElementById("bulkNames").value||"").trim();
-  if(!txt) return alert("الصقي الأسماء");
+  if(!txt) return alert("اكتبي الأسماء");
   txt.split("\n").map(s=>s.trim()).filter(Boolean)
-    .forEach(n=>state.students.push({id:uid(), classId, name:n}));
+    .forEach(n=>state.students.push({id:uid(),classId,name:n}));
   document.getElementById("bulkNames").value="";
   save(); refreshAll(true);
 }
@@ -660,24 +715,28 @@ function deleteStudent(id){
 }
 function editClassName(id,v){
   const c=state.classes.find(x=>x.id===id); if(!c) return;
-  c.name=v; save(); refreshAll(false);
+  c.name=v; save();
+  refreshAll(false);
 }
 function editStudentName(id,v){
   const s=state.students.find(x=>x.id===id); if(!s) return;
-  s.name=v; save(); refreshAll(false);
+  s.name=v; save();
+  refreshAll(false);
 }
 
-/* ========= SKILLS ========= */
+/* =========================
+   SKILLS + PLANS
+========================= */
 function defaultPlans(skill){
   return {
     remedial:[
-      `مراجعة مبسطة لمفهوم: ${skill} + مثال واحد.`,
+      `مراجعة مبسطة لمفهوم: ${skill} + مثال.`,
       `ورقة علاجية قصيرة (5 أسئلة) على ${skill}.`,
-      `تصحيح الأخطاء الشائعة في ${skill} مع نموذج إجابة.`,
+      `تصحيح الأخطاء الشائعة في ${skill} بنموذج إجابة.`,
     ],
     enrich:[
       `نشاط إثرائي يربط ${skill} بالحياة اليومية.`,
-      `خريطة مفاهيم/ملخص بصري حول ${skill}.`,
+      `خريطة مفاهيم/ملخص بصري عن ${skill}.`,
       `تحدي إثرائي: مثالان من الواقع على ${skill}.`,
     ]
   };
@@ -685,7 +744,7 @@ function defaultPlans(skill){
 function addSkill(){
   const name=(document.getElementById("skName").value||"").trim();
   if(!name) return alert("اكتبي اسم المهارة");
-  state.skills.push({id:uid(), name, plans:defaultPlans(name)});
+  state.skills.push({id:uid(),name,plans:defaultPlans(name)});
   document.getElementById("skName").value="";
   save(); refreshAll(true);
 }
@@ -696,7 +755,7 @@ function seedSampleSkills(){
     "شروط قبول العبادة",
     "أثر التوحيد في السلوك",
   ];
-  samples.forEach(n=> state.skills.push({id:uid(), name:n, plans:defaultPlans(n)}));
+  samples.forEach(n=> state.skills.push({id:uid(),name:n,plans:defaultPlans(n)}));
   save(); refreshAll(true);
 }
 function clearSkills(){
@@ -732,7 +791,9 @@ function addPlanLine(skillId,type){
   sk.plans[type].push(txt); save(); refreshAll(true);
 }
 
-/* ========= GRADES ========= */
+/* =========================
+   GRADES
+========================= */
 const gKey=(sid,kid)=>`${sid}_${kid}`;
 function setGrade(sid,kid,term,val){
   const k=gKey(sid,kid);
@@ -749,6 +810,21 @@ function classify(x){
   if(x>=mid)  return {label:"ضمن المتوسط", icon:"🟡"};
   return {label:"دون المتوسط", icon:"🔴"};
 }
+function studentAvg(studentId, term){
+  const vals=[];
+  for(const sk of state.skills){
+    const g=state.grades[gKey(studentId,sk.id)];
+    const v=term===1 ? g?.t1 : g?.t2;
+    if(v!=null) vals.push(v);
+  }
+  return avg(vals);
+}
+function classOverallAvg(classId, term){
+  const studs=state.students.filter(s=>s.classId===classId);
+  const vals=studs.map(s=>studentAvg(s.id,term)).filter(v=>v!=null);
+  return avg(vals);
+}
+
 function renderGradeTable(){
   const classId=document.getElementById("gClass").value;
   const skillId=document.getElementById("gSkill").value;
@@ -766,7 +842,7 @@ function renderGradeTable(){
     return `
       <tr>
         <td><b>${esc(st.name)}</b></td>
-        <td style="min-width:180px">
+        <td style="min-width:170px">
           <input type="number" min="0" max="100" value="${v==null?"":v}"
             oninput="setGrade('${st.id}','${skillId}','${term}',this.value)" />
         </td>
@@ -778,7 +854,7 @@ function renderGradeTable(){
   document.getElementById("gradeWrap").innerHTML=`
     <div class="card flat">
       <div class="title">
-        <h2>درجات فصل: <span class="tag">${esc(className(classId))}</span></h2>
+        <h2>فصل: <span class="tag">${esc(className(classId))}</span></h2>
         <span class="tag">المهارة: ${esc(sk?.name||"")}</span>
         <span class="tag">${term==="1"?"الفترة الأولى":"الفترة الثانية"}</span>
       </div>
@@ -786,31 +862,17 @@ function renderGradeTable(){
         <thead><tr><th>الطالبة</th><th>الدرجة /100</th><th>التصنيف</th></tr></thead>
         <tbody>${rows}</tbody>
       </table>
-      <div class="hint" style="margin-top:10px">
-        ✅ يتم الحفظ تلقائيًا بعد كل إدخال.
-      </div>
+      <div class="hint" style="margin-top:10px">✅ الحفظ تلقائي بعد كل إدخال.</div>
     </div>
   `;
 }
 
-/* ========= REPORTS ========= */
-let chartDist=null, chartSkills=null;
-const avg = arr => arr.length ? arr.reduce((a,b)=>a+b,0)/arr.length : null;
-function studentAvg(studentId, term){
-  const vals=[];
-  for(const sk of state.skills){
-    const g=state.grades[gKey(studentId,sk.id)];
-    const v=term===1 ? g?.t1 : g?.t2;
-    if(v!=null) vals.push(v);
-  }
-  return avg(vals);
-}
-function classOverallAvg(classId, term){
-  const studs=state.students.filter(s=>s.classId===classId);
-  const vals=studs.map(s=>studentAvg(s.id,term)).filter(v=>v!=null);
-  return avg(vals);
-}
-function buildReports(){
+/* =========================
+   REPORTS (CLASS)
+========================= */
+let chartClassDist=null, chartClassSkills=null;
+
+function buildClassReport(){
   const classId=document.getElementById("rClass").value;
   if(!classId) return alert("اختاري فصل");
   const studs=state.students.filter(s=>s.classId===classId);
@@ -840,7 +902,7 @@ function buildReports(){
   });
 
   const b = state.meta.basic || {};
-  const headLine = `
+  const header = `
     <div class="hint">
       <b>البيانات الأساسية:</b>
       ${esc(b.school||"")} — ${esc(b.stage||"")} — مادة: ${esc(b.subject||"")} — العام: ${esc(b.year||"")}<br>
@@ -849,8 +911,8 @@ function buildReports(){
   `;
 
   document.getElementById("reportsView").innerHTML=`
-    ${headLine}
-    <div style="height:12px"></div>
+    ${header}
+    <div class="sep"></div>
 
     <div class="card flat">
       <div class="title"><h2>تقرير الفصل: <span class="tag">${esc(className(classId))}</span></h2><span class="tag">ف1 + ف2</span></div>
@@ -859,47 +921,179 @@ function buildReports(){
         <span class="tag">متوسط ف2: <b>${fmt(ov2)}</b></span>
         <span class="tag">التحسن: <b>${imp==null?"—":(imp>=0?("+"+imp.toFixed(1)):imp.toFixed(1))}</b></span>
       </div>
+
       <div class="hint" style="margin-top:10px">
-        ${imp==null ? "لا توجد بيانات كافية للمقارنة." : (imp>=0 ? `يوجد تحسن عام بمقدار ${imp.toFixed(1)}.` : `يوجد انخفاض عام بمقدار ${Math.abs(imp).toFixed(1)}.`)}
+        ${imp==null ? "لا توجد بيانات كافية للمقارنة." :
+          (imp>=0 ? `يوجد تحسن عام بمقدار ${imp.toFixed(1)}، ويُنصح بتثبيت المهارات الضعيفة بخطط علاجية.` :
+                   `يوجد انخفاض عام بمقدار ${Math.abs(imp).toFixed(1)}، ويُنصح بخطة علاجية مركزة ومتابعة أولياء الأمور.`)}
       </div>
     </div>
 
-    <div style="height:12px"></div>
+    <div class="sep"></div>
 
     <div class="two">
       <div class="card flat">
-        <div class="title"><h2>توزيع الطالبات (ف2)</h2><span class="muted">حسب متوسط الطالبة</span></div>
-        <canvas id="chartDist" height="220"></canvas>
+        <div class="title"><h2>توزيع الطالبات (ف2)</h2><span class="muted">قطاعات</span></div>
+        <canvas id="chartClassDist" height="220"></canvas>
       </div>
       <div class="card flat">
-        <div class="title"><h2>متوسط المهارات (ف2)</h2><span class="muted">Bar</span></div>
-        <canvas id="chartSkills" height="220"></canvas>
+        <div class="title"><h2>متوسط المهارات (ف2)</h2><span class="muted">أعمدة</span></div>
+        <canvas id="chartClassSkills" height="220"></canvas>
       </div>
     </div>
   `;
 
-  const ctx1=document.getElementById("chartDist");
-  const ctx2=document.getElementById("chartSkills");
-  if(chartDist) chartDist.destroy();
-  if(chartSkills) chartSkills.destroy();
+  const ctx1=document.getElementById("chartClassDist");
+  const ctx2=document.getElementById("chartClassSkills");
 
-  chartDist=new Chart(ctx1,{
+  if(chartClassDist) chartClassDist.destroy();
+  if(chartClassSkills) chartClassSkills.destroy();
+
+  chartClassDist=new Chart(ctx1,{
     type:"doughnut",
     data:{labels:["فوق المتوسط","ضمن المتوسط","دون المتوسط"],datasets:[{data:[dist.high,dist.mid,dist.low]}]},
     options:{plugins:{legend:{position:"bottom"}}}
   });
 
-  chartSkills=new Chart(ctx2,{
+  chartClassSkills=new Chart(ctx2,{
     type:"bar",
     data:{labels:skillAvgs.map(x=>x.name),datasets:[{label:"متوسط ف2",data:skillAvgs.map(x=>x.v)}]},
     options:{plugins:{legend:{display:false}},scales:{y:{min:0,max:100}}}
   });
 }
 
-/* ========= PLANS VIEW ========= */
+/* =========================
+   FINAL ALL CLASSES
+========================= */
+let chartFinalBars=null, chartFinalDist=null;
+
+function buildFinalAllClasses(){
+  if(!state.classes.length) return alert("أضيفي فصول أولاً");
+  if(!state.skills.length) return alert("أضيفي مهارات أولاً");
+
+  const b = state.meta.basic || {};
+
+  const rows = state.classes.map(c=>{
+    const a1 = classOverallAvg(c.id,1);
+    const a2 = classOverallAvg(c.id,2);
+    const diff = (a1!=null && a2!=null) ? (a2-a1) : null;
+    return { id:c.id, name:c.name, a1, a2, diff };
+  });
+
+  const overall1 = avg(rows.map(r=>r.a1).filter(v=>v!=null));
+  const overall2 = avg(rows.map(r=>r.a2).filter(v=>v!=null));
+  const overallDiff = (overall1!=null && overall2!=null)? (overall2-overall1): null;
+
+  // توزيع التصنيف على جميع الطالبات بحسب متوسط ف2
+  const allStuds = state.students.slice();
+  const dist={high:0,mid:0,low:0,none:0};
+  allStuds.forEach(st=>{
+    const a2 = studentAvg(st.id,2);
+    if(a2==null){ dist.none++; return; }
+    const lab=classify(a2).label;
+    if(lab==="فوق المتوسط") dist.high++;
+    else if(lab==="ضمن المتوسط") dist.mid++;
+    else dist.low++;
+  });
+
+  // نص تحليلي
+  const best = rows.slice().sort((a,b)=> (b.a2??-1)-(a.a2??-1))[0];
+  const bestImp = rows.slice().sort((a,b)=> (b.diff??-999)-(a.diff??-999))[0];
+  const worst = rows.slice().sort((a,b)=> (a.a2??999)-(b.a2??999))[0];
+
+  const analysisText = `
+    <div class="hint">
+      <b>تحليل تلقائي:</b><br>
+      • المتوسط العام لجميع الفصول: ف1 = <b>${fmt(overall1)}</b> ، ف2 = <b>${fmt(overall2)}</b>
+      ${overallDiff==null ? "" : `، والتحسن = <b>${overallDiff>=0?("+"+overallDiff.toFixed(1)):overallDiff.toFixed(1)}</b>`}.<br>
+      • أفضل فصل في ف2: <b>${esc(best?.name||"—")}</b> بمتوسط <b>${fmt(best?.a2)}</b>.<br>
+      • أعلى تحسن: <b>${esc(bestImp?.name||"—")}</b> (${bestImp?.diff==null?"—":(bestImp.diff>=0?("+"+bestImp.diff.toFixed(1)):bestImp.diff.toFixed(1))}).<br>
+      • أقل فصل في ف2: <b>${esc(worst?.name||"—")}</b> بمتوسط <b>${fmt(worst?.a2)}</b>.<br>
+      • توصية: تكثيف الخطط العلاجية للطالبات دون المتوسط، وتفعيل إثرائية للمتميزات مع توثيق متابعة أولياء الأمور.
+    </div>
+  `;
+
+  const tableRows = rows.map(r=>`
+    <tr>
+      <td><b>${esc(r.name)}</b></td>
+      <td>${fmt(r.a1)}</td>
+      <td>${fmt(r.a2)}</td>
+      <td>${r.diff==null?"—":(r.diff>=0?("+"+r.diff.toFixed(1)):r.diff.toFixed(1))}</td>
+    </tr>
+  `).join("");
+
+  document.getElementById("finalAllView").innerHTML=`
+    <div class="hint">
+      <b>البيانات الأساسية:</b>
+      ${esc(b.school||"")} — ${esc(b.stage||"")} — مادة: ${esc(b.subject||"")} — العام: ${esc(b.year||"")}<br>
+      المعلمة: ${esc(b.teacher||"")} — المديرة: ${esc(b.principal||"")}
+    </div>
+
+    <div class="sep"></div>
+
+    <div class="card flat">
+      <div class="title"><h2>ملخص عام</h2><span class="tag">جميع الفصول</span></div>
+      <div class="row">
+        <span class="tag">متوسط عام ف1: <b>${fmt(overall1)}</b></span>
+        <span class="tag">متوسط عام ف2: <b>${fmt(overall2)}</b></span>
+        <span class="tag">التحسن العام: <b>${overallDiff==null?"—":(overallDiff>=0?("+"+overallDiff.toFixed(1)):overallDiff.toFixed(1))}</b></span>
+        <span class="tag">عدد الطالبات: <b>${allStuds.length}</b></span>
+      </div>
+    </div>
+
+    <div class="sep"></div>
+
+    ${analysisText}
+
+    <div class="sep"></div>
+
+    <div class="card flat">
+      <div class="title"><h2>جدول متوسطات الفصول</h2><span class="muted">ف1 / ف2 / مقارنة</span></div>
+      <table>
+        <thead><tr><th>الفصل</th><th>متوسط ف1</th><th>متوسط ف2</th><th>الفرق</th></tr></thead>
+        <tbody>${tableRows}</tbody>
+      </table>
+    </div>
+  `;
+
+  // Charts
+  const ctxBars = document.getElementById("chartFinalBars");
+  const ctxDist = document.getElementById("chartFinalDist");
+  if(chartFinalBars) chartFinalBars.destroy();
+  if(chartFinalDist) chartFinalDist.destroy();
+
+  chartFinalBars = new Chart(ctxBars,{
+    type:"bar",
+    data:{
+      labels: rows.map(r=>r.name),
+      datasets:[
+        {label:"متوسط ف1", data: rows.map(r=>r.a1??0)},
+        {label:"متوسط ف2", data: rows.map(r=>r.a2??0)}
+      ]
+    },
+    options:{
+      plugins:{legend:{position:"bottom"}},
+      scales:{y:{min:0,max:100}}
+    }
+  });
+
+  chartFinalDist = new Chart(ctxDist,{
+    type:"doughnut",
+    data:{
+      labels:["فوق المتوسط","ضمن المتوسط","دون المتوسط","بدون بيانات"],
+      datasets:[{data:[dist.high,dist.mid,dist.low,dist.none]}]
+    },
+    options:{plugins:{legend:{position:"bottom"}}}
+  });
+}
+
+/* =========================
+   PLANS VIEW
+========================= */
 function renderPlans(){
   const wrap=document.getElementById("plansView");
   if(!state.skills.length){ wrap.innerHTML=`<div class="hint">لا توجد مهارات.</div>`; return; }
+
   wrap.innerHTML=state.skills.map(sk=>{
     const rem=(sk.plans?.remedial||[]).map((p,i)=>`
       <div class="row" style="align-items:center">
@@ -907,12 +1101,14 @@ function renderPlans(){
         <button class="btn danger" onclick="delPlan('${sk.id}','remedial',${i})">حذف</button>
       </div>
     `).join("");
+
     const enr=(sk.plans?.enrich||[]).map((p,i)=>`
       <div class="row" style="align-items:center">
         <input value="${esc(p)}" oninput="editPlan('${sk.id}','enrich',${i},this.value)" />
         <button class="btn danger" onclick="delPlan('${sk.id}','enrich',${i})">حذف</button>
       </div>
     `).join("");
+
     return `
       <div class="card flat" style="margin-bottom:12px">
         <div class="title"><h2>🧠 ${esc(sk.name)}</h2><span class="tag">خطط</span></div>
@@ -933,7 +1129,9 @@ function renderPlans(){
   }).join("");
 }
 
-/* ========= PARENTS ========= */
+/* =========================
+   PARENTS
+========================= */
 function addParentLog(){
   const classId=document.getElementById("pClass").value;
   const studentId=document.getElementById("pStudent").value;
@@ -987,7 +1185,9 @@ function renderParents(){
   `;
 }
 
-/* ========= SOURCES ========= */
+/* =========================
+   SOURCES
+========================= */
 function seedSources(){
   const defaults=[
     {name:"منصة مدرستي", url:"https://schools.madrasati.sa/"},
@@ -1034,13 +1234,15 @@ function renderSources(){
   `;
 }
 
-/* ========= SETTINGS ========= */
+/* =========================
+   SETTINGS
+========================= */
 function saveSettings(){
   state.meta.thresholds.high=Number(document.getElementById("tHigh").value||85);
   state.meta.thresholds.mid=Number(document.getElementById("tMid").value||60);
   state.meta.thresholds.mastery=Number(document.getElementById("tMastery").value||90);
   save();
-  alert("تم ✅");
+  alert("تم حفظ الإعدادات ✅");
 }
 function resetThresholds(){
   document.getElementById("tHigh").value=85;
@@ -1049,50 +1251,9 @@ function resetThresholds(){
   saveSettings();
 }
 
-/* ========= WORD EXPORT ========= */
-async function exportWord(){
-  const { Document, Packer, Paragraph, TextRun, HeadingLevel } = window.docx;
-  const h = (t)=>new Paragraph({text:t, heading: HeadingLevel.HEADING_2});
-  const p = (t)=>new Paragraph({children:[new TextRun({text:t})]});
-
-  const b = state.meta.basic || {};
-
-  const docChildren=[];
-  docChildren.push(new Paragraph({text:"تقرير منصة الإتقان الذكي", heading: HeadingLevel.HEADING_1}));
-
-  docChildren.push(p(`المدرسة: ${b.school||""}`));
-  docChildren.push(p(`المرحلة/الصف: ${b.stage||""}`));
-  docChildren.push(p(`المادة: ${b.subject||""}`));
-  docChildren.push(p(`العام: ${b.year||""}`));
-  docChildren.push(p(`اسم المعلمة: ${b.teacher||""}`));
-  docChildren.push(p(`اسم المديرة: ${b.principal||""}`));
-  if(b.rights) docChildren.push(p(`${b.rights}`));
-  docChildren.push(p(" "));
-
-  docChildren.push(p(`عدد الفصول: ${state.classes.length} — عدد الطالبات: ${state.students.length} — عدد المهارات: ${state.skills.length}`));
-  docChildren.push(p(" "));
-
-  docChildren.push(h("الفصول والطالبات"));
-  state.classes.forEach(c=>{
-    docChildren.push(p(`• ${c.name}`));
-    const studs=state.students.filter(s=>s.classId===c.id);
-    studs.forEach(st=>docChildren.push(p(`  - ${st.name}`)));
-  });
-
-  docChildren.push(p(" "));
-  docChildren.push(h("ملاحظة"));
-  docChildren.push(p("هذا التقرير قابل للتعديل، والبيانات محفوظة في المتصفح (Local Storage)."));
-
-  const doc = new Document({ sections:[{ children: docChildren }] });
-  const blob = await Packer.toBlob(doc);
-  saveAs(blob, `تقرير_منصة_الإتقان_${(b.year||"")}.docx`);
-}
-
-/* ========= RENDER HELPERS ========= */
-function className(id){ return state.classes.find(c=>c.id===id)?.name || "—"; }
-function studentName(id){ return state.students.find(s=>s.id===id)?.name || "—"; }
-function fmt(v){ return (v==null || isNaN(v)) ? "—" : Number(v).toFixed(1); }
-
+/* =========================
+   RENDER UI
+========================= */
 function fillSelect(id, items, placeholder){
   const el=document.getElementById(id);
   if(!el) return;
@@ -1150,14 +1311,16 @@ function refreshAll(force){
   document.getElementById("kpiClasses").textContent = state.classes.length;
   document.getElementById("kpiStudents").textContent = state.students.length;
   document.getElementById("kpiSkills").textContent = state.skills.length;
-  document.getElementById("kpiNotes").textContent = state.parentLogs.length;
+  document.getElementById("kpiLogs").textContent = state.parentLogs.length;
 
   fillSelect("cSel", state.classes, "اختر فصل");
   fillSelect("gClass", state.classes, "اختر فصل");
   fillSelect("rClass", state.classes, "اختر فصل");
   fillSelect("pClass", state.classes, "اختر فصل");
+
   fillSelect("gSkill", state.skills, "اختر مهارة");
 
+  // parents students list depends on pClass
   const pClass=document.getElementById("pClass");
   const classId=pClass?.value || "";
   const studs=state.students.filter(s=>s.classId===classId);
@@ -1166,6 +1329,7 @@ function refreshAll(force){
     pStudent.innerHTML=`<option value="">اختر طالبة</option>` + studs.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join("");
   }
 
+  // settings
   if(document.getElementById("tHigh")){
     document.getElementById("tHigh").value=state.meta.thresholds.high ?? 85;
     document.getElementById("tMid").value=state.meta.thresholds.mid ?? 60;
@@ -1179,14 +1343,16 @@ function refreshAll(force){
   renderSources();
 }
 
-// re-sync students when class changes in parents
+// update parents list on change
 document.addEventListener("change",(e)=>{
   if(e.target?.id==="pClass"){
     refreshAll(false);
   }
 });
 
-/* ========= INIT ========= */
+/* =========================
+   INIT
+========================= */
 load();
 </script>
 </body>
