@@ -1,2017 +1,1609 @@
-<!doctype html>
+ <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>منصة الإتقان الذكي — النسخة الشاملة (ملف واحد)</title>
-  <style>
-    :root{
-      --g:#0b5e3b; --g2:#064e2a;
-      --bg:#f4f7f6; --card:#fff;
-      --ink:#0f172a; --mut:#64748b; --line:#e5e7eb; --soft:#e8f5ee;
-      --ok:#16a34a; --mid:#f59e0b; --low:#dc2626;
-      --r:18px; --sh:0 14px 32px rgba(2,6,23,.12);
-    }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial;background:var(--bg);color:var(--ink);overflow-x:hidden}
-    header{position:sticky;top:0;z-index:999;background:linear-gradient(135deg,var(--g),var(--g2));color:#fff;box-shadow:var(--sh)}
-    .wrap{max-width:1450px;margin:0 auto;padding:14px}
-    .top{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:12px 0}
-    .brand h1{margin:0;font-size:20px;font-weight:1000}
-    .brand p{margin:6px 0 0;font-size:12px;opacity:.92;line-height:1.7}
-    .tools{display:flex;gap:10px;flex-wrap:wrap}
-    .pill{
-      border:1px solid rgba(255,255,255,.25);
-      background:rgba(255,255,255,.12);
-      color:#fff;padding:10px 12px;border-radius:999px;cursor:pointer;font-weight:1000;
-      user-select:none;touch-action:manipulation;display:inline-flex;align-items:center;gap:8px;transition:.15s
-    }
-    .pill:hover{background:rgba(255,255,255,.18)}
-    .tabs{display:flex;gap:10px;flex-wrap:wrap;padding:0 0 12px}
-    .tab{
-      border:1px solid rgba(255,255,255,.22);
-      background:rgba(255,255,255,.10);
-      color:#fff;padding:10px 14px;border-radius:999px;cursor:pointer;font-weight:1000;
-      user-select:none;touch-action:manipulation;transition:.15s
-    }
-    .tab:hover{background:rgba(255,255,255,.16)}
-    .tab.active{background:#fff;color:var(--g2);border-color:#fff}
-    section{display:none}
-    section.active{display:block}
-    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);padding:14px;margin-bottom:14px}
-    .soft{background:var(--soft)}
-    h2{margin:0 0 10px;font-size:18px}
-    h3{margin:0 0 10px;font-size:16px}
-    .mut{color:var(--mut);font-size:13px;line-height:1.7}
-    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:end}
-    .field{display:grid;gap:6px;min-width:220px;flex:1}
-    label{font-size:13px;font-weight:1000}
-    input,select,textarea{
-      width:100%;padding:10px;border:1px solid var(--line);border-radius:14px;background:#fff;color:var(--ink);outline:none;transition:.15s
-    }
-    input:focus,select:focus,textarea:focus{border-color:rgba(11,94,59,.35);box-shadow:0 0 0 4px rgba(11,94,59,.08)}
-    textarea{min-height:90px}
-    .btn{
-      background:var(--g);color:#fff;border:none;padding:10px 12px;border-radius:14px;cursor:pointer;font-weight:1000;
-      display:inline-flex;align-items:center;gap:8px;touch-action:manipulation;transition:.15s
-    }
-    .btn:hover{filter:brightness(.95)}
-    .btn2{
-      background:#fff;border:1px solid var(--line);padding:10px 12px;border-radius:14px;cursor:pointer;font-weight:1000;
-      display:inline-flex;align-items:center;gap:8px;touch-action:manipulation;transition:.15s
-    }
-    .btn2:hover{background:#f8fafc}
-    .danger{background:var(--low);border:none;color:#fff}
-    .danger:hover{filter:brightness(.95)}
-    table{width:100%;border-collapse:collapse}
-    th,td{border-bottom:1px solid var(--line);padding:10px;text-align:right;vertical-align:top}
-    th{font-size:13px;color:var(--mut);background:rgba(231,244,238,.9)}
-    .tag{
-      display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;font-weight:1000;font-size:12px;
-      border:1px solid var(--line);background:#fff;white-space:nowrap
-    }
-    .ok{color:var(--ok);border-color:rgba(22,163,74,.25);background:rgba(22,163,74,.08)}
-    .mid{color:var(--mid);border-color:rgba(245,158,11,.25);background:rgba(245,158,11,.10)}
-    .low{color:var(--low);border-color:rgba(220,38,38,.25);background:rgba(220,38,38,.08)}
-    .hr{height:1px;background:var(--line);margin:10px 0}
-    .kpi{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-    @media(min-width:900px){.kpi{grid-template-columns:repeat(6,1fr)}}
-    .kpi .box{background:rgba(231,244,238,.9);border:1px dashed var(--line);border-radius:16px;padding:12px;text-align:center}
-    .kpi .n{font-weight:1000;font-size:22px}
-    .small{font-size:12px;color:var(--mut)}
-    .grid2{display:grid;gap:12px}
-    @media(min-width:980px){.grid2{grid-template-columns:1.15fr .85fr}}
-    canvas{max-width:100%;background:#fff;border:1px solid var(--line);border-radius:16px}
-    .listLinks a{color:var(--g2);text-decoration:none;font-weight:1000}
-    .listLinks a:hover{text-decoration:underline}
-    .chip{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 10px;margin:4px 6px 0 0}
-    .chip button{border:none;background:transparent;cursor:pointer;font-weight:1000;color:var(--low)}
-    .mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
-    .note{background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;padding:10px;border-radius:14px}
-    @media print{
-      header,.noPrint{display:none!important}
-      body{background:#fff}
-      .card{box-shadow:none}
-      section{display:block!important}
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>منصة الإتقان الذكي — 1447</title>
+<style>
+  :root{
+    --g1:#0b5e3b; --g2:#064e2a; --bg:#eef3f1; --card:#fff;
+    --txt:#0f172a; --mut:#64748b; --bd:#e5e7eb;
+    --ok:#16a34a; --mid:#f59e0b; --bad:#dc2626;
+    --shadow:0 8px 18px rgba(0,0,0,.08);
+    --r:12px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Tahoma, Arial, sans-serif;background:var(--bg);color:var(--txt)}
+  header{background:linear-gradient(90deg,var(--g1),var(--g2));color:#fff;padding:18px 14px;text-align:center}
+  header h1{margin:0 0 6px;font-size:20px}
+  header .meta{opacity:.95;line-height:1.6;font-size:13px}
+  .wrap{max-width:1200px;margin:0 auto;padding:14px}
+  nav{background:var(--g2);padding:10px;border-radius:0 0 var(--r) var(--r);display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+  nav button{
+    background:#fff;border:0;border-radius:10px;padding:9px 12px;cursor:pointer;
+    font-weight:700;font-size:13px;box-shadow:0 2px 0 rgba(0,0,0,.08)
+  }
+  nav button.active{outline:2px solid rgba(255,255,255,.55);background:#eafff4}
+  section{display:none}
+  section.active{display:block}
+  .grid{display:grid;gap:12px}
+  @media(min-width:920px){ .grid.cols2{grid-template-columns:1fr 1fr} .grid.cols3{grid-template-columns:1fr 1fr 1fr}}
+  .card{background:var(--card);border:1px solid var(--bd);border-radius:var(--r);box-shadow:var(--shadow);padding:14px}
+  .card h2{margin:0 0 10px;font-size:16px}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  label{font-size:13px;color:var(--mut)}
+  input, select, textarea{
+    width:auto;max-width:100%;
+    border:1px solid var(--bd);border-radius:10px;padding:9px 10px;font-size:14px;background:#fff
+  }
+  textarea{width:100%;min-height:92px;resize:vertical}
+  .btn{
+    border:0;border-radius:10px;padding:9px 12px;cursor:pointer;font-weight:800
+  }
+  .btn.primary{background:var(--g1);color:#fff}
+  .btn.dark{background:var(--g2);color:#fff}
+  .btn.ghost{background:#f1f5f9}
+  .btn.bad{background:var(--bad);color:#fff}
+  .btn.ok{background:var(--ok);color:#fff}
+  .btn.mid{background:var(--mid);color:#111827}
+  .hint{color:var(--mut);font-size:13px;line-height:1.6}
+  table{width:100%;border-collapse:collapse}
+  th,td{border-bottom:1px solid var(--bd);padding:10px;text-align:center;font-size:13px}
+  th{background:#f8fafc;font-weight:800}
+  td input[type="number"]{width:92px;text-align:center}
+  td input[type="text"]{width:160px}
+  .pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:4px 10px;font-weight:800;font-size:12px}
+  .pill.ok{background:#e9fff0;color:var(--ok);border:1px solid #b7f5c7}
+  .pill.mid{background:#fff7e6;color:#b45309;border:1px solid #ffd796}
+  .pill.bad{background:#ffecec;color:var(--bad);border:1px solid #ffb5b5}
+  .mut{color:var(--mut)}
+  .kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .kpi .box{border:1px dashed var(--bd);border-radius:12px;padding:10px;text-align:center}
+  .kpi .n{font-size:20px;font-weight:900}
+  .kpi .t{font-size:12px;color:var(--mut);font-weight:800}
+  .hr{height:1px;background:var(--bd);margin:12px 0}
+  canvas{max-width:100%;background:#fff;border:1px solid var(--bd);border-radius:12px}
+  .list{margin:0;padding:0 18px}
+  .list li{margin:6px 0}
+  .small{font-size:12px}
+  .tag{display:inline-block;padding:2px 8px;border-radius:999px;border:1px solid var(--bd);background:#f8fafc;font-size:12px;font-weight:800}
+  .right{margin-inline-start:auto}
+</style>
 </head>
 
 <body>
 <header>
-  <div class="wrap">
-    <div class="top">
-      <div class="brand">
-        <h1>منصة الإتقان الذكي — النسخة الشاملة (ملف واحد)</h1>
-        <p id="subtitle">حفظ تلقائي • فترتين • تقارير • Word/PDF • خطط • مهارات • مسابقات • تكريم • مصادر وألعاب</p>
-      </div>
-      <div class="tools noPrint">
-        <button class="pill" id="btnSave">💾 حفظ الآن</button>
-        <button class="pill" id="btnBackup">⬇️ نسخة احتياط</button>
-        <label class="pill" style="cursor:pointer">
-          ⬆️ استيراد
-          <input id="fileImport" type="file" accept="application/json" style="display:none">
-        </label>
-        <button class="pill" id="btnPrint">🖨️ طباعة PDF</button>
-        <button class="pill" id="btnWord">📄 تصدير Word</button>
-        <button class="pill danger" id="btnReset" title="يمسح كل البيانات">🗑️ تصفير</button>
-      </div>
-    </div>
-
-    <div class="tabs noPrint" id="tabs">
-      <button class="tab active" data-tab="dash">🏠 الرئيسية</button>
-      <button class="tab" data-tab="settings">⚙️ البيانات والمواد</button>
-      <button class="tab" data-tab="classes">🏫 الفصول والطالبات</button>
-      <button class="tab" data-tab="grades">🧾 كشف الدرجات</button>
-      <button class="tab" data-tab="analysis">📊 التحليل والتقارير</button>
-      <button class="tab" data-tab="skills">📘 الوحدات والمهارات</button>
-      <button class="tab" data-tab="plans">🛠️ الخطط العلاجية والإثرائية</button>
-      <button class="tab" data-tab="quiz">🧠 المسابقات</button>
-      <button class="tab" data-tab="awards">🌟 التكريم</button>
-      <button class="tab" data-tab="parents">👩‍👧 أولياء الأمور</button>
-      <button class="tab" data-tab="sources">🔗 المصادر والألعاب</button>
-    </div>
+  <h1>منصة الإتقان الذكي — نظام تحليل النتائج والخطط والتكريم (1447)</h1>
+  <div class="meta">
+    المعلمة: <b>سعاد صالح الغامدي</b> — المديرة: <b>آمال باربود</b><br/>
+    المدرسة: <b>المتوسطة الثانية والأربعون والثانوية السادسة والثلاثون</b> — المرحلة: <b>ثاني ثانوي</b> — العام: <b>1447</b><br/>
+    <span class="small">جميع الحقوق محفوظة — كل شيء قابل للتعديل والحذف.</span>
   </div>
 </header>
 
-<main class="wrap">
-  <!-- DASH -->
+<div class="wrap">
+  <nav id="nav">
+    <button data-page="dash" class="active">الرئيسية</button>
+    <button data-page="classes">الفصول والطالبات</button>
+    <button data-page="p1">الفترة الأولى</button>
+    <button data-page="p2">الفترة الثانية</button>
+    <button data-page="final">النهائي للفترتين</button>
+    <button data-page="plans">الخطط (علاجي/إثرائي)</button>
+    <button data-page="skills">بنك المهارات</button>
+    <button data-page="awards">التكريم</button>
+    <button data-page="parents">أولياء الأمور</button>
+    <button data-page="quiz">المسابقات</button>
+    <button data-page="sources">المصادر والألعاب</button>
+    <button id="btnWord" class="right">تصدير Word</button>
+    <button id="btnPrint">طباعة PDF</button>
+    <button id="btnBackup" class="ghost">نسخ احتياطي</button>
+    <button id="btnRestore" class="ghost">استرجاع</button>
+    <button id="btnReset" class="bad">إعادة ضبط</button>
+  </nav>
+
+  <!-- Dashboard -->
   <section id="dash" class="active">
-    <div class="card soft">
-      <h2>لوحة التحكم</h2>
-      <div class="mut">
-        ابدئي من: <b>البيانات والمواد</b> ثم <b>الفصول والطالبات</b> ثم <b>كشف الدرجات</b>.
-        كل شيء يُحفظ تلقائيًا على جهازك (حتى لو سكرتي المتصفح).
-      </div>
-      <div class="hr"></div>
-      <div class="kpi" id="kpis"></div>
-    </div>
-
-    <div class="grid2">
+    <div class="grid cols2">
       <div class="card">
-        <h3>اختصارات سريعة</h3>
-        <div class="row noPrint">
-          <button class="btn" onclick="go('classes')">🏫 إدارة الفصول والطالبات</button>
-          <button class="btn" onclick="go('grades')">🧾 إدخال الدرجات</button>
-          <button class="btn" onclick="go('analysis')">📊 عرض التحليل</button>
-          <button class="btn" onclick="go('plans')">🛠️ الخطط</button>
-          <button class="btn" onclick="go('quiz')">🧠 المسابقات</button>
-          <button class="btn" onclick="go('awards')">🌟 التكريم</button>
+        <h2>لوحة التحكم</h2>
+        <div class="hint">
+          1) اذهبي إلى <b>الفصول والطالبات</b> وأضيفي فصولك (تقدرين تغيّرينها كل عام).<br/>
+          2) أضيفي الطالبات داخل كل فصل.<br/>
+          3) أدخلي درجات <b>الفترة الأولى</b> ثم <b>الفترة الثانية</b> (40 + 60).<br/>
+          4) المنصة تحلل وتصدر خطط وتكريم وتقارير تلقائيًا، وتحفظ البيانات على نفس الجهاز.
         </div>
         <div class="hr"></div>
-        <div class="note">
-          <b>مهم:</b> التعديل السنوي سهل: غيّري المادة/المنهج/الوحدات/المهارات من قسم <b>البيانات والمواد</b> و<b>الوحدات والمهارات</b>.
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>ملخص سريع للفترتين</h3>
-        <div id="quickSummary" class="mut"></div>
-        <div class="hr"></div>
-        <canvas id="barAll" width="720" height="280"></canvas>
-      </div>
-    </div>
-  </section>
-
-  <!-- SETTINGS -->
-  <section id="settings">
-    <div class="card">
-      <h2>البيانات الأساسية (قابلة للتعديل كل عام)</h2>
-      <div class="row">
-        <div class="field">
-          <label>اسم المعلمة</label>
-          <input id="tTeacher" />
-        </div>
-        <div class="field">
-          <label>اسم المديرة</label>
-          <input id="tLeader" />
-        </div>
-        <div class="field">
-          <label>المدرسة</label>
-          <input id="tSchool" />
-        </div>
-        <div class="field">
-          <label>المرحلة/الصف</label>
-          <input id="tStage" />
-        </div>
-        <div class="field">
-          <label>العام</label>
-          <input id="tYear" />
-        </div>
-      </div>
-      <div class="hr"></div>
-      <h3>المواد (قابلة للتغيير كل سنة)</h3>
-      <div class="row">
-        <div class="field">
-          <label>أضف مادة جديدة</label>
-          <input id="newSubject" placeholder="مثال: التوحيد" />
-        </div>
-        <div class="field" style="min-width:160px;flex:0">
-          <button class="btn" id="btnAddSubject">➕ إضافة</button>
-        </div>
-        <div class="field">
-          <label>المادة الحالية</label>
-          <select id="subjectSelect"></select>
-        </div>
-      </div>
-      <div class="mut" id="subjectsList"></div>
-      <div class="hr"></div>
-      <div class="row noPrint">
-        <button class="btn" id="btnSaveSettings">💾 حفظ البيانات</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- CLASSES -->
-  <section id="classes">
-    <div class="card">
-      <h2>الفصول والطالبات (قابلة للتحرير)</h2>
-      <div class="row noPrint">
-        <div class="field">
-          <label>أضف فصل</label>
-          <input id="newClass" placeholder="مثال: 2ث1" />
-        </div>
-        <div class="field" style="min-width:160px;flex:0">
-          <button class="btn" id="btnAddClass">➕ إضافة فصل</button>
-        </div>
-        <div class="field">
-          <label>اختر فصل</label>
-          <select id="classSelect"></select>
-        </div>
-        <div class="field" style="min-width:160px;flex:0">
-          <button class="btn2 danger" id="btnDeleteClass">🗑️ حذف الفصل</button>
-        </div>
-      </div>
-
-      <div class="hr"></div>
-
-      <div class="row noPrint">
-        <div class="field">
-          <label>أضف طالبة (اسم فقط)</label>
-          <input id="newStudent" placeholder="اسم الطالبة" />
-        </div>
-        <div class="field" style="min-width:160px;flex:0">
-          <button class="btn" id="btnAddStudent">➕ إضافة طالبة</button>
-        </div>
-        <div class="field">
-          <label>إضافة دفعة أسماء (كل اسم في سطر)</label>
-          <textarea id="bulkStudents" placeholder="الصقي قائمة أسماء الطالبات هنا..."></textarea>
-        </div>
-        <div class="field" style="min-width:160px;flex:0">
-          <button class="btn" id="btnBulkAdd">📥 إضافة دفعة</button>
-        </div>
-      </div>
-
-      <div class="hr"></div>
-
-      <div class="mut">الجدول التالي قابل للتعديل مباشرة (تعديل الاسم/حذف الطالبة):</div>
-      <table id="studentsTable"></table>
-    </div>
-  </section>
-
-  <!-- GRADES -->
-  <section id="grades">
-    <div class="card">
-      <h2>كشف الدرجات (الفترة الأولى/الثانية)</h2>
-      <div class="row noPrint">
-        <div class="field">
-          <label>المادة</label>
-          <select id="subjectSelect2"></select>
-        </div>
-        <div class="field">
-          <label>الفصل</label>
-          <select id="classSelect2"></select>
-        </div>
-        <div class="field">
-          <label>الفترة</label>
-          <select id="termSelect">
-            <option value="t1">الفترة الأولى</option>
-            <option value="t2">الفترة الثانية</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>حدود التصنيف (من 100)</label>
-          <div class="row">
-            <div class="field"><label class="small">فوق المتوسط ≥</label><input id="cutHigh" type="number" min="0" max="100"></div>
-            <div class="field"><label class="small">ضمن المتوسط ≥</label><input id="cutMid" type="number" min="0" max="100"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="hr"></div>
-
-      <div class="mut">
-        أدخلي: <b>أدائي (40)</b> + <b>اختبار (60)</b> = <b>100</b>.  
-        التصنيف تلقائي 🟢🟡🔴. الحفظ تلقائي.
-      </div>
-
-      <table id="gradesTable"></table>
-
-      <div class="row noPrint" style="margin-top:10px">
-        <button class="btn" id="btnAutoSaveGrades">💾 حفظ الدرجات</button>
-        <button class="btn2" id="btnFillZeros">🧹 تصفير الخانات الفارغة</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- ANALYSIS -->
-  <section id="analysis">
-    <div class="card">
-      <h2>التحليل والتقارير</h2>
-      <div class="row noPrint">
-        <div class="field">
-          <label>المادة</label>
-          <select id="subjectSelect3"></select>
-        </div>
-        <div class="field">
-          <label>الفصل</label>
-          <select id="classSelect3"></select>
-        </div>
-        <div class="field">
-          <label>عرض التحليل لـ</label>
-          <select id="analysisMode">
-            <option value="t1">الفترة الأولى</option>
-            <option value="t2">الفترة الثانية</option>
-            <option value="both">الفترتين معًا (النهائي)</option>
-          </select>
-        </div>
-        <div class="field" style="min-width:220px;flex:0">
-          <button class="btn" id="btnRefreshAnalysis">🔄 تحديث التحليل</button>
-        </div>
-      </div>
-
-      <div class="hr"></div>
-
-      <div class="kpi" id="kpis2"></div>
-
-      <div class="grid2">
-        <div class="card">
-          <h3>رسوم بيانية</h3>
-          <canvas id="bar1" width="780" height="300"></canvas>
-          <div style="height:10px"></div>
-          <canvas id="pie1" width="780" height="300"></canvas>
-        </div>
-
-        <div class="card">
-          <h3>التقرير النصي (يتولد تلقائيًا وقابل للتعديل)</h3>
-          <textarea id="reportText"></textarea>
-          <div class="row noPrint" style="margin-top:10px">
-            <button class="btn" id="btnRegenReport">✨ توليد التقرير من جديد</button>
-            <button class="btn2" id="btnWordFromReport">📄 تصدير هذا التقرير Word</button>
-          </div>
-          <div class="hr"></div>
-          <div class="mut">
-            **ملاحظة:** "تصدير Word" هنا يحفظ ملف <span class="mono">.doc</span> (يفتح في Word ويكون قابل للتعديل).
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>قوائم الأسماء (تلقائي)</h3>
         <div class="row">
-          <div class="field">
-            <label>🟢 فوق المتوسط</label>
-            <textarea id="listHigh" readonly></textarea>
+          <label>اختيار الفصل للعمل:</label>
+          <select id="selClassGlobal"></select>
+          <button class="btn primary" id="btnGoP1">اذهب للفترة الأولى</button>
+          <button class="btn dark" id="btnGoP2">اذهب للفترة الثانية</button>
+        </div>
+        <div class="hr"></div>
+        <div class="kpi">
+          <div class="box">
+            <div class="n" id="kpiClasses">0</div>
+            <div class="t">عدد الفصول</div>
           </div>
-          <div class="field">
-            <label>🟡 ضمن المتوسط</label>
-            <textarea id="listMid" readonly></textarea>
+          <div class="box">
+            <div class="n" id="kpiStudents">0</div>
+            <div class="t">عدد الطالبات</div>
           </div>
-          <div class="field">
-            <label>🔴 دون المتوسط</label>
-            <textarea id="listLow" readonly></textarea>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SKILLS -->
-  <section id="skills">
-    <div class="card">
-      <h2>الوحدات السبعة + المهارات (تلقائي/يدوي وقابل للتعديل)</h2>
-      <div class="mut">
-        ✅ يمكنك تعديل أسماء الوحدات والمهارات يدويًا.  
-        ✨ ويمكنك "توليد مهارات تلقائيًا" من نص تلصقينه (من PDF بعد نسخه كنص).
-      </div>
-
-      <div class="hr"></div>
-
-      <div class="row noPrint">
-        <div class="field">
-          <label>المادة</label>
-          <select id="subjectSelect4"></select>
-        </div>
-        <div class="field">
-          <label>اختر وحدة</label>
-          <select id="unitSelect"></select>
-        </div>
-        <div class="field" style="min-width:220px;flex:0">
-          <button class="btn" id="btnAddUnit">➕ إضافة وحدة</button>
-        </div>
-        <div class="field" style="min-width:220px;flex:0">
-          <button class="btn2 danger" id="btnDeleteUnit">🗑️ حذف الوحدة</button>
-        </div>
-      </div>
-
-      <div class="hr"></div>
-
-      <div class="row noPrint">
-        <div class="field">
-          <label>اسم الوحدة</label>
-          <input id="unitName" />
-        </div>
-        <div class="field">
-          <label>أضف مهارة يدوياً</label>
-          <input id="newSkill" placeholder="مثال: تمييز أنواع التوحيد" />
-        </div>
-        <div class="field" style="min-width:160px;flex:0">
-          <button class="btn" id="btnAddSkill">➕ إضافة مهارة</button>
-        </div>
-      </div>
-
-      <div class="hr"></div>
-
-      <h3>توليد تلقائي للمهارات من نص</h3>
-      <div class="row noPrint">
-        <div class="field">
-          <label>الصقي نص الدرس/الوحدة (سطر لكل نقطة أو فقرة)</label>
-          <textarea id="pasteText" placeholder="الصقي هنا نص من المنهج... ثم اضغطي توليد"></textarea>
-        </div>
-        <div class="field" style="min-width:200px;flex:0">
-          <button class="btn" id="btnAutoSkills">✨ توليد مهارات</button>
-          <button class="btn2" id="btnClearPaste">🧹 مسح</button>
-        </div>
-      </div>
-
-      <div class="hr"></div>
-
-      <h3>قائمة المهارات (قابلة للحذف/التعديل)</h3>
-      <div id="skillsChips"></div>
-
-      <div class="row noPrint" style="margin-top:10px">
-        <button class="btn" id="btnSaveSkills">💾 حفظ الوحدات والمهارات</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- PLANS -->
-  <section id="plans">
-    <div class="card">
-      <h2>الخطط العلاجية والإثرائية (تتولد تلقائيًا + قابلة للتعديل)</h2>
-      <div class="row noPrint">
-        <div class="field">
-          <label>المادة</label>
-          <select id="subjectSelect5"></select>
-        </div>
-        <div class="field">
-          <label>الفصل</label>
-          <select id="classSelect5"></select>
-        </div>
-        <div class="field">
-          <label>الفترة</label>
-          <select id="termSelect2">
-            <option value="t1">الفترة الأولى</option>
-            <option value="t2">الفترة الثانية</option>
-          </select>
-        </div>
-        <div class="field" style="min-width:220px;flex:0">
-          <button class="btn" id="btnGenPlans">✨ توليد الخطط تلقائيًا</button>
-        </div>
-      </div>
-
-      <div class="hr"></div>
-
-      <div class="grid2">
-        <div class="card">
-          <h3>🔴 علاجية (لمن دون المتوسط)</h3>
-          <textarea id="planLow"></textarea>
-          <div class="mut">
-            *تتولد تلقائيًا حسب الطالبات دون المتوسط + المهارات. ويمكنك تعديلها.*
-          </div>
-        </div>
-        <div class="card">
-          <h3>🟢 إثرائية (لمن فوق المتوسط)</h3>
-          <textarea id="planHigh"></textarea>
-          <div class="mut">
-            *تتولد تلقائيًا حسب المتفوقات + المهارات. ويمكنك تعديلها.*
+          <div class="box">
+            <div class="n" id="kpiReady">0%</div>
+            <div class="t">اكتمال الإدخال</div>
           </div>
         </div>
       </div>
 
       <div class="card">
-        <h3>روابط دعم جاهزة داخل الخطط</h3>
-        <div class="mut">
-          يمكنك استخدام هذه الروابط داخل الخطة (أو تعديلها من قسم المصادر):
-          <ul class="listLinks">
-            <li><a href="https://ien.edu.sa" target="_blank">منصة عين (IEN)</a></li>
-            <li><a href="https://schools.madrasati.sa" target="_blank">منصة مدرستي</a></li>
-            <li><a href="https://wordwall.net" target="_blank">Wordwall</a></li>
-            <li><a href="https://kahoot.com" target="_blank">Kahoot</a></li>
-            <li><a href="https://quizizz.com" target="_blank">Quizizz</a></li>
-            <li><a href="https://www.blooket.com" target="_blank">Blooket</a></li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="row noPrint">
-        <button class="btn" id="btnSavePlans">💾 حفظ الخطط</button>
+        <h2>ملخص سريع</h2>
+        <div class="hint">يعرض هذا القسم ملخصًا للفترة الأولى والثانية والنهائي (إذا كانت الدرجات مدخلة).</div>
+        <div class="hr"></div>
+        <canvas id="cvDash" width="900" height="280"></canvas>
+        <div class="hr"></div>
+        <div id="dashText" class="hint"></div>
       </div>
     </div>
   </section>
 
-  <!-- QUIZ -->
-  <section id="quiz">
+  <!-- Classes & Students -->
+  <section id="classes">
+    <div class="grid cols2">
+      <div class="card">
+        <h2>إدارة الفصول</h2>
+        <div class="row">
+          <input id="inpClassName" placeholder="اسم الفصل (مثال: 2ث2)" />
+          <button class="btn primary" id="btnAddClass">إضافة فصل</button>
+        </div>
+        <div class="hr"></div>
+        <div class="hint">يمكنك إعادة ترتيب الفصول أو حذفها — مناسب لكل عام.</div>
+        <div class="hr"></div>
+        <table>
+          <thead>
+            <tr><th>الفصل</th><th>إعادة تسمية</th><th>حذف</th></tr>
+          </thead>
+          <tbody id="tbClasses"></tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h2>إدارة الطالبات داخل فصل</h2>
+        <div class="row">
+          <label>الفصل:</label>
+          <select id="selClassStudents"></select>
+          <span class="tag" id="tagCount">0 طالبة</span>
+        </div>
+        <div class="hr"></div>
+        <div class="row">
+          <input id="inpStudentName" placeholder="اسم الطالبة" />
+          <button class="btn primary" id="btnAddStudent">إضافة طالبة</button>
+        </div>
+        <div class="hr"></div>
+        <table>
+          <thead>
+            <tr><th>#</th><th>الطالبة</th><th>حذف</th></tr>
+          </thead>
+          <tbody id="tbStudents"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Period 1 -->
+  <section id="p1">
     <div class="card">
-      <h2>المسابقات (توليد تلقائي من المهارات + تعديل يدوي)</h2>
-      <div class="row noPrint">
-        <div class="field">
-          <label>المادة</label>
-          <select id="subjectSelect6"></select>
+      <div class="row">
+        <h2 style="margin:0">الفترة الأولى — إدخال الدرجات وتحليل الفصل</h2>
+        <span class="right"></span>
+        <label>الفصل:</label>
+        <select id="selClassP1"></select>
+        <button class="btn primary" id="btnCalcP1">حساب وتحليل</button>
+      </div>
+      <div class="hint">أدخلي المهام الأدائية (40) + الاختبار (60). التصنيف تلقائي مع رمز.</div>
+      <div class="hr"></div>
+      <div style="overflow:auto">
+        <table id="tbP1">
+          <thead>
+            <tr>
+              <th>#</th><th>الطالبة</th>
+              <th>المهام 40</th><th>الاختبار 60</th>
+              <th>المجموع /100</th><th>التصنيف</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="hr"></div>
+      <div class="grid cols2">
+        <div class="card">
+          <h2>تحليل الفصل — الفترة الأولى</h2>
+          <div class="kpi">
+            <div class="box"><div class="n" id="p1High">0</div><div class="t">فوق المتوسط</div></div>
+            <div class="box"><div class="n" id="p1Mid">0</div><div class="t">ضمن المتوسط</div></div>
+            <div class="box"><div class="n" id="p1Low">0</div><div class="t">دون المتوسط</div></div>
+          </div>
+          <div class="hr"></div>
+          <div id="p1Text" class="hint"></div>
+          <div class="hr"></div>
+          <canvas id="cvP1Bar" width="900" height="260"></canvas>
+          <div class="hr"></div>
+          <canvas id="cvP1Pie" width="900" height="260"></canvas>
         </div>
-        <div class="field">
-          <label>الوحدة</label>
-          <select id="unitSelect2"></select>
+
+        <div class="card">
+          <h2>تقرير الفترة الأولى (شامل للفصل)</h2>
+          <div class="hint">يتولد تلقائيًا بعد الضغط على (حساب وتحليل) ويمكن تعديله يدويًا.</div>
+          <div class="hr"></div>
+          <textarea id="p1Report"></textarea>
         </div>
-        <div class="field" style="min-width:240px;flex:0">
-          <button class="btn" id="btnGenQuiz">✨ توليد مسابقة من المهارات</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Period 2 -->
+  <section id="p2">
+    <div class="card">
+      <div class="row">
+        <h2 style="margin:0">الفترة الثانية — إدخال الدرجات وتحليل الفصل</h2>
+        <span class="right"></span>
+        <label>الفصل:</label>
+        <select id="selClassP2"></select>
+        <button class="btn primary" id="btnCalcP2">حساب وتحليل</button>
+      </div>
+      <div class="hint">أدخلي المهام (40) + الاختبار (60). ثم التحليل يتولد تلقائيًا.</div>
+      <div class="hr"></div>
+      <div style="overflow:auto">
+        <table id="tbP2">
+          <thead>
+            <tr>
+              <th>#</th><th>الطالبة</th>
+              <th>المهام 40</th><th>الاختبار 60</th>
+              <th>المجموع /100</th><th>التصنيف</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="hr"></div>
+      <div class="grid cols2">
+        <div class="card">
+          <h2>تحليل الفصل — الفترة الثانية</h2>
+          <div class="kpi">
+            <div class="box"><div class="n" id="p2High">0</div><div class="t">فوق المتوسط</div></div>
+            <div class="box"><div class="n" id="p2Mid">0</div><div class="t">ضمن المتوسط</div></div>
+            <div class="box"><div class="n" id="p2Low">0</div><div class="t">دون المتوسط</div></div>
+          </div>
+          <div class="hr"></div>
+          <div id="p2Text" class="hint"></div>
+          <div class="hr"></div>
+          <canvas id="cvP2Bar" width="900" height="260"></canvas>
+          <div class="hr"></div>
+          <canvas id="cvP2Pie" width="900" height="260"></canvas>
         </div>
-        <div class="field" style="min-width:200px;flex:0">
-          <button class="btn2 danger" id="btnClearQuiz">🗑️ مسح المسابقة</button>
+
+        <div class="card">
+          <h2>تقرير الفترة الثانية (شامل للفصل)</h2>
+          <div class="hint">يتولد تلقائيًا بعد الحساب ويمكن تعديله.</div>
+          <div class="hr"></div>
+          <textarea id="p2Report"></textarea>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final -->
+  <section id="final">
+    <div class="card">
+      <div class="row">
+        <h2 style="margin:0">التحليل النهائي للفترتين — لكل فصل + شامل</h2>
+        <span class="right"></span>
+        <label>الفصل:</label>
+        <select id="selClassFinal"></select>
+        <button class="btn primary" id="btnCalcFinal">حساب النهائي</button>
+      </div>
+      <div class="hint">المعدل النهائي = (مجموع الفترة الأولى + مجموع الفترة الثانية) ÷ 2 — من 100</div>
+      <div class="hr"></div>
+
+      <div style="overflow:auto">
+        <table id="tbFinal">
+          <thead>
+            <tr>
+              <th>#</th><th>الطالبة</th>
+              <th>ف1 /100</th><th>ف2 /100</th><th>المعدل النهائي /100</th>
+              <th>التصنيف النهائي</th><th>التحسن</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div class="hr"></div>
+
+      <div class="grid cols2">
+        <div class="card">
+          <h2>رسوم بيانية — النهائي</h2>
+          <canvas id="cvFinalBar" width="900" height="260"></canvas>
+          <div class="hr"></div>
+          <canvas id="cvFinalPie" width="900" height="260"></canvas>
+        </div>
+
+        <div class="card">
+          <h2>تقرير نهائي شامل للفترتين</h2>
+          <div class="hint">يتولد تلقائيًا ويمكنك تعديله قبل تصدير Word/الطباعة.</div>
+          <div class="hr"></div>
+          <textarea id="finalReport"></textarea>
         </div>
       </div>
 
       <div class="hr"></div>
-      <div id="quizArea"></div>
 
-      <div class="row noPrint" style="margin-top:10px">
-        <button class="btn" id="btnSaveQuiz">💾 حفظ المسابقة</button>
-        <button class="btn2" id="btnCheckQuiz">✅ تصحيح سريع</button>
+      <div class="card">
+        <h2>تحليل شامل لجميع الفصول (ملخص عام)</h2>
+        <div class="hint">يجمع متوسطات الفصول ويظهر أفضل فصل وأكبر تحسن.</div>
+        <div class="hr"></div>
+        <div id="allClassesSummary" class="hint"></div>
       </div>
-      <div class="mut" id="quizScore"></div>
     </div>
   </section>
 
-  <!-- AWARDS -->
+  <!-- Plans -->
+  <section id="plans">
+    <div class="grid cols2">
+      <div class="card">
+        <h2>خطط علاجية تلقائية (للدون)</h2>
+        <div class="hint">تتولد بناءً على الطالبات دون المتوسط في الفترة المختارة. قابلة للتعديل.</div>
+        <div class="hr"></div>
+        <div class="row">
+          <label>الفصل:</label><select id="selClassPlans"></select>
+          <label>الفترة:</label>
+          <select id="selPlanPeriod">
+            <option value="p1">الفترة الأولى</option>
+            <option value="p2">الفترة الثانية</option>
+            <option value="final">النهائي</option>
+          </select>
+          <button class="btn primary" id="btnGenPlans">توليد الخطط</button>
+        </div>
+        <div class="hr"></div>
+        <textarea id="txPlans"></textarea>
+        <div class="hint small">ملاحظة: يمكن ربط الخطة بمهارة من بنك المهارات (أسفل).</div>
+      </div>
+
+      <div class="card">
+        <h2>خطط إثرائية تلقائية (للفوق)</h2>
+        <div class="hint">تتولد للطالبات فوق المتوسط + 90+.</div>
+        <div class="hr"></div>
+        <textarea id="txEnrich"></textarea>
+      </div>
+
+      <div class="card">
+        <h2>روابط إثرائية معتمدة (قابلة للتعديل)</h2>
+        <div class="hint">روابط عامة معتمدة: عين + مدرستي + أدوات تفاعلية. يمكنك تغييرها.</div>
+        <div class="hr"></div>
+        <ul class="list" id="ulEnrichLinks"></ul>
+      </div>
+
+      <div class="card">
+        <h2>مكتبة إجراءات (اختيارية)</h2>
+        <div class="hint">قائمة إجراءات جاهزة يمكنك نسخها داخل الخطط.</div>
+        <div class="hr"></div>
+        <ul class="list">
+          <li>إعادة شرح مركز للمهارة + تدريب قصير (10 دقائق) قبل بداية الحصة.</li>
+          <li>ورقة عمل علاجية + تصحيح فوري + تغذية راجعة فردية.</li>
+          <li>تدريب تفاعلي عبر Wordwall/Quizizz مرتبط بالدرس.</li>
+          <li>واجب منزلي بسيط (3 أسئلة) + متابعة ولي الأمر.</li>
+          <li>اختبار قصير بعدي (5 أسئلة) لقياس التحسن.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills">
+    <div class="grid cols2">
+      <div class="card">
+        <h2>بنك المهارات (قابل للتعديل)</h2>
+        <div class="hint">اكتبي المهارات حسب وحدات التوحيد (أو أي منهج مستقبلاً). يمكنك حذف/إضافة/تعديل.</div>
+        <div class="hr"></div>
+        <div class="row">
+          <input id="inpSkillUnit" placeholder="الوحدة (مثال: توحيد الألوهية)" />
+          <input id="inpSkillText" placeholder="نص المهارة" style="min-width:260px" />
+          <button class="btn primary" id="btnAddSkill">إضافة مهارة</button>
+        </div>
+        <div class="hr"></div>
+        <table>
+          <thead><tr><th>#</th><th>الوحدة</th><th>المهارة</th><th>حذف</th></tr></thead>
+          <tbody id="tbSkills"></tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h2>ربط المهارة بخطط علاجية/إثرائية</h2>
+        <div class="hint">اختاري مهارة ثم سيقترح النظام خطة علاجية وإثرائية قابلة للتعديل.</div>
+        <div class="hr"></div>
+        <div class="row">
+          <label>اختر مهارة:</label>
+          <select id="selSkillPick"></select>
+          <button class="btn dark" id="btnSuggestBySkill">اقتراح خطط</button>
+        </div>
+        <div class="hr"></div>
+        <label class="mut">خطة علاجية مقترحة</label>
+        <textarea id="txSkillRemed"></textarea>
+        <div class="hr"></div>
+        <label class="mut">خطة إثرائية مقترحة</label>
+        <textarea id="txSkillEnrich"></textarea>
+      </div>
+    </div>
+  </section>
+
+  <!-- Awards -->
   <section id="awards">
-    <div class="card">
-      <h2>لوحة التكريم</h2>
-      <div class="row noPrint">
-        <div class="field">
-          <label>المادة</label>
-          <select id="subjectSelect7"></select>
+    <div class="grid cols2">
+      <div class="card">
+        <h2>لوحة التكريم</h2>
+        <div class="row">
+          <label>الفصل:</label><select id="selClassAwards"></select>
+          <button class="btn primary" id="btnCalcAwards">تحديث التكريم</button>
         </div>
-        <div class="field">
-          <label>الفصل</label>
-          <select id="classSelect7"></select>
-        </div>
-        <div class="field" style="min-width:240px;flex:0">
-          <button class="btn" id="btnRefreshAwards">🔄 تحديث التكريم</button>
-        </div>
+        <div class="hr"></div>
+        <div id="awardsBox" class="hint"></div>
       </div>
 
-      <div class="hr"></div>
-      <div class="grid2">
-        <div class="card">
-          <h3>🥇 أعلى درجة (حسب النهائي للفترتين)</h3>
-          <div id="bestStudent" class="mut"></div>
-          <div class="hr"></div>
-          <h3>🚀 أعلى تحسن (من ف1 إلى ف2)</h3>
-          <div id="bestImprove" class="mut"></div>
-        </div>
-        <div class="card">
-          <h3>⭐ لوحة الشرف (Top 10)</h3>
-          <div id="top10" class="mut"></div>
-        </div>
+      <div class="card">
+        <h2>قوالب شهادات (نص جاهز)</h2>
+        <div class="hint">انسخي النص داخل Word واطبعيه. قابلة للتعديل.</div>
+        <div class="hr"></div>
+        <textarea id="txCertificates"></textarea>
       </div>
     </div>
   </section>
 
-  <!-- PARENTS -->
+  <!-- Parents -->
   <section id="parents">
-    <div class="card">
-      <h2>سجل التواصل مع أولياء الأمور</h2>
-      <div class="row noPrint">
-        <div class="field">
-          <label>الفصل</label>
-          <select id="classSelectP"></select>
+    <div class="grid cols2">
+      <div class="card">
+        <h2>سجل التواصل مع أولياء الأمور</h2>
+        <div class="hint">احفظي السجل، وسيبقى محفوظًا على نفس الجهاز.</div>
+        <div class="hr"></div>
+        <div class="row">
+          <label>الفصل:</label><select id="selClassParents"></select>
+          <input id="inpParentStudent" placeholder="اسم الطالبة" />
+          <input id="inpParentReason" placeholder="سبب التواصل" style="min-width:220px" />
+          <input id="inpParentAction" placeholder="الإجراء" style="min-width:220px" />
+          <button class="btn primary" id="btnAddParentLog">إضافة</button>
         </div>
-        <div class="field">
-          <label>الطالبة</label>
-          <select id="studentSelectP"></select>
-        </div>
-        <div class="field">
-          <label>اسم ولي الأمر</label>
-          <input id="parentName" />
-        </div>
-        <div class="field">
-          <label>سبب التواصل</label>
-          <input id="parentReason" placeholder="مثال: انخفاض المستوى / غياب / تعزيز" />
-        </div>
-        <div class="field">
-          <label>الإجراء</label>
-          <input id="parentAction" placeholder="مثال: اتصال / رسالة / لقاء" />
-        </div>
-        <div class="field" style="min-width:200px;flex:0">
-          <button class="btn" id="btnAddParentLog">➕ إضافة</button>
-        </div>
+        <div class="hr"></div>
+        <table>
+          <thead><tr><th>التاريخ</th><th>الفصل</th><th>الطالبة</th><th>السبب</th><th>الإجراء</th><th>حذف</th></tr></thead>
+          <tbody id="tbParents"></tbody>
+        </table>
       </div>
 
-      <div class="hr"></div>
-      <table id="parentsTable"></table>
-
-      <div class="row noPrint" style="margin-top:10px">
-        <button class="btn" id="btnSaveParents">💾 حفظ</button>
+      <div class="card">
+        <h2>رسائل جاهزة لولي الأمر</h2>
+        <div class="hint">انسخي الرسالة حسب الحالة.</div>
+        <div class="hr"></div>
+        <ul class="list">
+          <li><b>تنبيه علاجي:</b> نود إفادتكم بأن مستوى الطالبة يحتاج دعمًا في بعض المهارات، وسيتم تطبيق خطة علاجية ومتابعة التحسن.</li>
+          <li><b>إشادة:</b> نبارك تفوق الطالبة وتميزها، ونثمن دعمكم المستمر.</li>
+          <li><b>متابعة واجب:</b> نأمل متابعة إتمام واجبات التدريب القصير، وشكرًا لتعاونكم.</li>
+        </ul>
       </div>
     </div>
   </section>
 
-  <!-- SOURCES -->
+  <!-- Quiz -->
+  <section id="quiz">
+    <div class="grid cols2">
+      <div class="card">
+        <h2>بنك الأسئلة (اختيار من متعدد — قابل للتعديل)</h2>
+        <div class="hint">أضيفي/عدّلي الأسئلة. ثم (توليد مسابقة) يختار عشوائيًا.</div>
+        <div class="hr"></div>
+        <div class="row">
+          <input id="inpQUnit" placeholder="الوحدة (مثال: الشرك)" />
+          <input id="inpQText" placeholder="السؤال" style="min-width:280px" />
+        </div>
+        <div class="row">
+          <input id="inpA1" placeholder="خيار 1" />
+          <input id="inpA2" placeholder="خيار 2" />
+          <input id="inpA3" placeholder="خيار 3" />
+          <input id="inpA4" placeholder="خيار 4" />
+        </div>
+        <div class="row">
+          <label>الإجابة الصحيحة:</label>
+          <select id="selCorrect">
+            <option value="0">الخيار 1</option>
+            <option value="1">الخيار 2</option>
+            <option value="2">الخيار 3</option>
+            <option value="3">الخيار 4</option>
+          </select>
+          <button class="btn primary" id="btnAddQ">إضافة سؤال</button>
+        </div>
+        <div class="hr"></div>
+        <table>
+          <thead><tr><th>#</th><th>الوحدة</th><th>السؤال</th><th>حذف</th></tr></thead>
+          <tbody id="tbQBank"></tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h2>توليد مسابقة</h2>
+        <div class="row">
+          <label>الوحدة:</label>
+          <select id="selQuizUnit"></select>
+          <label>عدد الأسئلة:</label>
+          <input id="inpQuizN" type="number" min="1" value="5" style="width:90px" />
+          <button class="btn dark" id="btnGenQuiz">توليد</button>
+          <button class="btn ghost" id="btnResetQuiz">إعادة</button>
+        </div>
+        <div class="hr"></div>
+        <div id="quizArea" class="hint"></div>
+        <div class="hr"></div>
+        <button class="btn primary" id="btnCheckQuiz">تصحيح</button>
+        <div class="hr"></div>
+        <div id="quizScore" class="hint"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sources -->
   <section id="sources">
-    <div class="card">
-      <h2>المصادر والألعاب (روابط قابلة للتعديل والحذف)</h2>
-      <div class="grid2">
-        <div class="card">
-          <h3>المصادر</h3>
-          <div class="row noPrint">
-            <div class="field"><label>العنوان</label><input id="srcTitle" placeholder="مثال: منصة عين" /></div>
-            <div class="field"><label>الرابط</label><input id="srcUrl" placeholder="https://..." /></div>
-            <div class="field" style="min-width:180px;flex:0"><button class="btn" id="btnAddSrc">➕ إضافة</button></div>
-          </div>
-          <div class="hr"></div>
-          <div id="srcList" class="listLinks"></div>
-        </div>
-
-        <div class="card">
-          <h3>الألعاب التفاعلية</h3>
-          <div class="row noPrint">
-            <div class="field"><label>العنوان</label><input id="gameTitle" placeholder="مثال: Kahoot" /></div>
-            <div class="field"><label>الرابط</label><input id="gameUrl" placeholder="https://..." /></div>
-            <div class="field" style="min-width:180px;flex:0"><button class="btn" id="btnAddGame">➕ إضافة</button></div>
-          </div>
-          <div class="hr"></div>
-          <div id="gameList" class="listLinks"></div>
-        </div>
+    <div class="grid cols2">
+      <div class="card">
+        <h2>مصادر منظمة (مثل مدرستي) — قابلة للتعديل</h2>
+        <div class="hint">اضغطي على الرابط ليفتح في تبويب جديد.</div>
+        <div class="hr"></div>
+        <ul class="list" id="ulSources"></ul>
       </div>
 
-      <div class="row noPrint">
-        <button class="btn" id="btnSaveLinks">💾 حفظ الروابط</button>
+      <div class="card">
+        <h2>ألعاب تفاعلية</h2>
+        <div class="hint">روابط جاهزة ويمكنك إضافة أي رابط جديد.</div>
+        <div class="hr"></div>
+        <ul class="list" id="ulGames"></ul>
       </div>
     </div>
   </section>
-</main>
+
+  <!-- Hidden Report Container for Word -->
+  <div id="reportForWord" style="display:none"></div>
+
+</div>
 
 <script>
 /* =========================
-   1) DATA MODEL + STORAGE
+   Data Model + Storage
 ========================= */
-const KEY = "itqan_platform_v1";
+const KEY = "itqan_1447_v3";
 
 const defaultData = () => ({
-  meta:{
-    teacher:"سعاد صالح الغامدي",
-    leader:"آمال باربود",
-    school:"المتوسطة الثانية والأربعون والثانوية السادسة والثلاثون",
-    stage:"ثاني ثانوي",
-    year:"1447"
-  },
-  cuts:{ high:85, mid:60 },
-  subjects:["التوحيد"],
-  currentSubject:"التوحيد",
-  classes:["2ث1","2ث2","2ث3","2ث4","2ث5"],
-  students:{ "2ث1":[], "2ث2":[], "2ث3":[], "2ث4":[], "2ث5":[] },
-  grades:{ /* subject -> class -> term -> {studentName:{perf,exam,total}} */ },
-  // skills: subject -> units [{name, skills:[...] }]
-  skills:{},
-  // plans: subject -> class -> term -> {lowText, highText}
-  plans:{},
-  // quiz: subject -> unitName -> questions
-  quizzes:{},
-  parentsLogs:[], // {cls, student, parent, reason, action, ts}
+  classes: [
+    // أمثلة قابلة للحذف — اتركيها فاضية إذا تبين
+    // {id:"c1", name:"2ث2", students:[{id:"s1", name:""}]}
+  ],
+  scores: { p1:{}, p2:{} }, // scores[period][classId][studentId]={perf,test}
+  parentLogs: [], // {d, classId, student, reason, action}
+  skills: [
+    {id:uid(), unit:"العقيدة الإسلامية", text:"توضح مفهوم التوحيد وأقسامه."},
+    {id:uid(), unit:"الشرك", text:"تتعرف صور الشرك وطرق الوقاية منه."}
+  ],
+  qbank: [
+    sampleQ("العقيدة الإسلامية","ما معنى التوحيد؟",
+      ["إفراد الله بالعبادة","عبادة الملائكة","تعظيم النجوم","اتباع الهوى"],0),
+    sampleQ("الشرك","أيّ مما يلي من الشرك الأكبر؟",
+      ["الرياء","دعاء غير الله","الحلف بالله","بر الوالدين"],1),
+    sampleQ("توحيد الربوبية","توحيد الربوبية هو:",
+      ["إفراد الله بالعبادة","إفراد الله بالخلق والرزق والتدبير","الإحسان للناس","ترك المعاصي"],1),
+    sampleQ("الأسماء والصفات","الواجب في أسماء الله وصفاته:",
+      ["تحريفها","تعطيلها","إثباتها كما وردت بلا تمثيل","إنكارها"],2),
+    sampleQ("نعمة التوحيد","من ثمرات التوحيد:",
+      ["القلق","الطمأنينة","الضياع","الكسل"],1)
+  ],
   links:{
     sources:[
       {title:"منصة عين (IEN)", url:"https://ien.edu.sa"},
-      {title:"منصة مدرستي", url:"https://schools.madrasati.sa"}
+      {title:"منصة مدرستي", url:"https://schools.madrasati.sa"},
+      {title:"بوابة وزارة التعليم", url:"https://www.moe.gov.sa"},
+      {title:"مركز إثراء المحتوى التعليمي", url:"https://www.ien.edu.sa"}
     ],
     games:[
       {title:"Wordwall", url:"https://wordwall.net"},
       {title:"Kahoot", url:"https://kahoot.com"},
       {title:"Quizizz", url:"https://quizizz.com"},
-      {title:"Blooket", url:"https://www.blooket.com"}
+      {title:"Blooket", url:"https://blooket.com"}
+    ],
+    enrich:[
+      {title:"عين — دروس ومراجعات", url:"https://ien.edu.sa"},
+      {title:"مدرستي — مصادر رقمية", url:"https://schools.madrasati.sa"},
+      {title:"Wordwall — تمارين تفاعلية", url:"https://wordwall.net"},
+      {title:"Quizizz — اختبارات تفاعلية", url:"https://quizizz.com"}
     ]
   }
 });
 
-let DB = load();
+function uid(){ return "id_" + Math.random().toString(16).slice(2) + Date.now().toString(16); }
+function sampleQ(unit,q,opts,correct){ return {id:uid(), unit, q, opts, correct}; }
 
 function load(){
   try{
     const raw = localStorage.getItem(KEY);
-    if(!raw) return initDefaults(defaultData());
-    const obj = JSON.parse(raw);
-    return initDefaults(obj);
+    if(!raw) return defaultData();
+    const d = JSON.parse(raw);
+    // basic repair
+    d.classes ||= [];
+    d.scores ||= {p1:{},p2:{}};
+    d.scores.p1 ||= {}; d.scores.p2 ||= {};
+    d.parentLogs ||= [];
+    d.skills ||= [];
+    d.qbank ||= [];
+    d.links ||= defaultData().links;
+    return d;
   }catch(e){
-    return initDefaults(defaultData());
+    return defaultData();
   }
 }
+function save(){ localStorage.setItem(KEY, JSON.stringify(DATA)); refreshAll(); }
 
-function initDefaults(obj){
-  // ensure shapes
-  if(!obj.meta) obj.meta = defaultData().meta;
-  if(!obj.cuts) obj.cuts = defaultData().cuts;
-  if(!Array.isArray(obj.subjects) || obj.subjects.length===0) obj.subjects = ["التوحيد"];
-  if(!obj.currentSubject) obj.currentSubject = obj.subjects[0];
-  if(!Array.isArray(obj.classes) || obj.classes.length===0) obj.classes = ["2ث1"];
-  if(!obj.students) obj.students = {};
-  obj.classes.forEach(c=>{ if(!Array.isArray(obj.students[c])) obj.students[c]=[]; });
-  if(!obj.grades) obj.grades = {};
-  if(!obj.skills) obj.skills = {};
-  if(!obj.plans) obj.plans = {};
-  if(!obj.quizzes) obj.quizzes = {};
-  if(!obj.parentsLogs) obj.parentsLogs = [];
-  if(!obj.links) obj.links = defaultData().links;
-  if(!obj.links.sources) obj.links.sources = defaultData().links.sources;
-  if(!obj.links.games) obj.links.games = defaultData().links.games;
-
-  // default 7 units for first subject if missing
-  obj.subjects.forEach(s=>{
-    if(!obj.skills[s]){
-      obj.skills[s] = [
-        {name:"الوحدة الأولى", skills:["تعريف المفهوم الأساسي","تمييز الأنواع","تطبيقات وأمثلة"]},
-        {name:"الوحدة الثانية", skills:["تعريف المفهوم الأساسي","تمييز الأنواع","تطبيقات وأمثلة"]},
-        {name:"الوحدة الثالثة", skills:["تعريف المفهوم الأساسي","تمييز الأنواع","تطبيقات وأمثلة"]},
-        {name:"الوحدة الرابعة", skills:["تعريف المفهوم الأساسي","تمييز الأنواع","تطبيقات وأمثلة"]},
-        {name:"الوحدة الخامسة", skills:["تعريف المفهوم الأساسي","تمييز الأنواع","تطبيقات وأمثلة"]},
-        {name:"الوحدة السادسة", skills:["تعريف المفهوم الأساسي","تمييز الأنواع","تطبيقات وأمثلة"]},
-        {name:"الوحدة السابعة", skills:["تعريف المفهوم الأساسي","تمييز الأنواع","تطبيقات وأمثلة"]}
-      ];
-    }
-  });
-
-  return obj;
-}
-
-function save(){
-  localStorage.setItem(KEY, JSON.stringify(DB));
-  renderAll();
-}
-
-function backupDownload(){
-  const blob = new Blob([JSON.stringify(DB,null,2)], {type:"application/json"});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href=url;
-  a.download=`itqan_backup_${new Date().toISOString().slice(0,10)}.json`;
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
-function restoreFromFile(file){
-  const reader = new FileReader();
-  reader.onload = () => {
-    try{
-      const obj = JSON.parse(reader.result);
-      DB = initDefaults(obj);
-      save();
-      alert("تم الاستيراد بنجاح ✅");
-    }catch(e){
-      alert("ملف غير صالح ❌");
-    }
-  };
-  reader.readAsText(file);
-}
+let DATA = load();
 
 /* =========================
-   2) HELPERS
+   Helpers
 ========================= */
 const $ = (id)=>document.getElementById(id);
-function go(tabId){ setTab(tabId); window.scrollTo({top:0,behavior:"smooth"}); }
+function esc(s){ return (s??"").toString().replace(/[<>&"]/g,m=>({ "<":"&lt;",">":"&gt;","&":"&amp;",'"':"&quot;" }[m])); }
 
-function setTab(tabId){
-  document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active", b.dataset.tab===tabId));
-  document.querySelectorAll("main section").forEach(s=>s.classList.toggle("active", s.id===tabId));
+function getClassById(id){ return DATA.classes.find(c=>c.id===id); }
+function getStudents(classId){ return (getClassById(classId)?.students)||[]; }
+
+function getScore(period, classId, studentId){
+  const p = DATA.scores[period] || {};
+  const c = p[classId] || {};
+  return c[studentId] || {perf:"", test:""};
+}
+function setScore(period, classId, studentId, perf, test){
+  DATA.scores[period] ||= {};
+  DATA.scores[period][classId] ||= {};
+  DATA.scores[period][classId][studentId] = {perf, test};
 }
 
-function classify(total){
-  const h = Number(DB.cuts.high);
-  const m = Number(DB.cuts.mid);
-  if(total>=h) return {label:"فوق المتوسط", cls:"ok", icon:"🟢"};
-  if(total>=m) return {label:"ضمن المتوسط", cls:"mid", icon:"🟡"};
-  return {label:"دون المتوسط", cls:"low", icon:"🔴"};
+function toNum(x){ const n = Number(x); return Number.isFinite(n)? n : 0; }
+function totalOf(sc){ return clamp(toNum(sc.perf),0,40) + clamp(toNum(sc.test),0,60); }
+function clamp(n,a,b){ return Math.max(a, Math.min(b, n)); }
+
+function classify100(t){
+  // thresholds: >=85 فوق, 60-84 ضمن, <60 دون
+  if(t>=85) return {k:"high", text:"فوق المتوسط", pill:"ok", icon:"🟢"};
+  if(t>=60) return {k:"mid", text:"ضمن المتوسط", pill:"mid", icon:"🟠"};
+  return {k:"low", text:"دون المتوسط", pill:"bad", icon:"🔴"};
 }
 
-function clamp(n,min,max){ n=Number(n); if(isNaN(n)) return 0; return Math.max(min, Math.min(max,n)); }
-
-function ensureGrades(subject, cls){
-  if(!DB.grades[subject]) DB.grades[subject]={};
-  if(!DB.grades[subject][cls]) DB.grades[subject][cls]={};
-  if(!DB.grades[subject][cls].t1) DB.grades[subject][cls].t1={};
-  if(!DB.grades[subject][cls].t2) DB.grades[subject][cls].t2={};
+function calcCounts(period, classId){
+  const st = getStudents(classId);
+  let high=0, mid=0, low=0;
+  let totals=[];
+  st.forEach(s=>{
+    const t = totalOf(getScore(period,classId,s.id));
+    totals.push({id:s.id,name:s.name,total:t});
+    const c = classify100(t).k;
+    if(c==="high") high++;
+    else if(c==="mid") mid++;
+    else low++;
+  });
+  const avg = totals.length? (totals.reduce((a,b)=>a+b.total,0)/totals.length) : 0;
+  return {high,mid,low, avg, totals};
 }
 
-function getStudents(cls){ return DB.students[cls] || []; }
-
-function getScore(subject, cls, term, student){
-  ensureGrades(subject, cls);
-  const rec = DB.grades[subject][cls][term][student];
-  if(!rec) return {perf:"", exam:"", total:""};
-  return rec;
+function avgFinal(classId, studentId){
+  const t1 = totalOf(getScore("p1",classId,studentId));
+  const t2 = totalOf(getScore("p2",classId,studentId));
+  // إذا إحدى الفترتين غير مدخلة نعتبرها 0 (يمكنك تعديل ذلك)
+  return (t1 + t2) / 2;
 }
 
-function setScore(subject, cls, term, student, perf, exam){
-  ensureGrades(subject, cls);
-  const p = clamp(perf,0,40);
-  const e = clamp(exam,0,60);
-  const t = p+e;
-  DB.grades[subject][cls][term][student] = {perf:p, exam:e, total:t};
+function summarizeText(periodLabel, className, counts){
+  const total = counts.totals.length;
+  const avg = counts.avg.toFixed(1);
+  return `تحليل ${periodLabel} للفصل (${className}):
+- عدد الطالبات: ${total}
+- متوسط الفصل: ${avg} من 100
+- فوق المتوسط: ${counts.high}
+- ضمن المتوسط: ${counts.mid}
+- دون المتوسط: ${counts.low}
+التوصيات: التركيز على طالبات دون المتوسط بخطط علاجية قصيرة، وتنشيط الإثراء للمتفوقات وتوظيف أدوات تفاعلية.`;
 }
-
-function finalTotal(subject, cls, student){
-  // final = (t1 + t2)/2 if both exist, else the available one
-  ensureGrades(subject, cls);
-  const a = DB.grades[subject][cls].t1[student]?.total;
-  const b = DB.grades[subject][cls].t2[student]?.total;
-  const na = typeof a==="number";
-  const nb = typeof b==="number";
-  if(na && nb) return Math.round(((a+b)/2)*10)/10;
-  if(na) return a;
-  if(nb) return b;
-  return null;
-}
-
-function avg(arr){
-  const xs = arr.filter(x=>typeof x==="number" && !isNaN(x));
-  if(xs.length===0) return null;
-  const s = xs.reduce((a,b)=>a+b,0);
-  return Math.round((s/xs.length)*10)/10;
-}
-
-function nowTs(){ return new Date().toLocaleString("ar-SA"); }
 
 /* =========================
-   3) RENDERERS
+   Navigation
 ========================= */
-function renderAll(){
-  renderMeta();
-  renderSubjects();
-  renderClasses();
-  renderStudentsTable();
-  renderGradesTable();
-  renderDash();
-  renderAnalysis();
-  renderSkills();
-  renderPlans();
-  renderQuiz();
-  renderAwards();
-  renderParents();
-  renderLinks();
-}
-
-function renderMeta(){
-  $("tTeacher").value = DB.meta.teacher || "";
-  $("tLeader").value = DB.meta.leader || "";
-  $("tSchool").value = DB.meta.school || "";
-  $("tStage").value = DB.meta.stage || "";
-  $("tYear").value = DB.meta.year || "";
-  $("cutHigh").value = DB.cuts.high;
-  $("cutMid").value = DB.cuts.mid;
-  $("subtitle").textContent = `${DB.meta.school} • ${DB.meta.stage} • عام ${DB.meta.year} • المادة: ${DB.currentSubject}`;
-}
-
-function renderSubjects(){
-  const sels = ["subjectSelect","subjectSelect2","subjectSelect3","subjectSelect4","subjectSelect5","subjectSelect6","subjectSelect7"];
-  sels.forEach(id=>{
-    const el = $(id); if(!el) return;
-    el.innerHTML = DB.subjects.map(s=>`<option ${s===DB.currentSubject?"selected":""}>${escapeHtml(s)}</option>`).join("");
-    el.onchange = () => { DB.currentSubject = el.value; save(); };
+const nav = $("nav");
+document.querySelectorAll("#nav button[data-page]").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    const p = btn.getAttribute("data-page");
+    openPage(p);
   });
-
-  const list = DB.subjects.map(s=>{
-    const isCur = s===DB.currentSubject;
-    return `<span class="tag ${isCur?"ok":""}">${isCur?"✅ ":""}${escapeHtml(s)} 
-      <button class="btn2 danger noPrint" style="margin-inline-start:8px" onclick="deleteSubject('${escapeJs(s)}')">حذف</button>
-    </span>`;
-  }).join(" ");
-  $("subjectsList").innerHTML = list;
+});
+function openPage(id){
+  document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+  document.querySelector(`#${id}`).classList.add("active");
+  document.querySelectorAll("#nav button[data-page]").forEach(b=>b.classList.toggle("active", b.getAttribute("data-page")===id));
 }
 
-function deleteSubject(name){
-  if(DB.subjects.length<=1){ alert("لا يمكن حذف آخر مادة."); return; }
-  DB.subjects = DB.subjects.filter(x=>x!==name);
-  if(DB.currentSubject===name) DB.currentSubject = DB.subjects[0];
-
-  // clean
-  delete DB.grades[name];
-  delete DB.skills[name];
-  delete DB.plans[name];
-  // quizzes keep by subject key
-  Object.keys(DB.quizzes).forEach(k=>{
-    if(k.startsWith(name+"::")) delete DB.quizzes[k];
-  });
-  save();
-}
-
-function renderClasses(){
-  const classSels = ["classSelect","classSelect2","classSelect3","classSelect5","classSelect7","classSelectP"];
-  classSels.forEach(id=>{
-    const el = $(id); if(!el) return;
-    el.innerHTML = DB.classes.map(c=>`<option>${escapeHtml(c)}</option>`).join("");
-  });
-
-  // keep selections stable
-  if(DB.classes.length>0){
-    if(!$("classSelect").value) $("classSelect").value = DB.classes[0];
-    $("classSelect2").value = $("classSelect").value;
-    $("classSelect3").value = $("classSelect").value;
-    $("classSelect5").value = $("classSelect").value;
-    $("classSelect7").value = $("classSelect").value;
-    $("classSelectP").value = $("classSelect").value;
+/* =========================
+   UI Refresh
+========================= */
+function fillClassSelect(selectEl, keepValue){
+  const prev = keepValue ?? selectEl.value;
+  selectEl.innerHTML = "";
+  if(DATA.classes.length===0){
+    const opt=document.createElement("option");
+    opt.value=""; opt.textContent="لا توجد فصول — أضيفي فصل";
+    selectEl.appendChild(opt);
+    return;
   }
+  DATA.classes.forEach(c=>{
+    const opt=document.createElement("option");
+    opt.value=c.id; opt.textContent=c.name;
+    selectEl.appendChild(opt);
+  });
+  if(prev && [...selectEl.options].some(o=>o.value===prev)) selectEl.value=prev;
+}
 
-  // on change
-  ["classSelect","classSelect2","classSelect3","classSelect5","classSelect7","classSelectP"].forEach(id=>{
-    const el = $(id); if(!el) return;
-    el.onchange = () => {
-      if(id==="classSelect"){ renderStudentsTable(); $("classSelect2").value=el.value; $("classSelect3").value=el.value; $("classSelect5").value=el.value; $("classSelect7").value=el.value; $("classSelectP").value=el.value; }
-      if(id==="classSelect2") renderGradesTable();
-      if(id==="classSelect3") renderAnalysis();
-      if(id==="classSelect5") renderPlans();
-      if(id==="classSelect7") renderAwards();
-      if(id==="classSelectP"){ renderParentsStudentSelect(); renderParents(); }
+function refreshKPI(){
+  const nClasses = DATA.classes.length;
+  const nStudents = DATA.classes.reduce((a,c)=>a + (c.students?.length||0), 0);
+  $("kpiClasses").textContent = nClasses;
+  $("kpiStudents").textContent = nStudents;
+
+  // اكتمال الإدخال: نسبة الطالبات التي لديها درجتان في p1 و p2 (perf & test)
+  let filled=0, total=0;
+  DATA.classes.forEach(c=>{
+    (c.students||[]).forEach(s=>{
+      total++;
+      const a = getScore("p1",c.id,s.id), b = getScore("p2",c.id,s.id);
+      if(a.perf!=="" && a.test!=="" && b.perf!=="" && b.test!=="") filled++;
+    });
+  });
+  const pct = total? Math.round((filled/total)*100) : 0;
+  $("kpiReady").textContent = pct + "%";
+}
+
+function refreshDash(){
+  // رسم بسيط: متوسط كل فصل (p1/p2/final)
+  const labels = DATA.classes.map(c=>c.name);
+  const p1 = DATA.classes.map(c=>calcCounts("p1",c.id).avg);
+  const p2 = DATA.classes.map(c=>calcCounts("p2",c.id).avg);
+  const fin = DATA.classes.map(c=>{
+    const st = getStudents(c.id);
+    if(!st.length) return 0;
+    const avg = st.reduce((a,s)=>a+avgFinal(c.id,s.id),0)/st.length;
+    return avg;
+  });
+
+  drawBar3($("cvDash"), labels, [
+    {name:"ف1", vals:p1},
+    {name:"ف2", vals:p2},
+    {name:"نهائي", vals:fin}
+  ], 100);
+
+  const best = fin.length ? Math.max(...fin) : 0;
+  const bestIdx = fin.length ? fin.indexOf(best) : -1;
+
+  $("dashText").innerHTML = `
+  <b>ملخص عام:</b><br>
+  - عدد الفصول: ${DATA.classes.length}<br>
+  - أفضل متوسط نهائي: ${bestIdx>=0 ? esc(labels[bestIdx]) + " ("+best.toFixed(1)+")" : "—"}<br>
+  - تلميح: أدخلي درجات الفترتين لتحصلين على تقرير نهائي شامل.
+  `;
+}
+
+function refreshClassesTable(){
+  const tb = $("tbClasses");
+  tb.innerHTML = "";
+  DATA.classes.forEach(c=>{
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td><b>${esc(c.name)}</b></td>
+      <td>
+        <input data-rename="${c.id}" value="${esc(c.name)}" />
+        <button class="btn ghost" data-do="rename" data-id="${c.id}">حفظ</button>
+      </td>
+      <td><button class="btn bad" data-do="delclass" data-id="${c.id}">حذف</button></td>
+    `;
+    tb.appendChild(tr);
+  });
+
+  tb.querySelectorAll('button[data-do="rename"]').forEach(b=>{
+    b.onclick=()=>{
+      const id=b.dataset.id;
+      const inp = tb.querySelector(`input[data-rename="${id}"]`);
+      const v = (inp.value||"").trim();
+      if(!v) return alert("اكتبي اسم الفصل");
+      const c = getClassById(id);
+      c.name=v;
+      save();
     };
   });
 
-  $("termSelect").onchange = renderGradesTable;
-  $("termSelect2").onchange = renderPlans;
-  $("analysisMode").onchange = renderAnalysis;
-
-  $("cutHigh").onchange = () => { DB.cuts.high = clamp($("cutHigh").value,0,100); save(); };
-  $("cutMid").onchange  = () => { DB.cuts.mid  = clamp($("cutMid").value,0,100); save(); };
+  tb.querySelectorAll('button[data-do="delclass"]').forEach(b=>{
+    b.onclick=()=>{
+      const id=b.dataset.id;
+      if(!confirm("حذف الفصل وكل بياناته؟")) return;
+      DATA.classes = DATA.classes.filter(x=>x.id!==id);
+      delete DATA.scores.p1[id];
+      delete DATA.scores.p2[id];
+      save();
+    };
+  });
 }
 
-function renderStudentsTable(){
-  const cls = $("classSelect").value || DB.classes[0];
-  const students = getStudents(cls);
-
-  let html = `
-    <tr>
-      <th style="width:60px">#</th>
-      <th>اسم الطالبة (قابل للتعديل)</th>
-      <th style="width:160px">إجراء</th>
-    </tr>
-  `;
-
-  students.forEach((name, i)=>{
-    html += `
-      <tr>
-        <td>${i+1}</td>
-        <td><input value="${escapeHtml(name)}" oninput="renameStudent('${escapeJs(cls)}', ${i}, this.value)"></td>
-        <td class="noPrint">
-          <button class="btn2 danger" onclick="deleteStudent('${escapeJs(cls)}', ${i})">حذف</button>
-        </td>
-      </tr>
+function refreshStudents(){
+  const classId = $("selClassStudents").value;
+  const c = getClassById(classId);
+  const tb = $("tbStudents");
+  tb.innerHTML="";
+  const st = c?.students || [];
+  $("tagCount").textContent = `${st.length} طالبة`;
+  st.forEach((s,idx)=>{
+    const tr=document.createElement("tr");
+    tr.innerHTML = `
+      <td>${idx+1}</td>
+      <td>${esc(s.name)}</td>
+      <td><button class="btn bad" data-del="${s.id}">حذف</button></td>
     `;
+    tb.appendChild(tr);
   });
-
-  if(students.length===0){
-    html += `<tr><td colspan="3" class="mut">لا توجد طالبات بعد. أضيفي أسماء من الأعلى.</td></tr>`;
-  }
-
-  $("studentsTable").innerHTML = html;
-  renderGradesTable();
-  renderParentsStudentSelect();
+  tb.querySelectorAll("button[data-del]").forEach(b=>{
+    b.onclick=()=>{
+      const sid=b.dataset.del;
+      if(!confirm("حذف الطالبة من الفصل؟")) return;
+      c.students = c.students.filter(x=>x.id!==sid);
+      // إزالة درجاتها
+      if(DATA.scores.p1[classId]) delete DATA.scores.p1[classId][sid];
+      if(DATA.scores.p2[classId]) delete DATA.scores.p2[classId][sid];
+      save();
+    };
+  });
 }
 
-function renameStudent(cls, idx, newName){
-  newName = (newName||"").trim();
-  const old = DB.students[cls][idx];
-  DB.students[cls][idx] = newName;
-
-  // move grades keys if exists
-  const subjList = DB.subjects.slice();
-  subjList.forEach(s=>{
-    ensureGrades(s, cls);
-    ["t1","t2"].forEach(t=>{
-      const rec = DB.grades[s][cls][t][old];
-      if(rec && newName){
-        DB.grades[s][cls][t][newName] = rec;
-        delete DB.grades[s][cls][t][old];
-      }
-    });
-  });
-
-  save();
-}
-
-function deleteStudent(cls, idx){
-  const name = DB.students[cls][idx];
-  DB.students[cls].splice(idx,1);
-
-  // delete grades
-  DB.subjects.forEach(s=>{
-    ensureGrades(s, cls);
-    delete DB.grades[s][cls].t1[name];
-    delete DB.grades[s][cls].t2[name];
-  });
-
-  // delete parents logs
-  DB.parentsLogs = DB.parentsLogs.filter(x=> !(x.cls===cls && x.student===name));
-  save();
-}
-
-function renderGradesTable(){
-  const subject = $("subjectSelect2").value || DB.currentSubject;
-  const cls = $("classSelect2").value || DB.classes[0];
-  const term = $("termSelect").value;
-  const students = getStudents(cls);
-  ensureGrades(subject, cls);
-
-  let html = `
-    <tr>
-      <th style="width:60px">#</th>
-      <th>الطالبة</th>
-      <th style="width:150px">أدائي (40)</th>
-      <th style="width:150px">اختبار (60)</th>
-      <th style="width:120px">المجموع (100)</th>
-      <th style="width:170px">التصنيف</th>
-      <th style="width:220px">ملاحظة/مهارة ضعيفة (اختياري)</th>
-    </tr>
-  `;
-
-  students.forEach((st, i)=>{
-    const rec = getScore(subject, cls, term, st);
-    const total = typeof rec.total==="number" ? rec.total : "";
-    const c = (typeof total==="number") ? classify(total) : null;
-
-    html += `
-      <tr>
-        <td>${i+1}</td>
-        <td>${escapeHtml(st)}</td>
-        <td><input type="number" min="0" max="40" value="${rec.perf!==""?rec.perf:""}" oninput="onGrade('${escapeJs(subject)}','${escapeJs(cls)}','${term}','${escapeJs(st)}', this, 'perf')"></td>
-        <td><input type="number" min="0" max="60" value="${rec.exam!==""?rec.exam:""}" oninput="onGrade('${escapeJs(subject)}','${escapeJs(cls)}','${term}','${escapeJs(st)}', this, 'exam')"></td>
-        <td><span class="tag ${c?c.cls:""}">${c? (c.icon+" "+c.label+" • "+total) : (total!==""?total:"—")}</span></td>
-        <td>${c? `<span class="tag ${c.cls}">${c.icon} ${c.label}</span>` : `<span class="mut">—</span>`}</td>
-        <td><input placeholder="مثال: مهارة تحتاج دعم" value="${escapeHtml(DB.grades[subject][cls][term][st]?.note||"")}" oninput="setNote('${escapeJs(subject)}','${escapeJs(cls)}','${term}','${escapeJs(st)}', this.value)"></td>
-      </tr>
+function buildPeriodTable(period, tableId, classSelectId){
+  const classId = $(classSelectId).value;
+  const tb = document.querySelector(`#${tableId} tbody`);
+  tb.innerHTML="";
+  const st = getStudents(classId);
+  st.forEach((s,idx)=>{
+    const sc = getScore(period,classId,s.id);
+    const t = totalOf(sc);
+    const cl = classify100(t);
+    const tr=document.createElement("tr");
+    tr.innerHTML = `
+      <td>${idx+1}</td>
+      <td><b>${esc(s.name)}</b></td>
+      <td><input type="number" min="0" max="40" value="${esc(sc.perf)}" data-sc="${period}|${classId}|${s.id}|perf"></td>
+      <td><input type="number" min="0" max="60" value="${esc(sc.test)}" data-sc="${period}|${classId}|${s.id}|test"></td>
+      <td><b>${Number.isFinite(t)? t:0}</b></td>
+      <td><span class="pill ${cl.pill}">${cl.icon} ${cl.text}</span></td>
     `;
+    tb.appendChild(tr);
   });
 
-  if(students.length===0){
-    html += `<tr><td colspan="7" class="mut">لا توجد طالبات في هذا الفصل.</td></tr>`;
-  }
-
-  $("gradesTable").innerHTML = html;
-}
-
-function onGrade(subject, cls, term, student, input, kind){
-  const val = input.value;
-  const rec = getScore(subject, cls, term, student);
-  const perf = (kind==="perf") ? val : rec.perf;
-  const exam = (kind==="exam") ? val : rec.exam;
-  setScore(subject, cls, term, student, perf, exam);
-  // keep note
-  const oldNote = DB.grades[subject][cls][term][student]?.note;
-  if(oldNote) DB.grades[subject][cls][term][student].note = oldNote;
-  // save (auto)
-  save();
-}
-
-function setNote(subject, cls, term, student, note){
-  ensureGrades(subject, cls);
-  if(!DB.grades[subject][cls][term][student]) DB.grades[subject][cls][term][student] = {perf:0, exam:0, total:0};
-  DB.grades[subject][cls][term][student].note = (note||"");
-  // auto save but light
-  localStorage.setItem(KEY, JSON.stringify(DB));
-}
-
-function renderDash(){
-  // KPIs overall for current subject across all classes (final)
-  const subject = DB.currentSubject;
-  const allTotals = [];
-  let counts = {high:0, mid:0, low:0, total:0};
-
-  DB.classes.forEach(cls=>{
-    const students = getStudents(cls);
-    students.forEach(st=>{
-      const t = finalTotal(subject, cls, st);
-      if(typeof t==="number"){
-        allTotals.push(t);
-        counts.total++;
-        const c = classify(t);
-        if(c.cls==="ok") counts.high++;
-        else if(c.cls==="mid") counts.mid++;
-        else counts.low++;
-      }
-    });
+  tb.querySelectorAll("input[data-sc]").forEach(inp=>{
+    inp.oninput=()=>{
+      const [p,cid,sid,field] = inp.dataset.sc.split("|");
+      const cur = getScore(p,cid,sid);
+      cur[field]=inp.value;
+      setScore(p,cid,sid,cur.perf,cur.test);
+      // لا نحفظ كل ضغطة بشكل ثقيل؟ نحفظ فورًا لأنه مطلوب "لا ينحذف"
+      localStorage.setItem(KEY, JSON.stringify(DATA));
+      // تحديث سطر الجدول فقط بالتحليل عند الضغط على زر التحليل (لتخفيف)
+    };
   });
-
-  const overallAvg = avg(allTotals);
-  const mastery = counts.total ? Math.round((counts.high/counts.total)*100) : 0;
-
-  $("kpis").innerHTML = `
-    <div class="box"><div class="small">المادة الحالية</div><div class="n">${escapeHtml(DB.currentSubject)}</div></div>
-    <div class="box"><div class="small">عدد الفصول</div><div class="n">${DB.classes.length}</div></div>
-    <div class="box"><div class="small">عدد الطالبات</div><div class="n">${Object.values(DB.students).reduce((a,b)=>a+(b?.length||0),0)}</div></div>
-    <div class="box"><div class="small">متوسط النهائي</div><div class="n">${overallAvg??"—"}</div></div>
-    <div class="box"><div class="small">🟢 فوق المتوسط</div><div class="n">${counts.high}</div></div>
-    <div class="box"><div class="small">نسبة الإتقان (تقريب)</div><div class="n">${mastery}%</div></div>
-  `;
-
-  $("quickSummary").innerHTML = `
-    <b>المدرسة:</b> ${escapeHtml(DB.meta.school)}<br>
-    <b>المرحلة:</b> ${escapeHtml(DB.meta.stage)} — <b>العام:</b> ${escapeHtml(DB.meta.year)}<br>
-    <b>المادة:</b> ${escapeHtml(DB.currentSubject)}<br>
-    <b>متوسط النهائي:</b> ${overallAvg??"—"} / 100<br>
-    <b>التوزيع:</b> 🟢 ${counts.high} — 🟡 ${counts.mid} — 🔴 ${counts.low}
-  `;
-
-  // bar per class
-  const labels = [];
-  const values = [];
-  DB.classes.forEach(cls=>{
-    const st = getStudents(cls);
-    const ts = st.map(x=>finalTotal(subject, cls, x)).filter(x=>typeof x==="number");
-    labels.push(cls);
-    values.push(avg(ts) ?? 0);
-  });
-  drawBar($("barAll"), labels, values, "متوسط النهائي لكل فصل");
 }
 
-function renderAnalysis(){
-  const subject = $("subjectSelect3")?.value || DB.currentSubject;
-  const cls = $("classSelect3")?.value || DB.classes[0];
-  const mode = $("analysisMode")?.value || "t1";
-  const students = getStudents(cls);
+function updatePeriodAnalysis(period, classId, prefix){
+  const c = getClassById(classId);
+  const counts = calcCounts(period, classId);
+  $(prefix+"High").textContent = counts.high;
+  $(prefix+"Mid").textContent = counts.mid;
+  $(prefix+"Low").textContent = counts.low;
 
-  ensureGrades(subject, cls);
-
-  let totals = [];
-  let high=[], mid=[], low=[];
-  let missing=0;
-
-  students.forEach(st=>{
-    let t=null;
-    if(mode==="both") t = finalTotal(subject, cls, st);
-    else {
-      const rec = DB.grades[subject][cls][mode][st];
-      t = rec?.total;
-    }
-    if(typeof t==="number"){
-      totals.push(t);
-      const c = classify(t);
-      if(c.cls==="ok") high.push(st);
-      else if(c.cls==="mid") mid.push(st);
-      else low.push(st);
-    }else{
-      missing++;
-    }
-  });
-
-  const averageScore = avg(totals);
-  const mastery = totals.length ? Math.round((high.length/totals.length)*100) : 0;
-
-  $("kpis2").innerHTML = `
-    <div class="box"><div class="small">الفصل</div><div class="n">${escapeHtml(cls)}</div></div>
-    <div class="box"><div class="small">نطاق التحليل</div><div class="n">${mode==="t1"?"الفترة الأولى":mode==="t2"?"الفترة الثانية":"النهائي"}</div></div>
-    <div class="box"><div class="small">عدد الطالبات</div><div class="n">${students.length}</div></div>
-    <div class="box"><div class="small">متوسط الدرجات</div><div class="n">${averageScore??"—"}</div></div>
-    <div class="box"><div class="small">🟢 فوق المتوسط</div><div class="n">${high.length}</div></div>
-    <div class="box"><div class="small">نسبة الإتقان</div><div class="n">${mastery}%</div></div>
-  `;
-
-  // lists
-  $("listHigh").value = high.join("\n");
-  $("listMid").value  = mid.join("\n");
-  $("listLow").value  = low.join("\n");
+  const label = period==="p1" ? "الفترة الأولى" : "الفترة الثانية";
+  const txt = summarizeText(label, c?.name||"", counts);
+  $(period==="p1" ? "p1Text" : "p2Text").textContent = txt;
 
   // charts
-  const label = mode==="t1"?"الفترة الأولى":mode==="t2"?"الفترة الثانية":"النهائي (الفترتين)";
-  drawBar($("bar1"), ["🟢 فوق","🟡 ضمن","🔴 دون"], [high.length, mid.length, low.length], `توزيع التصنيف — ${label}`);
-  drawPie($("pie1"), [
-    {name:"فوق المتوسط", value:high.length},
-    {name:"ضمن المتوسط", value:mid.length},
-    {name:"دون المتوسط", value:low.length}
-  ], `نِسب التصنيف — ${label}`);
+  const labels = counts.totals.map(x=>x.name);
+  const vals = counts.totals.map(x=>x.total);
+  drawBar($(period==="p1" ? "cvP1Bar":"cvP2Bar"), labels, vals, 100);
+  drawPie($(period==="p1" ? "cvP1Pie":"cvP2Pie"), [
+    {name:"فوق", val:counts.high},
+    {name:"ضمن", val:counts.mid},
+    {name:"دون", val:counts.low}
+  ]);
 
-  // report
-  if(!$("reportText").value || $("reportText").dataset.autogen==="1"){
-    $("reportText").value = buildReportText({subject, cls, mode, averageScore, mastery, high, mid, low, missing});
-    $("reportText").dataset.autogen = "1";
+  // report auto
+  const repId = period==="p1" ? "p1Report":"p2Report";
+  if(!$(repId).value.trim()){
+    $(repId).value = txt + "\n\nالتحديات:\n- \n\nالتوصيات:\n- \n\nالمخرجات:\n- ";
   }
-
-  // also refresh dash KPIs
-  renderDash();
 }
 
-function buildReportText({subject, cls, mode, averageScore, mastery, high, mid, low, missing}){
-  const label = mode==="t1"?"الفترة الأولى":mode==="t2"?"الفترة الثانية":"النهائي للفترتين";
-  const recs = [];
-  if(low.length) recs.push("• تنفيذ حصص علاجية مركزة للطالبات دون المتوسط مع متابعة أسبوعية.");
-  if(mid.length) recs.push("• تقديم أنشطة دعم قصيرة (تدريبات + أوراق عمل) للطالبات ضمن المتوسط.");
-  if(high.length) recs.push("• تنفيذ برامج إثرائية (مشروع صغير/بحث/مسابقة تفاعلية) للطالبات فوق المتوسط.");
-  recs.push("• تفعيل أدوات تفاعلية: Wordwall / Quizizz / Kahoot وفق المهارات.");
-  recs.push("• التواصل مع أولياء الأمور للطالبات المحتاجات للدعم وتوثيق الإجراء.");
+function buildFinalTable(){
+  const classId = $("selClassFinal").value;
+  const tb = document.querySelector("#tbFinal tbody");
+  tb.innerHTML="";
+  const st = getStudents(classId);
 
-  return [
-    `تقرير تحليل نتائج مادة: ${subject}`,
-    `الفصل: ${cls} — النطاق: ${label}`,
-    `التاريخ: ${nowTs()}`,
-    ``,
-    `ملخص إحصائي:`,
-    `- متوسط الدرجات: ${averageScore??"—"} / 100`,
-    `- نسبة الإتقان (فوق المتوسط): ${mastery}%`,
-    `- توزيع التصنيف: 🟢 ${high.length} | 🟡 ${mid.length} | 🔴 ${low.length}`,
-    `- سجلات ناقصة (لم تُدخل درجات): ${missing}`,
-    ``,
-    `مواطن القوة:`,
-    `${high.length? "- ارتفاع نسبة المتفوقات وظهور إتقان جيد لدى شريحة من الطالبات.":"- تحتاج النتائج لتعزيز مواطن القوة بعد اكتمال إدخال الدرجات."}`,
-    ``,
-    `مواطن التحسين:`,
-    `${low.length? "- وجود طالبات دون المتوسط يستدعي خطة علاجية مرتبطة بالمهارات.":"- انخفاض عدد دون المتوسط (أو عدم وجودها) مؤشر إيجابي."}`,
-    ``,
-    `توصيات وخطة عمل:`,
-    ...recs,
-    ``,
-    `أسماء الطالبات دون المتوسط:`,
-    low.length? low.map(x=>`- ${x}`).join("\n") : "لا يوجد.",
-    ``,
-    `حقوق الطبع محفوظة — قابلة للتعديل حسب احتياج المدرسة والمعلمة.`
-  ].join("\n");
-}
-
-function renderSkills(){
-  const subject = $("subjectSelect4")?.value || DB.currentSubject;
-  const units = DB.skills[subject] || [];
-  $("unitSelect").innerHTML = units.map((u,i)=>`<option value="${i}">${escapeHtml(u.name)}</option>`).join("");
-  $("unitSelect2").innerHTML = units.map((u)=>`<option>${escapeHtml(u.name)}</option>`).join("");
-
-  const idx = Number($("unitSelect").value || 0);
-  const unit = units[idx] || units[0];
-
-  $("unitName").value = unit?.name || "";
-
-  // chips
-  const wrap = $("skillsChips");
-  wrap.innerHTML = "";
-  (unit?.skills||[]).forEach((s, i)=>{
-    const chip = document.createElement("span");
-    chip.className="chip";
-    chip.innerHTML = `
-      <input style="border:none;outline:none" value="${escapeHtml(s)}" oninput="editSkill(${idx},${i},this.value)">
-      <button title="حذف" onclick="removeSkill(${idx},${i})">✕</button>
+  st.forEach((s,idx)=>{
+    const t1 = totalOf(getScore("p1",classId,s.id));
+    const t2 = totalOf(getScore("p2",classId,s.id));
+    const fin = (t1+t2)/2;
+    const cl = classify100(fin);
+    const diff = (t2 - t1);
+    const trend = diff>0 ? `⬆️ +${diff.toFixed(1)}` : diff<0 ? `⬇️ ${diff.toFixed(1)}` : "➡️ 0";
+    const tr=document.createElement("tr");
+    tr.innerHTML=`
+      <td>${idx+1}</td>
+      <td><b>${esc(s.name)}</b></td>
+      <td>${t1.toFixed(0)}</td>
+      <td>${t2.toFixed(0)}</td>
+      <td><b>${fin.toFixed(1)}</b></td>
+      <td><span class="pill ${cl.pill}">${cl.icon} ${cl.text}</span></td>
+      <td>${trend}</td>
     `;
-    wrap.appendChild(chip);
+    tb.appendChild(tr);
   });
 
-  $("unitSelect").onchange = renderSkills;
-  $("subjectSelect4").onchange = ()=>{ DB.currentSubject = $("subjectSelect4").value; save(); };
-  $("unitSelect2").onchange = renderQuiz;
-  $("subjectSelect6").onchange = ()=>{ DB.currentSubject = $("subjectSelect6").value; save(); };
+  // charts + report
+  const labels = st.map(s=>s.name);
+  const vals = st.map(s=>avgFinal(classId,s.id));
+  drawBar($("cvFinalBar"), labels, vals, 100);
 
+  const counts = {high:0,mid:0,low:0};
+  vals.forEach(v=>{
+    const k=classify100(v).k;
+    if(k==="high") counts.high++; else if(k==="mid") counts.mid++; else counts.low++;
+  });
+  drawPie($("cvFinalPie"), [
+    {name:"فوق", val:counts.high},
+    {name:"ضمن", val:counts.mid},
+    {name:"دون", val:counts.low}
+  ]);
+
+  const c = getClassById(classId);
+  const avg = vals.length? (vals.reduce((a,b)=>a+b,0)/vals.length) : 0;
+  const best = vals.length? Math.max(...vals) : 0;
+  const bestIdx = vals.length? vals.indexOf(best) : -1;
+
+  const rep = `التقرير النهائي للفترتين — الفصل (${c?.name||""})
+- عدد الطالبات: ${st.length}
+- متوسط المعدل النهائي: ${avg.toFixed(1)} من 100
+- أعلى معدل: ${bestIdx>=0 ? labels[bestIdx]+" ("+best.toFixed(1)+")" : "—"}
+- توزيع التصنيف: فوق ${counts.high} | ضمن ${counts.mid} | دون ${counts.low}
+
+ملخص إداري:
+- تم تحليل نتائج الفترتين ورصد التحسن/التراجع.
+- يُوصى بتكثيف الدعم لدون المتوسط وربط العلاج بالمهارات الأساسية.
+- تفعيل الإثراء للمتفوقات وإتاحة مسابقات قصيرة بعد كل درس.
+
+التوصيات:
+- 
+المخرجات:
+- `;
+  if(!$("finalReport").value.trim()) $("finalReport").value = rep;
+
+  buildAllClassesSummary();
+}
+
+function buildAllClassesSummary(){
+  if(!DATA.classes.length){ $("allClassesSummary").textContent="لا توجد فصول."; return; }
+  const lines=[];
+  let bestAvg=-1, bestName="—";
+  let bestImprove=-1, bestImproveName="—";
+
+  DATA.classes.forEach(c=>{
+    const st = getStudents(c.id);
+    const avg1 = calcCounts("p1",c.id).avg;
+    const avg2 = calcCounts("p2",c.id).avg;
+    const fin = st.length? st.reduce((a,s)=>a+avgFinal(c.id,s.id),0)/st.length : 0;
+    const improve = avg2-avg1;
+
+    if(fin>bestAvg){ bestAvg=fin; bestName=c.name; }
+    if(improve>bestImprove){ bestImprove=improve; bestImproveName=c.name; }
+
+    lines.push(`- الفصل ${esc(c.name)}: متوسط ف1 ${avg1.toFixed(1)} | ف2 ${avg2.toFixed(1)} | نهائي ${fin.toFixed(1)} | تحسن ${(improve).toFixed(1)}`);
+  });
+
+  $("allClassesSummary").innerHTML = `
+  <b>ملخص الفصول:</b><br>${lines.join("<br>")}<br><br>
+  <b>أفضل متوسط نهائي:</b> ${esc(bestName)} (${bestAvg.toFixed(1)})<br>
+  <b>أعلى تحسن بين الفترتين:</b> ${esc(bestImproveName)} (${bestImprove.toFixed(1)})<br>
+  `;
+}
+
+/* =========================
+   Plans Generation
+========================= */
+function genPlans(){
+  const classId = $("selClassPlans").value;
+  const period = $("selPlanPeriod").value;
+  const c = getClassById(classId);
+  const st = getStudents(classId);
+
+  const pickTotal = (sid)=>{
+    if(period==="p1") return totalOf(getScore("p1",classId,sid));
+    if(period==="p2") return totalOf(getScore("p2",classId,sid));
+    return avgFinal(classId,sid);
+  };
+
+  const low = st.filter(s=> classify100(pickTotal(s.id)).k==="low");
+  const high = st.filter(s=> classify100(pickTotal(s.id)).k==="high");
+  const plus90 = st.filter(s=> pickTotal(s.id)>=90);
+
+  const remed = [];
+  remed.push(`الخطط العلاجية — ${period==="p1"?"الفترة الأولى":period==="p2"?"الفترة الثانية":"النهائي"} — الفصل (${c?.name||""})`);
+  remed.push(`عدد طالبات دون المتوسط: ${low.length}`);
+  remed.push("");
+  low.forEach((s,i)=>{
+    remed.push(`${i+1}) الطالبة: ${s.name}`);
+    remed.push(`- الهدف: رفع المستوى إلى ≥ 60/100 عبر تدريب مركز.`);
+    remed.push(`- الإجراء: شرح مختصر + ورقة عمل علاجية + نشاط تفاعلي + اختبار بعدي.`);
+    remed.push(`- متابعة ولي الأمر: رسالة/اتصال وتوثيق.`);
+    remed.push(`- قياس بعدي: اختبار قصير (5 أسئلة).`);
+    remed.push("");
+  });
+  if(low.length===0) remed.push("لا توجد طالبات دون المتوسط حاليًا.");
+
+  const enrich=[];
+  enrich.push(`الخطط الإثرائية — ${period==="p1"?"الفترة الأولى":period==="p2"?"الفترة الثانية":"النهائي"} — الفصل (${c?.name||""})`);
+  enrich.push(`عدد طالبات فوق المتوسط: ${high.length} — وعدد 90+: ${plus90.length}`);
+  enrich.push("");
+  high.forEach((s,i)=>{
+    enrich.push(`${i+1}) الطالبة: ${s.name}`);
+    enrich.push(`- نشاط إثرائي: تلخيص الدرس + أسئلة تفكير عليا + مسابقة قصيرة.`);
+    enrich.push(`- منصة/أداة: Wordwall أو Quizizz أو Kahoot.`);
+    enrich.push(`- مهمة ممتدة: بطاقة مفاهيم أو خريطة ذهنية للوحدة.`);
+    enrich.push("");
+  });
+  if(high.length===0) enrich.push("لا توجد طالبات فوق المتوسط حاليًا.");
+
+  $("txPlans").value = remed.join("\n");
+  $("txEnrich").value = enrich.join("\n");
+  save();
+}
+
+/* =========================
+   Skills
+========================= */
+function refreshSkills(){
+  const tb=$("tbSkills");
+  tb.innerHTML="";
+  DATA.skills.forEach((s,idx)=>{
+    const tr=document.createElement("tr");
+    tr.innerHTML = `
+      <td>${idx+1}</td>
+      <td>${esc(s.unit)}</td>
+      <td>${esc(s.text)}</td>
+      <td><button class="btn bad" data-del="${s.id}">حذف</button></td>
+    `;
+    tb.appendChild(tr);
+  });
+  tb.querySelectorAll("button[data-del]").forEach(b=>{
+    b.onclick=()=>{
+      const id=b.dataset.del;
+      DATA.skills = DATA.skills.filter(x=>x.id!==id);
+      save();
+    };
+  });
+
+  const sel=$("selSkillPick");
+  sel.innerHTML="";
+  DATA.skills.forEach(s=>{
+    const opt=document.createElement("option");
+    opt.value=s.id;
+    opt.textContent=`${s.unit} — ${s.text}`;
+    sel.appendChild(opt);
+  });
+}
+
+function suggestBySkill(){
+  const id = $("selSkillPick").value;
+  const sk = DATA.skills.find(x=>x.id===id);
+  if(!sk) return;
+  $("txSkillRemed").value =
+`المهارة: ${sk.text}
+الهدف: رفع إتقان الطالبة للمهارة إلى مستوى مقبول.
+الإجراءات:
+- شرح مركز للمهارة مع مثالين.
+- تدريب قصير (5–8 أسئلة) + تغذية راجعة فورية.
+- نشاط تفاعلي (Wordwall/Quizizz) مرتبط بالمهارة.
+- قياس بعدي (اختبار قصير) وتوثيق النتيجة.`;
+
+  $("txSkillEnrich").value =
+`المهارة: ${sk.text}
+نشاط إثرائي:
+- سؤال تفكير عليا + تطبيق واقعي.
+- مشروع مصغر: خريطة مفاهيم/ملخص بصري للمهارة.
+- مسابقة قصيرة بعد الدرس (Kahoot/Quizizz).
+- تكليف طالبة متفوقة بدور "مساند تعلم" لزميلاتها.`;
+}
+
+/* =========================
+   Awards
+========================= */
+function calcAwards(){
+  const classId=$("selClassAwards").value;
+  const c=getClassById(classId);
+  const st=getStudents(classId);
+  if(!st.length){ $("awardsBox").textContent="لا توجد طالبات."; return; }
+
+  // top final, top improvement, 90+
+  let best={name:"—", val:-1};
+  let improve={name:"—", val:-999};
+  const list90=[];
+
+  st.forEach(s=>{
+    const fin=avgFinal(classId,s.id);
+    if(fin>best.val){ best={name:s.name,val:fin}; }
+    const t1=totalOf(getScore("p1",classId,s.id));
+    const t2=totalOf(getScore("p2",classId,s.id));
+    const dif=t2-t1;
+    if(dif>improve.val){ improve={name:s.name,val:dif}; }
+    if(fin>=90) list90.push(`${s.name} (${fin.toFixed(1)})`);
+  });
+
+  $("awardsBox").innerHTML = `
+    <b>الفصل:</b> ${esc(c?.name||"")}<br><br>
+    🥇 <b>المتفوقة (نهائي):</b> ${esc(best.name)} — ${best.val.toFixed(1)}/100<br>
+    🚀 <b>أعلى تحسن (ف2-ف1):</b> ${esc(improve.name)} — ${improve.val.toFixed(1)}<br>
+    ⭐ <b>قائمة 90+:</b> ${list90.length? list90.join("، ") : "لا يوجد"}<br>
+  `;
+
+  $("txCertificates").value =
+`شهادة شكر وتقدير
+نُقدمها للطالبة/ ${best.name}
+نظير تفوقها وتميزها في مادة التوحيد للعام 1447هـ
+مع تمنياتنا لها بدوام النجاح والتفوق.
+
+المعلمة: سعاد صالح الغامدي
+المديرة: آمال باربود
+المدرسة: المتوسطة الثانية والأربعون والثانوية السادسة والثلاثون
+`;
+}
+
+/* =========================
+   Parents Logs
+========================= */
+function refreshParents(){
+  const tb=$("tbParents"); tb.innerHTML="";
+  DATA.parentLogs.slice().reverse().forEach((x)=>{
+    const tr=document.createElement("tr");
+    tr.innerHTML = `
+      <td>${esc(x.d)}</td>
+      <td>${esc(getClassById(x.classId)?.name||"")}</td>
+      <td>${esc(x.student)}</td>
+      <td>${esc(x.reason)}</td>
+      <td>${esc(x.action)}</td>
+      <td><button class="btn bad" data-del="${esc(x.id)}">حذف</button></td>
+    `;
+    tb.appendChild(tr);
+  });
+  tb.querySelectorAll("button[data-del]").forEach(b=>{
+    b.onclick=()=>{
+      const id=b.dataset.del;
+      DATA.parentLogs = DATA.parentLogs.filter(x=>x.id!==id);
+      save();
+    };
+  });
+}
+
+/* =========================
+   Quiz
+========================= */
+function refreshQBank(){
+  const tb=$("tbQBank"); tb.innerHTML="";
+  DATA.qbank.forEach((q,idx)=>{
+    const tr=document.createElement("tr");
+    tr.innerHTML = `
+      <td>${idx+1}</td>
+      <td>${esc(q.unit)}</td>
+      <td>${esc(q.q)}</td>
+      <td><button class="btn bad" data-del="${q.id}">حذف</button></td>
+    `;
+    tb.appendChild(tr);
+  });
+  tb.querySelectorAll("button[data-del]").forEach(b=>{
+    b.onclick=()=>{
+      const id=b.dataset.del;
+      DATA.qbank = DATA.qbank.filter(x=>x.id!==id);
+      save();
+    };
+  });
+
+  const units = [...new Set(DATA.qbank.map(x=>x.unit))].sort();
+  const sel=$("selQuizUnit");
+  sel.innerHTML="";
+  units.forEach(u=>{
+    const opt=document.createElement("option");
+    opt.value=u; opt.textContent=u;
+    sel.appendChild(opt);
+  });
+}
+
+let CURRENT_QUIZ = [];
+function genQuiz(){
+  const unit=$("selQuizUnit").value;
+  const n=clamp(toNum($("inpQuizN").value),1,50);
+  const pool = DATA.qbank.filter(x=>x.unit===unit);
+  if(!pool.length){ $("quizArea").innerHTML="لا توجد أسئلة لهذه الوحدة."; CURRENT_QUIZ=[]; return; }
+  // shuffle
+  const shuffled = pool.slice().sort(()=>Math.random()-0.5);
+  CURRENT_QUIZ = shuffled.slice(0, Math.min(n, shuffled.length));
   renderQuiz();
 }
-
-function editSkill(unitIdx, skillIdx, val){
-  const subject = $("subjectSelect4").value || DB.currentSubject;
-  DB.skills[subject][unitIdx].skills[skillIdx] = (val||"").trim();
-  localStorage.setItem(KEY, JSON.stringify(DB));
-}
-
-function removeSkill(unitIdx, skillIdx){
-  const subject = $("subjectSelect4").value || DB.currentSubject;
-  DB.skills[subject][unitIdx].skills.splice(skillIdx,1);
-  save();
-}
-
-function renderPlans(){
-  const subject = $("subjectSelect5")?.value || DB.currentSubject;
-  const cls = $("classSelect5")?.value || DB.classes[0];
-  const term = $("termSelect2")?.value || "t1";
-  if(!DB.plans[subject]) DB.plans[subject]={};
-  if(!DB.plans[subject][cls]) DB.plans[subject][cls]={};
-  if(!DB.plans[subject][cls][term]) DB.plans[subject][cls][term]={lowText:"", highText:""};
-
-  $("planLow").value = DB.plans[subject][cls][term].lowText || "";
-  $("planHigh").value = DB.plans[subject][cls][term].highText || "";
-}
-
 function renderQuiz(){
-  const subject = $("subjectSelect6")?.value || DB.currentSubject;
-  const unitName = $("unitSelect2")?.value || (DB.skills[subject]?.[0]?.name || "الوحدة الأولى");
-  const key = `${subject}::${unitName}`;
-  const q = DB.quizzes[key] || [];
-
-  const area = $("quizArea");
-  area.innerHTML = "";
-
-  if(q.length===0){
-    area.innerHTML = `<div class="mut">لا توجد أسئلة بعد. اضغطي "توليد مسابقة من المهارات".</div>`;
-    $("quizScore").textContent = "";
-    return;
-  }
-
-  q.forEach((qq, i)=>{
-    const card = document.createElement("div");
-    card.className="card";
-    card.style.borderRadius="14px";
-    card.innerHTML = `
-      <div class="row noPrint" style="justify-content:space-between;align-items:center">
-        <b>س${i+1}:</b>
-        <button class="btn2 danger" onclick="deleteQ('${escapeJs(key)}',${i})">حذف السؤال</button>
-      </div>
-      <div style="margin:8px 0">
-        <input value="${escapeHtml(qq.q)}" oninput="editQ('${escapeJs(key)}',${i},'q',this.value)">
-      </div>
-      <div class="mut">الخيارات (اختيار واحد صحيح):</div>
-      <div>
-        ${qq.options.map((op,j)=>`
-          <div class="row" style="align-items:center">
-            <label class="tag ${qq.correct===j?'ok':''}" style="cursor:pointer">
-              <input type="radio" name="q_${i}" ${qq.correct===j?'checked':''} onchange="setCorrect('${escapeJs(key)}',${i},${j})">
-              صحيح
-            </label>
-            <input style="flex:1" value="${escapeHtml(op)}" oninput="editOpt('${escapeJs(key)}',${i},${j},this.value)">
-          </div>
-        `).join("")}
-        <div class="row noPrint" style="margin-top:8px">
-          <button class="btn2" onclick="addOpt('${escapeJs(key)}',${i})">➕ إضافة خيار</button>
-        </div>
-      </div>
-    `;
-    area.appendChild(card);
+  const area=$("quizArea");
+  if(!CURRENT_QUIZ.length){ area.innerHTML=""; return; }
+  let html="";
+  CURRENT_QUIZ.forEach((q,i)=>{
+    html += `<div class="card" style="box-shadow:none;border:1px solid var(--bd);margin:10px 0">
+      <b>${i+1}) ${esc(q.q)}</b><br><br>
+      ${q.opts.map((o,ix)=>`
+        <label style="display:block;margin:6px 0">
+          <input type="radio" name="q_${i}" value="${ix}">
+          ${esc(o)}
+        </label>
+      `).join("")}
+    </div>`;
   });
-
-  $("quizScore").textContent = "";
+  area.innerHTML=html;
+  $("quizScore").textContent="";
 }
-
-function renderAwards(){
-  const subject = $("subjectSelect7")?.value || DB.currentSubject;
-  const cls = $("classSelect7")?.value || DB.classes[0];
-  const students = getStudents(cls);
-
-  // best final
-  let best=null, bestT=-1;
-  let improveBest=null, improveVal=-999;
-
-  const ranked = [];
-  students.forEach(st=>{
-    const f = finalTotal(subject, cls, st);
-    if(typeof f==="number"){
-      ranked.push({st, f});
-      if(f>bestT){ bestT=f; best=st; }
-    }
-    // improvement
-    ensureGrades(subject, cls);
-    const a = DB.grades[subject][cls].t1[st]?.total;
-    const b = DB.grades[subject][cls].t2[st]?.total;
-    if(typeof a==="number" && typeof b==="number"){
-      const diff = Math.round((b-a)*10)/10;
-      if(diff>improveVal){ improveVal=diff; improveBest=st; }
-    }
+function checkQuiz(){
+  if(!CURRENT_QUIZ.length){ $("quizScore").textContent="لا توجد مسابقة."; return; }
+  let score=0;
+  CURRENT_QUIZ.forEach((q,i)=>{
+    const sel=document.querySelector(`input[name="q_${i}"]:checked`);
+    if(sel && Number(sel.value)===q.correct) score++;
   });
-
-  ranked.sort((x,y)=>y.f-x.f);
-
-  $("bestStudent").innerHTML = best ? `<b>${escapeHtml(best)}</b> — ${bestT} / 100` : "لا توجد بيانات كافية.";
-  $("bestImprove").innerHTML = improveBest ? `<b>${escapeHtml(improveBest)}</b> — تحسن: ${improveVal>=0?"+":""}${improveVal}` : "لا توجد بيانات كافية (يستلزم ف1 وف2).";
-  $("top10").innerHTML = ranked.length ? ranked.slice(0,10).map((x,i)=>`${i+1}) ${escapeHtml(x.st)} — ${x.f}`).join("<br>") : "لا توجد بيانات بعد.";
+  $("quizScore").innerHTML = `النتيجة: <b>${score}</b> من <b>${CURRENT_QUIZ.length}</b>`;
 }
-
-function renderParentsStudentSelect(){
-  const cls = $("classSelectP")?.value || DB.classes[0];
-  const list = getStudents(cls);
-  $("studentSelectP").innerHTML = list.map(s=>`<option>${escapeHtml(s)}</option>`).join("");
-}
-
-function renderParents(){
-  renderParentsStudentSelect();
-  let html = `
-    <tr>
-      <th style="width:160px">الفصل</th>
-      <th>الطالبة</th>
-      <th>ولي الأمر</th>
-      <th>السبب</th>
-      <th>الإجراء</th>
-      <th style="width:170px">التاريخ</th>
-      <th style="width:120px" class="noPrint">حذف</th>
-    </tr>
-  `;
-  DB.parentsLogs.forEach((x, i)=>{
-    html += `
-      <tr>
-        <td>${escapeHtml(x.cls)}</td>
-        <td>${escapeHtml(x.student)}</td>
-        <td>${escapeHtml(x.parent)}</td>
-        <td>${escapeHtml(x.reason)}</td>
-        <td>${escapeHtml(x.action)}</td>
-        <td>${escapeHtml(x.ts)}</td>
-        <td class="noPrint"><button class="btn2 danger" onclick="delParent(${i})">حذف</button></td>
-      </tr>
-    `;
-  });
-  if(DB.parentsLogs.length===0){
-    html += `<tr><td colspan="7" class="mut">لا توجد سجلات بعد.</td></tr>`;
-  }
-  $("parentsTable").innerHTML = html;
-}
-
-function delParent(i){
-  DB.parentsLogs.splice(i,1);
-  save();
-}
-
-function renderLinks(){
-  $("srcList").innerHTML = DB.links.sources.map((x,i)=>`
-    <div style="margin:6px 0">
-      <a href="${escapeAttr(x.url)}" target="_blank">${escapeHtml(x.title)}</a>
-      <button class="btn2 danger noPrint" style="margin-inline-start:10px" onclick="delSrc(${i})">حذف</button>
-    </div>
-  `).join("");
-
-  $("gameList").innerHTML = DB.links.games.map((x,i)=>`
-    <div style="margin:6px 0">
-      <a href="${escapeAttr(x.url)}" target="_blank">${escapeHtml(x.title)}</a>
-      <button class="btn2 danger noPrint" style="margin-inline-start:10px" onclick="delGame(${i})">حذف</button>
-    </div>
-  `).join("");
-}
+function resetQuiz(){ CURRENT_QUIZ=[]; $("quizArea").innerHTML=""; $("quizScore").textContent=""; }
 
 /* =========================
-   4) CHARTS (no libraries)
+   Links
 ========================= */
-function drawBar(canvas, labels, values, title){
-  const ctx = canvas.getContext("2d");
-  const w = canvas.width, h = canvas.height;
-  ctx.clearRect(0,0,w,h);
-
-  // background
-  ctx.fillStyle = "#fff";
-  ctx.fillRect(0,0,w,h);
-
-  // title
-  ctx.fillStyle = "#0f172a";
-  ctx.font = "bold 14px Tahoma, Arial";
-  ctx.fillText(title, w-10, 20);
-
-  const pad = 40;
-  const maxV = Math.max(1, ...values.map(v=>Number(v)||0));
-  const barW = (w - pad*2) / Math.max(1, values.length) * 0.65;
-  const gap = (w - pad*2) / Math.max(1, values.length);
-
-  // axis
-  ctx.strokeStyle = "#e5e7eb";
-  ctx.beginPath();
-  ctx.moveTo(pad, h-pad);
-  ctx.lineTo(w-pad, h-pad);
-  ctx.stroke();
-
-  values.forEach((v, i)=>{
-    const val = Number(v)||0;
-    const x = w - pad - (i+0.5)*gap;
-    const bh = (h - pad*2) * (val / maxV);
-    const y = h - pad - bh;
-
-    // bar
-    ctx.fillStyle = "rgba(11,94,59,0.75)";
-    ctx.fillRect(x - barW/2, y, barW, bh);
-
-    // label
-    ctx.fillStyle="#334155";
-    ctx.font="12px Tahoma, Arial";
-    ctx.fillText(String(labels[i]), x+barW/2, h - pad + 16);
-
-    // value
-    ctx.fillStyle="#0f172a";
-    ctx.font="bold 12px Tahoma, Arial";
-    ctx.fillText(String(Math.round(val*10)/10), x+barW/2, y-6);
+function refreshLinks(){
+  const ulS=$("ulSources"); ulS.innerHTML="";
+  DATA.links.sources.forEach(l=>{
+    const li=document.createElement("li");
+    li.innerHTML = `<a href="${esc(l.url)}" target="_blank">${esc(l.title)}</a>`;
+    ulS.appendChild(li);
   });
-}
-
-function drawPie(canvas, parts, title){
-  const ctx = canvas.getContext("2d");
-  const w = canvas.width, h = canvas.height;
-  ctx.clearRect(0,0,w,h);
-  ctx.fillStyle="#fff";
-  ctx.fillRect(0,0,w,h);
-
-  ctx.fillStyle="#0f172a";
-  ctx.font="bold 14px Tahoma, Arial";
-  ctx.fillText(title, w-10, 20);
-
-  const total = parts.reduce((a,b)=>a+(Number(b.value)||0),0) || 1;
-  const cx = w*0.28, cy = h*0.58;
-  const r = Math.min(w,h)*0.28;
-
-  const colors = ["rgba(22,163,74,.75)","rgba(245,158,11,.75)","rgba(220,38,38,.75)","rgba(59,130,246,.75)"];
-
-  let ang = -Math.PI/2;
-  parts.forEach((p, i)=>{
-    const v = Number(p.value)||0;
-    const a = (v/total)*Math.PI*2;
-    ctx.beginPath();
-    ctx.moveTo(cx,cy);
-    ctx.arc(cx,cy,r,ang,ang+a);
-    ctx.closePath();
-    ctx.fillStyle = colors[i%colors.length];
-    ctx.fill();
-    ang += a;
+  const ulG=$("ulGames"); ulG.innerHTML="";
+  DATA.links.games.forEach(l=>{
+    const li=document.createElement("li");
+    li.innerHTML = `<a href="${esc(l.url)}" target="_blank">${esc(l.title)}</a>`;
+    ulG.appendChild(li);
   });
-
-  // legend
-  ctx.font="12px Tahoma, Arial";
-  let ly = 60;
-  parts.forEach((p, i)=>{
-    const v = Number(p.value)||0;
-    const pct = Math.round((v/total)*100);
-    ctx.fillStyle = colors[i%colors.length];
-    ctx.fillRect(w*0.55, ly-10, 12, 12);
-    ctx.fillStyle="#0f172a";
-    ctx.fillText(`${p.name} — ${v} (${pct}%)`, w*0.55 + 18, ly);
-    ly += 22;
+  const ulE=$("ulEnrichLinks"); ulE.innerHTML="";
+  DATA.links.enrich.forEach(l=>{
+    const li=document.createElement("li");
+    li.innerHTML = `<a href="${esc(l.url)}" target="_blank">${esc(l.title)}</a>`;
+    ulE.appendChild(li);
   });
 }
 
 /* =========================
-   5) ACTIONS / EVENTS
+   Export Word / Print
 ========================= */
-document.querySelectorAll(".tab").forEach(btn=>{
-  btn.addEventListener("click", ()=>setTab(btn.dataset.tab));
-});
+function exportWord(){
+  // نأخذ التقارير من الواجهات
+  const cls = $("selClassFinal").value || $("selClassGlobal").value || (DATA.classes[0]?.id||"");
+  const c = getClassById(cls);
+  const p1 = $("p1Report").value;
+  const p2 = $("p2Report").value;
+  const fin = $("finalReport").value;
+  const plans = $("txPlans").value;
+  const enrich = $("txEnrich").value;
 
-$("btnSave").onclick = ()=>{ save(); alert("تم الحفظ ✅"); };
-$("btnBackup").onclick = backupDownload;
-$("fileImport").addEventListener("change", (e)=>{
-  if(e.target.files && e.target.files[0]) restoreFromFile(e.target.files[0]);
-});
-$("btnPrint").onclick = ()=>window.print();
-
-$("btnReset").onclick = ()=>{
-  if(confirm("سيتم مسح جميع البيانات. هل أنت متأكدة؟")){
-    localStorage.removeItem(KEY);
-    DB = initDefaults(defaultData());
-    save();
-  }
-};
-
-$("btnAddSubject").onclick = ()=>{
-  const s = ($("newSubject").value||"").trim();
-  if(!s) return;
-  if(DB.subjects.includes(s)){ alert("المادة موجودة."); return; }
-  DB.subjects.push(s);
-  DB.currentSubject = s;
-  // default units 7
-  DB.skills[s] = [
-    {name:"الوحدة الأولى", skills:[]},
-    {name:"الوحدة الثانية", skills:[]},
-    {name:"الوحدة الثالثة", skills:[]},
-    {name:"الوحدة الرابعة", skills:[]},
-    {name:"الوحدة الخامسة", skills:[]},
-    {name:"الوحدة السادسة", skills:[]},
-    {name:"الوحدة السابعة", skills:[]}
-  ];
-  $("newSubject").value="";
-  save();
-};
-
-$("btnSaveSettings").onclick = ()=>{
-  DB.meta.teacher = $("tTeacher").value.trim();
-  DB.meta.leader  = $("tLeader").value.trim();
-  DB.meta.school  = $("tSchool").value.trim();
-  DB.meta.stage   = $("tStage").value.trim();
-  DB.meta.year    = $("tYear").value.trim();
-  save();
-  alert("تم حفظ البيانات ✅");
-};
-
-$("btnAddClass").onclick = ()=>{
-  const c = ($("newClass").value||"").trim();
-  if(!c) return;
-  if(DB.classes.includes(c)){ alert("الفصل موجود."); return; }
-  DB.classes.push(c);
-  DB.students[c]=[];
-  $("newClass").value="";
-  save();
-};
-
-$("btnDeleteClass").onclick = ()=>{
-  const cls = $("classSelect").value;
-  if(!cls) return;
-  if(DB.classes.length<=1){ alert("لا يمكن حذف آخر فصل."); return; }
-  if(confirm(`حذف الفصل ${cls}؟ سيتم حذف طالباته ودرجاته.`)){
-    DB.classes = DB.classes.filter(x=>x!==cls);
-    delete DB.students[cls];
-    // delete grades for all subjects
-    DB.subjects.forEach(s=>{
-      if(DB.grades[s]) delete DB.grades[s][cls];
-      if(DB.plans[s]) delete DB.plans[s][cls];
-    });
-    DB.parentsLogs = DB.parentsLogs.filter(x=>x.cls!==cls);
-    save();
-  }
-};
-
-$("btnAddStudent").onclick = ()=>{
-  const cls = $("classSelect").value;
-  const name = ($("newStudent").value||"").trim();
-  if(!cls) return;
-  if(!name) return;
-  if(DB.students[cls].includes(name)){ alert("الاسم موجود."); return; }
-  DB.students[cls].push(name);
-  $("newStudent").value="";
-  save();
-};
-
-$("btnBulkAdd").onclick = ()=>{
-  const cls = $("classSelect").value;
-  const raw = ($("bulkStudents").value||"").trim();
-  if(!cls || !raw) return;
-  const names = raw.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
-  names.forEach(n=>{
-    if(!DB.students[cls].includes(n)) DB.students[cls].push(n);
-  });
-  $("bulkStudents").value="";
-  save();
-};
-
-$("btnAutoSaveGrades").onclick = ()=>{ save(); alert("تم حفظ الدرجات ✅"); };
-
-$("btnFillZeros").onclick = ()=>{
-  const subject = $("subjectSelect2").value || DB.currentSubject;
-  const cls = $("classSelect2").value || DB.classes[0];
-  const term = $("termSelect").value;
-  const students = getStudents(cls);
-  students.forEach(st=>{
-    const rec = getScore(subject, cls, term, st);
-    const p = (rec.perf===""?0:rec.perf);
-    const e = (rec.exam===""?0:rec.exam);
-    setScore(subject, cls, term, st, p, e);
-  });
-  save();
-};
-
-$("btnRefreshAnalysis").onclick = renderAnalysis;
-$("btnRegenReport").onclick = ()=>{
-  $("reportText").value = buildReportText({
-    subject:$("subjectSelect3").value || DB.currentSubject,
-    cls:$("classSelect3").value || DB.classes[0],
-    mode:$("analysisMode").value,
-    averageScore: avg([]),
-    mastery:0,
-    high: $("listHigh").value.split("\n").filter(Boolean),
-    mid: $("listMid").value.split("\n").filter(Boolean),
-    low: $("listLow").value.split("\n").filter(Boolean),
-    missing:0
-  });
-  $("reportText").dataset.autogen="1";
-  renderAnalysis();
-};
-
-$("btnWordFromReport").onclick = ()=> exportWord($("reportText").value, "تقرير_تحليل");
-$("btnWord").onclick = ()=>{
-  // export a combined report (current analysis content)
-  const txt = $("reportText").value || "تقرير";
-  exportWord(txt, "تقرير_منصة_الإتقان");
-};
-
-function exportWord(text, filename){
   const html = `
-    <html dir="rtl" lang="ar"><head><meta charset="utf-8">
-    <style>
-      body{font-family:Tahoma,Arial;line-height:1.8}
-      h1{color:#0b5e3b}
-      pre{white-space:pre-wrap;font-family:Tahoma,Arial}
-    </style></head><body>
-    <h1>${escapeHtml(filename)}</h1>
-    <pre>${escapeHtml(text)}</pre>
-    </body></html>
-  `;
-  const blob = new Blob([html], {type:"application/msword"});
+  <html dir="rtl" lang="ar"><head><meta charset="UTF-8"></head><body style="font-family:Tahoma">
+    <h2 style="text-align:center">تقرير منصة الإتقان الذكي — 1447</h2>
+    <p style="text-align:center">
+      المعلمة: سعاد صالح الغامدي<br>
+      المديرة: آمال باربود<br>
+      المدرسة: المتوسطة الثانية والأربعون والثانوية السادسة والثلاثون<br>
+      الفصل: ${(c?.name||"")}<br>
+    </p>
+    <hr>
+    <h3>تقرير الفترة الأولى</h3><pre>${esc(p1)}</pre>
+    <hr>
+    <h3>تقرير الفترة الثانية</h3><pre>${esc(p2)}</pre>
+    <hr>
+    <h3>التقرير النهائي للفترتين</h3><pre>${esc(fin)}</pre>
+    <hr>
+    <h3>الخطط العلاجية</h3><pre>${esc(plans)}</pre>
+    <hr>
+    <h3>الخطط الإثرائية</h3><pre>${esc(enrich)}</pre>
+    <hr>
+    <p style="text-align:center">جميع الحقوق محفوظة — قابل للتعديل</p>
+  </body></html>`;
+
+  const blob = new Blob([html], {type:"application/msword;charset=utf-8"});
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
-  a.href=url;
-  a.download = `${filename}.doc`;
+  a.href = url;
+  a.download = "تقرير_الإتقان_الذكي_1447.doc";
+  document.body.appendChild(a);
   a.click();
+  a.remove();
   URL.revokeObjectURL(url);
 }
 
-$("btnAddUnit").onclick = ()=>{
-  const subject = $("subjectSelect4").value || DB.currentSubject;
-  DB.skills[subject].push({name:`وحدة جديدة ${DB.skills[subject].length+1}`, skills:[]});
-  save();
-};
+/* =========================
+   Charts (No external libs)
+========================= */
+function clearCv(cv){
+  const ctx=cv.getContext("2d");
+  ctx.clearRect(0,0,cv.width,cv.height);
+  return ctx;
+}
+function drawBar(cv, labels, values, maxY=100){
+  const ctx=clearCv(cv);
+  const w=cv.width, h=cv.height;
+  const pad=40;
+  // axes
+  ctx.strokeStyle="#cbd5e1"; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(pad,10); ctx.lineTo(pad,h-pad); ctx.lineTo(w-10,h-pad); ctx.stroke();
 
-$("btnDeleteUnit").onclick = ()=>{
-  const subject = $("subjectSelect4").value || DB.currentSubject;
-  const idx = Number($("unitSelect").value || 0);
-  if(DB.skills[subject].length<=1){ alert("لا يمكن حذف آخر وحدة."); return; }
-  if(confirm("حذف الوحدة؟")){
-    DB.skills[subject].splice(idx,1);
-    save();
-  }
-};
-
-$("unitName").oninput = ()=>{
-  const subject = $("subjectSelect4").value || DB.currentSubject;
-  const idx = Number($("unitSelect").value || 0);
-  DB.skills[subject][idx].name = $("unitName").value;
-  localStorage.setItem(KEY, JSON.stringify(DB));
-  renderSkills();
-};
-
-$("btnAddSkill").onclick = ()=>{
-  const subject = $("subjectSelect4").value || DB.currentSubject;
-  const idx = Number($("unitSelect").value || 0);
-  const skill = ($("newSkill").value||"").trim();
-  if(!skill) return;
-  DB.skills[subject][idx].skills.push(skill);
-  $("newSkill").value="";
-  save();
-};
-
-$("btnAutoSkills").onclick = ()=>{
-  const subject = $("subjectSelect4").value || DB.currentSubject;
-  const idx = Number($("unitSelect").value || 0);
-  const raw = ($("pasteText").value||"").trim();
-  if(!raw){ alert("الصقي نصًا أولاً."); return; }
-  // heuristic: split lines, pick meaningful items as skills
-  const lines = raw.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
-  const skills = [];
-  lines.forEach(l=>{
-    // remove bullets
-    l = l.replace(/^[-•\d\)\(]+/g,"").trim();
-    // keep medium length phrases
-    if(l.length>=6 && l.length<=120){
-      // convert to "مهارة" style: start with فعل (تقريبي) if missing
-      skills.push(l);
-    }
+  const n=values.length || 1;
+  const bw = Math.max(12, (w - pad - 30) / n - 8);
+  labels.forEach((lab,i)=>{
+    const x = pad + 10 + i * (bw+8);
+    const v = clamp(values[i]||0,0,maxY);
+    const bh = (h - pad - 20) * (v / maxY);
+    // bar
+    ctx.fillStyle = "#0b5e3b";
+    ctx.fillRect(x, (h-pad) - bh, bw, bh);
+    // label
+    ctx.fillStyle="#334155"; ctx.font="12px Tahoma";
+    const t = (lab||"").slice(0,8);
+    ctx.fillText(t, x, h - pad + 16);
+    // value
+    ctx.fillStyle="#111827"; ctx.font="12px Tahoma";
+    ctx.fillText(v.toFixed(0), x, (h-pad)-bh-6);
   });
-  // de-dup + limit 25
-  const uniq = Array.from(new Set(skills)).slice(0,25);
-  DB.skills[subject][idx].skills = uniq.length ? uniq : DB.skills[subject][idx].skills;
-  save();
-};
+  ctx.fillStyle="#64748b"; ctx.font="12px Tahoma";
+  ctx.fillText("0", 8, h-pad+4);
+  ctx.fillText(maxY.toString(), 4, 16);
+}
+function drawBar3(cv, labels, series, maxY=100){
+  const ctx=clearCv(cv);
+  const w=cv.width, h=cv.height;
+  const pad=40;
+  ctx.strokeStyle="#cbd5e1"; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(pad,10); ctx.lineTo(pad,h-pad); ctx.lineTo(w-10,h-pad); ctx.stroke();
 
-$("btnClearPaste").onclick = ()=>{ $("pasteText").value=""; };
+  const n=labels.length || 1;
+  const groups=series.length;
+  const groupW = Math.max(30, (w - pad - 30) / n - 10);
+  const bw = (groupW-8)/groups;
 
-$("btnSaveSkills").onclick = ()=>{ save(); alert("تم حفظ الوحدات والمهارات ✅"); };
-
-$("btnGenPlans").onclick = ()=>{
-  const subject = $("subjectSelect5").value || DB.currentSubject;
-  const cls = $("classSelect5").value || DB.classes[0];
-  const term = $("termSelect2").value || "t1";
-  const students = getStudents(cls);
-  ensureGrades(subject, cls);
-
-  // get unit+skills (all units)
-  const allSkills = (DB.skills[subject]||[]).flatMap(u=>u.skills||[]).filter(Boolean);
-  const focusSkills = allSkills.slice(0,8);
-
-  // classify in this term
-  const lows=[], highs=[];
-  students.forEach(st=>{
-    const t = DB.grades[subject][cls][term][st]?.total;
-    if(typeof t==="number"){
-      const c = classify(t);
-      if(c.cls==="low") lows.push(st);
-      if(c.cls==="ok") highs.push(st);
-    }
+  const colors=["#0b5e3b","#16a34a","#f59e0b"];
+  labels.forEach((lab,i)=>{
+    const gx = pad + 10 + i*(groupW+10);
+    series.forEach((s,si)=>{
+      const v = clamp(s.vals[i]||0,0,maxY);
+      const bh = (h - pad - 20) * (v/maxY);
+      ctx.fillStyle=colors[si%colors.length];
+      ctx.fillRect(gx+si*bw, (h-pad)-bh, bw-2, bh);
+    });
+    ctx.fillStyle="#334155"; ctx.font="12px Tahoma";
+    ctx.fillText((lab||"").slice(0,8), gx, h-pad+16);
   });
 
-  const lowText = [
-    `خطة علاجية — ${subject} — ${cls} — ${term==="t1"?"الفترة الأولى":"الفترة الثانية"}`,
-    ``,
-    `الفئة المستهدفة (دون المتوسط):`,
-    lows.length? lows.map(x=>`- ${x}`).join("\n") : "لا يوجد (أو لم تُدخل الدرجات).",
-    ``,
-    `أهداف الخطة:`,
-    `- معالجة الفاقد التعليمي ورفع مستوى الإتقان للمهارات الأساسية.`,
-    `- تدريب مركّز + قياس قبلي/بعدي.`,
-    ``,
-    `المهارات المستهدفة (قابلة للتعديل):`,
-    focusSkills.length? focusSkills.map(s=>`- ${s}`).join("\n") : "- (أضيفي مهارات من قسم الوحدات والمهارات).",
-    ``,
-    `إجراءات مقترحة:`,
-    `- إعادة شرح مبسط + أمثلة محلولة.`,
-    `- أوراق عمل قصيرة + واجب علاجي.`,
-    `- نشاط تفاعلي: Wordwall / Quizizz.`,
-    `- اختبار قصير أسبوعي (10 درجات) ومتابعة التقدم.`,
-    ``,
-    `مصادر وروابط:`,
-    `- منصة عين: https://ien.edu.sa`,
-    `- مدرستي: https://schools.madrasati.sa`,
-    `- Wordwall: https://wordwall.net`,
-    `- Quizizz: https://quizizz.com`,
-    ``,
-    `قياس بعدي:`,
-    `- اختبار بعدي + مقارنة النتائج + توثيق التحسن.`,
-  ].join("\n");
+  // legend
+  ctx.font="12px Tahoma";
+  series.forEach((s,si)=>{
+    const x=pad+10+si*120, y=18;
+    ctx.fillStyle=colors[si%colors.length];
+    ctx.fillRect(x,y-10,10,10);
+    ctx.fillStyle="#111827";
+    ctx.fillText(s.name, x+14, y);
+  });
+}
+function drawPie(cv, parts){
+  const ctx=clearCv(cv);
+  const w=cv.width, h=cv.height;
+  const cx=w/2, cy=h/2;
+  const r=Math.min(w,h)*0.33;
+  const sum=parts.reduce((a,b)=>a+(b.val||0),0) || 1;
 
-  const highText = [
-    `خطة إثرائية — ${subject} — ${cls} — ${term==="t1"?"الفترة الأولى":"الفترة الثانية"}`,
-    ``,
-    `الفئة المستهدفة (فوق المتوسط):`,
-    highs.length? highs.map(x=>`- ${x}`).join("\n") : "لا يوجد (أو لم تُدخل الدرجات).",
-    ``,
-    `أهداف الخطة:`,
-    `- تنمية مهارات التفكير العليا وتعميق الفهم.`,
-    `- توظيف المعرفة في مواقف جديدة.`,
-    ``,
-    `أنشطة إثرائية مقترحة:`,
-    `- مشروع صغير/ملصق/عرض تقديمي.`,
-    `- مناظرة/مناقشة صفية حول مفهوم من الوحدة.`,
-    `- مسابقة تفاعلية: Kahoot / Blooket.`,
-    `- إعداد أسئلة اختيار من متعدد للزميلات.`,
-    ``,
-    `مهارات للتوسّع (قابلة للتعديل):`,
-    focusSkills.length? focusSkills.map(s=>`- تطبيق/تحليل: ${s}`).join("\n") : "- (أضيفي مهارات من قسم الوحدات والمهارات).",
-    ``,
-    `روابط:`,
-    `- Kahoot: https://kahoot.com`,
-    `- Blooket: https://www.blooket.com`,
-    `- Wordwall: https://wordwall.net`,
-  ].join("\n");
-
-  if(!DB.plans[subject]) DB.plans[subject]={};
-  if(!DB.plans[subject][cls]) DB.plans[subject][cls]={};
-  DB.plans[subject][cls][term] = {lowText, highText};
-
-  save();
-  alert("تم توليد الخطط ✅");
-};
-
-$("btnSavePlans").onclick = ()=>{
-  const subject = $("subjectSelect5").value || DB.currentSubject;
-  const cls = $("classSelect5").value || DB.classes[0];
-  const term = $("termSelect2").value || "t1";
-  if(!DB.plans[subject]) DB.plans[subject]={};
-  if(!DB.plans[subject][cls]) DB.plans[subject][cls]={};
-  DB.plans[subject][cls][term] = {lowText:$("planLow").value, highText:$("planHigh").value};
-  save();
-  alert("تم حفظ الخطط ✅");
-};
-
-$("btnGenQuiz").onclick = ()=>{
-  const subject = $("subjectSelect6").value || DB.currentSubject;
-  const unitName = $("unitSelect2").value || (DB.skills[subject]?.[0]?.name || "الوحدة الأولى");
-  const key = `${subject}::${unitName}`;
-  const unit = (DB.skills[subject]||[]).find(u=>u.name===unitName) || DB.skills[subject]?.[0];
-
-  const skills = (unit?.skills||[]).filter(Boolean);
-  if(skills.length===0){ alert("لا توجد مهارات في هذه الوحدة. أضيفي مهارات أولاً."); return; }
-
-  // generate MCQ from skills (simple template)
-  const questions = skills.slice(0,8).map(s=>{
-    const correct = `المقصود بـ ${s}`;
-    const wrong1 = `عكس مفهوم ${s}`;
-    const wrong2 = `مثال غير صحيح عن ${s}`;
-    const wrong3 = `تعريف غير دقيق لـ ${s}`;
-    const opts = shuffle([correct, wrong1, wrong2, wrong3]);
-    const cidx = opts.indexOf(correct);
-    return {q:`اختر العبارة الأدق المتعلقة بالمهارة: (${s})`, options:opts, correct:cidx, user:null};
+  const colors=["#16a34a","#f59e0b","#dc2626","#0b5e3b","#64748b"];
+  let a0 = -Math.PI/2;
+  parts.forEach((p,i)=>{
+    const v=(p.val||0);
+    const ang = (v/sum)*Math.PI*2;
+    ctx.beginPath();
+    ctx.moveTo(cx,cy);
+    ctx.arc(cx,cy,r,a0,a0+ang);
+    ctx.closePath();
+    ctx.fillStyle=colors[i%colors.length];
+    ctx.fill();
+    a0 += ang;
   });
 
-  DB.quizzes[key] = questions;
-  save();
-  alert("تم توليد المسابقة ✅");
-};
-
-$("btnClearQuiz").onclick = ()=>{
-  const subject = $("subjectSelect6").value || DB.currentSubject;
-  const unitName = $("unitSelect2").value || (DB.skills[subject]?.[0]?.name || "الوحدة الأولى");
-  const key = `${subject}::${unitName}`;
-  if(confirm("مسح المسابقة؟")){
-    delete DB.quizzes[key];
-    save();
-  }
-};
-
-$("btnSaveQuiz").onclick = ()=>{ save(); alert("تم حفظ المسابقة ✅"); };
-
-$("btnCheckQuiz").onclick = ()=>{
-  const subject = $("subjectSelect6").value || DB.currentSubject;
-  const unitName = $("unitSelect2").value || (DB.skills[subject]?.[0]?.name || "الوحدة الأولى");
-  const key = `${subject}::${unitName}`;
-  const q = DB.quizzes[key] || [];
-  if(q.length===0) return;
-  let correct=0;
-  q.forEach(x=>{
-    if(x.user===x.correct) correct++;
+  // legend
+  ctx.font="14px Tahoma";
+  parts.forEach((p,i)=>{
+    const x=20, y=30+i*22;
+    ctx.fillStyle=colors[i%colors.length];
+    ctx.fillRect(x,y-12,12,12);
+    ctx.fillStyle="#111827";
+    ctx.fillText(`${p.name}: ${p.val||0}`, x+18, y);
   });
-  $("quizScore").textContent = `النتيجة: ${correct} / ${q.length}`;
-};
-
-function deleteQ(key, idx){
-  const k = key;
-  DB.quizzes[k].splice(idx,1);
-  save();
 }
-
-function editQ(key, idx, field, val){
-  DB.quizzes[key][idx][field] = val;
-  localStorage.setItem(KEY, JSON.stringify(DB));
-}
-
-function editOpt(key, idx, j, val){
-  DB.quizzes[key][idx].options[j] = val;
-  localStorage.setItem(KEY, JSON.stringify(DB));
-}
-
-function addOpt(key, idx){
-  DB.quizzes[key][idx].options.push("خيار جديد");
-  save();
-}
-
-function setCorrect(key, idx, j){
-  DB.quizzes[key][idx].correct = j;
-  save();
-}
-
-function shuffle(arr){
-  const a = arr.slice();
-  for(let i=a.length-1;i>0;i--){
-    const j = Math.floor(Math.random()*(i+1));
-    [a[i],a[j]]=[a[j],a[i]];
-  }
-  return a;
-}
-
-$("btnRefreshAwards").onclick = ()=>{ renderAwards(); alert("تم تحديث التكريم ✅"); };
-
-$("btnAddParentLog").onclick = ()=>{
-  const cls = $("classSelectP").value;
-  const student = $("studentSelectP").value;
-  const parent = ($("parentName").value||"").trim();
-  const reason = ($("parentReason").value||"").trim();
-  const action = ($("parentAction").value||"").trim();
-  if(!cls || !student) { alert("اختاري فصل وطالبة."); return; }
-  DB.parentsLogs.unshift({cls, student, parent, reason, action, ts: nowTs()});
-  $("parentName").value=""; $("parentReason").value=""; $("parentAction").value="";
-  save();
-};
-
-$("btnSaveParents").onclick = ()=>{ save(); alert("تم حفظ سجلات أولياء الأمور ✅"); };
-
-$("btnAddSrc").onclick = ()=>{
-  const title = ($("srcTitle").value||"").trim();
-  const url = ($("srcUrl").value||"").trim();
-  if(!title || !url) return;
-  DB.links.sources.push({title, url});
-  $("srcTitle").value=""; $("srcUrl").value="";
-  save();
-};
-function delSrc(i){ DB.links.sources.splice(i,1); save(); }
-
-$("btnAddGame").onclick = ()=>{
-  const title = ($("gameTitle").value||"").trim();
-  const url = ($("gameUrl").value||"").trim();
-  if(!title || !url) return;
-  DB.links.games.push({title, url});
-  $("gameTitle").value=""; $("gameUrl").value="";
-  save();
-};
-function delGame(i){ DB.links.games.splice(i,1); save(); }
-
-$("btnSaveLinks").onclick = ()=>{ save(); alert("تم حفظ الروابط ✅"); };
 
 /* =========================
-   6) QUIZ USER ANSWERS (click handling)
-   We store user choice by listening to click events inside quiz cards
+   Wire Events
 ========================= */
-document.addEventListener("change", (e)=>{
-  // handle quiz radios: name="q_i"
-  const t = e.target;
-  if(t && t.name && t.name.startsWith("q_")){
-    const idx = Number(t.name.split("_")[1]);
-    // find current quiz key
-    const subject = $("subjectSelect6")?.value || DB.currentSubject;
-    const unitName = $("unitSelect2")?.value || (DB.skills[subject]?.[0]?.name || "الوحدة الأولى");
-    const key = `${subject}::${unitName}`;
-    // the "صح" radio is separate; user answer is stored from options editing UI? we use click on "صح" labels only for correct key editing.
-    // For student answering, we provide quick check only; (optional) you can add answering UI later.
+$("btnAddClass").onclick=()=>{
+  const name=($("inpClassName").value||"").trim();
+  if(!name) return alert("اكتبي اسم الفصل");
+  DATA.classes.push({id:uid(), name, students:[]});
+  $("inpClassName").value="";
+  save();
+};
+
+$("selClassStudents").onchange=()=>refreshStudents();
+$("btnAddStudent").onclick=()=>{
+  const classId=$("selClassStudents").value;
+  const c=getClassById(classId);
+  if(!c) return alert("اختاري فصل");
+  const name=($("inpStudentName").value||"").trim();
+  if(!name) return alert("اكتبي اسم الطالبة");
+  c.students.push({id:uid(), name});
+  $("inpStudentName").value="";
+  save();
+};
+
+$("selClassP1").onchange=()=>buildPeriodTable("p1","tbP1","selClassP1");
+$("selClassP2").onchange=()=>buildPeriodTable("p2","tbP2","selClassP2");
+$("btnCalcP1").onclick=()=>{
+  const classId=$("selClassP1").value;
+  buildPeriodTable("p1","tbP1","selClassP1");
+  updatePeriodAnalysis("p1",classId,"p1");
+  save();
+};
+$("btnCalcP2").onclick=()=>{
+  const classId=$("selClassP2").value;
+  buildPeriodTable("p2","tbP2","selClassP2");
+  updatePeriodAnalysis("p2",classId,"p2");
+  save();
+};
+
+$("selClassFinal").onchange=()=>buildFinalTable();
+$("btnCalcFinal").onclick=()=>{ buildFinalTable(); save(); };
+
+$("selClassPlans").onchange=()=>{};
+$("btnGenPlans").onclick=()=>{ genPlans(); };
+
+$("btnAddSkill").onclick=()=>{
+  const unit=($("inpSkillUnit").value||"").trim();
+  const text=($("inpSkillText").value||"").trim();
+  if(!unit||!text) return alert("اكتبي الوحدة والمهارة");
+  DATA.skills.push({id:uid(),unit,text});
+  $("inpSkillUnit").value=""; $("inpSkillText").value="";
+  save();
+};
+$("btnSuggestBySkill").onclick=()=>{ suggestBySkill(); save(); };
+
+$("btnCalcAwards").onclick=()=>{ calcAwards(); save(); };
+
+$("btnAddParentLog").onclick=()=>{
+  const classId=$("selClassParents").value;
+  const student=($("inpParentStudent").value||"").trim();
+  const reason=($("inpParentReason").value||"").trim();
+  const action=($("inpParentAction").value||"").trim();
+  if(!student||!reason||!action) return alert("اكتبي (الطالبة/السبب/الإجراء)");
+  DATA.parentLogs.push({id:uid(), d:new Date().toLocaleDateString("ar-SA"), classId, student, reason, action});
+  $("inpParentStudent").value=""; $("inpParentReason").value=""; $("inpParentAction").value="";
+  save();
+};
+
+$("btnAddQ").onclick=()=>{
+  const unit=($("inpQUnit").value||"").trim();
+  const q=($("inpQText").value||"").trim();
+  const opts=[ $("inpA1").value, $("inpA2").value, $("inpA3").value, $("inpA4").value ].map(x=>(x||"").trim());
+  const correct=Number($("selCorrect").value);
+  if(!unit||!q||opts.some(o=>!o)) return alert("أكملي بيانات السؤال والخيارات");
+  DATA.qbank.push({id:uid(), unit, q, opts, correct});
+  $("inpQUnit").value=""; $("inpQText").value=""; $("inpA1").value=""; $("inpA2").value=""; $("inpA3").value=""; $("inpA4").value="";
+  save();
+};
+
+$("btnGenQuiz").onclick=()=>{ genQuiz(); save(); };
+$("btnCheckQuiz").onclick=()=>{ checkQuiz(); };
+$("btnResetQuiz").onclick=()=>{ resetQuiz(); };
+
+$("btnWord").onclick=()=>exportWord();
+$("btnPrint").onclick=()=>window.print();
+
+$("btnBackup").onclick=()=>{
+  const txt = JSON.stringify(DATA);
+  prompt("انسخي هذا النص كنسخة احتياطية (احتفظي به في Notes):", txt);
+};
+$("btnRestore").onclick=()=>{
+  const txt = prompt("الصقي النسخة الاحتياطية هنا لاسترجاع البيانات:");
+  if(!txt) return;
+  try{ DATA = JSON.parse(txt); save(); alert("تم الاسترجاع"); }
+  catch(e){ alert("النسخة غير صحيحة"); }
+};
+$("btnReset").onclick=()=>{
+  if(!confirm("إعادة ضبط كاملة؟ سيتم حذف كل البيانات من هذا الجهاز.")) return;
+  localStorage.removeItem(KEY);
+  DATA = defaultData();
+  save();
+};
+
+/* =========================
+   Global quick buttons
+========================= */
+$("btnGoP1").onclick=()=>{ openPage("p1"); };
+$("btnGoP2").onclick=()=>{ openPage("p2"); };
+
+/* =========================
+   Refresh All
+========================= */
+function refreshAll(){
+  // Fill selects
+  const sels = [
+    $("selClassGlobal"), $("selClassStudents"), $("selClassP1"), $("selClassP2"),
+    $("selClassFinal"), $("selClassPlans"), $("selClassAwards"), $("selClassParents")
+  ];
+  sels.forEach(sel=>fillClassSelect(sel));
+
+  refreshKPI();
+  refreshDash();
+  refreshClassesTable();
+  refreshStudents();
+
+  // build period tables
+  if(DATA.classes.length){
+    buildPeriodTable("p1","tbP1","selClassP1");
+    buildPeriodTable("p2","tbP2","selClassP2");
+    buildFinalTable();
+  } else {
+    document.querySelector("#tbP1 tbody").innerHTML="";
+    document.querySelector("#tbP2 tbody").innerHTML="";
+    document.querySelector("#tbFinal tbody").innerHTML="";
   }
+
+  // skills + quiz + links + parents
+  refreshSkills();
+  refreshQBank();
+  refreshLinks();
+  refreshParents();
+
+  // if p1/p2 analysis already done earlier, keep; otherwise show empty
+  if(DATA.classes.length){
+    const c1=$("selClassP1").value; if(c1) updatePeriodAnalysis("p1",c1,"p1");
+    const c2=$("selClassP2").value; if(c2) updatePeriodAnalysis("p2",c2,"p2");
+  }
+}
+refreshAll();
+
+/* =========================
+   Tiny Fixes for empty class selects
+========================= */
+document.querySelectorAll("select").forEach(sel=>{
+  sel.addEventListener("change", ()=> {
+    if(sel.id==="selClassStudents") refreshStudents();
+    if(sel.id==="selClassP1") buildPeriodTable("p1","tbP1","selClassP1");
+    if(sel.id==="selClassP2") buildPeriodTable("p2","tbP2","selClassP2");
+    if(sel.id==="selClassFinal") buildFinalTable();
+  });
 });
-
-/* =========================
-   7) SECURITY ESCAPES
-========================= */
-function escapeHtml(s){
-  return String(s??"").replace(/[&<>"']/g, m=>({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[m]));
-}
-function escapeAttr(s){ return escapeHtml(s).replace(/"/g,"&quot;"); }
-function escapeJs(s){ return String(s??"").replace(/\\/g,"\\\\").replace(/'/g,"\\'"); }
-
-/* =========================
-   8) INIT
-========================= */
-window.addEventListener("load", ()=>{
-  // wire analysis report autogen tracking
-  $("reportText").addEventListener("input", ()=>{ $("reportText").dataset.autogen="0"; });
-
-  // init selects/events
-  renderAll();
-
-  // Keep some cross select sync
-  $("subjectSelect2").onchange = ()=>{ DB.currentSubject = $("subjectSelect2").value; save(); };
-  $("subjectSelect3").onchange = ()=>{ DB.currentSubject = $("subjectSelect3").value; save(); };
-  $("subjectSelect5").onchange = ()=>{ DB.currentSubject = $("subjectSelect5").value; save(); };
-  $("subjectSelect7").onchange = ()=>{ DB.currentSubject = $("subjectSelect7"). 
+</script>
+</body>
+</html>
