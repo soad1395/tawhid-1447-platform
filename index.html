@@ -2,108 +2,83 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>منصة الإتقان الذكي — نسخة نهائية</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>منصة الإتقان الذكي — النسخة النهائية</title>
   <style>
     :root{
-      --g1:#0E7A3E; --g2:#0B6232;
-      --bg:#F3F7F4; --card:#FFFFFF;
-      --ink:#0F172A; --mut:#64748B; --line:#DDE7E0;
-      --soft:#E9F3ED; --danger:#B42318; --warn:#B54708; --ok:#067647;
-      --shadow: 0 14px 28px rgba(15, 23, 42, .08);
-      --r:18px;
-    }
-    [data-theme="dark"]{
-      --bg:#0B1220; --card:#0F1B2D; --ink:#E5E7EB; --mut:#9CA3AF; --line:#1F2A3A;
-      --soft:#0C2A1C; --shadow: 0 16px 30px rgba(0,0,0,.35);
+      --g:#0f7a44; --g2:#0b5e34;
+      --bg:#f6f8f7; --card:#fff;
+      --ink:#0f172a; --mut:#64748b; --line:#e5e7eb; --soft:#eaf6ef;
+      --ok:#16a34a; --mid:#f59e0b; --low:#dc2626;
+      --r:16px; --sh:0 14px 30px rgba(2,6,23,.10);
     }
     *{box-sizing:border-box}
-    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Arial; background:var(--bg); color:var(--ink)}
-    a{color:inherit}
-    .wrap{max-width:1200px;margin:0 auto;padding:16px}
-    header{
-      background:linear-gradient(135deg,var(--g1),var(--g2));
-      color:#fff;
-      padding:18px 0;
-      position:sticky; top:0; z-index:50;
-      box-shadow:var(--shadow);
-    }
-    .topbar{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
-    .title h1{margin:0;font-size:22px}
-    .title p{margin:4px 0 0;opacity:.9;font-size:13px}
-    .pill{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.25); background:rgba(255,255,255,.12); color:#fff; cursor:pointer; user-select:none}
-    .pill small{opacity:.9}
-    .actions{display:flex;gap:10px;flex-wrap:wrap}
-    .nav{
-      display:flex;gap:10px;flex-wrap:wrap; margin-top:10px
-    }
-    .btn{
+    body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial;background:var(--bg);color:var(--ink);overflow-x:hidden}
+    header{position:sticky;top:0;z-index:50;background:linear-gradient(135deg,var(--g),var(--g2));color:#fff;box-shadow:var(--sh)}
+    .wrap{max-width:1300px;margin:0 auto;padding:14px}
+    .top{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:12px 0}
+    .brand h1{margin:0;font-size:20px;font-weight:1000}
+    .brand p{margin:4px 0 0;font-size:12px;opacity:.92}
+    .tools{display:flex;gap:10px;flex-wrap:wrap}
+    .pill{
       border:1px solid rgba(255,255,255,.22);
       background:rgba(255,255,255,.12);
       color:#fff;
-      padding:10px 14px;
-      border-radius:999px;
-      cursor:pointer;
-      font-weight:700;
-      display:inline-flex;align-items:center;gap:8px;
+      padding:10px 12px;border-radius:999px;cursor:pointer;font-weight:900;
+      user-select:none;touch-action:manipulation;display:inline-flex;align-items:center;gap:8px;
     }
-    .btn:active{transform:translateY(1px)}
-    .btn2{
-      border:1px solid var(--line);
-      background:var(--card);
-      color:var(--ink);
-      padding:10px 12px;border-radius:12px;cursor:pointer;font-weight:700;
-      display:inline-flex;align-items:center;gap:8px;
+    .tabs{display:flex;gap:10px;flex-wrap:wrap;padding:0 0 12px}
+    .tab{
+      border:1px solid rgba(255,255,255,.22);
+      background:rgba(255,255,255,.10);
+      color:#fff;
+      padding:10px 14px;border-radius:999px;cursor:pointer;font-weight:1000;
+      user-select:none;touch-action:manipulation;
     }
-    .btn3{
-      border:none;background:var(--g1);color:#fff;padding:10px 12px;border-radius:12px;cursor:pointer;font-weight:800;
-      display:inline-flex;align-items:center;gap:8px;
-    }
-    .btnDanger{background:var(--danger)}
-    .grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:16px}
-    @media(min-width:980px){.grid{grid-template-columns:1fr 1fr}}
-    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow); padding:14px}
-    .card h2{margin:0 0 10px;font-size:18px}
-    .mut{color:var(--mut);font-size:13px}
-    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-    input,select,textarea{
-      width:100%;padding:10px;border:1px solid var(--line);border-radius:12px;background:transparent;color:var(--ink);
-      outline:none;
-    }
-    textarea{min-height:90px}
-    label{font-weight:800;font-size:13px}
-    .field{display:grid;gap:6px;min-width:220px;flex:1}
-    .kpi{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-    @media(min-width:720px){.kpi{grid-template-columns:repeat(4,1fr)}}
-    .kpi .box{background:var(--soft);border:1px dashed var(--line);border-radius:16px;padding:12px;text-align:center}
-    .kpi .n{font-weight:900;font-size:22px}
-    .tabs{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
-    .tab{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:10px 14px;cursor:pointer;font-weight:800}
-    .tab.active{background:var(--g1);border-color:transparent;color:#fff}
+    .tab.active{background:#fff;color:var(--g2);border-color:#fff}
     section{display:none}
     section.active{display:block}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);padding:14px;margin-bottom:14px}
+    .soft{background:var(--soft)}
+    h2{margin:0 0 10px;font-size:18px}
+    h3{margin:0 0 10px;font-size:16px}
+    .mut{color:var(--mut);font-size:13px;line-height:1.7}
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:end}
+    .field{display:grid;gap:6px;min-width:220px;flex:1}
+    label{font-size:13px;font-weight:1000}
+    input,select,textarea{
+      width:100%;padding:10px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);outline:none
+    }
+    textarea{min-height:90px}
+    .btn{
+      background:var(--g);color:#fff;border:none;padding:10px 12px;border-radius:12px;cursor:pointer;font-weight:1000;
+      display:inline-flex;align-items:center;gap:8px;touch-action:manipulation
+    }
+    .btn2{
+      background:#fff;border:1px solid var(--line);padding:10px 12px;border-radius:12px;cursor:pointer;font-weight:1000;
+      display:inline-flex;align-items:center;gap:8px;touch-action:manipulation
+    }
+    .danger{background:var(--low);border:none;color:#fff}
     table{width:100%;border-collapse:collapse}
     th,td{border-bottom:1px solid var(--line);padding:10px;text-align:right;vertical-align:top}
-    th{font-size:13px;color:var(--mut)}
-    .tag{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:6px 10px;font-weight:900;font-size:12px;border:1px solid var(--line)}
-    .ok{color:var(--ok);border-color:rgba(6,118,71,.25);background:rgba(6,118,71,.08)}
-    .warn{color:var(--warn);border-color:rgba(181,71,8,.25);background:rgba(181,71,8,.08)}
-    .bad{color:var(--danger);border-color:rgba(180,35,24,.25);background:rgba(180,35,24,.08)}
-    .stickyFooter{
-      position:fixed;bottom:12px;left:12px;right:12px;z-index:60;
-      display:flex;justify-content:center;pointer-events:none;
-    }
-    .toast{
-      pointer-events:auto;
-      background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);
-      padding:10px 14px;border-radius:999px;display:none;gap:10px;align-items:center;
-      max-width:900px;
-    }
-    .toast.show{display:flex}
+    th{font-size:13px;color:var(--mut);background:var(--soft)}
+    .tag{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;font-weight:1000;font-size:12px;border:1px solid var(--line);background:#fff}
+    .ok{color:var(--ok);border-color:rgba(22,163,74,.25);background:rgba(22,163,74,.08)}
+    .mid{color:var(--mid);border-color:rgba(245,158,11,.25);background:rgba(245,158,11,.10)}
+    .low{color:var(--low);border-color:rgba(220,38,38,.25);background:rgba(220,38,38,.08)}
     .hr{height:1px;background:var(--line);margin:10px 0}
+    .kpi{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+    @media(min-width:900px){.kpi{grid-template-columns:repeat(6,1fr)}}
+    .kpi .box{background:var(--soft);border:1px dashed var(--line);border-radius:16px;padding:12px;text-align:center}
+    .kpi .n{font-weight:1000;font-size:22px}
     .small{font-size:12px;color:var(--mut)}
+    .grid2{display:grid;gap:12px}
+    @media(min-width:980px){.grid2{grid-template-columns:1.1fr .9fr}}
+    canvas{max-width:100%}
+    .listLinks a{color:var(--g2);text-decoration:none;font-weight:900}
+    .listLinks a:hover{text-decoration:underline}
     @media print{
-      header,.stickyFooter,.noPrint{display:none !important}
+      header,.noPrint{display:none !important}
       body{background:#fff}
       .card{box-shadow:none}
       section{display:block !important}
@@ -114,159 +89,168 @@
 <body>
 <header>
   <div class="wrap">
-    <div class="topbar">
-      <div class="title">
-        <h1>منصة الإتقان الذكي</h1>
-        <p id="subtitle">تحليل + تقارير + خطط + أولياء أمور + ألعاب + مصادر — حفظ تلقائي ✅</p>
+    <div class="top">
+      <div class="brand">
+        <h1>منصة الإتقان الذكي — النسخة النهائية</h1>
+        <p id="subtitle">جاهزة: كشف درجات + تحليل + خطط + مصادر + ألعاب + Word + حفظ</p>
       </div>
-
-      <div class="actions">
-        <button class="btn" id="btnTheme">🌙 <small>الوضع</small></button>
-        <button class="btn" id="btnSave">💾 <small>حفظ</small></button>
-        <button class="btn" id="btnExport">⬇️ <small>تصدير بيانات</small></button>
-        <button class="btn" id="btnImport">⬆️ <small>استيراد بيانات</small></button>
-        <button class="btn" id="btnWord">📝 <small>تصدير Word</small></button>
-        <button class="btn" id="btnPrint">🖨️ <small>طباعة / PDF</small></button>
+      <div class="tools noPrint">
+        <button class="pill" id="btnBackup">⬇️ نسخة احتياط</button>
+        <button class="pill" id="btnRestore">⬆️ استيراد</button>
+        <button class="pill" id="btnWord">📝 Word</button>
+        <button class="pill" id="btnPrint">🖨️ طباعة</button>
       </div>
     </div>
-
-    <div class="nav noPrint">
+    <div class="tabs noPrint">
       <button class="tab active" data-tab="home">🏠 الرئيسية</button>
-      <button class="tab" data-tab="basic">🧾 البيانات الأساسية</button>
-      <button class="tab" data-tab="classes">🏫 الفصول/الطالبات</button>
-      <button class="tab" data-tab="skills">🧠 بنك المهارات</button>
-      <button class="tab" data-tab="grades">📊 الدرجات</button>
-      <button class="tab" data-tab="plans">🩺 الخطط (علاجية/إثرائية)</button>
-      <button class="tab" data-tab="reports">📈 التحليل والتقارير</button>
-      <button class="tab" data-tab="parents">👨‍👩‍👧‍👦 أولياء الأمور</button>
-      <button class="tab" data-tab="games">🎮 الألعاب</button>
-      <button class="tab" data-tab="resources">🔗 المصادر</button>
-      <button class="tab" data-tab="settings">⚙️ الإعدادات</button>
+      <button class="tab" data-tab="basic">🧾 البيانات</button>
+      <button class="tab" data-tab="classes">🏫 الفصول</button>
+      <button class="tab" data-tab="curr">📘 المنهج والمهارات</button>
+      <button class="tab" data-tab="grades">📊 كشف الدرجات</button>
+      <button class="tab" data-tab="plans">🛠 الخطط</button>
+      <button class="tab" data-tab="parents">👩‍👧 أولياء الأمور</button>
+      <button class="tab" data-tab="awards">🏆 التكريم</button>
+      <button class="tab" data-tab="reports">📈 التقارير</button>
+      <button class="tab" data-tab="links">📚 المصادر والألعاب</button>
     </div>
   </div>
 </header>
 
 <div class="wrap">
+
   <!-- HOME -->
   <section id="home" class="active">
     <div class="card">
       <h2>لوحة التحكم</h2>
       <p class="mut">
-        **الترتيب الصحيح للعمل:** (1) البيانات الأساسية → (2) الفصول/الطالبات → (3) بنك المهارات → (4) الدرجات → (5) التقارير والخطط.  
-        ✅ كل شيء يُحفظ تلقائيًا داخل جهازك (LocalStorage) ولن يروح إلا إذا مسحتي بيانات المتصفح.
+        ✅ إدخال الدرجات من 100 (أدائية 40 + اختبار 60).<br>
+        ✅ تحليل الفترة الأولى وحدها + الثانية وحدها + النهائي (متوسط الفترتين).<br>
+        ✅ التصنيف من 100 مع رموز: <span class="tag ok">🟢 فوق المتوسط</span> <span class="tag mid">🟡 ضمن المتوسط</span> <span class="tag low">🔴 دون المتوسط</span><br>
+        ✅ ملاحظة: الحفظ يكون داخل نفس المتصفح، وللنقل بين Safari و Edge استخدمي (نسخة احتياط/استيراد).
       </p>
+
       <div class="kpi" style="margin-top:10px">
-        <div class="box"><div class="n" id="kpiClasses">0</div><div class="small">عدد الفصول</div></div>
-        <div class="box"><div class="n" id="kpiStudents">0</div><div class="small">عدد الطالبات</div></div>
-        <div class="box"><div class="n" id="kpiSkills">0</div><div class="small">عدد المهارات</div></div>
-        <div class="box"><div class="n" id="kpiParents">0</div><div class="small">سجلات أولياء الأمور</div></div>
+        <div class="box"><div class="n" id="kpiClasses">0</div><div class="small">الفصول</div></div>
+        <div class="box"><div class="n" id="kpiStudents">0</div><div class="small">الطالبات</div></div>
+        <div class="box"><div class="n" id="kpiT1">0</div><div class="small">درجات ف1</div></div>
+        <div class="box"><div class="n" id="kpiT2">0</div><div class="small">درجات ف2</div></div>
+        <div class="box"><div class="n" id="kpiFinalPct">0%</div><div class="small">🟢 نهائي</div></div>
+        <div class="box"><div class="n" id="kpiNeeds">0</div><div class="small">🔴 بحاجة دعم</div></div>
       </div>
+
       <div class="hr"></div>
       <div class="row">
-        <button class="btn3" onclick="goTab('basic')">🧾 ابدئي بالبيانات الأساسية</button>
-        <button class="btn3" onclick="goTab('classes')">🏫 أضيفي الفصول والطالبات</button>
-        <button class="btn3" onclick="goTab('grades')">📊 أدخلي الدرجات</button>
-        <button class="btn3" onclick="goTab('reports')">📈 شاهدي التقرير</button>
+        <button class="btn" onclick="go('basic')">🧾 ابدئي بالبيانات</button>
+        <button class="btn" onclick="go('classes')">🏫 أضيفي الفصول</button>
+        <button class="btn" onclick="go('curr')">📘 جهزي المهارات</button>
+        <button class="btn" onclick="go('grades')">📊 أدخلي الدرجات</button>
+        <button class="btn" onclick="go('reports')">📈 التقارير</button>
       </div>
     </div>
   </section>
 
-  <!-- BASIC INFO -->
+  <!-- BASIC -->
   <section id="basic">
     <div class="card">
-      <h2>البيانات الأساسية</h2>
-      <div class="grid">
+      <h2>البيانات الأساسية (قابلة للتعديل كل سنة)</h2>
+      <div class="row">
+        <div class="field"><label>اسم المعلمة</label><input id="teacher"></div>
+        <div class="field"><label>اسم المديرة</label><input id="principal"></div>
+        <div class="field"><label>اسم المدرسة</label><input id="school"></div>
+      </div>
+      <div class="row" style="margin-top:10px">
+        <div class="field"><label>المرحلة / الصف</label><input id="stage"></div>
+        <div class="field"><label>العام</label><input id="year"></div>
+        <div class="field"><label>المادة (تتغير كل عام)</label><input id="subject"></div>
+      </div>
+      <div class="row" style="margin-top:10px">
         <div class="field">
-          <label>اسم المعلمة</label>
-          <input id="teacherName" placeholder="مثال: سعاد صالح الغامدي" />
+          <label>حد فوق المتوسط</label>
+          <input id="thHigh" type="number" min="0" max="100" />
         </div>
         <div class="field">
-          <label>اسم المديرة</label>
-          <input id="principalName" placeholder="مثال: أمل باربود" />
+          <label>حد ضمن المتوسط</label>
+          <input id="thMid" type="number" min="0" max="100" />
         </div>
         <div class="field">
-          <label>اسم المدرسة</label>
-          <input id="schoolName" placeholder="مثال: المتوسطة الثانية والأربعون..." />
-        </div>
-        <div class="field">
-          <label>المرحلة/الصف</label>
-          <input id="stageName" placeholder="مثال: ثانوي / ثاني ثانوي" />
-        </div>
-        <div class="field">
-          <label>السنة</label>
-          <input id="yearName" placeholder="مثال: 1447" />
-        </div>
-        <div class="field">
-          <label>المادة</label>
-          <input id="subjectName" placeholder="مثال: توحيد" />
+          <label>ملاحظة</label>
+          <div class="mut">🟢 ≥ الحد الأعلى — 🟡 بين الحدين — 🔴 أقل من الحد الأدنى</div>
         </div>
       </div>
       <div class="row" style="margin-top:12px">
-        <button class="btn3" onclick="saveAll()">💾 حفظ البيانات</button>
+        <button class="btn" onclick="saveBasic()">💾 حفظ</button>
       </div>
-      <p class="small">* هذه البيانات تظهر تلقائيًا أعلى المنصة وفي تقارير Word والطباعة.</p>
+      <p class="small">سيظهر كل ذلك في تقرير Word والطباعة.</p>
     </div>
   </section>
 
-  <!-- CLASSES/STUDENTS -->
+  <!-- CLASSES -->
   <section id="classes">
-    <div class="grid">
-      <div class="card">
-        <h2>إضافة فصل</h2>
-        <div class="row">
-          <div class="field">
-            <label>اسم الفصل</label>
-            <input id="classNameInput" placeholder="مثال: ثاني/ثالث" />
-          </div>
-          <button class="btn3" onclick="addClass()">➕ إضافة</button>
+    <div class="card">
+      <h2>الفصول والطالبات</h2>
+      <div class="row">
+        <div class="field">
+          <label>اسم الفصل</label>
+          <input id="className" placeholder="مثال: 2ث1 أو ثاني/1">
         </div>
-        <p class="small">بعد إضافة الفصل: أضيفي الطالبات لهذا الفصل من المربع الثاني.</p>
+        <button class="btn" onclick="addClass()">➕ إضافة فصل</button>
       </div>
-
-      <div class="card">
-        <h2>إضافة طالبات لفصل</h2>
-        <div class="row">
-          <div class="field">
-            <label>اختاري الفصل</label>
-            <select id="classSelectStudents"></select>
-          </div>
-          <div class="field" style="flex:2">
-            <label>أسماء الطالبات (كل اسم بسطر)</label>
-            <textarea id="studentsBulk" placeholder="مثال:
-أبرار...
-سارة...
-نورة..."></textarea>
-          </div>
-        </div>
-        <div class="row">
-          <button class="btn3" onclick="addStudentsBulk()">👩‍🎓 إدخال جماعي</button>
-          <button class="btn2 btnDanger" onclick="clearStudentsForSelectedClass()">🗑️ حذف طالبات هذا الفصل</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="card" style="margin-top:14px">
-      <h2>قائمة الفصول والطالبات</h2>
+      <div class="hr"></div>
       <div id="classesList"></div>
     </div>
   </section>
 
-  <!-- SKILLS -->
-  <section id="skills">
-    <div class="grid">
-      <div class="card">
-        <h2>إضافة مهارة</h2>
-        <div class="row">
-          <div class="field"><label>اسم المهارة</label><input id="skillNameInput" placeholder="مثال: تمييز أنواع التوحيد" /></div>
-          <div class="field"><label>الوحدة/الدرس</label><input id="unitInput" placeholder="مثال: الوحدة الأولى" /></div>
-          <button class="btn3" onclick="addSkill()">➕ إضافة</button>
+  <!-- CURRICULUM -->
+  <section id="curr">
+    <div class="card">
+      <h2>المنهج والمهارات (7 وحدات) — تلقائي + يدوي</h2>
+      <p class="mut">
+        تختارين وحدة/درس → تظهر المهارات → ثم زر <b>تطبيق المهارات على فصل</b> يربط المهارات بالطالبات (ويستخدمها مولد الخطط).
+      </p>
+
+      <div class="row">
+        <div class="field">
+          <label>الوحدة</label>
+          <select id="unitSel"></select>
         </div>
-        <p class="small">* إذا تبغين “توليد تلقائي من مستند PDF” لازم ترفعينه هنا بالمحادثة عشان أقرأه وأطلع لك المهارات والوحدات جاهزة.</p>
+        <div class="field">
+          <label>الدرس</label>
+          <select id="lessonSel"></select>
+        </div>
+        <div class="field">
+          <label>الفصل المستهدف</label>
+          <select id="currClassSel"></select>
+        </div>
+        <button class="btn" onclick="applyLessonSkillsToClass()">⚡ تطبيق المهارات على الفصل</button>
       </div>
 
-      <div class="card">
-        <h2>بنك المهارات</h2>
-        <div id="skillsList"></div>
+      <div class="hr"></div>
+
+      <div class="grid2">
+        <div class="card soft" style="box-shadow:none;margin:0">
+          <h3>مهارات الدرس (قابلة للتعديل)</h3>
+          <textarea id="skillsBox" placeholder="كل مهارة في سطر"></textarea>
+          <div class="row" style="margin-top:10px">
+            <button class="btn" onclick="saveLessonSkills()">💾 حفظ مهارات الدرس</button>
+            <button class="btn2" onclick="addLesson()">➕ إضافة درس</button>
+            <button class="btn2 danger" onclick="deleteLesson()">🗑️ حذف الدرس</button>
+          </div>
+          <p class="small">يمكنك تعديل المهارات حسب الجزء المقرر من الكتاب في الفترة الأولى.</p>
+        </div>
+
+        <div class="card soft" style="box-shadow:none;margin:0">
+          <h3>مهارات الفصل (مرتبطة بالطالبات)</h3>
+          <div class="mut">هذه المهارات تستخدمها المنصة لتوليد الخطط العلاجية/الإثرائية.</div>
+          <div class="hr"></div>
+          <div class="row">
+            <div class="field">
+              <label>اختاري فصل</label>
+              <select id="classSkillsSel" onchange="renderClassSkills()"></select>
+            </div>
+            <button class="btn2 danger" onclick="clearClassSkills()">🧹 مسح مهارات الفصل</button>
+          </div>
+          <div id="classSkillsOut" style="margin-top:10px"></div>
+        </div>
       </div>
     </div>
   </section>
@@ -274,30 +258,32 @@
   <!-- GRADES -->
   <section id="grades">
     <div class="card">
-      <h2>إدخال الدرجات (تُحفظ تلقائيًا)</h2>
+      <h2>كشف الدرجات (100) — الفترة الأولى/الثانية + النهائي</h2>
       <div class="row">
         <div class="field">
-          <label>الفصل</label>
-          <select id="gradeClassSelect"></select>
+          <label>اختاري الفصل</label>
+          <select id="gradeClass"></select>
         </div>
         <div class="field">
-          <label>المهارة</label>
-          <select id="gradeSkillSelect"></select>
-        </div>
-        <div class="field">
-          <label>الفترة</label>
-          <select id="termSelect">
-            <option value="t1">الفترة الأولى</option>
-            <option value="t2">الفترة الثانية</option>
+          <label>عرض إدخال</label>
+          <select id="gradeMode">
+            <option value="t1">إدخال الفترة الأولى</option>
+            <option value="t2">إدخال الفترة الثانية</option>
+            <option value="all">عرض شامل (ف1 + ف2 + النهائي)</option>
           </select>
         </div>
-        <button class="btn3" onclick="renderGradeTable()">👁️ عرض</button>
+        <button class="btn" onclick="renderGradeTable()">👁️ عرض</button>
       </div>
+
       <div class="hr"></div>
-      <div id="gradeTableWrap"></div>
-      <p class="small">
-        ✅ التصنيف يظهر مباشرة عند الكتابة.  
-        ✅ إذا تبغين “ما تنحذف أبدًا” → استخدمي **تصدير بيانات** واحفظي الملف على جهازك (نسخة احتياط).
+      <div id="gradeWrap"></div>
+
+      <div class="hr"></div>
+      <p class="mut">
+        التصنيف من 100:
+        <span class="tag ok">🟢 فوق المتوسط (≥ <span id="showHigh"></span>)</span>
+        <span class="tag mid">🟡 ضمن المتوسط (≥ <span id="showMid"></span>)</span>
+        <span class="tag low">🔴 دون المتوسط (&lt; <span id="showMid2"></span>)</span>
       </p>
     </div>
   </section>
@@ -305,393 +291,413 @@
   <!-- PLANS -->
   <section id="plans">
     <div class="card">
-      <h2>الخطط العلاجية والإثرائية (حسب المهارة)</h2>
-      <div class="row">
-        <div class="field">
-          <label>اختاري المهارة</label>
-          <select id="planSkillSelect"></select>
-        </div>
-        <div class="field">
-          <label>نوع الخطة</label>
-          <select id="planTypeSelect">
-            <option value="remedial">علاجية</option>
-            <option value="enrichment">إثرائية</option>
-          </select>
-        </div>
-        <button class="btn3" onclick="addPlanFromTemplate()">➕ إضافة من قوالب جاهزة</button>
-      </div>
-      <div class="hr"></div>
-      <div id="plansList"></div>
-      <p class="small">تقدرين تعدلين أي خطة/تضيفين روابط وملفات.</p>
-    </div>
-  </section>
+      <h2>الخطط العلاجية والإثرائية (تتولد حسب المهارات)</h2>
+      <p class="mut">
+        اختاري الفصل → تختارين الطالبة → تختارين مهارة → تضغطين “توليد خطة”.  
+        الخطة تعتمد على التصنيف النهائي أو درجة الفترة المختارة.
+      </p>
 
-  <!-- REPORTS -->
-  <section id="reports">
-    <div class="card">
-      <h2>التحليل والتقارير</h2>
       <div class="row">
-        <div class="field">
-          <label>الفترة</label>
-          <select id="reportTermSelect">
+        <div class="field"><label>الفصل</label><select id="planClass" onchange="fillPlanStudents()"></select></div>
+        <div class="field"><label>الطالبة</label><select id="planStudent" onchange="fillPlanSkills()"></select></div>
+        <div class="field"><label>المهارة</label><select id="planSkill"></select></div>
+        <div class="field"><label>اعتماد الدرجة</label>
+          <select id="planBased">
+            <option value="final">النهائي (متوسط الفترتين)</option>
             <option value="t1">الفترة الأولى</option>
             <option value="t2">الفترة الثانية</option>
-            <option value="both">الفترتين معًا</option>
           </select>
         </div>
-        <button class="btn3" onclick="renderReports()">📈 تحديث التقرير</button>
+        <button class="btn" onclick="generatePlanUI()">🧠 توليد خطة</button>
       </div>
+
       <div class="hr"></div>
-      <div id="reportWrap"></div>
-      <p class="small">التقرير يحسب لكل فصل + إجمالي جميع الفصول، ويعطي نسب: فوق/ضمن/دون المتوسط.</p>
+      <div id="planOut"></div>
+      <p class="small">يمكنك تعديل النص يدويًا ونسخه للتقرير.</p>
     </div>
   </section>
 
   <!-- PARENTS -->
   <section id="parents">
     <div class="card">
-      <h2>متابعة أولياء الأمور (مرتبطة بالفصل والطالبة)</h2>
+      <h2>سجل متابعة أولياء الأمور</h2>
       <div class="row">
-        <div class="field">
-          <label>الفصل</label>
-          <select id="parentClassSelect"></select>
-        </div>
-        <div class="field">
-          <label>الطالبة</label>
-          <select id="parentStudentSelect"></select>
-        </div>
-        <div class="field">
-          <label>التاريخ</label>
-          <input id="parentDate" type="date"/>
-        </div>
-        <div class="field">
-          <label>وسيلة التواصل</label>
-          <select id="parentChannel">
-            <option>هاتف</option>
-            <option>رسالة</option>
-            <option>واتساب</option>
-            <option>منصة مدرستي</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>سبب التواصل</label>
-          <select id="parentReason">
-            <option>ضعف</option>
-            <option>غياب</option>
-            <option>تفوق</option>
-            <option>سلوك</option>
-            <option>أخرى</option>
-          </select>
-        </div>
+        <div class="field"><label>الفصل</label><select id="parClass" onchange="fillParStudents()"></select></div>
+        <div class="field"><label>الطالبة</label><select id="parStudent"></select></div>
+        <div class="field"><label>سبب التواصل</label><input id="parReason" placeholder="انخفاض مستوى / غياب / تعزيز..."></div>
+        <div class="field"><label>الإجراء</label><input id="parAction" placeholder="اتصال / رسالة / موعد..."></div>
+        <div class="field"><label>النتيجة</label><input id="parResult" placeholder="استجابة / متابعة /..."></div>
+        <button class="btn" onclick="addParentLog()">➕ إضافة</button>
       </div>
+
+      <div class="hr"></div>
+      <div id="parOut"></div>
+    </div>
+  </section>
+
+  <!-- AWARDS -->
+  <section id="awards">
+    <div class="card">
+      <h2>لوحة التكريم</h2>
       <div class="row">
-        <div class="field" style="flex:2">
-          <label>الإجراء / ما تم اتخاذه</label>
-          <textarea id="parentAction" placeholder="مثال: تم التنبيه والمتابعة..."></textarea>
-        </div>
-        <div class="field" style="flex:2">
-          <label>النتيجة/الملاحظة</label>
-          <textarea id="parentResult" placeholder="مثال: استجابة ولي الأمر..."></textarea>
-        </div>
-      </div>
-      <div class="row">
-        <button class="btn3" onclick="addParentLog()">➕ حفظ السجل</button>
-        <button class="btn2 btnDanger" onclick="clearParentLogs()">🗑️ حذف كل السجلات</button>
+        <div class="field"><label>الفصل</label><select id="awardClass"></select></div>
+        <button class="btn" onclick="renderAwards()">🏆 إظهار التكريم</button>
       </div>
       <div class="hr"></div>
-      <div id="parentsList"></div>
+      <div id="awardOut"></div>
+      <p class="small">التكريم يعتمد على النهائي + أعلى تحسن (ف2 - ف1).</p>
     </div>
   </section>
 
-  <!-- GAMES -->
-  <section id="games">
+  <!-- REPORTS -->
+  <section id="reports">
     <div class="card">
-      <h2>الألعاب (Wordwall / Kahoot / Quizizz)</h2>
-      <p class="mut">هنا تضعين روابط الألعاب لكل وحدة/مهارة. (تقدرين تضيفين أي رابط ويظهر كزر).</p>
+      <h2>التقارير والتحليل (لكل فصل + إجمالي)</h2>
       <div class="row">
-        <div class="field"><label>العنوان</label><input id="gameTitle" placeholder="مثال: كاهوت الوحدة الأولى" /></div>
-        <div class="field"><label>الرابط</label><input id="gameLink" placeholder="الصقي الرابط هنا" /></div>
-        <div class="field"><label>نوع</label>
-          <select id="gameType">
-            <option>Kahoot</option><option>Wordwall</option><option>Quizizz</option><option>أخرى</option>
+        <div class="field">
+          <label>نوع التقرير</label>
+          <select id="repMode">
+            <option value="t1">تحليل الفترة الأولى</option>
+            <option value="t2">تحليل الفترة الثانية</option>
+            <option value="final">التحليل النهائي (متوسط الفترتين)</option>
           </select>
         </div>
-        <button class="btn3" onclick="addGame()">➕ إضافة</button>
+        <button class="btn" onclick="renderReports()">📈 تحديث</button>
       </div>
+
       <div class="hr"></div>
-      <div id="gamesList"></div>
-      <p class="small">إذا تبغين “توليد مسابقات تلقائي حسب الوحدة” لازم تزوديني بقائمة أسئلة/أهداف الوحدة (أو PDF) وأبني لك مولّد أسئلة داخل المنصة.</p>
+
+      <div class="grid2">
+        <div class="card soft" style="box-shadow:none;margin:0">
+          <h3>ملخص + نص جاهز</h3>
+          <div id="repOut"></div>
+        </div>
+
+        <div class="card soft" style="box-shadow:none;margin:0">
+          <h3>رسوم (دائرة + أعمدة)</h3>
+          <canvas id="pie" width="420" height="260"></canvas>
+          <div class="hr"></div>
+          <canvas id="bars" width="420" height="240"></canvas>
+          <p class="small">رسوم داخلية بدون إنترنت.</p>
+        </div>
+      </div>
+
     </div>
   </section>
 
-  <!-- RESOURCES -->
-  <section id="resources">
+  <!-- LINKS -->
+  <section id="links">
     <div class="card">
-      <h2>المصادر وروابط فتحها</h2>
-      <p class="mut">اكتبي اسم المصدر + رابط. يظهر كزر يفتح في تبويب جديد.</p>
-      <div class="row">
-        <div class="field"><label>اسم المصدر</label><input id="resTitle" placeholder="مثال: منصة مدرستي" /></div>
-        <div class="field"><label>الرابط</label><input id="resLink" placeholder="الصقي الرابط" /></div>
-        <button class="btn3" onclick="addResource()">➕ إضافة</button>
+      <h2>المصادر والألعاب (روابط مباشرة)</h2>
+      <div class="grid2">
+        <div class="card soft listLinks" style="box-shadow:none;margin:0">
+          <h3>📚 مصادر معتمدة</h3>
+          <ul id="srcList"></ul>
+          <div class="hr"></div>
+          <div class="row">
+            <div class="field"><label>اسم</label><input id="srcName" placeholder="مثال: عين"></div>
+            <div class="field"><label>رابط</label><input id="srcUrl" placeholder="https://..."></div>
+            <button class="btn" onclick="addLink('sources')">➕ إضافة</button>
+          </div>
+        </div>
+
+        <div class="card soft listLinks" style="box-shadow:none;margin:0">
+          <h3>🎮 ألعاب تفاعلية</h3>
+          <ul id="gameList"></ul>
+          <div class="hr"></div>
+          <div class="row">
+            <div class="field"><label>اسم</label><input id="gName" placeholder="مثال: Kahoot"></div>
+            <div class="field"><label>رابط</label><input id="gUrl" placeholder="https://..."></div>
+            <button class="btn" onclick="addLink('games')">➕ إضافة</button>
+          </div>
+        </div>
       </div>
+
       <div class="hr"></div>
-      <div id="resourcesList"></div>
-      <p class="small">اقتراحات: مدرستي / عين / الكتاب المدرسي / بوابة التعليم + روابط مباشرة.</p>
+      <p class="mut">
+        يمكنك تعديل الروابط أو إضافة روابط لكل مادة في السنوات القادمة.
+      </p>
     </div>
   </section>
 
-  <!-- SETTINGS -->
-  <section id="settings">
-    <div class="card">
-      <h2>الإعدادات</h2>
-      <div class="grid">
-        <div class="field">
-          <label>حد “فوق المتوسط” (من 100)</label>
-          <input id="thrHigh" type="number" min="0" max="100" />
-        </div>
-        <div class="field">
-          <label>حد “ضمن المتوسط” (من 100)</label>
-          <input id="thrMid" type="number" min="0" max="100" />
-        </div>
-        <div class="field">
-          <label>اسم الفترة الأولى</label>
-          <input id="term1Name" />
-        </div>
-        <div class="field">
-          <label>اسم الفترة الثانية</label>
-          <input id="term2Name" />
-        </div>
-      </div>
-      <div class="row" style="margin-top:10px">
-        <button class="btn3" onclick="saveAll()">💾 حفظ الإعدادات</button>
-        <button class="btn2 btnDanger" onclick="hardReset()">⚠️ إعادة ضبط كاملة</button>
-      </div>
-      <p class="small">إعادة الضبط تمسح كل البيانات من الجهاز (لا تضغطينها إلا إذا ودك تبدأين من الصفر).</p>
-    </div>
-  </section>
-
-  <div class="card" style="margin-top:14px">
-    <div class="mut" id="footerLine" style="text-align:center;font-weight:800">نسخة نهائية — حفظ تلقائي — قابلة للتطوير</div>
-  </div>
-</div>
-
-<div class="stickyFooter">
-  <div class="toast" id="toast"><span id="toastMsg"></span><button class="btn2" onclick="hideToast()">إغلاق</button></div>
 </div>
 
 <script>
-/* =======================
-   STORAGE + DATA MODEL
-======================= */
-const KEY = "smartMastery_v1";
+/* =========================
+   STATE + STORAGE
+========================= */
+const KEY="soad_mastery_platform_final_v1";
+const state = loadState();
 
-const defaults = {
-  theme: "light",
-  basic: { teacherName:"", principalName:"", schoolName:"", stageName:"", yearName:"1447", subjectName:"" },
-  settings: { thrHigh:85, thrMid:60, term1Name:"الفترة الأولى", term2Name:"الفترة الثانية" },
-  classes: [],      // {id,name}
-  students: [],     // {id,classId,name}
-  skills: [],       // {id,name,unit}
-  grades: {},       // key: classId|skillId|term|studentId -> number
-  plans: [],        // {id,skillId,type,title,steps,tools,link}
-  parents: [],      // {id,classId,studentId,date,channel,reason,action,result}
-  games: [],        // {id,title,link,type}
-  resources: []     // {id,title,link}
-};
+function defaultState(){
+  return {
+    basic:{
+      teacher:"سعاد صالح الغامدي",
+      principal:"آمال باربود",
+      school:"المتوسطة الثانية والأربعون والثانوية السادسة والثلاثون",
+      stage:"ثاني ثانوي",
+      year:"1447",
+      subject:"توحيد"
+    },
+    thresholds:{high:85, mid:60},
+    classes:[],      // {id,name}
+    students:[],     // {id,classId,name}
+    grades:{},       // key: classId|studentId|term -> {p:0-40,e:0-60}
+    classSkills:{},  // classId -> array skills
+    parentLogs:[],   // {id,date,classId,studentId,reason,action,result}
+    links:{
+      sources:[
+        {name:"منصة عين التعليمية", url:"https://ien.edu.sa"},
+        {name:"منصة مدرستي", url:"https://schools.madrasati.sa"},
+        {name:"يوتيوب (بحث: شرح التوحيد)", url:"https://www.youtube.com/results?search_query=شرح+التوحيد"}
+      ],
+      games:[
+        {name:"Wordwall", url:"https://wordwall.net"},
+        {name:"Kahoot", url:"https://kahoot.com"},
+        {name:"Quizizz", url:"https://quizizz.com"},
+        {name:"Blooket", url:"https://www.blooket.com"}
+      ]
+    },
+    curriculum: buildDefaultCurriculum()
+  };
+}
 
-let state = load();
+function buildDefaultCurriculum(){
+  // وحدات التوحيد (7) — قابلة للتعديل
+  const mk = (name, lessons)=>({id:uid(), name, lessons});
+  const lesson = (name, skills)=>({id:uid(), name, skills});
+  return {
+    subjectName:"توحيد",
+    units:[
+      mk("الوحدة الأولى: العقيدة الإسلامية", [
+        lesson("مدخل العقيدة", ["تعريف العقيدة", "مصادر العقيدة", "أهمية العقيدة"]),
+        lesson("الإيمان والتوحيد", ["تمييز الإيمان عن الإسلام", "أثر الإيمان في السلوك"])
+      ]),
+      mk("الوحدة الثانية: توحيد الربوبية", [
+        lesson("معنى توحيد الربوبية", ["تعريف الربوبية", "أمثلة على الربوبية"]),
+        lesson("دلائل توحيد الربوبية", ["الاستدلال بالخلق", "الاستدلال بالتدبير"])
+      ]),
+      mk("الوحدة الثالثة: توحيد الألوهية والعبادة", [
+        lesson("معنى توحيد الألوهية", ["تعريف العبادة", "إخلاص العبادة لله"]),
+        lesson("شروط قبول العبادة", ["الإخلاص", "المتابعة للنبي ﷺ"])
+      ]),
+      mk("الوحدة الرابعة: توحيد الأسماء والصفات", [
+        lesson("معنى الأسماء والصفات", ["إثبات ما أثبته الله", "تنزيه الله عن النقص"]),
+        lesson("قواعد في الأسماء والصفات", ["التمثيل والتعطيل", "التكييف"])
+      ]),
+      mk("الوحدة الخامسة: عقائد وأقوال وأفعال تنافي التوحيد", [
+        lesson("الشرك وأنواعه", ["تعريف الشرك", "تمييز الشرك الأكبر والأصغر"]),
+        lesson("وسائل الشرك", ["الغلو", "التعلق بغير الله"])
+      ]),
+      mk("الوحدة السادسة: حقوق النبي ﷺ", [
+        lesson("محبة النبي ﷺ", ["تعظيم النبي ﷺ", "اتباع السنة"]),
+        lesson("التحذير من الغلو", ["ضابط التعظيم", "مخاطر الغلو"])
+      ]),
+      mk("الوحدة السابعة: نعمة التوحيد والوحدة", [
+        lesson("أثر التوحيد", ["أثر التوحيد على الفرد", "أثر التوحيد على المجتمع"]),
+        lesson("الوحدة ونبذ الفرقة", ["أسباب الفرقة", "وسائل تحقيق الوحدة"])
+      ])
+    ]
+  };
+}
 
-function load(){
+function loadState(){
   try{
     const raw = localStorage.getItem(KEY);
-    if(!raw) return structuredClone(defaults);
-    const data = JSON.parse(raw);
-    return {...structuredClone(defaults), ...data};
+    if(!raw) return defaultState();
+    const s = JSON.parse(raw);
+    // دمج مبدئي لتفادي نقص مفاتيح
+    return deepMerge(defaultState(), s);
   }catch(e){
-    return structuredClone(defaults);
+    return defaultState();
   }
 }
-function persist(){
+
+function deepMerge(base, incoming){
+  if(typeof base !== "object" || base===null) return incoming;
+  const out = Array.isArray(base) ? [...base] : {...base};
+  if(typeof incoming !== "object" || incoming===null) return out;
+  for(const k of Object.keys(incoming)){
+    if(k in base) out[k] = deepMerge(base[k], incoming[k]);
+    else out[k] = incoming[k];
+  }
+  return out;
+}
+
+function saveState(){
   localStorage.setItem(KEY, JSON.stringify(state));
   updateHeader();
+  fillSelectors();
+  renderLinks();
   updateKPIs();
 }
-function saveAll(){
-  state.basic.teacherName = val("teacherName");
-  state.basic.principalName = val("principalName");
-  state.basic.schoolName = val("schoolName");
-  state.basic.stageName = val("stageName");
-  state.basic.yearName = val("yearName");
-  state.basic.subjectName = val("subjectName");
 
-  state.settings.thrHigh = num("thrHigh", state.settings.thrHigh);
-  state.settings.thrMid  = num("thrMid", state.settings.thrMid);
-  state.settings.term1Name = val("term1Name");
-  state.settings.term2Name = val("term2Name");
+function uid(){ return Math.random().toString(36).slice(2,9)+"_"+Date.now().toString(36); }
+function esc(s){ return String(s||"").replace(/[&<>"']/g,m=>({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;" }[m])); }
+function todayStr(){ return new Date().toISOString().slice(0,10); }
 
-  persist();
-  toast("✅ تم الحفظ");
-}
-
-/* =======================
-   UI HELPERS
-======================= */
-function id(){ return Math.random().toString(36).slice(2,9)+"_"+Date.now().toString(36); }
-function $(s){ return document.querySelector(s); }
-function val(id){ return (document.getElementById(id)?.value ?? "").trim(); }
-function num(id, fallback=0){
-  const v = parseFloat(document.getElementById(id)?.value);
-  return Number.isFinite(v) ? v : fallback;
-}
-function toast(msg){
-  $("#toastMsg").textContent = msg;
-  $("#toast").classList.add("show");
-  clearTimeout(window.__t);
-  window.__t = setTimeout(()=>hideToast(), 2000);
-}
-function hideToast(){ $("#toast").classList.remove("show"); }
-
-function goTab(tabId){
-  document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("active", t.dataset.tab===tabId));
-  document.querySelectorAll("section").forEach(s=>s.classList.toggle("active", s.id===tabId));
-  // refresh tab-specific UI
-  if(tabId==="classes") renderClasses();
-  if(tabId==="skills") renderSkills();
-  if(tabId==="grades") renderGradeSelectors();
-  if(tabId==="plans") renderPlanSelectors();
-  if(tabId==="parents") renderParentSelectors();
-  if(tabId==="resources") renderResources();
-  if(tabId==="games") renderGames();
-  if(tabId==="reports") renderReports();
-}
-
-/* =======================
-   HEADER + KPI
-======================= */
-function updateHeader(){
-  const b = state.basic;
-  const s = `${b.teacherName||"—"} — ${b.principalName||"—"} — ${b.schoolName||"—"} — ${b.stageName||"—"} — ${b.yearName||"—"} — ${b.subjectName||"—"}`;
-  $("#subtitle").textContent = s;
-  $("#footerLine").textContent = `© ${new Date().getFullYear()} — نسخة نهائية — حفظ تلقائي — قابلة للتطوير`;
-}
-function updateKPIs(){
-  $("#kpiClasses").textContent = state.classes.length;
-  $("#kpiStudents").textContent = state.students.length;
-  $("#kpiSkills").textContent = state.skills.length;
-  $("#kpiParents").textContent = state.parents.length;
-}
-
-/* =======================
-   TABS
-======================= */
+/* =========================
+   NAV
+========================= */
 document.querySelectorAll(".tab").forEach(t=>{
-  t.addEventListener("click", ()=>goTab(t.dataset.tab));
+  t.addEventListener("click",()=>go(t.dataset.tab));
 });
-
-/* =======================
-   THEME
-======================= */
-function applyTheme(){
-  document.documentElement.setAttribute("data-theme", state.theme==="dark" ? "dark" : "light");
-  $("#btnTheme").innerHTML = (state.theme==="dark" ? "☀️" : "🌙") + " <small>الوضع</small>";
+function go(id){
+  document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("active",t.dataset.tab===id));
+  document.querySelectorAll("section").forEach(s=>s.classList.toggle("active",s.id===id));
+  if(id==="classes") renderClasses();
+  if(id==="curr") { renderCurrSelectors(); renderClassSkills(); }
+  if(id==="grades") renderGradeTable();
+  if(id==="plans") { fillPlanSelectors(); }
+  if(id==="parents") { fillParSelectors(); renderParentLogs(); }
+  if(id==="awards") { fillAwardSelectors(); }
+  if(id==="reports") renderReports();
+  if(id==="links") renderLinks();
 }
-$("#btnTheme").addEventListener("click", ()=>{
-  state.theme = (state.theme==="dark") ? "light" : "dark";
-  applyTheme(); persist();
-});
 
-/* =======================
-   CLASSES / STUDENTS
-======================= */
+/* =========================
+   BASIC
+========================= */
+function hydrateBasic(){
+  const b=state.basic;
+  teacher.value=b.teacher||"";
+  principal.value=b.principal||"";
+  school.value=b.school||"";
+  stage.value=b.stage||"";
+  year.value=b.year||"";
+  subject.value=b.subject||"";
+  thHigh.value=state.thresholds.high;
+  thMid.value=state.thresholds.mid;
+  showHigh.textContent=state.thresholds.high;
+  showMid.textContent=state.thresholds.mid;
+  showMid2.textContent=state.thresholds.mid;
+}
+
+function saveBasic(){
+  state.basic.teacher = teacher.value.trim();
+  state.basic.principal = principal.value.trim();
+  state.basic.school = school.value.trim();
+  state.basic.stage = stage.value.trim();
+  state.basic.year = year.value.trim();
+  state.basic.subject = subject.value.trim();
+  state.thresholds.high = clampNum(thHigh.value,0,100,85);
+  state.thresholds.mid  = clampNum(thMid.value,0,100,60);
+  if(state.thresholds.mid>state.thresholds.high) state.thresholds.mid = state.thresholds.high-1;
+  hydrateBasic();
+  saveState();
+  alert("تم حفظ البيانات ✅");
+}
+
+function updateHeader(){
+  const b=state.basic;
+  subtitle.textContent = `${b.teacher||"—"} — ${b.principal||"—"} — ${b.school||"—"} — ${b.stage||"—"} — ${b.year||"—"} — ${b.subject||"—"}`;
+}
+
+/* =========================
+   CLASSES + STUDENTS
+========================= */
 function addClass(){
-  const name = val("classNameInput");
-  if(!name) return toast("اكتبي اسم الفصل");
-  state.classes.push({id:id(), name});
-  document.getElementById("classNameInput").value="";
-  persist();
+  const name = className.value.trim();
+  if(!name) return alert("اكتبي اسم الفصل");
+  if(state.classes.some(c=>c.name===name)) return alert("الفصل موجود");
+  state.classes.push({id:uid(), name});
+  className.value="";
+  saveState();
   renderClasses();
-  toast("✅ تم إضافة الفصل");
 }
-function addStudentsBulk(){
-  const classId = $("#classSelectStudents").value;
-  if(!classId) return toast("اختاري فصل");
-  const lines = val("studentsBulk").split("\n").map(x=>x.trim()).filter(Boolean);
-  if(!lines.length) return toast("اكتبي أسماء الطالبات");
-  const existing = new Set(state.students.filter(s=>s.classId===classId).map(s=>s.name));
-  lines.forEach(name=>{
-    if(!existing.has(name)) state.students.push({id:id(), classId, name});
-  });
-  document.getElementById("studentsBulk").value="";
-  persist();
-  renderClasses();
-  toast("✅ تم إدخال الطالبات");
-}
-function clearStudentsForSelectedClass(){
-  const classId = $("#classSelectStudents").value;
-  if(!classId) return toast("اختاري فصل");
-  state.students = state.students.filter(s=>s.classId!==classId);
-  // remove related grades and parent logs
-  Object.keys(state.grades).forEach(k=>{
-    if(k.startsWith(classId+"|")) delete state.grades[k];
-  });
-  state.parents = state.parents.filter(p=>p.classId!==classId);
-  persist();
-  renderClasses();
-  toast("🗑️ تم حذف طالبات الفصل");
-}
+
 function deleteClass(classId){
+  if(!confirm("حذف الفصل بكل الطالبات والدرجات والمهارات؟")) return;
   state.classes = state.classes.filter(c=>c.id!==classId);
+  const studentIds = state.students.filter(s=>s.classId===classId).map(s=>s.id);
   state.students = state.students.filter(s=>s.classId!==classId);
   Object.keys(state.grades).forEach(k=>{
-    if(k.startsWith(classId+"|")) delete state.grades[k];
+    const [cId, sId] = k.split("|");
+    if(cId===classId || studentIds.includes(sId)) delete state.grades[k];
   });
-  state.parents = state.parents.filter(p=>p.classId!==classId);
-  persist();
+  delete state.classSkills[classId];
+  state.parentLogs = state.parentLogs.filter(l=>l.classId!==classId);
+  saveState();
   renderClasses();
-  toast("✅ تم حذف الفصل");
 }
+
+function addStudentsBulk(classId, text){
+  const names = text.split("\n").map(x=>x.trim()).filter(Boolean);
+  if(!names.length) return alert("اكتبي الأسماء (كل اسم بسطر)");
+  const existing = new Set(state.students.filter(s=>s.classId===classId).map(s=>s.name));
+  names.forEach(n=>{
+    if(!existing.has(n)){
+      state.students.push({id:uid(), classId, name:n});
+      existing.add(n);
+    }
+  });
+  saveState();
+}
+
+function renameStudent(studentId, newName){
+  newName = (newName||"").trim();
+  if(!newName) return;
+  const st = state.students.find(s=>s.id===studentId);
+  if(!st) return;
+  st.name = newName;
+  saveState();
+}
+
 function deleteStudent(studentId){
-  const st = state.students.find(x=>x.id===studentId);
+  if(!confirm("حذف الطالبة ودرجاتها وسجلها؟")) return;
   state.students = state.students.filter(s=>s.id!==studentId);
   Object.keys(state.grades).forEach(k=>{
-    if(k.endsWith("|"+studentId)) delete state.grades[k];
+    const parts = k.split("|");
+    if(parts[1]===studentId) delete state.grades[k];
   });
-  state.parents = state.parents.filter(p=>p.studentId!==studentId);
-  persist();
+  state.parentLogs = state.parentLogs.filter(l=>l.studentId!==studentId);
+  saveState();
   renderClasses();
-  toast("✅ تم حذف الطالبة");
 }
-function renderClasses(){
-  // fill selects
-  fillSelect("#classSelectStudents", state.classes, "id","name", "— اختاري فصل —");
-  fillSelect("#gradeClassSelect", state.classes, "id","name", "— اختاري فصل —");
-  fillSelect("#parentClassSelect", state.classes, "id","name", "— اختاري فصل —");
 
-  const el = $("#classesList");
+function renderClasses(){
   if(!state.classes.length){
-    el.innerHTML = `<p class="mut">لا توجد فصول بعد.</p>`;
+    classesList.innerHTML = `<p class="mut">لا يوجد فصول بعد.</p>`;
     return;
   }
-  el.innerHTML = state.classes.map(c=>{
-    const sts = state.students.filter(s=>s.classId===c.id);
+  classesList.innerHTML = state.classes.map(c=>{
+    const students = state.students.filter(s=>s.classId===c.id);
     return `
-      <div class="card" style="box-shadow:none;border-style:dashed;margin-bottom:10px">
-        <div class="row" style="justify-content:space-between">
+      <div class="card soft" style="box-shadow:none;margin-bottom:12px">
+        <div class="row" style="justify-content:space-between;align-items:center">
           <div>
-            <div style="font-weight:900;font-size:16px">🏫 ${escapeHTML(c.name)}</div>
-            <div class="small">عدد الطالبات: ${sts.length}</div>
+            <div style="font-weight:1000;font-size:16px">🏫 ${esc(c.name)}</div>
+            <div class="small">عدد الطالبات: ${students.length}</div>
           </div>
-          <button class="btn2 btnDanger" onclick="deleteClass('${c.id}')">حذف الفصل</button>
+          <button class="btn danger" onclick="deleteClass('${c.id}')">🗑️ حذف الفصل</button>
         </div>
         <div class="hr"></div>
-        ${sts.length ? `
+        <div class="row">
+          <div class="field" style="flex:2">
+            <label>إدخال الطالبات (كل اسم بسطر)</label>
+            <textarea id="bulk_${c.id}" placeholder="مثال:
+أبرار ...
+سارة ...
+نورة ..."></textarea>
+          </div>
+          <div class="field" style="min-width:220px">
+            <label>إجراء</label>
+            <button class="btn" onclick="addStudentsBulk('${c.id}', document.getElementById('bulk_${c.id}').value); document.getElementById('bulk_${c.id}').value=''; renderClasses();">➕ حفظ</button>
+          </div>
+        </div>
+        <div class="hr"></div>
+        ${students.length ? `
           <table>
-            <thead><tr><th>الطالبة</th><th style="width:120px">إجراء</th></tr></thead>
+            <thead><tr><th>الطالبة</th><th style="width:220px">تعديل الاسم</th><th style="width:110px">حذف</th></tr></thead>
             <tbody>
-              ${sts.map(s=>`
+              ${students.map(s=>`
                 <tr>
-                  <td>${escapeHTML(s.name)}</td>
-                  <td><button class="btn2 btnDanger" onclick="deleteStudent('${s.id}')">حذف</button></td>
+                  <td>${esc(s.name)}</td>
+                  <td>
+                    <input value="${esc(s.name)}" onblur="renameStudent('${s.id}', this.value)" />
+                    <div class="small">اكتبي الاسم ثم اتركي الحقل للحفظ</div>
+                  </td>
+                  <td><button class="btn2 danger" onclick="deleteStudent('${s.id}')">حذف</button></td>
                 </tr>
               `).join("")}
             </tbody>
@@ -702,122 +708,242 @@ function renderClasses(){
   }).join("");
 }
 
-/* =======================
-   SKILLS
-======================= */
-function addSkill(){
-  const name = val("skillNameInput");
-  const unit = val("unitInput");
-  if(!name) return toast("اكتبي اسم المهارة");
-  state.skills.push({id:id(), name, unit});
-  document.getElementById("skillNameInput").value="";
-  document.getElementById("unitInput").value="";
-  persist();
-  renderSkills();
-  toast("✅ تم إضافة المهارة");
+/* =========================
+   CURRICULUM UI
+========================= */
+function renderCurrSelectors(){
+  // units/lessons
+  unitSel.innerHTML = state.curriculum.units.map(u=>`<option value="${u.id}">${esc(u.name)}</option>`).join("");
+  unitSel.onchange = ()=>{ fillLessons(); };
+  fillLessons();
+  // class selector
+  fillSelectors();
+  currClassSel.innerHTML = state.classes.length ? state.classes.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join("") : `<option value="">—</option>`;
+  classSkillsSel.innerHTML = state.classes.length ? state.classes.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join("") : `<option value="">—</option>`;
 }
-function deleteSkill(skillId){
-  state.skills = state.skills.filter(s=>s.id!==skillId);
-  // delete related grades
-  Object.keys(state.grades).forEach(k=>{
-    const parts = k.split("|");
-    if(parts[1]===skillId) delete state.grades[k];
-  });
-  // delete plans referencing it
-  state.plans = state.plans.filter(p=>p.skillId!==skillId);
-  persist();
-  renderSkills();
-  toast("✅ تم حذف المهارة");
-}
-function renderSkills(){
-  fillSelect("#gradeSkillSelect", state.skills, "id","name", "— اختاري مهارة —");
-  fillSelect("#planSkillSelect", state.skills, "id","name", "— اختاري مهارة —");
 
-  const el = $("#skillsList");
-  if(!state.skills.length){
-    el.innerHTML = `<p class="mut">لا توجد مهارات بعد.</p>`;
-    return;
-  }
-  el.innerHTML = `
+function fillLessons(){
+  const uId = unitSel.value;
+  const unit = state.curriculum.units.find(u=>u.id===uId);
+  lessonSel.innerHTML = (unit?.lessons||[]).map(l=>`<option value="${l.id}">${esc(l.name)}</option>`).join("");
+  lessonSel.onchange = ()=> loadLessonSkills();
+  loadLessonSkills();
+}
+
+function loadLessonSkills(){
+  const u = state.curriculum.units.find(x=>x.id===unitSel.value);
+  const l = (u?.lessons||[]).find(x=>x.id===lessonSel.value);
+  skillsBox.value = (l?.skills||[]).join("\n");
+}
+
+function saveLessonSkills(){
+  const u = state.curriculum.units.find(x=>x.id===unitSel.value);
+  if(!u) return;
+  const l = (u.lessons||[]).find(x=>x.id===lessonSel.value);
+  if(!l) return;
+  l.skills = skillsBox.value.split("\n").map(x=>x.trim()).filter(Boolean);
+  saveState();
+  alert("تم حفظ مهارات الدرس ✅");
+}
+
+function addLesson(){
+  const u = state.curriculum.units.find(x=>x.id===unitSel.value);
+  if(!u) return;
+  const name = prompt("اسم الدرس؟");
+  if(!name) return;
+  u.lessons.push({id:uid(), name:name.trim(), skills:[]});
+  saveState();
+  renderCurrSelectors();
+  alert("تم إضافة الدرس ✅");
+}
+
+function deleteLesson(){
+  const u = state.curriculum.units.find(x=>x.id===unitSel.value);
+  if(!u) return;
+  const lId = lessonSel.value;
+  if(!lId) return;
+  if(!confirm("حذف الدرس ومهاراته؟")) return;
+  u.lessons = u.lessons.filter(l=>l.id!==lId);
+  saveState();
+  renderCurrSelectors();
+}
+
+function applyLessonSkillsToClass(){
+  const classId = currClassSel.value;
+  if(!classId) return alert("اختاري فصل");
+  const u = state.curriculum.units.find(x=>x.id===unitSel.value);
+  const l = (u?.lessons||[]).find(x=>x.id===lessonSel.value);
+  const skills = (l?.skills||[]).map(x=>x.trim()).filter(Boolean);
+  if(!skills.length) return alert("لا توجد مهارات لهذا الدرس");
+  // دمج
+  const existing = new Set((state.classSkills[classId]||[]).map(x=>x));
+  skills.forEach(s=>existing.add(`${u.name} — ${l.name} :: ${s}`));
+  state.classSkills[classId] = [...existing];
+  saveState();
+  renderClassSkills();
+  alert("تم ربط المهارات بالفصل ✅");
+}
+
+function renderClassSkills(){
+  const classId = classSkillsSel.value || state.classes[0]?.id || "";
+  if(classId && classSkillsSel.value!==classId) classSkillsSel.value=classId;
+  const list = state.classSkills[classId] || [];
+  if(!classId) { classSkillsOut.innerHTML = `<p class="mut">أضيفي فصل أولًا.</p>`; return; }
+  classSkillsOut.innerHTML = list.length ? `
     <table>
-      <thead><tr><th>المهارة</th><th>الوحدة/الدرس</th><th style="width:120px">إجراء</th></tr></thead>
-      <tbody>
-        ${state.skills.map(s=>`
-          <tr>
-            <td>${escapeHTML(s.name)}</td>
-            <td>${escapeHTML(s.unit||"—")}</td>
-            <td><button class="btn2 btnDanger" onclick="deleteSkill('${s.id}')">حذف</button></td>
-          </tr>
-        `).join("")}
-      </tbody>
+      <thead><tr><th>المهارة المرتبطة</th></tr></thead>
+      <tbody>${list.map(s=>`<tr><td>${esc(s)}</td></tr>`).join("")}</tbody>
     </table>
-  `;
+    <p class="small">هذه المهارات ستظهر في صفحة الخطط.</p>
+  ` : `<p class="mut">لا توجد مهارات مرتبطة بهذا الفصل بعد. طبّقي مهارات درس على الفصل.</p>`;
 }
 
-/* =======================
+function clearClassSkills(){
+  const classId = classSkillsSel.value;
+  if(!classId) return;
+  if(!confirm("مسح مهارات الفصل؟")) return;
+  state.classSkills[classId]=[];
+  saveState();
+  renderClassSkills();
+}
+
+/* =========================
    GRADES
-======================= */
-function renderGradeSelectors(){
-  fillSelect("#gradeClassSelect", state.classes, "id","name", "— اختاري فصل —");
-  fillSelect("#gradeSkillSelect", state.skills, "id","name", "— اختاري مهارة —");
+========================= */
+function gKey(classId, studentId, term){ return `${classId}|${studentId}|${term}`; }
+function clampNum(v,min,max,def){
+  const n = Number(v);
+  if(!Number.isFinite(n)) return def;
+  return Math.max(min, Math.min(max, n));
 }
-function gradeKey(classId, skillId, term, studentId){
-  return `${classId}|${skillId}|${term}|${studentId}`;
+function getEntry(classId, studentId, term){
+  return state.grades[gKey(classId, studentId, term)] || null;
 }
-function setGrade(classId, skillId, term, studentId, value){
-  const n = value==="" ? null : Math.max(0, Math.min(100, parseFloat(value)));
-  const k = gradeKey(classId, skillId, term, studentId);
-  if(n===null || !Number.isFinite(n)) delete state.grades[k];
-  else state.grades[k]=n;
-  persist();
+function setEntry(classId, studentId, term, p, e){
+  const k = gKey(classId, studentId, term);
+  const pp = (p===""? "" : clampNum(p,0,40,0));
+  const ee = (e===""? "" : clampNum(e,0,60,0));
+  if(pp==="" && ee===""){
+    delete state.grades[k];
+  }else{
+    state.grades[k] = {p: (pp===""? "" : Number(pp)), e:(ee===""? "" : Number(ee))};
+  }
+  saveState();
 }
-function classify(v){
-  if(v===null || v===undefined || !Number.isFinite(v)) return {txt:"—", cls:"tag"};
-  if(v>=state.settings.thrHigh) return {txt:"فوق المتوسط", cls:"tag ok"};
-  if(v>=state.settings.thrMid)  return {txt:"ضمن المتوسط", cls:"tag warn"};
-  return {txt:"دون المتوسط", cls:"tag bad"};
+function scoreOf(entry){
+  if(!entry) return null;
+  const p = entry.p; const e = entry.e;
+  if(p==="" && e==="") return null;
+  return (Number.isFinite(Number(p))?Number(p):0) + (Number.isFinite(Number(e))?Number(e):0);
 }
+function scoreTerm(classId, studentId, term){
+  return scoreOf(getEntry(classId, studentId, term));
+}
+function scoreFinal(classId, studentId){
+  const s1 = scoreTerm(classId, studentId, "t1");
+  const s2 = scoreTerm(classId, studentId, "t2");
+  if(s1===null && s2===null) return null;
+  if(s1!==null && s2!==null) return (s1+s2)/2;
+  return (s1!==null)? s1 : s2;
+}
+function classify(score){
+  if(score===null) return {txt:"—", cls:"tag"};
+  if(score >= state.thresholds.high) return {txt:"🟢 فوق المتوسط", cls:"tag ok"};
+  if(score >= state.thresholds.mid)  return {txt:"🟡 ضمن المتوسط", cls:"tag mid"};
+  return {txt:"🔴 دون المتوسط", cls:"tag low"};
+}
+
 function renderGradeTable(){
-  const classId = $("#gradeClassSelect").value;
-  const skillId = $("#gradeSkillSelect").value;
-  const term = $("#termSelect").value;
-  if(!classId || !skillId) return toast("اختاري الفصل والمهارة");
+  hydrateBasic();
+  const classId = gradeClass.value || state.classes[0]?.id || "";
+  if(classId && gradeClass.value!==classId) gradeClass.value=classId;
+  const mode = gradeMode.value;
 
   const cls = state.classes.find(c=>c.id===classId);
-  const sk  = state.skills.find(s=>s.id===skillId);
-  const termName = term==="t1" ? state.settings.term1Name : state.settings.term2Name;
+  if(!cls){ gradeWrap.innerHTML=`<p class="mut">أضيفي فصل أولًا.</p>`; return; }
 
-  const sts = state.students.filter(s=>s.classId===classId);
-  if(!sts.length){
-    $("#gradeTableWrap").innerHTML = `<p class="mut">لا توجد طالبات في هذا الفصل.</p>`;
+  const students = state.students.filter(s=>s.classId===classId);
+  if(!students.length){ gradeWrap.innerHTML=`<p class="mut">أضيفي طالبات لهذا الفصل.</p>`; return; }
+
+  if(mode==="t1" || mode==="t2"){
+    const term = mode;
+    const label = term==="t1"?"الفترة الأولى":"الفترة الثانية";
+    gradeWrap.innerHTML = `
+      <div style="font-weight:1000;font-size:16px">كشف درجات ${esc(cls.name)} — ${label}</div>
+      <div class="small">المهمات (40) + الاختبارات (60) = المجموع (100)</div>
+      <div class="hr"></div>
+      <table>
+        <thead>
+          <tr>
+            <th>الطالبة</th>
+            <th style="width:170px">مهمات (40)</th>
+            <th style="width:190px">اختبار (60)</th>
+            <th style="width:140px">المجموع</th>
+            <th style="width:220px">التصنيف</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${students.map(st=>{
+            const entry = getEntry(classId, st.id, term) || {p:"",e:""};
+            const total = scoreOf(entry);
+            const c = classify(total);
+            return `
+              <tr>
+                <td>${esc(st.name)}</td>
+                <td><input type="number" min="0" max="40" value="${entry.p}"
+                  oninput="setEntry('${classId}','${st.id}','${term}', this.value, document.getElementById('e_${term}_${st.id}').value); renderGradeTable();"></td>
+                <td><input id="e_${term}_${st.id}" type="number" min="0" max="60" value="${entry.e}"
+                  oninput="setEntry('${classId}','${st.id}','${term}', document.getElementById('p_${term}_${st.id}').value, this.value); renderGradeTable();"></td>
+                <td><b>${total===null? "—" : total.toFixed(0)}</b></td>
+                <td><span class="${c.cls}">${c.txt}</span></td>
+              </tr>
+            `;
+          }).join("")}
+        </tbody>
+      </table>
+    `;
+    // assign p ids safely
+    setTimeout(()=>{
+      students.forEach(st=>{
+        const row = [...gradeWrap.querySelectorAll("tbody tr")].find(r=>r.children[0]?.textContent?.trim()===st.name);
+        if(row){ const pIn=row.children[1].querySelector("input"); if(pIn) pIn.id=`p_${term}_${st.id}`; }
+      });
+    },0);
     return;
   }
 
-  $("#gradeTableWrap").innerHTML = `
-    <div class="row" style="justify-content:space-between;align-items:flex-end">
-      <div>
-        <div style="font-weight:900;font-size:16px">درجات فصل: ${escapeHTML(cls?.name||"—")} — المهارة: ${escapeHTML(sk?.name||"—")}</div>
-        <div class="small">الفترة: ${escapeHTML(termName)}</div>
-      </div>
-      <div class="small">الدرجة من 100</div>
-    </div>
+  // all mode
+  gradeWrap.innerHTML = `
+    <div style="font-weight:1000;font-size:16px">عرض شامل: ${esc(cls.name)} (ف1 + ف2 + النهائي)</div>
+    <div class="small">النهائي = (ف1 + ف2) ÷ 2 (من 100)</div>
     <div class="hr"></div>
     <table>
-      <thead><tr><th>الطالبة</th><th style="width:160px">الدرجة</th><th style="width:180px">التصنيف</th></tr></thead>
+      <thead>
+        <tr>
+          <th>الطالبة</th>
+          <th style="width:90px">ف1</th>
+          <th style="width:90px">ف2</th>
+          <th style="width:120px">النهائي</th>
+          <th style="width:220px">تصنيف النهائي</th>
+          <th style="width:160px">التحسن (ف2-ف1)</th>
+        </tr>
+      </thead>
       <tbody>
-        ${sts.map(st=>{
-          const k = gradeKey(classId, skillId, term, st.id);
-          const v = (k in state.grades) ? state.grades[k] : null;
-          const c = classify(v);
+        ${students.map(st=>{
+          const s1 = scoreTerm(classId, st.id, "t1");
+          const s2 = scoreTerm(classId, st.id, "t2");
+          const fin = scoreFinal(classId, st.id);
+          const c = classify(fin);
+          const imp = (s1!==null && s2!==null) ? (s2 - s1) : null;
+          const impTxt = (imp===null) ? "—" : (imp>0? `+${imp.toFixed(0)}` : imp.toFixed(0));
           return `
             <tr>
-              <td>${escapeHTML(st.name)}</td>
-              <td>
-                <input type="number" min="0" max="100" value="${v===null?"":v}"
-                  oninput="setGrade('${classId}','${skillId}','${term}','${st.id}',this.value); renderGradeTable();"
-                />
-              </td>
+              <td>${esc(st.name)}</td>
+              <td>${s1===null? "—" : s1.toFixed(0)}</td>
+              <td>${s2===null? "—" : s2.toFixed(0)}</td>
+              <td><b>${fin===null? "—" : fin.toFixed(1)}</b></td>
               <td><span class="${c.cls}">${c.txt}</span></td>
+              <td><b>${impTxt}</b></td>
             </tr>
           `;
         }).join("")}
@@ -826,439 +952,722 @@ function renderGradeTable(){
   `;
 }
 
-/* =======================
-   PLANS (Templates)
-======================= */
-const planTemplates = {
-  remedial: [
-    {title:"جلسة علاجية قصيرة", steps:"(1) تمهيد سريع + مثال محلول\n(2) تدريب موجّه 10 دقائق\n(3) ورقة عمل مصغّرة\n(4) تقويم ختامي", tools:"سبورة/أوراق/بطاقات", link:""},
-    {title:"تعلم تعاوني علاجي", steps:"(1) تقسيم مجموعات\n(2) شرح زميلة متقنة\n(3) تطبيق فردي\n(4) متابعة", tools:"بطاقات/نماذج", link:""}
-  ],
-  enrichment: [
-    {title:"نشاط إثرائي (تحدي)", steps:"(1) سؤال تفكير ناقد\n(2) ربط بالحياة\n(3) مهمة قصيرة/عرض", tools:"Padlet/Canva", link:""},
-    {title:"مشروع مصغّر", steps:"(1) اختيار فكرة\n(2) تنفيذ\n(3) عرض\n(4) تقييم", tools:"Canva/Word", link:""}
-  ]
-};
-function renderPlanSelectors(){
-  fillSelect("#planSkillSelect", state.skills, "id","name", "— اختاري مهارة —");
+/* =========================
+   PLANS (AUTO GENERATION)
+========================= */
+function fillPlanSelectors(){
+  planClass.innerHTML = state.classes.length ? state.classes.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join("") : `<option value="">—</option>`;
+  fillPlanStudents();
 }
-function addPlanFromTemplate(){
-  const skillId = $("#planSkillSelect").value;
-  const type = $("#planTypeSelect").value;
-  if(!skillId) return toast("اختاري مهارة");
-  const tmpl = planTemplates[type][0];
-  state.plans.push({id:id(), skillId, type, title:tmpl.title, steps:tmpl.steps, tools:tmpl.tools, link:tmpl.link});
-  persist();
-  renderPlans();
-  toast("✅ تم إضافة خطة");
+function fillPlanStudents(){
+  const classId = planClass.value || state.classes[0]?.id || "";
+  if(classId && planClass.value!==classId) planClass.value=classId;
+  const studs = state.students.filter(s=>s.classId===classId);
+  planStudent.innerHTML = studs.length ? studs.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join("") : `<option value="">—</option>`;
+  fillPlanSkills();
 }
-function deletePlan(pid){
-  state.plans = state.plans.filter(p=>p.id!==pid);
-  persist(); renderPlans();
+function fillPlanSkills(){
+  const classId = planClass.value;
+  const list = state.classSkills[classId] || [];
+  planSkill.innerHTML = list.length ? list.map(s=>`<option value="${esc(s)}">${esc(s)}</option>`).join("") : `<option value="">— لا توجد مهارات مرتبطة —</option>`;
 }
-function updatePlan(pid, field, value){
-  const p = state.plans.find(x=>x.id===pid);
-  if(!p) return;
-  p[field]=value;
-  persist();
+function planScore(classId, studentId, based){
+  if(based==="t1") return scoreTerm(classId, studentId, "t1");
+  if(based==="t2") return scoreTerm(classId, studentId, "t2");
+  return scoreFinal(classId, studentId);
 }
-function renderPlans(){
-  const el = $("#plansList");
-  if(!state.plans.length){
-    el.innerHTML = `<p class="mut">لا توجد خطط بعد.</p>`;
+function generatePlan(skill, score){
+  // توليد تلقائي حسب التصنيف
+  const src = state.links.sources;
+  const games = state.links.games;
+  const pick = (arr)=> arr[Math.floor(Math.random()*arr.length)] || null;
+  const s1 = pick(src); const s2 = pick(src);
+  const g1 = pick(games); const g2 = pick(games);
+
+  const base = [
+    `المهارة المستهدفة: ${skill}`,
+    `الهدف: رفع مستوى الإتقان وتحسين الأداء في المهارة.`,
+  ];
+
+  if(score===null){
+    return {
+      type:"خطة (بدون درجة)",
+      icon:"⚪",
+      steps: base.concat([
+        "أدخلي درجة الطالبة أولًا (ف1 أو ف2 أو النهائي) لتوليد خطة أدق.",
+        "اختاري نشاطًا تدريبيًا مناسبًا، ثم نفّذي تقويمًا قصيرًا."
+      ])
+    };
+  }
+
+  if(score < state.thresholds.mid){
+    return {
+      type:"خطة علاجية",
+      icon:"🔴",
+      steps: base.concat([
+        "إعادة شرح مبسط (5–7 دقائق) مع مثالين تدريجيين.",
+        "نشاط تهيئة: أسئلة صح/خطأ قصيرة لقياس الفهم.",
+        `مشاهدة/مراجعة مصدر: ${s1? s1.name : "عين/مدرستي"} (${s1? s1.url : ""})`,
+        "ورقة عمل قصيرة (3 أسئلة متدرجة) مرتبطة بالمهارة.",
+        `لعبة علاجية سريعة: ${g1? g1.name : "Wordwall"} (${g1? g1.url : ""})`,
+        "سؤال شفهي/تطبيقي فردي للتأكد من الفهم.",
+        "تقويم بعدي (5 أسئلة) + رصد التحسن.",
+        "تواصل مختصر مع ولي الأمر عند الحاجة (إبلاغ الخطة والمتابعة)."
+      ])
+    };
+  }
+
+  if(score >= state.thresholds.high){
+    return {
+      type:"خطة إثرائية",
+      icon:"🟢",
+      steps: base.concat([
+        "نشاط إثرائي: خريطة مفاهيم/ملخص بصري للمهارة.",
+        "مهمة تطبيقية: مثال من الواقع/ربط بالمواقف اليومية.",
+        `مسابقة إثرائية: ${g2? g2.name : "Kahoot"} (${g2? g2.url : ""})`,
+        "تكليف قصير: إعداد سؤالين لزميلاتها أو مشاركة عرض قصير.",
+        `مصدر تعميق: ${s2? s2.name : "عين/مدرستي"} (${s2? s2.url : ""})`,
+        "تقييم إثرائي اختياري + إدراج الطالبة ضمن المرشحات للتكريم."
+      ])
+    };
+  }
+
+  // ضمن المتوسط
+  return {
+    type:"خطة تعزيز",
+    icon:"🟡",
+    steps: base.concat([
+      "مراجعة سريعة للمفاهيم الأساسية للمهارة.",
+      "نشاط تدريبي متوسط الصعوبة (5 أسئلة).",
+      "نقاش/عمل تعاوني (ثنائيات) لمدة 5 دقائق.",
+      `لعبة تدريب: ${g1? g1.name : "Quizizz"} (${g1? g1.url : ""})`,
+      "تقويم ختامي قصير + متابعة في الحصة القادمة."
+    ])
+  };
+}
+
+function generatePlanUI(){
+  const classId = planClass.value;
+  const studentId = planStudent.value;
+  const skill = planSkill.value;
+  const based = planBased.value;
+  if(!classId || !studentId || !skill) return alert("اختاري الفصل والطالبة والمهارة");
+  const sc = planScore(classId, studentId, based);
+  const plan = generatePlan(skill, sc);
+  const st = state.students.find(s=>s.id===studentId);
+  const cls = state.classes.find(c=>c.id===classId);
+  const basedLabel = based==="final" ? "النهائي" : (based==="t1" ? "الفترة الأولى" : "الفترة الثانية");
+  const c = classify(sc);
+
+  planOut.innerHTML = `
+    <div class="card soft" style="box-shadow:none">
+      <div style="font-weight:1000;font-size:16px">${plan.icon} ${plan.type}</div>
+      <div class="small">الفصل: ${esc(cls?.name||"—")} — الطالبة: ${esc(st?.name||"—")} — اعتماد: ${basedLabel}</div>
+      <div class="hr"></div>
+      <div class="row">
+        <span class="${c.cls}">${c.txt}</span>
+        <span class="tag">${sc===null? "الدرجة: —" : "الدرجة: " + sc.toFixed(1) + " / 100"}</span>
+      </div>
+      <div class="hr"></div>
+      <ol style="line-height:1.9;margin:0;padding-right:18px">
+        ${plan.steps.map(s=>`<li>${esc(s)}</li>`).join("")}
+      </ol>
+    </div>
+  `;
+}
+
+/* =========================
+   PARENTS
+========================= */
+function fillParSelectors(){
+  parClass.innerHTML = state.classes.length ? state.classes.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join("") : `<option value="">—</option>`;
+  fillParStudents();
+}
+function fillParStudents(){
+  const classId = parClass.value || state.classes[0]?.id || "";
+  if(classId && parClass.value!==classId) parClass.value=classId;
+  const studs = state.students.filter(s=>s.classId===classId);
+  parStudent.innerHTML = studs.length ? studs.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join("") : `<option value="">—</option>`;
+}
+function addParentLog(){
+  const classId = parClass.value;
+  const studentId = parStudent.value;
+  if(!classId || !studentId) return alert("اختاري فصل وطالبة");
+  const reason = parReason.value.trim();
+  const action = parAction.value.trim();
+  const result = parResult.value.trim();
+  if(!reason && !action && !result) return alert("اكتبي على الأقل سبب أو إجراء أو نتيجة");
+  state.parentLogs.push({
+    id:uid(),
+    date:todayStr(),
+    classId, studentId,
+    reason, action, result
+  });
+  parReason.value=""; parAction.value=""; parResult.value="";
+  saveState();
+  renderParentLogs();
+}
+function renderParentLogs(){
+  if(!state.parentLogs.length){
+    parOut.innerHTML = `<p class="mut">لا يوجد سجلات بعد.</p>`;
     return;
   }
-  el.innerHTML = state.plans.map(p=>{
-    const sk = state.skills.find(s=>s.id===p.skillId);
-    const typeName = p.type==="remedial" ? "علاجية" : "إثرائية";
+  const rows = state.parentLogs.slice().reverse().map(l=>{
+    const cls = state.classes.find(c=>c.id===l.classId);
+    const st  = state.students.find(s=>s.id===l.studentId);
     return `
-      <div class="card" style="box-shadow:none;border-style:dashed;margin-bottom:10px">
-        <div class="row" style="justify-content:space-between">
-          <div>
-            <div style="font-weight:900">${typeName} — ${escapeHTML(sk?.name||"—")}</div>
-            <div class="small">${escapeHTML(sk?.unit||"")}</div>
-          </div>
-          <button class="btn2 btnDanger" onclick="deletePlan('${p.id}')">حذف</button>
-        </div>
+      <tr>
+        <td>${esc(l.date||"")}</td>
+        <td>${esc(cls?.name||"—")}</td>
+        <td>${esc(st?.name||"—")}</td>
+        <td>${esc(l.reason||"")}</td>
+        <td>${esc(l.action||"")}</td>
+        <td>${esc(l.result||"")}</td>
+        <td><button class="btn2 danger" onclick="deleteParentLog('${l.id}')">حذف</button></td>
+      </tr>
+    `;
+  }).join("");
+  parOut.innerHTML = `
+    <table>
+      <thead>
+        <tr><th>التاريخ</th><th>الفصل</th><th>الطالبة</th><th>السبب</th><th>الإجراء</th><th>النتيجة</th><th>حذف</th></tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>
+  `;
+}
+function deleteParentLog(id){
+  if(!confirm("حذف السجل؟")) return;
+  state.parentLogs = state.parentLogs.filter(x=>x.id!==id);
+  saveState();
+  renderParentLogs();
+}
+
+/* =========================
+   AWARDS
+========================= */
+function fillAwardSelectors(){
+  awardClass.innerHTML = state.classes.length ? state.classes.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join("") : `<option value="">—</option>`;
+}
+function renderAwards(){
+  const classId = awardClass.value || state.classes[0]?.id || "";
+  if(classId && awardClass.value!==classId) awardClass.value=classId;
+  const studs = state.students.filter(s=>s.classId===classId);
+  if(!studs.length){ awardOut.innerHTML=`<p class="mut">لا يوجد طالبات.</p>`; return; }
+
+  const finals = studs.map(st=>{
+    const f = scoreFinal(classId, st.id);
+    const s1 = scoreTerm(classId, st.id, "t1");
+    const s2 = scoreTerm(classId, st.id, "t2");
+    const imp = (s1!==null && s2!==null) ? (s2-s1) : null;
+    return {st, final:f, imp};
+  });
+
+  const bestFinal = finals.filter(x=>x.final!==null).sort((a,b)=>b.final-a.final)[0] || null;
+  const bestImp   = finals.filter(x=>x.imp!==null).sort((a,b)=>b.imp-a.imp)[0] || null;
+
+  const topList = finals
+    .filter(x=>x.final!==null)
+    .sort((a,b)=>b.final-a.final)
+    .slice(0,10);
+
+  awardOut.innerHTML = `
+    <div class="card soft" style="box-shadow:none">
+      <div style="font-weight:1000;font-size:16px">🏫 ${esc(state.classes.find(c=>c.id===classId)?.name||"—")}</div>
+      <div class="hr"></div>
+
+      <div class="row">
+        <span class="tag ok">🥇 أعلى درجة: ${bestFinal? esc(bestFinal.st.name) + " (" + bestFinal.final.toFixed(1) + ")" : "—"}</span>
+        <span class="tag mid">🚀 أعلى تحسن: ${bestImp? esc(bestImp.st.name) + " (" + (bestImp.imp>0? "+" : "") + bestImp.imp.toFixed(0) + ")" : "—"}</span>
+      </div>
+
+      <div class="hr"></div>
+      <h3>لوحة الشرف (Top 10)</h3>
+      ${topList.length ? `
+        <table>
+          <thead><tr><th>#</th><th>الطالبة</th><th>النهائي</th><th>التصنيف</th></tr></thead>
+          <tbody>
+            ${topList.map((x,i)=>{
+              const c = classify(x.final);
+              return `<tr><td>${i+1}</td><td>${esc(x.st.name)}</td><td>${x.final.toFixed(1)}</td><td><span class="${c.cls}">${c.txt}</span></td></tr>`;
+            }).join("")}
+          </tbody>
+        </table>
+      ` : `<p class="mut">أدخلي درجات ف1/ف2 أولًا.</p>`}
+    </div>
+  `;
+}
+
+/* =========================
+   REPORTS + CHARTS
+========================= */
+function bucketCounts(scores){
+  let ok=0, mid=0, low=0, total=0;
+  scores.forEach(s=>{
+    if(s===null) return;
+    total++;
+    if(s>=state.thresholds.high) ok++;
+    else if(s>=state.thresholds.mid) mid++;
+    else low++;
+  });
+  const pct = (n)=> total? Math.round(n*100/total):0;
+  return {ok,mid,low,total, okP:pct(ok), midP:pct(mid), lowP:pct(low)};
+}
+function reportScoresForClass(classId, mode){
+  const studs = state.students.filter(s=>s.classId===classId);
+  return studs.map(st=>{
+    if(mode==="t1") return scoreTerm(classId, st.id, "t1");
+    if(mode==="t2") return scoreTerm(classId, st.id, "t2");
+    return scoreFinal(classId, st.id);
+  });
+}
+function renderReports(){
+  const mode = repMode.value;
+  const label = mode==="t1" ? "الفترة الأولى" : (mode==="t2" ? "الفترة الثانية" : "النهائي (متوسط الفترتين)");
+  if(!state.classes.length){
+    repOut.innerHTML = `<p class="mut">أضيفي فصولًا أولًا.</p>`;
+    drawCharts({ok:0,mid:0,low:0,total:0});
+    return;
+  }
+
+  let all=[];
+  const perClass = state.classes.map(c=>{
+    const scores = reportScoresForClass(c.id, mode);
+    all = all.concat(scores);
+    const b = bucketCounts(scores);
+    return `
+      <div class="card soft" style="box-shadow:none;margin-bottom:10px">
+        <div style="font-weight:1000">🏫 ${esc(c.name)} — تحليل ${label}</div>
+        <div class="small">عدد المقيمات: ${b.total}</div>
         <div class="hr"></div>
-        <div class="grid">
-          <div class="field">
-            <label>عنوان الخطة</label>
-            <input value="${escapeAttr(p.title||"")}" oninput="updatePlan('${p.id}','title',this.value)" />
-          </div>
-          <div class="field">
-            <label>الأدوات</label>
-            <input value="${escapeAttr(p.tools||"")}" oninput="updatePlan('${p.id}','tools',this.value)" />
-          </div>
-        </div>
-        <div class="grid">
-          <div class="field">
-            <label>الخطوات</label>
-            <textarea oninput="updatePlan('${p.id}','steps',this.value)">${escapeHTML(p.steps||"")}</textarea>
-          </div>
-          <div class="field">
-            <label>رابط/مرفق</label>
-            <input value="${escapeAttr(p.link||"")}" oninput="updatePlan('${p.id}','link',this.value)" placeholder="صقي رابط" />
-          </div>
+        <div class="row">
+          <span class="tag ok">🟢 ${b.ok} (${b.okP}%)</span>
+          <span class="tag mid">🟡 ${b.mid} (${b.midP}%)</span>
+          <span class="tag low">🔴 ${b.low} (${b.lowP}%)</span>
         </div>
       </div>
     `;
   }).join("");
-}
 
-/* =======================
-   PARENTS
-======================= */
-function renderParentSelectors(){
-  fillSelect("#parentClassSelect", state.classes, "id","name", "— اختاري فصل —");
-  const cid = $("#parentClassSelect").value;
-  const sts = state.students.filter(s=>s.classId===cid);
-  fillSelect("#parentStudentSelect", sts, "id","name", "— اختاري طالبة —");
-  renderParents();
-}
-$("#parentClassSelect").addEventListener("change", renderParentSelectors);
-
-function addParentLog(){
-  const classId = $("#parentClassSelect").value;
-  const studentId = $("#parentStudentSelect").value;
-  if(!classId || !studentId) return toast("اختاري الفصل والطالبة");
-  const date = $("#parentDate").value || new Date().toISOString().slice(0,10);
-  const channel = $("#parentChannel").value;
-  const reason = $("#parentReason").value;
-  const action = $("#parentAction").value.trim();
-  const result = $("#parentResult").value.trim();
-  state.parents.push({id:id(), classId, studentId, date, channel, reason, action, result});
-  $("#parentAction").value=""; $("#parentResult").value="";
-  persist();
-  renderParents();
-  toast("✅ تم حفظ سجل ولي الأمر");
-}
-function deleteParentLog(pid){
-  state.parents = state.parents.filter(p=>p.id!==pid);
-  persist(); renderParents();
-}
-function clearParentLogs(){
-  state.parents = [];
-  persist(); renderParents();
-  toast("🗑️ تم حذف جميع سجلات أولياء الأمور");
-}
-function renderParents(){
-  const el = $("#parentsList");
-  if(!state.parents.length){
-    el.innerHTML = `<p class="mut">لا توجد سجلات بعد.</p>`;
-    return;
-  }
-  el.innerHTML = `
-    <table>
-      <thead>
-        <tr><th>التاريخ</th><th>الفصل</th><th>الطالبة</th><th>السبب</th><th>وسيلة</th><th>الإجراء</th><th>النتيجة</th><th style="width:90px">حذف</th></tr>
-      </thead>
-      <tbody>
-        ${state.parents.slice().reverse().map(p=>{
-          const cls = state.classes.find(c=>c.id===p.classId);
-          const st = state.students.find(s=>s.id===p.studentId);
-          return `
-            <tr>
-              <td>${escapeHTML(p.date||"")}</td>
-              <td>${escapeHTML(cls?.name||"")}</td>
-              <td>${escapeHTML(st?.name||"")}</td>
-              <td>${escapeHTML(p.reason||"")}</td>
-              <td>${escapeHTML(p.channel||"")}</td>
-              <td>${escapeHTML(p.action||"")}</td>
-              <td>${escapeHTML(p.result||"")}</td>
-              <td><button class="btn2 btnDanger" onclick="deleteParentLog('${p.id}')">حذف</button></td>
-            </tr>
-          `;
-        }).join("")}
-      </tbody>
-    </table>
+  const grand = bucketCounts(all);
+  const summaryText = `
+  تم تحليل نتائج ${label} لجميع الفصول، وبلغت نسبة 🟢 فوق المتوسط (${grand.okP}%)، و🟡 ضمن المتوسط (${grand.midP}%)، و🔴 دون المتوسط (${grand.lowP}%). 
+  ويوصى بتفعيل الخطط العلاجية للفئة 🔴، وتقديم أنشطة إثرائية للفئة 🟢، ومتابعة الفئة 🟡 بأنشطة تعزيزية قصيرة.
   `;
-}
 
-/* =======================
-   RESOURCES
-======================= */
-function addResource(){
-  const title = val("resTitle");
-  const link = val("resLink");
-  if(!title || !link) return toast("اكتبي الاسم والرابط");
-  state.resources.push({id:id(), title, link});
-  $("#resTitle").value=""; $("#resLink").value="";
-  persist(); renderResources();
-  toast("✅ تم إضافة مصدر");
-}
-function deleteResource(rid){
-  state.resources = state.resources.filter(r=>r.id!==rid);
-  persist(); renderResources();
-}
-function renderResources(){
-  const el = $("#resourcesList");
-  if(!state.resources.length){
-    el.innerHTML = `<p class="mut">لا توجد مصادر بعد.</p>`;
-    return;
-  }
-  el.innerHTML = state.resources.map(r=>`
-    <div class="row" style="justify-content:space-between;margin-bottom:10px">
-      <a class="btn2" href="${escapeAttr(r.link)}" target="_blank" rel="noopener">🔗 ${escapeHTML(r.title)}</a>
-      <button class="btn2 btnDanger" onclick="deleteResource('${r.id}')">حذف</button>
+  repOut.innerHTML = `
+    <div class="card" style="box-shadow:none;border:1px dashed var(--line)">
+      <div style="font-weight:1000">📌 إجمالي جميع الفصول — تحليل ${label}</div>
+      <div class="small">عدد المقيمات: ${grand.total}</div>
+      <div class="hr"></div>
+      <div class="row">
+        <span class="tag ok">🟢 فوق المتوسط: ${grand.ok} (${grand.okP}%)</span>
+        <span class="tag mid">🟡 ضمن المتوسط: ${grand.mid} (${grand.midP}%)</span>
+        <span class="tag low">🔴 دون المتوسط: ${grand.low} (${grand.lowP}%)</span>
+      </div>
+      <div class="hr"></div>
+      <div class="mut"><b>نص جاهز:</b> ${esc(summaryText)}</div>
     </div>
-  `).join("");
+    ${perClass}
+  `;
+
+  drawCharts(grand);
+  updateKPIs();
 }
 
-/* =======================
-   GAMES
-======================= */
-function addGame(){
-  const title = val("gameTitle");
-  const link = val("gameLink");
-  const type = $("#gameType").value;
-  if(!title || !link) return toast("اكتبي العنوان والرابط");
-  state.games.push({id:id(), title, link, type});
-  $("#gameTitle").value=""; $("#gameLink").value="";
-  persist(); renderGames(); toast("✅ تم إضافة لعبة");
-}
-function deleteGame(gid){
-  state.games = state.games.filter(g=>g.id!==gid);
-  persist(); renderGames();
-}
-function renderGames(){
-  const el = $("#gamesList");
-  if(!state.games.length){
-    el.innerHTML = `<p class="mut">لا توجد ألعاب بعد.</p>`;
-    return;
-  }
-  el.innerHTML = state.games.map(g=>`
-    <div class="row" style="justify-content:space-between;margin-bottom:10px">
-      <a class="btn2" href="${escapeAttr(g.link)}" target="_blank" rel="noopener">🎮 ${escapeHTML(g.type)} — ${escapeHTML(g.title)}</a>
-      <button class="btn2 btnDanger" onclick="deleteGame('${g.id}')">حذف</button>
-    </div>
-  `).join("");
+function drawCharts(grand){
+  drawPie(pie, grand.ok, grand.mid, grand.low);
+  drawBars(bars, grand.ok, grand.mid, grand.low);
 }
 
-/* =======================
-   REPORTS
-======================= */
-function renderReports(){
-  const termChoice = $("#reportTermSelect").value;
-  const termKeys = termChoice==="both" ? ["t1","t2"] : [termChoice];
+function drawPie(canvas, ok, mid, low){
+  const ctx = canvas.getContext("2d");
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  const total = ok+mid+low || 1;
+  const cx = 130, cy = 130, r = 90;
+  const parts = [
+    {v:ok,  c:"#16a34a", t:"فوق"},
+    {v:mid, c:"#f59e0b", t:"ضمن"},
+    {v:low, c:"#dc2626", t:"دون"}
+  ];
+  let a = -Math.PI/2;
+  parts.forEach(p=>{
+    const ang = (p.v/total)*Math.PI*2;
+    ctx.beginPath();
+    ctx.moveTo(cx,cy);
+    ctx.arc(cx,cy,r,a,a+ang);
+    ctx.closePath();
+    ctx.fillStyle=p.c;
+    ctx.fill();
+    a+=ang;
+  });
+  ctx.fillStyle="#0f172a";
+  ctx.font="bold 14px Tahoma";
+  ctx.fillText("دائرة التصنيف", 250, 28);
+  // legend
+  const lx=250, ly=60;
+  const leg = [
+    {c:"#16a34a", s:`🟢 فوق المتوسط: ${ok}`},
+    {c:"#f59e0b", s:`🟡 ضمن المتوسط: ${mid}`},
+    {c:"#dc2626", s:`🔴 دون المتوسط: ${low}`}
+  ];
+  ctx.font="13px Tahoma";
+  leg.forEach((x,i)=>{
+    ctx.fillStyle=x.c; ctx.fillRect(lx, ly+i*28, 12, 12);
+    ctx.fillStyle="#0f172a"; ctx.fillText(x.s, lx+18, ly+11+i*28);
+  });
+}
 
-  if(!state.classes.length || !state.skills.length) {
-    $("#reportWrap").innerHTML = `<p class="mut">أضيفي فصول ومهارات أولًا.</p>`;
-    return;
-  }
+function drawBars(canvas, ok, mid, low){
+  const ctx = canvas.getContext("2d");
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  const max = Math.max(ok, mid, low, 1);
+  const baseY = 200;
+  const bx = 70;
+  const w = 70;
+  const gap = 60;
+  const barsData = [
+    {v:ok,  c:"#16a34a", label:"فوق"},
+    {v:mid, c:"#f59e0b", label:"ضمن"},
+    {v:low, c:"#dc2626", label:"دون"}
+  ];
+  ctx.fillStyle="#0f172a";
+  ctx.font="bold 14px Tahoma";
+  ctx.fillText("أعمدة التصنيف", 250, 18);
 
-  // aggregate per class:
-  const rows = state.classes.map(cls=>{
-    const sts = state.students.filter(s=>s.classId===cls.id);
-    if(!sts.length) return {cls, total:0, ok:0, mid:0, low:0};
-    let ok=0, mid=0, low=0, total=0;
-
-    sts.forEach(st=>{
-      state.skills.forEach(sk=>{
-        // average across selected terms if both:
-        const vals = termKeys.map(t=>{
-          const k = gradeKey(cls.id, sk.id, t, st.id);
-          return (k in state.grades) ? state.grades[k] : null;
-        }).filter(v=>Number.isFinite(v));
-        if(!vals.length) return;
-        const avg = vals.reduce((a,b)=>a+b,0)/vals.length;
-        total++;
-        const c = classify(avg).txt;
-        if(c==="فوق المتوسط") ok++;
-        else if(c==="ضمن المتوسط") mid++;
-        else if(c==="دون المتوسط") low++;
-      });
-    });
-
-    return {cls, total, ok, mid, low};
+  barsData.forEach((b,i)=>{
+    const h = Math.round((b.v/max)*140);
+    const x = bx + i*(w+gap);
+    ctx.fillStyle=b.c;
+    ctx.fillRect(x, baseY-h, w, h);
+    ctx.fillStyle="#0f172a";
+    ctx.font="bold 13px Tahoma";
+    ctx.fillText(b.label, x+18, baseY+18);
+    ctx.font="12px Tahoma";
+    ctx.fillText(String(b.v), x+26, baseY-h-8);
   });
 
-  const grand = rows.reduce((a,r)=>({
-    total:a.total+r.total, ok:a.ok+r.ok, mid:a.mid+r.mid, low:a.low+r.low
-  }), {total:0, ok:0, mid:0, low:0});
-
-  const pct = (n,t)=> t? Math.round((n/t)*100):0;
-
-  $("#reportWrap").innerHTML = `
-    <div class="kpi">
-      <div class="box"><div class="n">${grand.total}</div><div class="small">عدد السجلات المقيمة</div></div>
-      <div class="box"><div class="n">${pct(grand.ok,grand.total)}%</div><div class="small">فوق المتوسط</div></div>
-      <div class="box"><div class="n">${pct(grand.mid,grand.total)}%</div><div class="small">ضمن المتوسط</div></div>
-      <div class="box"><div class="n">${pct(grand.low,grand.total)}%</div><div class="small">دون المتوسط</div></div>
-    </div>
-    <div class="hr"></div>
-    <table>
-      <thead><tr><th>الفصل</th><th>عدد السجلات</th><th>فوق المتوسط</th><th>ضمن المتوسط</th><th>دون المتوسط</th></tr></thead>
-      <tbody>
-        ${rows.map(r=>`
-          <tr>
-            <td>${escapeHTML(r.cls.name)}</td>
-            <td>${r.total}</td>
-            <td><span class="tag ok">${r.ok} (${pct(r.ok,r.total)}%)</span></td>
-            <td><span class="tag warn">${r.mid} (${pct(r.mid,r.total)}%)</span></td>
-            <td><span class="tag bad">${r.low} (${pct(r.low,r.total)}%)</span></td>
-          </tr>
-        `).join("")}
-      </tbody>
-    </table>
-    <div class="hr"></div>
-    <div class="card" style="box-shadow:none;border-style:dashed">
-      <div style="font-weight:900;margin-bottom:6px">📌 ملخص جاهز</div>
-      <div class="small">
-        تم تحليل نتائج ${termChoice==="both" ? "الفترتين معًا" : (termChoice==="t1" ? state.settings.term1Name : state.settings.term2Name)}
-        لجميع الفصول. إجمالي التصنيف: 
-        <b>${pct(grand.ok,grand.total)}%</b> فوق المتوسط، 
-        <b>${pct(grand.mid,grand.total)}%</b> ضمن المتوسط، 
-        <b>${pct(grand.low,grand.total)}%</b> دون المتوسط.
-      </div>
-    </div>
-  `;
+  // axis line
+  ctx.strokeStyle="#cbd5e1";
+  ctx.beginPath();
+  ctx.moveTo(40, baseY);
+  ctx.lineTo(400, baseY);
+  ctx.stroke();
 }
 
-/* =======================
-   EXPORT / IMPORT
-======================= */
-$("#btnExport").addEventListener("click", ()=>{
+/* =========================
+   LINKS
+========================= */
+function renderLinks(){
+  const src = state.links.sources || [];
+  const gam = state.links.games || [];
+  srcList.innerHTML = src.map((x,i)=>`
+    <li>
+      <a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.name)}</a>
+      <button class="btn2 danger noPrint" onclick="delLink('sources', ${i})">حذف</button>
+    </li>
+  `).join("");
+  gameList.innerHTML = gam.map((x,i)=>`
+    <li>
+      <a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.name)}</a>
+      <button class="btn2 danger noPrint" onclick="delLink('games', ${i})">حذف</button>
+    </li>
+  `).join("");
+}
+function addLink(kind){
+  if(kind==="sources"){
+    const n=srcName.value.trim(), u=srcUrl.value.trim();
+    if(!n || !u) return alert("اكتبي الاسم والرابط");
+    state.links.sources.push({name:n,url:u});
+    srcName.value=""; srcUrl.value="";
+  }else{
+    const n=gName.value.trim(), u=gUrl.value.trim();
+    if(!n || !u) return alert("اكتبي الاسم والرابط");
+    state.links.games.push({name:n,url:u});
+    gName.value=""; gUrl.value="";
+  }
+  saveState();
+  renderLinks();
+}
+function delLink(kind, idx){
+  if(!confirm("حذف الرابط؟")) return;
+  state.links[kind].splice(idx,1);
+  saveState();
+  renderLinks();
+}
+
+/* =========================
+   SELECTORS + KPIs
+========================= */
+function fillSelectors(){
+  // grade class
+  gradeClass.innerHTML = state.classes.length ? state.classes.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join("") : `<option value="">—</option>`;
+  // curriculum class selectors
+  currClassSel.innerHTML = state.classes.length ? state.classes.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join("") : `<option value="">—</option>`;
+  classSkillsSel.innerHTML = state.classes.length ? state.classes.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join("") : `<option value="">—</option>`;
+  // plans class selectors
+  planClass.innerHTML = state.classes.length ? state.classes.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join("") : `<option value="">—</option>`;
+  // parents
+  parClass.innerHTML = state.classes.length ? state.classes.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join("") : `<option value="">—</option>`;
+  // awards
+  awardClass.innerHTML = state.classes.length ? state.classes.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join("") : `<option value="">—</option>`;
+}
+
+function updateKPIs(){
+  kpiClasses.textContent = state.classes.length;
+  kpiStudents.textContent = state.students.length;
+
+  let t1=0, t2=0, need=0;
+  state.students.forEach(st=>{
+    const s1 = scoreTerm(st.classId, st.id, "t1");
+    const s2 = scoreTerm(st.classId, st.id, "t2");
+    if(s1!==null) t1++;
+    if(s2!==null) t2++;
+    const fin = scoreFinal(st.classId, st.id);
+    if(fin!==null && fin<state.thresholds.mid) need++;
+  });
+
+  kpiT1.textContent = t1;
+  kpiT2.textContent = t2;
+  kpiNeeds.textContent = need;
+
+  // final above
+  const finals = state.students.map(st=>scoreFinal(st.classId, st.id));
+  const b = bucketCounts(finals);
+  kpiFinalPct.textContent = (b.total? b.okP:0) + "%";
+}
+
+/* =========================
+   BACKUP / RESTORE / PRINT
+========================= */
+btnBackup.addEventListener("click", ()=>{
   const blob = new Blob([JSON.stringify(state,null,2)], {type:"application/json"});
-  download(blob, `smart-mastery-backup-${new Date().toISOString().slice(0,10)}.json`);
-  toast("⬇️ تم تصدير ملف البيانات");
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `backup-platform-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),500);
 });
 
-$("#btnImport").addEventListener("click", ()=>{
+btnRestore.addEventListener("click", ()=>{
   const inp = document.createElement("input");
   inp.type="file"; inp.accept=".json,application/json";
   inp.onchange = async ()=>{
-    const file = inp.files?.[0];
-    if(!file) return;
-    const txt = await file.text();
+    const f = inp.files?.[0]; if(!f) return;
+    const txt = await f.text();
     try{
       const data = JSON.parse(txt);
-      state = {...structuredClone(defaults), ...data};
-      persist();
-      hydrateUI();
-      toast("✅ تم الاستيراد");
+      // overwrite state in place
+      for(const k of Object.keys(state)) delete state[k];
+      Object.assign(state, deepMerge(defaultState(), data));
+      hydrateBasic();
+      saveState();
+      renderClasses();
+      renderCurrSelectors();
+      renderGradeTable();
+      renderLinks();
+      renderParentLogs();
+      renderAwards();
+      renderReports();
+      alert("تم الاستيراد ✅");
     }catch(e){
-      toast("❌ ملف غير صالح");
+      alert("ملف غير صالح");
     }
   };
   inp.click();
 });
 
-/* =======================
-   PRINT / WORD
-======================= */
-$("#btnPrint").addEventListener("click", ()=>{
-  // ensure reports up to date for print
+btnPrint.addEventListener("click", ()=>{
   renderReports();
   window.print();
 });
-$("#btnWord").addEventListener("click", ()=>{
-  // create a simple Word-friendly HTML document
-  renderReports();
-  const html = `
-  <html dir="rtl" lang="ar">
-  <head><meta charset="utf-8"><title>تقرير الإتقان</title></head>
-  <body style="font-family:Arial">
-    <h2>تقرير منصة الإتقان الذكي</h2>
+
+/* =========================
+   WORD EXPORT (FULL REPORT)
+========================= */
+btnWord.addEventListener("click", exportWord);
+
+function exportWord(){
+  const b = state.basic;
+  const head = `
+    <h2>تقرير منصة الإتقان الذكي — ${esc(b.subject||"")}</h2>
     <p>
-      المعلمة: ${escapeHTML(state.basic.teacherName||"—")}<br>
-      المديرة: ${escapeHTML(state.basic.principalName||"—")}<br>
-      المدرسة: ${escapeHTML(state.basic.schoolName||"—")}<br>
-      المرحلة/الصف: ${escapeHTML(state.basic.stageName||"—")}<br>
-      السنة: ${escapeHTML(state.basic.yearName||"—")}<br>
-      المادة: ${escapeHTML(state.basic.subjectName||"—")}
+      <b>اسم المعلمة:</b> ${esc(b.teacher||"—")}<br>
+      <b>اسم المديرة:</b> ${esc(b.principal||"—")}<br>
+      <b>المدرسة:</b> ${esc(b.school||"—")}<br>
+      <b>المرحلة/الصف:</b> ${esc(b.stage||"—")}<br>
+      <b>العام:</b> ${esc(b.year||"—")}
     </p>
+    <p><b>التصنيف من 100:</b> 🟢 ≥ ${state.thresholds.high} — 🟡 ≥ ${state.thresholds.mid} — 🔴 أقل من ${state.thresholds.mid}</p>
     <hr>
-    ${document.getElementById("reportWrap").innerHTML}
+  `;
+
+  const mkModeBlock = (mode,label)=>{
+    let all=[];
+    const perClass = state.classes.map(c=>{
+      const scores = reportScoresForClass(c.id, mode);
+      all=all.concat(scores);
+      const buck = bucketCounts(scores);
+      return `
+        <h3>🏫 ${esc(c.name)} — ${label}</h3>
+        <p>عدد المقيمات: ${buck.total}</p>
+        <ul>
+          <li>🟢 فوق المتوسط: ${buck.ok} (${buck.okP}%)</li>
+          <li>🟡 ضمن المتوسط: ${buck.mid} (${buck.midP}%)</li>
+          <li>🔴 دون المتوسط: ${buck.low} (${buck.lowP}%)</li>
+        </ul>
+      `;
+    }).join("");
+
+    const g = bucketCounts(all);
+    const txt = `تم تحليل ${label} لجميع الفصول، وبلغت نسبة فوق المتوسط (${g.okP}%) وضمن المتوسط (${g.midP}%) ودون المتوسط (${g.lowP}%).`;
+    return `
+      <h3>📌 إجمالي جميع الفصول — ${label}</h3>
+      <p>عدد المقيمات: ${g.total}</p>
+      <ul>
+        <li>🟢 فوق المتوسط: ${g.ok} (${g.okP}%)</li>
+        <li>🟡 ضمن المتوسط: ${g.mid} (${g.midP}%)</li>
+        <li>🔴 دون المتوسط: ${g.low} (${g.lowP}%)</li>
+      </ul>
+      <p><b>ملخص:</b> ${esc(txt)}</p>
+      <hr>
+      ${perClass}
+      <hr>
+    `;
+  };
+
+  // Awards summary (all classes)
+  const awardSummary = (() => {
+    const rows = state.classes.map(c=>{
+      const studs = state.students.filter(s=>s.classId===c.id);
+      const finals = studs.map(st=>({st, f:scoreFinal(c.id, st.id), s1:scoreTerm(c.id, st.id, "t1"), s2:scoreTerm(c.id, st.id, "t2")}));
+      const best = finals.filter(x=>x.f!==null).sort((a,b)=>b.f-a.f)[0];
+      const bestImp = finals
+        .map(x=>({st:x.st, imp:(x.s1!==null && x.s2!==null)? (x.s2-x.s1):null}))
+        .filter(x=>x.imp!==null)
+        .sort((a,b)=>b.imp-a.imp)[0];
+      return `
+        <h4>🏆 تكريم الفصل ${esc(c.name)}</h4>
+        <ul>
+          <li>🥇 أعلى درجة: ${best? esc(best.st.name)+" ("+best.f.toFixed(1)+")":"—"}</li>
+          <li>🚀 أعلى تحسن: ${bestImp? esc(bestImp.st.name)+" ("+(bestImp.imp>0?"+":"")+bestImp.imp.toFixed(0)+")":"—"}</li>
+        </ul>
+      `;
+    }).join("");
+    return `<h3>🏆 ملخص التكريم</h3>${rows}<hr>`;
+  })();
+
+  // Sources + Games
+  const linksBlock = `
+    <h3>📚 المصادر</h3>
+    <ul>${(state.links.sources||[]).map(x=>`<li>${esc(x.name)} — ${esc(x.url)}</li>`).join("")}</ul>
+    <h3>🎮 الألعاب</h3>
+    <ul>${(state.links.games||[]).map(x=>`<li>${esc(x.name)} — ${esc(x.url)}</li>`).join("")}</ul>
     <hr>
-    <h3>المصادر</h3>
-    <ul>
-      ${state.resources.map(r=>`<li>${escapeHTML(r.title)} — ${escapeHTML(r.link)}</li>`).join("")}
-    </ul>
-    <h3>الألعاب</h3>
-    <ul>
-      ${state.games.map(g=>`<li>${escapeHTML(g.type)} — ${escapeHTML(g.title)} — ${escapeHTML(g.link)}</li>`).join("")}
-    </ul>
-  </body></html>`;
+  `;
+
+  // Parents summary (last 10)
+  const parentsBlock = (() => {
+    const last = state.parentLogs.slice().reverse().slice(0,10);
+    if(!last.length) return `<h3>👩‍👧 متابعة أولياء الأمور</h3><p>لا توجد سجلات.</p><hr>`;
+    const rows = last.map(l=>{
+      const c=state.classes.find(x=>x.id===l.classId);
+      const st=state.students.find(x=>x.id===l.studentId);
+      return `<tr><td>${esc(l.date)}</td><td>${esc(c?.name||"")}</td><td>${esc(st?.name||"")}</td><td>${esc(l.reason||"")}</td><td>${esc(l.action||"")}</td><td>${esc(l.result||"")}</td></tr>`;
+    }).join("");
+    return `
+      <h3>👩‍👧 متابعة أولياء الأمور (آخر 10)</h3>
+      <table border="1" cellspacing="0" cellpadding="6">
+        <tr><th>التاريخ</th><th>الفصل</th><th>الطالبة</th><th>السبب</th><th>الإجراء</th><th>النتيجة</th></tr>
+        ${rows}
+      </table>
+      <hr>
+    `;
+  })();
+
+  // Best generated plans sample (top 5 needing support)
+  const plansBlock = (() => {
+    const needs = [];
+    state.students.forEach(st=>{
+      const fin = scoreFinal(st.classId, st.id);
+      if(fin!==null && fin<state.thresholds.mid){
+        needs.push({st, fin});
+      }
+    });
+    needs.sort((a,b)=>a.fin-b.fin);
+    const top = needs.slice(0,5);
+    if(!top.length) return `<h3>🛠 نماذج خطط (توليد تلقائي)</h3><p>لا توجد طالبات تحت الحد حالياً.</p><hr>`;
+    const rows = top.map(x=>{
+      const cls=state.classes.find(c=>c.id===x.st.classId);
+      const skills = state.classSkills[x.st.classId] || [];
+      const skill = skills[0] || "مهارة (غير محددة)";
+      const plan = generatePlan(skill, x.fin);
+      return `
+        <h4>🔴 ${esc(x.st.name)} — ${esc(cls?.name||"")} — ${x.fin.toFixed(1)}/100</h4>
+        <p><b>${plan.type}</b> — المهارة: ${esc(skill)}</p>
+        <ol>${plan.steps.slice(0,7).map(s=>`<li>${esc(s)}</li>`).join("")}</ol>
+      `;
+    }).join("");
+    return `<h3>🛠 نماذج خطط (توليد تلقائي)</h3>${rows}<hr>`;
+  })();
+
+  const body = `
+    ${head}
+    ${mkModeBlock("t1","تحليل الفترة الأولى")}
+    ${mkModeBlock("t2","تحليل الفترة الثانية")}
+    ${mkModeBlock("final","التحليل النهائي (متوسط الفترتين)")}
+    ${awardSummary}
+    ${plansBlock}
+    ${parentsBlock}
+    ${linksBlock}
+    <p style="color:#666;font-size:12px">حقوق الطبع محفوظة — جميع المحتويات قابلة للتعديل والحذف حسب الحاجة.</p>
+  `;
+
+  const html = `
+    <html dir="rtl" lang="ar">
+      <head><meta charset="utf-8"></head>
+      <body style="font-family:Arial;line-height:1.7">${body}</body>
+    </html>
+  `;
+
   const blob = new Blob(["\ufeff", html], {type:"application/msword"});
-  download(blob, `تقرير-الإتقان-${state.basic.yearName||""}.doc`);
-  toast("📝 تم تصدير Word");
-});
-$("#btnSave").addEventListener("click", saveAll);
-
-/* =======================
-   SETTINGS / RESET
-======================= */
-function hardReset(){
-  if(!confirm("أكيد تبغين حذف كل البيانات؟")) return;
-  localStorage.removeItem(KEY);
-  state = structuredClone(defaults);
-  persist(); hydrateUI();
-  toast("✅ تم إعادة الضبط");
-}
-
-/* =======================
-   UTIL
-======================= */
-function fillSelect(sel, arr, k, v, placeholder){
-  const el = document.querySelector(sel);
-  if(!el) return;
-  const cur = el.value;
-  el.innerHTML = `<option value="">${placeholder||"—"}</option>` + arr.map(x=>`<option value="${x[k]}">${escapeHTML(x[v])}</option>`).join("");
-  if(arr.some(x=>x[k]===cur)) el.value = cur;
-}
-function download(blob, filename){
-  const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
-  a.href = url; a.download = filename;
-  document.body.appendChild(a);
+  a.href = URL.createObjectURL(blob);
+  a.download = `تقرير_منصة_الإتقان_${(state.basic.subject||"مادة")}_${(state.basic.year||"")}.doc`;
   a.click();
-  a.remove();
-  setTimeout(()=>URL.revokeObjectURL(url), 500);
-}
-function escapeHTML(s){
-  return String(s||"").replace(/[&<>"']/g, m=>({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;" }[m]));
-}
-function escapeAttr(s){
-  return escapeHTML(s).replace(/"/g,"&quot;");
+  setTimeout(()=>URL.revokeObjectURL(a.href),500);
 }
 
-/* =======================
-   HYDRATE UI
-======================= */
-function hydrateUI(){
-  // basic
-  $("#teacherName").value = state.basic.teacherName || "";
-  $("#principalName").value = state.basic.principalName || "";
-  $("#schoolName").value = state.basic.schoolName || "";
-  $("#stageName").value = state.basic.stageName || "";
-  $("#yearName").value = state.basic.yearName || "";
-  $("#subjectName").value = state.basic.subjectName || "";
-
-  // settings
-  $("#thrHigh").value = state.settings.thrHigh;
-  $("#thrMid").value = state.settings.thrMid;
-  $("#term1Name").value = state.settings.term1Name;
-  $("#term2Name").value = state.settings.term2Name;
-
-  renderClasses();
-  renderSkills();
-  renderPlans();
-  renderResources();
-  renderGames();
-  renderGradeSelectors();
-  renderParentSelectors();
-  renderReports();
+/* =========================
+   INIT + FIRST RENDER
+========================= */
+function init(){
+  hydrateBasic();
   updateHeader();
+  fillSelectors();
+  renderLinks();
   updateKPIs();
-}
 
-/* =======================
-   INIT
-======================= */
-applyTheme();
-persist();
-hydrateUI();
+  // curriculum selectors
+  renderCurrSelectors();
+
+  // first renders
+  renderClasses();
+  renderGradeTable();
+  renderParentLogs();
+  renderReports();
+}
+init();
+
+/* =========================
+   QUICK SAVE ON ANY INPUT (BASIC)
+========================= */
+["teacher","principal","school","stage","year","subject","thHigh","thMid"].forEach(id=>{
+  const el=document.getElementById(id);
+  if(!el) return;
+  el.addEventListener("change", ()=>{ /* لا نحفظ تلقائي هنا حتى لا تُزعجك */ });
+});
 </script>
+
 </body>
 </html>
