@@ -1,9 +1,9 @@
-<!doctype html>
+ <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>منصة الإتقان الذكي — نسخة مستقرة</title>
+  <title>منصة الإتقان الذكي — 1447</title>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/docx/8.5.0/docx.umd.min.js"></script>
@@ -109,8 +109,29 @@
     .kpi .t{font-size:12px;color:var(--mut);font-weight:900}
     .footer{padding:18px 0;text-align:center;color:var(--mut);font-weight:800}
     .dangerText{color:var(--danger);font-weight:900}
-    /* منع “ما ينضغط” */
     *{pointer-events:auto}
+
+    /* شريط البيانات الأساسية أعلى */
+    .basicbar{
+      margin:0 16px 12px;
+      background:rgba(255,255,255,.14);
+      border:1px solid rgba(255,255,255,.22);
+      padding:8px 10px;
+      border-radius:14px;
+      font-size:12px;
+      font-weight:900;
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px 12px;
+      align-items:center;
+    }
+    .basicbar span{opacity:.98}
+    .basicbar .chip{
+      background:rgba(255,255,255,.18);
+      border:1px solid rgba(255,255,255,.22);
+      padding:6px 10px;border-radius:999px;
+      display:inline-flex;gap:6px;align-items:center;
+    }
   </style>
 </head>
 
@@ -119,7 +140,7 @@
   <div class="topbar">
     <div class="brand">
       <h1 id="appTitle">منصة الإتقان الذكي</h1>
-      <div class="sub" id="appSub">إضافة فصول/طالبات/درجات/تقارير/خطط/أولياء أمور/ألعاب — حفظ تلقائي ✅</div>
+      <div class="sub" id="appSub">تحليل + خطط + أولياء أمور + ألعاب + مصادر — حفظ تلقائي ✅</div>
     </div>
     <div class="actions">
       <button class="pill" id="btnTheme">🌓 الوضع</button>
@@ -129,8 +150,21 @@
       <button class="pill" id="btnPrint">🖨️ طباعة / PDF</button>
     </div>
   </div>
+
+  <!-- شريط البيانات الأساسية -->
+  <div class="basicbar" id="basicBar">
+    <span class="chip">👩‍🏫 <span id="bbTeacher">سعاد صالح الغامدي</span></span>
+    <span class="chip">👩‍💼 <span id="bbPrincipal">آمال باربود</span></span>
+    <span class="chip">🏫 <span id="bbSchool">المتوسطة الثانية والأربعون والثانوية السادسة والثلاثون</span></span>
+    <span class="chip">🎓 <span id="bbStage">الثانوي — ثاني ثانوي</span></span>
+    <span class="chip">📚 <span id="bbSubject">توحيد</span></span>
+    <span class="chip">📆 <span id="bbYear">1447</span></span>
+    <span class="chip">© <span id="bbRights">حقوق الطبع محفوظة</span></span>
+  </div>
+
   <nav id="navTabs">
     <button class="tab active" data-tab="home">🏠 الرئيسية</button>
+    <button class="tab" data-tab="basic">📋 البيانات الأساسية</button>
     <button class="tab" data-tab="classes">🏫 الفصول/الطالبات</button>
     <button class="tab" data-tab="skills">🧠 المهارات</button>
     <button class="tab" data-tab="grades">🧮 الدرجات</button>
@@ -160,10 +194,54 @@
     </div>
     <div style="height:12px"></div>
     <div class="row">
+      <button class="btn" onclick="goTab('basic')">📋 البيانات الأساسية</button>
       <button class="btn" onclick="goTab('classes')">🏫 أضيفي الفصول/الطالبات</button>
       <button class="btn" onclick="goTab('skills')">🧠 أضيفي المهارات</button>
       <button class="btn" onclick="goTab('grades')">🧮 أدخلي الدرجات</button>
       <button class="btn" onclick="goTab('reports')">📊 شاهدي التقرير</button>
+    </div>
+  </section>
+
+  <!-- BASIC INFO -->
+  <section id="tab-basic" class="card hide">
+    <div class="title"><h2>البيانات الأساسية</h2><span class="tag">تظهر في أعلى المنصة + التقارير + Word</span></div>
+    <div class="hint">
+      اكتبي بياناتك مرة واحدة فقط. يتم حفظها تلقائيًا وتقدرين تعدلينها بأي وقت.
+    </div>
+    <div style="height:12px"></div>
+
+    <div class="two">
+      <div class="card flat">
+        <div class="title"><h2>بيانات المدرسة</h2><span class="muted">قابلة للتعديل</span></div>
+        <div class="row">
+          <div class="field"><label>اسم المعلمة</label><input id="biTeacher"></div>
+          <div class="field"><label>اسم المديرة</label><input id="biPrincipal"></div>
+        </div>
+        <div class="row">
+          <div class="field"><label>اسم المدرسة</label><input id="biSchool"></div>
+          <div class="field"><label>المرحلة/الصف</label><input id="biStage" placeholder="الثانوي — ثاني ثانوي"></div>
+        </div>
+        <div class="row">
+          <div class="field"><label>المادة</label><input id="biSubject" placeholder="توحيد"></div>
+          <div class="field"><label>العام</label><input id="biYear" placeholder="1447"></div>
+        </div>
+        <div class="row">
+          <div class="field"><label>حقوق الطبع</label><input id="biRights" placeholder="حقوق الطبع محفوظة"></div>
+        </div>
+
+        <div class="row">
+          <button class="btn" onclick="saveBasicInfo()">💾 حفظ البيانات الأساسية</button>
+          <button class="btn secondary" onclick="loadBasicInfoToFields()">↩️ استرجاع من الحفظ</button>
+        </div>
+      </div>
+
+      <div class="card flat">
+        <div class="title"><h2>ملاحظة</h2><span class="muted">مهم</span></div>
+        <div class="hint">
+          بعد الحفظ: بتلاحظين البيانات ظهرت فورًا أعلى المنصة (الشريط الأخضر).<br>
+          وتدخل تلقائيًا في: <b>التقارير</b> + <b>تصدير Word</b> + <b>الطباعة PDF</b>.
+        </div>
+      </div>
     </div>
   </section>
 
@@ -179,7 +257,7 @@
           <button class="btn" onclick="addClass()">➕ إضافة</button>
         </div>
         <div class="hint" style="margin-top:10px">
-          إذا أضفتِ فصل وما ظهر في القائمة: اضغطي زر <b>تحديث القوائم</b> هنا.
+          إذا أضفتِ فصل وما ظهر في القائمة: اضغطي <b>تحديث القوائم</b>.
           <div style="height:8px"></div>
           <button class="btn secondary" onclick="refreshAll(true)">🔄 تحديث القوائم</button>
         </div>
@@ -198,9 +276,7 @@
         <div class="title"><h2>إضافة جماعية</h2><span class="muted">كل اسم بسطر</span></div>
         <div class="field">
           <label>الأسماء</label>
-          <textarea id="bulkNames" placeholder="سارة
-نورة
-..."></textarea>
+          <textarea id="bulkNames" placeholder="سارة&#10;نورة&#10;..."></textarea>
         </div>
         <div class="row">
           <button class="btn" onclick="bulkAddStudents()">📥 إدخال</button>
@@ -288,7 +364,7 @@
     <div class="title"><h2>متابعة أولياء الأمور</h2><span class="tag">مرتبطة بالفصل والطالبة</span></div>
 
     <div class="card flat">
-      <div class="title"><h2>إضافة سجل</h2><span class="muted">قابل للحذف/التعديل</span></div>
+      <div class="title"><h2>إضافة سجل</h2><span class="muted">قابل للحذف</span></div>
       <div class="row">
         <div class="field"><label>الفصل</label><select id="pClass"></select></div>
         <div class="field"><label>الطالبة</label><select id="pStudent"></select></div>
@@ -320,7 +396,7 @@
   <section id="tab-games" class="card hide">
     <div class="title"><h2>الألعاب التفاعلية</h2><span class="tag">روابط قابلة للتعديل</span></div>
     <div class="hint">
-      هذه روابط رسمية ومعروفة. تقدرين تستبدلين الرابط بأي نشاط جاهز لكاهوت/ووردوال/كويزيز.
+      روابط عامة لإنشاء/تشغيل. تقدرين تضيفين روابط مسابقاتك داخل المنصة لاحقًا.
     </div>
     <div style="height:12px"></div>
 
@@ -333,19 +409,19 @@
         </div>
       </div>
       <div class="card flat">
-        <div class="title"><h2>Wordwall</h2><span class="muted">أنشطة جاهزة</span></div>
+        <div class="title"><h2>Wordwall</h2><span class="muted">أنشطة</span></div>
         <div class="row">
           <a class="btn secondary" href="https://wordwall.net/" target="_blank" rel="noopener">فتح Wordwall</a>
         </div>
       </div>
       <div class="card flat">
-        <div class="title"><h2>Quizizz</h2><span class="muted">اختبارات تفاعلية</span></div>
+        <div class="title"><h2>Quizizz</h2><span class="muted">اختبارات</span></div>
         <div class="row">
           <a class="btn secondary" href="https://quizizz.com/" target="_blank" rel="noopener">فتح Quizizz</a>
         </div>
       </div>
       <div class="card flat">
-        <div class="title"><h2>Nearpod</h2><span class="muted">دروس تفاعلية</span></div>
+        <div class="title"><h2>Nearpod</h2><span class="muted">دروس</span></div>
         <div class="row">
           <a class="btn secondary" href="https://nearpod.com/" target="_blank" rel="noopener">فتح Nearpod</a>
         </div>
@@ -391,23 +467,35 @@
       <div class="card flat">
         <div class="title"><h2>ملاحظة Word على الآيفون</h2><span class="muted">مهم</span></div>
         <div class="hint">
-          زر Word أحيانًا ما ينزل ملف على Safari/iOS بسبب سياسة التحميل.  
-          الحل: افتحي الرابط في <b>Chrome</b> أو نزّلي Word من جهاز كمبيوتر.  
+          زر Word أحيانًا ما ينزل ملف على Safari/iOS بسبب سياسة التحميل.<br>
+          الحل: افتحي الرابط في <b>Chrome</b> أو نزّلي Word من جهاز كمبيوتر.<br>
           (الطباعة إلى PDF تشتغل دائمًا: 🖨️ Print → Save as PDF)
         </div>
       </div>
     </div>
   </section>
 
-  <div class="footer"><span class="muted">نسخة مستقرة — حفظ تلقائي — قابلة للتطوير</span></div>
+  <div class="footer"><span class="muted">نسخة نهائية — حفظ تلقائي — قابلة للتطوير</span></div>
 </div>
 
 <script>
 /* ========= STATE ========= */
-const STORE_KEY = "smart_platform_stable_v2";
+const STORE_KEY = "smart_platform_final_with_basic_1447";
 
 const state = {
-  meta:{ thresholds:{high:85, mid:60, mastery:90}, theme:"light" },
+  meta:{
+    thresholds:{high:85, mid:60, mastery:90},
+    theme:"light",
+    basic:{
+      teacher:"سعاد صالح الغامدي",
+      principal:"آمال باربود",
+      school:"المتوسطة الثانيه والأربعون والثانوية السادسة والثلاثون",
+      stage:"الثانوي — ثاني ثانوي",
+      subject:"توحيد",
+      year:"1447",
+      rights:"حقوق الطبع محفوظة"
+    }
+  },
   classes:[],
   students:[],
   skills:[],
@@ -424,12 +512,51 @@ function load(){
   const raw=localStorage.getItem(STORE_KEY);
   if(raw){ try{ Object.assign(state, JSON.parse(raw)); }catch(e){} }
   applyTheme(state.meta.theme||"light");
+  applyBasicBar();
   refreshAll(true);
+  loadBasicInfoToFields();
 }
 function applyTheme(t){
   state.meta.theme=t;
   document.body.setAttribute("data-theme", t);
   save();
+}
+
+/* ========= BASIC INFO ========= */
+function applyBasicBar(){
+  const b = state.meta.basic || {};
+  document.getElementById("bbTeacher").textContent   = b.teacher || "";
+  document.getElementById("bbPrincipal").textContent = b.principal || "";
+  document.getElementById("bbSchool").textContent    = b.school || "";
+  document.getElementById("bbStage").textContent     = b.stage || "";
+  document.getElementById("bbSubject").textContent   = b.subject || "";
+  document.getElementById("bbYear").textContent      = b.year || "";
+  document.getElementById("bbRights").textContent    = b.rights || "";
+}
+function loadBasicInfoToFields(){
+  const b = state.meta.basic || {};
+  const set=(id,v)=>{ const el=document.getElementById(id); if(el) el.value = v||""; };
+  set("biTeacher", b.teacher);
+  set("biPrincipal", b.principal);
+  set("biSchool", b.school);
+  set("biStage", b.stage);
+  set("biSubject", b.subject);
+  set("biYear", b.year);
+  set("biRights", b.rights);
+}
+function saveBasicInfo(){
+  state.meta.basic = {
+    teacher: (document.getElementById("biTeacher").value||"").trim(),
+    principal: (document.getElementById("biPrincipal").value||"").trim(),
+    school: (document.getElementById("biSchool").value||"").trim(),
+    stage: (document.getElementById("biStage").value||"").trim(),
+    subject: (document.getElementById("biSubject").value||"").trim(),
+    year: (document.getElementById("biYear").value||"").trim(),
+    rights: (document.getElementById("biRights").value||"").trim()
+  };
+  save();
+  applyBasicBar();
+  alert("تم حفظ البيانات الأساسية ✅");
 }
 
 /* ========= NAV ========= */
@@ -463,8 +590,17 @@ document.getElementById("btnImport").addEventListener("click", ()=>{
   inp.onchange=async()=>{
     const f=inp.files?.[0]; if(!f) return;
     const txt=await f.text();
-    try{ Object.assign(state, JSON.parse(txt)); save(); refreshAll(true); alert("تم ✅"); }
-    catch(e){ alert("ملف غير صالح"); }
+    try{
+      Object.assign(state, JSON.parse(txt));
+      if(!state.meta) state.meta={thresholds:{high:85,mid:60,mastery:90},theme:"light",basic:{}};
+      if(!state.meta.basic) state.meta.basic={};
+      save();
+      applyTheme(state.meta.theme||"light");
+      applyBasicBar();
+      loadBasicInfoToFields();
+      refreshAll(true);
+      alert("تم ✅");
+    } catch(e){ alert("ملف غير صالح"); }
   };
   inp.click();
 });
@@ -476,7 +612,6 @@ document.getElementById("btnWord").addEventListener("click", exportWord);
 function addClass(){
   const name=(document.getElementById("cName").value||"").trim();
   if(!name) return alert("اكتبي اسم الفصل");
-  // منع تكرار نفس اسم الفصل
   if(state.classes.some(c=>c.name.trim()===name)) return alert("هذا الفصل موجود مسبقًا");
   state.classes.push({id:uid(), name});
   document.getElementById("cName").value="";
@@ -642,7 +777,11 @@ function renderGradeTable(){
 
   document.getElementById("gradeWrap").innerHTML=`
     <div class="card flat">
-      <div class="title"><h2>درجات فصل: <span class="tag">${esc(className(classId))}</span></h2><span class="tag">المهارة: ${esc(sk?.name||"")}</span></div>
+      <div class="title">
+        <h2>درجات فصل: <span class="tag">${esc(className(classId))}</span></h2>
+        <span class="tag">المهارة: ${esc(sk?.name||"")}</span>
+        <span class="tag">${term==="1"?"الفترة الأولى":"الفترة الثانية"}</span>
+      </div>
       <table>
         <thead><tr><th>الطالبة</th><th>الدرجة /100</th><th>التصنيف</th></tr></thead>
         <tbody>${rows}</tbody>
@@ -700,7 +839,19 @@ function buildReports(){
     return {name:sk.name, v:avg(vals)??0};
   });
 
+  const b = state.meta.basic || {};
+  const headLine = `
+    <div class="hint">
+      <b>البيانات الأساسية:</b>
+      ${esc(b.school||"")} — ${esc(b.stage||"")} — مادة: ${esc(b.subject||"")} — العام: ${esc(b.year||"")}<br>
+      المعلمة: ${esc(b.teacher||"")} — المديرة: ${esc(b.principal||"")}
+    </div>
+  `;
+
   document.getElementById("reportsView").innerHTML=`
+    ${headLine}
+    <div style="height:12px"></div>
+
     <div class="card flat">
       <div class="title"><h2>تقرير الفصل: <span class="tag">${esc(className(classId))}</span></h2><span class="tag">ف1 + ف2</span></div>
       <div class="row">
@@ -904,10 +1055,23 @@ async function exportWord(){
   const h = (t)=>new Paragraph({text:t, heading: HeadingLevel.HEADING_2});
   const p = (t)=>new Paragraph({children:[new TextRun({text:t})]});
 
+  const b = state.meta.basic || {};
+
   const docChildren=[];
   docChildren.push(new Paragraph({text:"تقرير منصة الإتقان الذكي", heading: HeadingLevel.HEADING_1}));
-  docChildren.push(p(`عدد الفصول: ${state.classes.length} — عدد الطالبات: ${state.students.length}`));
+
+  docChildren.push(p(`المدرسة: ${b.school||""}`));
+  docChildren.push(p(`المرحلة/الصف: ${b.stage||""}`));
+  docChildren.push(p(`المادة: ${b.subject||""}`));
+  docChildren.push(p(`العام: ${b.year||""}`));
+  docChildren.push(p(`اسم المعلمة: ${b.teacher||""}`));
+  docChildren.push(p(`اسم المديرة: ${b.principal||""}`));
+  if(b.rights) docChildren.push(p(`${b.rights}`));
   docChildren.push(p(" "));
+
+  docChildren.push(p(`عدد الفصول: ${state.classes.length} — عدد الطالبات: ${state.students.length} — عدد المهارات: ${state.skills.length}`));
+  docChildren.push(p(" "));
+
   docChildren.push(h("الفصول والطالبات"));
   state.classes.forEach(c=>{
     docChildren.push(p(`• ${c.name}`));
@@ -915,9 +1079,13 @@ async function exportWord(){
     studs.forEach(st=>docChildren.push(p(`  - ${st.name}`)));
   });
 
+  docChildren.push(p(" "));
+  docChildren.push(h("ملاحظة"));
+  docChildren.push(p("هذا التقرير قابل للتعديل، والبيانات محفوظة في المتصفح (Local Storage)."));
+
   const doc = new Document({ sections:[{ children: docChildren }] });
   const blob = await Packer.toBlob(doc);
-  saveAs(blob, `تقرير_المنصة.docx`);
+  saveAs(blob, `تقرير_منصة_الإتقان_${(b.year||"")}.docx`);
 }
 
 /* ========= RENDER HELPERS ========= */
@@ -979,20 +1147,17 @@ function renderSkills(){
 }
 
 function refreshAll(force){
-  // KPIs
   document.getElementById("kpiClasses").textContent = state.classes.length;
   document.getElementById("kpiStudents").textContent = state.students.length;
   document.getElementById("kpiSkills").textContent = state.skills.length;
   document.getElementById("kpiNotes").textContent = state.parentLogs.length;
 
-  // Selects (مشكلة “فصل واحد” تُحل هنا لأننا نعيد بناء القوائم دائمًا)
   fillSelect("cSel", state.classes, "اختر فصل");
   fillSelect("gClass", state.classes, "اختر فصل");
   fillSelect("rClass", state.classes, "اختر فصل");
   fillSelect("pClass", state.classes, "اختر فصل");
   fillSelect("gSkill", state.skills, "اختر مهارة");
 
-  // Students select under parents
   const pClass=document.getElementById("pClass");
   const classId=pClass?.value || "";
   const studs=state.students.filter(s=>s.classId===classId);
@@ -1001,7 +1166,6 @@ function refreshAll(force){
     pStudent.innerHTML=`<option value="">اختر طالبة</option>` + studs.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join("");
   }
 
-  // settings
   if(document.getElementById("tHigh")){
     document.getElementById("tHigh").value=state.meta.thresholds.high ?? 85;
     document.getElementById("tMid").value=state.meta.thresholds.mid ?? 60;
