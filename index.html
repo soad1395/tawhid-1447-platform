@@ -1,371 +1,405 @@
- 
+ <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>منصة الإتقان الذكي — نظام تحليل النتائج والخطط والتكريم</title>
-  <link rel="stylesheet" href="style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>منصة الإتقان الذكي</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+body{
+font-family:tahoma;
+margin:0;
+background:#0e2f26;
+color:white;
+}
+
+header{
+text-align:center;
+padding:30px;
+font-size:32px;
+font-weight:bold;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:20px;
+padding:30px;
+}
+
+.card{
+background:#123d32;
+padding:25px;
+border-radius:12px;
+text-align:center;
+cursor:pointer;
+font-size:20px;
+}
+
+.card:hover{
+background:#175544;
+}
+
+.page{
+display:none;
+background:white;
+color:black;
+padding:20px;
+margin:20px;
+border-radius:10px;
+}
+
+button{
+padding:10px;
+background:#175544;
+color:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:10px;
+}
+
+th,td{
+border:1px solid #ccc;
+padding:8px;
+text-align:center;
+}
+
+</style>
+
 </head>
+
 <body>
 
-  <header class="hero">
-    <h1>منصة الإتقان الذكي — نظام تحليل النتائج والخطط والتكريم <span id="yearBadge">(1447)</span></h1>
-    <div class="hero-meta" id="heroMeta">
-      <div>المعلمة: <span id="heroTeacher">—</span> — المديرة: <span id="heroPrincipal">—</span></div>
-      <div>المدرسة: <span id="heroSchool">—</span> — المرحلة: <span id="heroStage">ثاني ثانوي</span> — العام: <span id="heroYear">—</span></div>
-      <div class="small">جميع الحقوق محفوظة — كل شيء قابل للتعديل والحذف</div>
-    </div>
-  </header>
+<header>
+منصة الإتقان الذكي لتحليل النتائج
+</header>
 
-  <nav class="main-tabs no-print">
-    <button class="tab-btn active" data-tab="home">الرئيسية</button>
-    <button class="tab-btn" data-tab="classes">الفصول والطالبات</button>
-    <button class="tab-btn" data-tab="p1">الفترة الأولى</button>
-    <button class="tab-btn" data-tab="p2">الفترة الثانية</button>
-    <button class="tab-btn" data-tab="final">النهائي للفترتين</button>
-    <button class="tab-btn" data-tab="plans">الخطط (علاجي/إثرائي)</button>
-    <button class="tab-btn" data-tab="skills">بنك المهارات</button>
-    <button class="tab-btn" data-tab="awards">التكريم</button>
-    <button class="tab-btn" data-tab="parents">أولياء الأمور</button>
-    <button class="tab-btn" data-tab="competitions">المسابقات</button>
-    <button class="tab-btn" data-tab="resources">المصادر والألعاب</button>
-    <button class="tab-btn" data-tab="report">تقرير نهائي</button>
-    <button id="exportWordBtn">تصدير Word</button>
-    <button id="printBtn">طباعة PDF</button>
-    <button id="backupBtn">نسخ احتياطي</button>
-    <label class="upload-label">
-      استرجاع
-      <input type="file" id="restoreFile" accept=".json" hidden>
-    </label>
-    <button id="resetBtn">إعادة ضبط</button>
-  </nav>
+<div id="home" class="grid">
 
-  <main class="page-wrap">
+<div class="card" onclick="openPage('classes')">الفصول</div>
+<div class="card" onclick="openPage('students')">الطالبات</div>
+<div class="card" onclick="openPage('skills')">الوحدات والمهارات</div>
+<div class="card" onclick="openPage('grades')">إدخال الدرجات</div>
+<div class="card" onclick="openPage('analysis')">تحليل النتائج</div>
+<div class="card" onclick="openPage('reports')">التقارير</div>
+<div class="card" onclick="openPage('awards')">التكريم</div>
+<div class="card" onclick="openPage('parents')">أولياء الأمور</div>
+<div class="card" onclick="openPage('games')">الألعاب</div>
 
-    <!-- الرئيسية -->
-    <section id="tab-home" class="tab-panel active">
-      <div class="card">
-        <h2>البيانات الأساسية</h2>
-        <div class="grid grid-4">
-          <div>
-            <label>اسم المدرسة</label>
-            <input id="schoolInput" placeholder="اسم المدرسة">
-          </div>
-          <div>
-            <label>اسم المديرة</label>
-            <input id="principalInput" placeholder="اسم المديرة">
-          </div>
-          <div>
-            <label>اسم المعلمة</label>
-            <input id="teacherInput" placeholder="اسم المعلمة">
-          </div>
-          <div>
-            <label>العام الدراسي</label>
-            <input id="yearInput" placeholder="1447">
-          </div>
-          <div>
-            <label>المرحلة</label>
-            <input id="stageInput" placeholder="ثاني ثانوي">
-          </div>
-          <div>
-            <label>المادة الحالية</label>
-            <select id="subjectSelect"></select>
-          </div>
-          <div>
-            <label>إضافة مادة جديدة</label>
-            <input id="newSubjectInput" placeholder="مثال: توحيد">
-          </div>
-          <div class="action-cell">
-            <button id="saveMetaBtn">حفظ البيانات</button>
-            <button id="addSubjectBtn">إضافة مادة</button>
-            <button id="deleteSubjectBtn">حذف المادة الحالية</button>
-          </div>
-        </div>
-      </div>
+</div>
 
-      <div class="card">
-        <h2>ملخص سريع</h2>
-        <div id="summaryCards" class="summary-grid">
-          <div class="summary-box"><span>عدد الفصول</span><strong id="sumClasses">0</strong></div>
-          <div class="summary-box"><span>عدد الطالبات</span><strong id="sumStudents">0</strong></div>
-          <div class="summary-box"><span>عدد المهارات</span><strong id="sumSkills">0</strong></div>
-          <div class="summary-box"><span>عدد التقييمات</span><strong id="sumScores">0</strong></div>
-        </div>
-      </div>
-    </section>
+<div id="classes" class="page">
+<h2>الفصول</h2>
+<input id="className">
+<button onclick="addClass()">إضافة</button>
+<table>
+<tr><th>الفصل</th></tr>
+<tbody id="classTable"></tbody>
+</table>
+<button onclick="home()">رجوع</button>
+</div>
 
-    <!-- الفصول والطالبات -->
-    <section id="tab-classes" class="tab-panel">
-      <div class="grid grid-2">
-        <div class="card">
-          <h2>إدارة الفصول</h2>
-          <div class="inline-form">
-            <input id="newClassInput" placeholder="اسم الفصل">
-            <button id="addClassBtn">إضافة فصل</button>
-          </div>
-          <div id="classesList"></div>
-        </div>
+<div id="students" class="page">
+<h2>الطالبات</h2>
+<input id="studentName">
+<button onclick="addStudent()">إضافة</button>
 
-        <div class="card">
-          <h2>إضافة / تعديل طالبة</h2>
-          <input type="hidden" id="editingStudentId">
-          <div class="grid grid-3">
-            <div>
-              <label>الفصل</label>
-              <select id="studentClassSelect"></select>
-            </div>
-            <div>
-              <label>اسم الطالبة</label>
-              <input id="studentNameInput" placeholder="اسم الطالبة">
-            </div>
-            <div>
-              <label>رقم / سجل</label>
-              <input id="studentCodeInput" placeholder="اختياري">
-            </div>
-          </div>
-          <div class="form-actions">
-            <button id="saveStudentBtn">حفظ الطالبة</button>
-            <button id="clearStudentBtn">تفريغ</button>
-          </div>
-          <hr>
-          <label>فلترة الطالبات حسب الفصل</label>
-          <select id="studentsFilterSelect"></select>
-          <div id="studentsTableWrap"></div>
-        </div>
-      </div>
-    </section>
+<table>
+<tr><th>الاسم</th></tr>
+<tbody id="studentTable"></tbody>
+</table>
 
-    <!-- الفترة الأولى -->
-    <section id="tab-p1" class="tab-panel">
-      <div class="card">
-        <h2>تقييم الفترة الأولى</h2>
-        <div class="grid grid-3">
-          <div>
-            <label>الفصل</label>
-            <select id="p1ClassSelect"></select>
-          </div>
-          <div>
-            <label>المهارة</label>
-            <select id="p1SkillSelect"></select>
-          </div>
-          <div>
-            <label>الوحدة / الدرس</label>
-            <input id="p1SkillInfo" readonly>
-          </div>
-        </div>
-        <div id="p1ScoresWrap"></div>
-      </div>
-    </section>
+<button onclick="home()">رجوع</button>
+</div>
 
-    <!-- الفترة الثانية -->
-    <section id="tab-p2" class="tab-panel">
-      <div class="card">
-        <h2>تقييم الفترة الثانية</h2>
-        <div class="grid grid-3">
-          <div>
-            <label>الفصل</label>
-            <select id="p2ClassSelect"></select>
-          </div>
-          <div>
-            <label>المهارة</label>
-            <select id="p2SkillSelect"></select>
-          </div>
-          <div>
-            <label>الوحدة / الدرس</label>
-            <input id="p2SkillInfo" readonly>
-          </div>
-        </div>
-        <div id="p2ScoresWrap"></div>
-      </div>
-    </section>
+<div id="skills" class="page">
 
-    <!-- النهائي -->
-    <section id="tab-final" class="tab-panel">
-      <div class="grid grid-2">
-        <div class="card">
-          <h2>التحليل النهائي للفترتين</h2>
-          <div id="finalStats"></div>
-        </div>
-        <div class="card">
-          <h2>الرسم البياني النهائي</h2>
-          <canvas id="finalChart"></canvas>
-        </div>
-      </div>
-    </section>
+<h2>الوحدات والمهارات</h2>
 
-    <!-- الخطط -->
-    <section id="tab-plans" class="tab-panel">
-      <div class="grid grid-2">
-        <div class="card">
-          <h2>الخطة العلاجية</h2>
-          <textarea id="remedialPlanInput" placeholder="اكتبي الخطة العلاجية هنا"></textarea>
-        </div>
-        <div class="card">
-          <h2>الخطة الإثرائية</h2>
-          <textarea id="enrichmentPlanInput" placeholder="اكتبي الخطة الإثرائية هنا"></textarea>
-        </div>
-      </div>
-      <div class="form-actions">
-        <button id="savePlansBtn">حفظ الخطط</button>
-      </div>
-    </section>
+<ul>
 
-    <!-- بنك المهارات -->
-    <section id="tab-skills" class="tab-panel">
-      <div class="grid grid-2">
-        <div class="card">
-          <h2>إضافة مهارة يدويًا</h2>
-          <div class="grid grid-3">
-            <div>
-              <label>الوحدة</label>
-              <input id="skillUnitInput" placeholder="مثال: الوحدة الأولى">
-            </div>
-            <div>
-              <label>الدرس</label>
-              <input id="skillLessonInput" placeholder="اسم الدرس">
-            </div>
-            <div>
-              <label>المهارة</label>
-              <input id="skillTextInput" placeholder="وصف المهارة">
-            </div>
-          </div>
-          <div class="form-actions">
-            <button id="addSkillBtn">إضافة مهارة</button>
-          </div>
+<li>الوحدة 1 العقيدة الإسلامية</li>
+<li>الوحدة 2 توحيد الربوبية</li>
+<li>الوحدة 3 توحيد الألوهية</li>
+<li>الوحدة 4 الأسماء والصفات</li>
+<li>الوحدة 5 نواقض التوحيد</li>
+<li>الوحدة 6 حقوق النبي</li>
+<li>الوحدة 7 نعمة التوحيد</li>
 
-          <hr>
+</ul>
 
-          <h3>توليد المهارات من PDF أو من النص</h3>
-          <label>رفع PDF</label>
-          <input type="file" id="pdfFileInput" accept="application/pdf">
-          <div class="form-actions">
-            <button id="extractPdfBtn">استخراج من PDF</button>
-          </div>
+<button onclick="home()">رجوع</button>
 
-          <label>أو الصقي النص المستخرج من PDF</label>
-          <textarea id="pdfTextInput" placeholder="الصقي النص هنا"></textarea>
-          <div class="form-actions">
-            <button id="extractTextBtn">توليد من النص</button>
-          </div>
+</div>
 
-          <div class="notice">
-            المهارات قابلة للتوليد تلقائيًا وللإضافة اليدوية، وتبقى قابلة للتعديل والحذف كل سنة حسب المادة والملف المرفوع.
-          </div>
-        </div>
+<div id="grades" class="page">
 
-        <div class="card">
-          <h2>بنك المهارات</h2>
-          <div id="skillsTableWrap"></div>
-        </div>
-      </div>
-    </section>
+<h2>إدخال الدرجات</h2>
 
-    <!-- التكريم -->
-    <section id="tab-awards" class="tab-panel">
-      <div class="card">
-        <h2>التكريم</h2>
-        <div class="grid grid-3">
-          <div>
-            <label>اسم الطالبة</label>
-            <input id="awardStudentInput">
-          </div>
-          <div>
-            <label>سبب التكريم</label>
-            <input id="awardReasonInput">
-          </div>
-          <div>
-            <label>التاريخ</label>
-            <input id="awardDateInput" type="date">
-          </div>
-        </div>
-        <div class="form-actions">
-          <button id="addAwardBtn">إضافة تكريم</button>
-        </div>
-        <div id="awardsTableWrap"></div>
-      </div>
-    </section>
+<table>
 
-    <!-- أولياء الأمور -->
-    <section id="tab-parents" class="tab-panel">
-      <div class="card">
-        <h2>أولياء الأمور</h2>
-        <div class="grid grid-3">
-          <div>
-            <label>اسم الطالبة</label>
-            <input id="parentStudentInput">
-          </div>
-          <div>
-            <label>وسيلة التواصل</label>
-            <select id="parentMethodSelect">
-              <option>مكالمة</option>
-              <option>رسالة</option>
-              <option>واتساب</option>
-              <option>اجتماع</option>
-            </select>
-          </div>
-          <div>
-            <label>التاريخ</label>
-            <input id="parentDateInput" type="date">
-          </div>
-        </div>
-        <label>الملاحظة / الإجراء</label>
-        <textarea id="parentNoteInput"></textarea>
-        <div class="form-actions">
-          <button id="addParentBtn">حفظ السجل</button>
-        </div>
-        <div id="parentsTableWrap"></div>
-      </div>
-    </section>
+<tr>
+<th>الطالبة</th>
+<th>التقييم</th>
+</tr>
 
-    <!-- المسابقات -->
-    <section id="tab-competitions" class="tab-panel">
-      <div class="card">
-        <h2>المسابقات</h2>
-        <button id="randomQuizBtn">سؤال عشوائي</button>
-        <div id="quizBox" class="notice" style="margin-top:10px;"></div>
-      </div>
-    </section>
+<tbody id="gradeTable"></tbody>
 
-    <!-- المصادر والألعاب -->
-    <section id="tab-resources" class="tab-panel">
-      <div class="grid grid-2">
-        <div class="card">
-          <h2>المصادر التعليمية</h2>
-          <ul class="links-list">
-            <li><a href="https://ien.edu.sa" target="_blank">منصة عين</a></li>
-            <li><a href="https://schools.madrasati.sa" target="_blank">منصة مدرستي</a></li>
-            <li><a href="https://moe.gov.sa" target="_blank">بوابة وزارة التعليم</a></li>
-            <li><a href="https://learning.moe.gov.sa" target="_blank">مركز المحتوى التعليمي</a></li>
-          </ul>
-        </div>
-        <div class="card">
-          <h2>الألعاب التعليمية</h2>
-          <ul class="links-list">
-            <li><a href="https://wordwall.net" target="_blank">Wordwall</a></li>
-            <li><a href="https://kahoot.com" target="_blank">Kahoot</a></li>
-            <li><a href="https://quizizz.com" target="_blank">Quizizz</a></li>
-            <li><a href="https://www.blooket.com" target="_blank">Blooket</a></li>
-          </ul>
-        </div>
-      </div>
-    </section>
+</table>
 
-    <!-- التقرير -->
-    <section id="tab-report" class="tab-panel">
-      <div class="card">
-        <h2>التقرير النهائي</h2>
-        <div class="form-actions">
-          <button id="generateReportBtn">توليد التقرير</button>
-          <button id="reportWordBtn">تصدير Word</button>
-          <button id="reportPrintBtn">طباعة</button>
-        </div>
-        <div id="reportWrap"></div>
-      </div>
-    </section>
+<button onclick="home()">رجوع</button>
 
-  </main>
+</div>
 
-  <script src="app.js"></script>
+<div id="analysis" class="page">
+
+<h2>تحليل النتائج</h2>
+
+<p id="result"></p>
+
+<canvas id="chart"></canvas>
+
+<button onclick="analyze()">تحليل</button>
+
+<button onclick="home()">رجوع</button>
+
+</div>
+
+<div id="reports" class="page">
+
+<h2>التقارير</h2>
+
+<button onclick="window.print()">طباعة PDF</button>
+
+<button onclick="exportWord()">تصدير Word</button>
+
+<button onclick="home()">رجوع</button>
+
+</div>
+
+<div id="awards" class="page">
+
+<h2>التكريم</h2>
+
+<input id="awardStudent" placeholder="اسم الطالبة">
+
+<button onclick="addAward()">إضافة</button>
+
+<ul id="awardList"></ul>
+
+<button onclick="home()">رجوع</button>
+
+</div>
+
+<div id="parents" class="page">
+
+<h2>متابعة أولياء الأمور</h2>
+
+<textarea style="width:100%;height:100px"></textarea>
+
+<button onclick="home()">رجوع</button>
+
+</div>
+
+<div id="games" class="page">
+
+<h2>الألعاب التعليمية</h2>
+
+<ul>
+
+<li><a href="https://wordwall.net" target="_blank">Wordwall</a></li>
+<li><a href="https://kahoot.com" target="_blank">Kahoot</a></li>
+<li><a href="https://quizizz.com" target="_blank">Quizizz</a></li>
+
+</ul>
+
+<button onclick="home()">رجوع</button>
+
+</div>
+
+<script>
+
+let classes=[]
+let students=[]
+let awards=[]
+
+function openPage(id){
+
+document.getElementById("home").style.display="none"
+
+document.querySelectorAll(".page").forEach(p=>p.style.display="none")
+
+document.getElementById(id).style.display="block"
+
+}
+
+function home(){
+
+document.getElementById("home").style.display="grid"
+
+document.querySelectorAll(".page").forEach(p=>p.style.display="none")
+
+}
+
+function addClass(){
+
+let name=document.getElementById("className").value
+
+classes.push(name)
+
+renderClasses()
+
+}
+
+function renderClasses(){
+
+let table=document.getElementById("classTable")
+
+table.innerHTML=""
+
+classes.forEach(c=>{
+
+table.innerHTML+=`<tr><td>${c}</td></tr>`
+
+})
+
+}
+
+function addStudent(){
+
+let name=document.getElementById("studentName").value
+
+students.push(name)
+
+renderStudents()
+
+}
+
+function renderStudents(){
+
+let table=document.getElementById("studentTable")
+
+let grade=document.getElementById("gradeTable")
+
+table.innerHTML=""
+grade.innerHTML=""
+
+students.forEach((s,i)=>{
+
+table.innerHTML+=`<tr><td>${s}</td></tr>`
+
+grade.innerHTML+=`
+
+<tr>
+
+<td>${s}</td>
+
+<td>
+
+<select id="g${i}">
+
+<option>فوق المتوسط</option>
+<option>ضمن المتوسط</option>
+<option>دون المتوسط</option>
+
+</select>
+
+</td>
+
+</tr>
+
+`
+
+})
+
+}
+
+function analyze(){
+
+let high=0
+let mid=0
+let low=0
+
+students.forEach((s,i)=>{
+
+let g=document.getElementById("g"+i).value
+
+if(g=="فوق المتوسط")high++
+if(g=="ضمن المتوسط")mid++
+if(g=="دون المتوسط")low++
+
+})
+
+document.getElementById("result").innerHTML=
+
+`فوق المتوسط: ${high}<br>
+ضمن المتوسط: ${mid}<br>
+دون المتوسط: ${low}`
+
+new Chart(document.getElementById("chart"),{
+
+type:'pie',
+
+data:{
+
+labels:['فوق المتوسط','ضمن المتوسط','دون المتوسط'],
+
+datasets:[{
+
+data:[high,mid,low]
+
+}]
+
+}
+
+})
+
+}
+
+function addAward(){
+
+let name=document.getElementById("awardStudent").value
+
+awards.push(name)
+
+let ul=document.getElementById("awardList")
+
+ul.innerHTML=""
+
+awards.forEach(a=>{
+
+ul.innerHTML+=`<li>${a}</li>`
+
+})
+
+}
+
+function exportWord(){
+
+let text="تقرير النتائج"
+
+let blob=new Blob([text])
+
+let a=document.createElement("a")
+
+a.href=URL.createObjectURL(blob)
+
+a.download="report.doc"
+
+a.click()
+
+}
+
+</script>
+
 </body>
 </html>
