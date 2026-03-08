@@ -1,1 +1,87 @@
- <!-- platform will be inserted -->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+<title>منصة تحليل نتائج الطالبات</title>
+
+<link rel="stylesheet" href="style.css">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+<h1>منصة تحليل نتائج الطالبات</h1>
+
+<div class="section">
+
+<h2>إضافة طالبة</h2>
+
+<input id="studentName" placeholder="اسم الطالبة">
+
+<button onclick="addStudent()">إضافة</button>
+
+</div>
+
+<div class="section">
+
+<h2>المهارات</h2>
+
+<input id="skillName" placeholder="اسم المهارة">
+
+<button onclick="addSkill()">إضافة مهارة</button>
+
+<div id="skillsBox"></div>
+
+</div>
+
+<div class="section">
+
+<h2>الطالبات</h2>
+
+<table id="studentsTable">
+
+<tr>
+<th>الاسم</th>
+<th>الدرجة</th>
+<th>المستوى</th>
+<th>حذف</th>
+</tr>
+
+</table>
+
+</div>
+
+<div class="section">
+
+<h2>تحليل النتائج</h2>
+
+<div id="analysisBox"></div>
+
+</div>
+
+<div class="section">
+
+<h2>الرسم البياني</h2>
+
+<canvas id="chart"></canvas>
+
+</div>
+
+<div class="section">
+
+<h2>مسابقة</h2>
+
+<button onclick="quiz()">سؤال عشوائي</button>
+
+<div id="quizBox"></div>
+
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html> 
