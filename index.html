@@ -4,401 +4,309 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>منصة الإتقان الذكي</title>
-
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <style>
-
-body{
-font-family:tahoma;
-margin:0;
-background:#0e2f26;
-color:white;
+:root{
+ --bg1:#0b2f27; --bg2:#0e3f34; --card:#fff; --line:#e7e9f3; --text:#1f2440;
+ --pri:#4f46e5; --success:#16a34a; --warn:#d97706; --danger:#dc2626;
+ --radius:18px; --shadow:0 10px 28px rgba(0,0,0,.12);
 }
-
+*{box-sizing:border-box}
+body{margin:0;font-family:tahoma,arial;background:#f3f6fb;color:var(--text)}
 header{
-text-align:center;
-padding:30px;
-font-size:32px;
-font-weight:bold;
+ background:linear-gradient(135deg,var(--bg1),var(--bg2));
+ color:#fff;text-align:center;padding:26px 14px
 }
-
+header h1{margin:0 0 6px;font-size:32px}
+header .meta{font-size:13px;opacity:.9}
+.wrap{max-width:1400px;margin:0 auto;padding:18px}
 .grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:20px;
-padding:30px;
+ display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:10px
 }
-
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
 .card{
-background:#123d32;
-padding:25px;
-border-radius:12px;
-text-align:center;
-cursor:pointer;
-font-size:20px;
+ background:linear-gradient(180deg,#0f3a31,#0c2f28);
+ color:#fff;border-radius:18px;padding:20px;min-height:120px;
+ display:flex;flex-direction:column;justify-content:center;align-items:center;
+ text-align:center;cursor:pointer;box-shadow:var(--shadow)
 }
-
-.card:hover{
-background:#175544;
+.card:hover{transform:translateY(-2px)}
+.card span{font-size:34px;margin-bottom:6px}
+.page{display:none}
+.page.active{display:block}
+.section{
+ background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+ box-shadow:0 6px 22px rgba(0,0,0,.05);padding:16px;margin-bottom:16px
 }
-
-.page{
-display:none;
-background:white;
-color:black;
-padding:20px;
-margin:20px;
-border-radius:10px;
+h2{margin:0 0 10px}
+label{display:block;font-weight:bold;font-size:13px;margin-bottom:4px}
+input,select,textarea{
+ width:100%;padding:9px;border:1px solid #d8def1;border-radius:12px
 }
-
+textarea{min-height:90px}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 button{
-padding:10px;
-background:#175544;
-color:white;
-border:none;
-border-radius:6px;
-cursor:pointer;
+ border:none;background:var(--pri);color:#fff;border-radius:12px;
+ padding:8px 12px;cursor:pointer;font-weight:bold
 }
-
-table{
-width:100%;
-border-collapse:collapse;
-margin-top:10px;
+button.secondary{background:#64748b}
+button.danger{background:var(--danger)}
+table{width:100%;border-collapse:collapse;margin-top:10px}
+th,td{border:1px solid #e7e9f3;padding:6px;text-align:center;font-size:13px}
+th{background:#f3f0ff;color:#312e81}
+.badge{padding:4px 8px;border-radius:999px;font-size:11px;font-weight:bold}
+.high{background:#dcfce7;color:#166534}
+.mid{background:#fef3c7;color:#92400e}
+.low{background:#fee2e2;color:#991b1b}
+.topnav{
+ position:sticky;top:0;background:#fff;border-bottom:1px solid var(--line);
+ padding:8px;display:flex;flex-wrap:wrap;gap:6px;justify-content:center;z-index:10
 }
-
-th,td{
-border:1px solid #ccc;
-padding:8px;
-text-align:center;
-}
-
+.topnav button{background:#fff;color:#312e81;border:1px solid #e5e7ff}
+.topnav button.active{background:#4f46e5;color:#fff}
+.notice{background:#f9f8ff;border:1px dashed #ddd6fe;padding:10px;border-radius:12px}
 </style>
-
 </head>
 
 <body>
 
 <header>
-منصة الإتقان الذكي لتحليل النتائج
+<h1>منصة الإتقان الذكي</h1>
+<div class="meta" id="metaBar">المدرسة: — | المعلمة: — | المديرة: — | العام: — | المادة: —</div>
 </header>
 
-<div id="home" class="grid">
-
-<div class="card" onclick="openPage('classes')">الفصول</div>
-<div class="card" onclick="openPage('students')">الطالبات</div>
-<div class="card" onclick="openPage('skills')">الوحدات والمهارات</div>
-<div class="card" onclick="openPage('grades')">إدخال الدرجات</div>
-<div class="card" onclick="openPage('analysis')">تحليل النتائج</div>
-<div class="card" onclick="openPage('reports')">التقارير</div>
-<div class="card" onclick="openPage('awards')">التكريم</div>
-<div class="card" onclick="openPage('parents')">أولياء الأمور</div>
-<div class="card" onclick="openPage('games')">الألعاب</div>
-
+<div class="topnav">
+<button data-p="home" class="active">الرئيسية</button>
+<button data-p="basic">البيانات</button>
+<button data-p="classes">الفصول</button>
+<button data-p="skills">المهارات</button>
+<button data-p="grades">الدرجات</button>
+<button data-p="analysis">التحليل</button>
+<button data-p="report">التقرير</button>
+<button id="printBtn">طباعة</button>
+<button id="wordBtn">Word</button>
+<button id="backupBtn">نسخ</button>
+<label style="cursor:pointer">استرجاع<input hidden type="file" id="restoreInput"></label>
+<button id="resetBtn">إعادة ضبط</button>
 </div>
 
-<div id="classes" class="page">
+<div class="wrap">
+
+<!-- لوحة التحكم -->
+<div id="page-home" class="page active">
+<div class="grid">
+<div class="card" onclick="go('basic')"><span>⚙️</span>البيانات</div>
+<div class="card" onclick="go('classes')"><span>🏫</span>الفصول والطالبات</div>
+<div class="card" onclick="go('skills')"><span>📘</span>الوحدات والمهارات</div>
+<div class="card" onclick="go('grades')"><span>📝</span>إدخال الدرجات</div>
+<div class="card" onclick="go('analysis')"><span>📊</span>تحليل النتائج</div>
+<div class="card" onclick="go('report')"><span>📄</span>التقرير</div>
+<div class="card" onclick="go('parents')"><span>👨‍👩‍👧</span>أولياء الأمور</div>
+<div class="card" onclick="go('awards')"><span>⭐</span>التكريم</div>
+<div class="card" onclick="go('games')"><span>🎮</span>الألعاب</div>
+<div class="card" onclick="go('sources')"><span>📚</span>المصادر</div>
+<div class="card" onclick="go('quiz')"><span>❓</span>مسابقة</div>
+</div>
+</div>
+
+<!-- البيانات -->
+<div id="page-basic" class="page">
+<div class="section">
+<h2>البيانات الأساسية</h2>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
+<div><label>المدرسة</label><input id="school"></div>
+<div><label>المعلمة</label><input id="teacher"></div>
+<div><label>المديرة</label><input id="principal"></div>
+<div><label>العام</label><input id="year" value="1447"></div>
+</div>
+<div class="actions"><button onclick="saveMeta()">حفظ</button></div>
+</div>
+</div>
+
+<!-- الفصول -->
+<div id="page-classes" class="page">
+<div class="section">
 <h2>الفصول</h2>
-<input id="className">
-<button onclick="addClass()">إضافة</button>
-<table>
-<tr><th>الفصل</th></tr>
-<tbody id="classTable"></tbody>
-</table>
-<button onclick="home()">رجوع</button>
+<input id="className"><button onclick="addClass()">إضافة</button>
+<div id="classList"></div>
 </div>
 
-<div id="students" class="page">
+<div class="section">
 <h2>الطالبات</h2>
+<select id="studentClass"></select>
 <input id="studentName">
 <button onclick="addStudent()">إضافة</button>
-
-<table>
-<tr><th>الاسم</th></tr>
-<tbody id="studentTable"></tbody>
-</table>
-
-<button onclick="home()">رجوع</button>
+<div id="studentTable"></div>
+</div>
 </div>
 
-<div id="skills" class="page">
-
-<h2>الوحدات والمهارات</h2>
-
-<ul>
-
-<li>الوحدة 1 العقيدة الإسلامية</li>
-<li>الوحدة 2 توحيد الربوبية</li>
-<li>الوحدة 3 توحيد الألوهية</li>
-<li>الوحدة 4 الأسماء والصفات</li>
-<li>الوحدة 5 نواقض التوحيد</li>
-<li>الوحدة 6 حقوق النبي</li>
-<li>الوحدة 7 نعمة التوحيد</li>
-
-</ul>
-
-<button onclick="home()">رجوع</button>
-
+<!-- المهارات -->
+<div id="page-skills" class="page">
+<div class="section">
+<h2>الوحدات الافتراضية</h2>
+<ul id="unitsList"></ul>
 </div>
 
-<div id="grades" class="page">
-
-<h2>إدخال الدرجات</h2>
-
-<table>
-
-<tr>
-<th>الطالبة</th>
-<th>التقييم</th>
-</tr>
-
-<tbody id="gradeTable"></tbody>
-
-</table>
-
-<button onclick="home()">رجوع</button>
-
+<div class="section">
+<h2>إضافة مهارة</h2>
+<input id="skillName"><button onclick="addSkill()">إضافة</button>
+<div id="skillTable"></div>
+</div>
 </div>
 
-<div id="analysis" class="page">
+<!-- الدرجات -->
+<div id="page-grades" class="page">
+<div class="section">
+<h2>رصد الدرجات</h2>
+<div id="gradeTable"></div>
+</div>
+</div>
 
+<!-- التحليل -->
+<div id="page-analysis" class="page">
+<div class="section">
 <h2>تحليل النتائج</h2>
-
-<p id="result"></p>
-
+<div id="analysisBox"></div>
 <canvas id="chart"></canvas>
-
 <button onclick="analyze()">تحليل</button>
-
-<button onclick="home()">رجوع</button>
-
+</div>
 </div>
 
-<div id="reports" class="page">
-
-<h2>التقارير</h2>
-
-<button onclick="window.print()">طباعة PDF</button>
-
-<button onclick="exportWord()">تصدير Word</button>
-
-<button onclick="home()">رجوع</button>
-
+<!-- التقرير -->
+<div id="page-report" class="page">
+<div class="section">
+<h2>التقرير النهائي</h2>
+<div id="reportBox"></div>
+</div>
 </div>
 
-<div id="awards" class="page">
-
-<h2>التكريم</h2>
-
-<input id="awardStudent" placeholder="اسم الطالبة">
-
-<button onclick="addAward()">إضافة</button>
-
-<ul id="awardList"></ul>
-
-<button onclick="home()">رجوع</button>
-
-</div>
-
-<div id="parents" class="page">
-
+<!-- أولياء الأمور -->
+<div id="page-parents" class="page">
+<div class="section">
 <h2>متابعة أولياء الأمور</h2>
-
-<textarea style="width:100%;height:100px"></textarea>
-
-<button onclick="home()">رجوع</button>
-
+<textarea></textarea>
+</div>
 </div>
 
-<div id="games" class="page">
+<!-- التكريم -->
+<div id="page-awards" class="page">
+<div class="section">
+<h2>التكريم</h2>
+<input id="awardName"><button onclick="addAward()">إضافة</button>
+<ul id="awardList"></ul>
+</div>
+</div>
 
-<h2>الألعاب التعليمية</h2>
-
+<!-- الألعاب -->
+<div id="page-games" class="page">
+<div class="section">
+<h2>الألعاب</h2>
 <ul>
-
 <li><a href="https://wordwall.net" target="_blank">Wordwall</a></li>
 <li><a href="https://kahoot.com" target="_blank">Kahoot</a></li>
 <li><a href="https://quizizz.com" target="_blank">Quizizz</a></li>
-
 </ul>
+</div>
+</div>
 
-<button onclick="home()">رجوع</button>
+<!-- المصادر -->
+<div id="page-sources" class="page">
+<div class="section">
+<h2>المصادر</h2>
+<ul>
+<li><a href="https://ien.edu.sa" target="_blank">عين</a></li>
+<li><a href="https://schools.madrasati.sa" target="_blank">مدرستي</a></li>
+</ul>
+</div>
+</div>
+
+<!-- المسابقة -->
+<div id="page-quiz" class="page">
+<div class="section">
+<h2>سؤال عشوائي</h2>
+<div id="quizBox">اضغطي الزر</div>
+<button onclick="quiz()">سؤال</button>
+</div>
+</div>
 
 </div>
 
 <script>
+const store="itqan_pro";
+let classes=["ثاني ثانوي 1","ثاني ثانوي 2","ثاني ثانوي 3","ثاني ثانوي 4","ثاني ثانوي 5"];
+let students=[];
+let skills=[];
+let awards=[];
+const units=[
+"العقيدة الإسلامية","توحيد الربوبية","توحيد الألوهية","الأسماء والصفات",
+"نواقض التوحيد","حقوق النبي ﷺ","نعمة التوحيد"
+];
+const questions=[
+"ما معنى التوحيد؟","ما أقسام التوحيد؟","ما معنى الشرك؟","ما حق النبي ﷺ؟"
+];
 
-let classes=[]
-let students=[]
-let awards=[]
-
-function openPage(id){
-
-document.getElementById("home").style.display="none"
-
-document.querySelectorAll(".page").forEach(p=>p.style.display="none")
-
-document.getElementById(id).style.display="block"
-
+function go(p){
+document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
+document.getElementById("page-"+p).classList.add("active");
 }
 
-function home(){
-
-document.getElementById("home").style.display="grid"
-
-document.querySelectorAll(".page").forEach(p=>p.style.display="none")
-
-}
+document.querySelectorAll(".topnav button[data-p]").forEach(b=>{
+b.onclick=()=>go(b.dataset.p);
+});
 
 function addClass(){
-
-let name=document.getElementById("className").value
-
-classes.push(name)
-
-renderClasses()
-
+classes.push(className.value);renderClasses();
 }
 
 function renderClasses(){
-
-let table=document.getElementById("classTable")
-
-table.innerHTML=""
-
-classes.forEach(c=>{
-
-table.innerHTML+=`<tr><td>${c}</td></tr>`
-
-})
-
+classList.innerHTML=classes.map(c=>"<div>"+c+"</div>").join("");
+studentClass.innerHTML=classes.map(c=>"<option>"+c+"</option>").join("");
 }
 
 function addStudent(){
-
-let name=document.getElementById("studentName").value
-
-students.push(name)
-
-renderStudents()
-
+students.push({name:studentName.value,cl:studentClass.value});
+renderStudents();
 }
 
 function renderStudents(){
+studentTable.innerHTML="<table><tr><th>الاسم</th><th>الفصل</th></tr>"+
+students.map(s=>"<tr><td>"+s.name+"</td><td>"+s.cl+"</td></tr>").join("")+"</table>";
+gradeTable.innerHTML="<table><tr><th>الطالبة</th><th>التقييم</th></tr>"+
+students.map((s,i)=>"<tr><td>"+s.name+"</td><td><select id=g"+i+"><option>فوق المتوسط</option><option>ضمن المتوسط</option><option>دون المتوسط</option></select></td></tr>").join("")+"</table>";
+}
 
-let table=document.getElementById("studentTable")
+function addSkill(){
+skills.push(skillName.value);renderSkills();
+}
 
-let grade=document.getElementById("gradeTable")
-
-table.innerHTML=""
-grade.innerHTML=""
-
-students.forEach((s,i)=>{
-
-table.innerHTML+=`<tr><td>${s}</td></tr>`
-
-grade.innerHTML+=`
-
-<tr>
-
-<td>${s}</td>
-
-<td>
-
-<select id="g${i}">
-
-<option>فوق المتوسط</option>
-<option>ضمن المتوسط</option>
-<option>دون المتوسط</option>
-
-</select>
-
-</td>
-
-</tr>
-
-`
-
-})
-
+function renderSkills(){
+skillTable.innerHTML="<table><tr><th>المهارة</th></tr>"+
+skills.map(s=>"<tr><td>"+s+"</td></tr>").join("")+"</table>";
 }
 
 function analyze(){
-
-let high=0
-let mid=0
-let low=0
-
+let h=0,m=0,l=0;
 students.forEach((s,i)=>{
-
-let g=document.getElementById("g"+i).value
-
-if(g=="فوق المتوسط")high++
-if(g=="ضمن المتوسط")mid++
-if(g=="دون المتوسط")low++
-
-})
-
-document.getElementById("result").innerHTML=
-
-`فوق المتوسط: ${high}<br>
-ضمن المتوسط: ${mid}<br>
-دون المتوسط: ${low}`
-
-new Chart(document.getElementById("chart"),{
-
-type:'pie',
-
-data:{
-
-labels:['فوق المتوسط','ضمن المتوسط','دون المتوسط'],
-
-datasets:[{
-
-data:[high,mid,low]
-
-}]
-
-}
-
-})
-
+let g=document.getElementById("g"+i).value;
+if(g=="فوق المتوسط")h++;
+if(g=="ضمن المتوسط")m++;
+if(g=="دون المتوسط")l++;
+});
+analysisBox.innerHTML="فوق المتوسط:"+h+" | ضمن:"+m+" | دون:"+l;
+new Chart(chart,{type:"pie",data:{labels:["فوق","ضمن","دون"],datasets:[{data:[h,m,l]}]}});
 }
 
 function addAward(){
-
-let name=document.getElementById("awardStudent").value
-
-awards.push(name)
-
-let ul=document.getElementById("awardList")
-
-ul.innerHTML=""
-
-awards.forEach(a=>{
-
-ul.innerHTML+=`<li>${a}</li>`
-
-})
-
+awards.push(awardName.value);
+awardList.innerHTML=awards.map(a=>"<li>"+a+"</li>").join("");
 }
 
-function exportWord(){
-
-let text="تقرير النتائج"
-
-let blob=new Blob([text])
-
-let a=document.createElement("a")
-
-a.href=URL.createObjectURL(blob)
-
-a.download="report.doc"
-
-a.click()
-
+function quiz(){
+quizBox.innerHTML=questions[Math.floor(Math.random()*questions.length)];
 }
 
+renderClasses();
+renderSkills();
 </script>
 
 </body>
