@@ -1,223 +1,175 @@
- let students=[];
-let skills=[];
+ let students = []
+let skills = []
+let scores = []
 
 function addStudent(){
-let name=document.getElementById("studentName").value;
-if(name==="") return;
+
+let name = document.getElementById("studentNameInput").value
+
+if(name=="") return
 
 students.push({
+
 name:name,
-score:"",
-level:""
-});
+scores:{}
 
-document.getElementById("studentName").value="";
-renderStudents();
-}
+})
 
-function deleteStudent(i){
-students.splice(i,1);
-renderStudents();
-}
+document.getElementById("studentNameInput").value=""
 
-function setScore(i,val){
-students[i].score=val;
-
-if(val>=85){
-students[i].level="فوق المتوسط";
-}
-else if(val>=60){
-students[i].level="ضمن المتوسط";
-}
-else{
-students[i].level="دون المتوسط";
-}
-
-renderStudents();
-}
-
-function renderStudents(){
-
-let table=document.getElementById("studentsTable");
-
-if(!table) return;
-
-table.innerHTML=`
-<tr>
-<th>الاسم</th>
-<th>الدرجة</th>
-<th>المستوى</th>
-<th>حذف</th>
-</tr>
-`;
-
-students.forEach((s,i)=>{
-
-table.innerHTML+=`
-<tr>
-
-<td>${s.name}</td>
-
-<td>
-<input type="number"
-value="${s.score}"
-onchange="setScore(${i},this.value)">
-</td>
-
-<td>${s.level}</td>
-
-<td>
-<button onclick="deleteStudent(${i})">حذف</button>
-</td>
-
-</tr>
-`;
-
-});
-
-analysis();
-drawChart();
-saveData();
+renderStudents()
 
 }
 
 function addSkill(){
 
-let name=document.getElementById("skillName").value;
+let skill = document.getElementById("skillTextInput").value
 
-if(name==="") return;
+if(skill=="") return
 
-skills.push(name);
+skills.push(skill)
 
-document.getElementById("skillName").value="";
+document.getElementById("skillTextInput").value=""
 
-renderSkills();
+renderSkills()
 
 }
 
 function renderSkills(){
 
-let box=document.getElementById("skillsBox");
+let wrap = document.getElementById("skillsTableWrap")
 
-if(!box) return;
+if(!wrap) return
 
-box.innerHTML="";
+let html=""
 
 skills.forEach(s=>{
 
-box.innerHTML+=`<div class="card">${s}</div>`;
+html+=`<div>${s}</div>`
 
-});
+})
+
+wrap.innerHTML=html
 
 }
 
-function analysis(){
+function renderStudents(){
 
-let high=0;
-let mid=0;
-let low=0;
+let wrap = document.getElementById("studentsTableWrap")
+
+if(!wrap) return
+
+let html="<table>"
+
+html+="<tr><th>الاسم</th><th>الدرجة</th><th>المستوى</th></tr>"
+
+students.forEach((s,i)=>{
+
+let level=""
+
+if(s.score>=85) level="فوق المتوسط"
+else if(s.score>=60) level="ضمن المتوسط"
+else level="دون المتوسط"
+
+html+=`<tr>
+
+<td>${s.name}</td>
+
+<td><input type="number" onchange="updateScore(${i},this.value)"></td>
+
+<td>${level}</td>
+
+</tr>`
+
+})
+
+html+="</table>"
+
+wrap.innerHTML=html
+
+}
+
+function updateScore(i,val){
+
+students[i].score = Number(val)
+
+renderStudents()
+
+analyze()
+
+}
+
+function analyze(){
+
+let high=0
+let mid=0
+let low=0
 
 students.forEach(s=>{
 
-if(s.level==="فوق المتوسط") high++;
-if(s.level==="ضمن المتوسط") mid++;
-if(s.level==="دون المتوسط") low++;
+if(s.score>=85) high++
+else if(s.score>=60) mid++
+else low++
 
-});
+})
 
-let total=students.length;
+let result = document.getElementById("analysis")
 
-let box=document.getElementById("analysisBox");
+if(result){
 
-if(!box) return;
+result.innerHTML=
 
-box.innerHTML=`
-
-عدد الطالبات : ${total} <br>
-
-فوق المتوسط : ${high} <br>
-
-ضمن المتوسط : ${mid} <br>
-
-دون المتوسط : ${low}
-
-`;
+"فوق المتوسط: "+high+
+"<br>ضمن المتوسط: "+mid+
+"<br>دون المتوسط: "+low
 
 }
 
-let chart;
+drawChart(high,mid,low)
 
-function drawChart(){
-
-let high=0;
-let mid=0;
-let low=0;
-
-students.forEach(s=>{
-
-if(s.level==="فوق المتوسط") high++;
-if(s.level==="ضمن المتوسط") mid++;
-if(s.level==="دون المتوسط") low++;
-
-});
-
-let ctx=document.getElementById("chart");
-
-if(!ctx) return;
-
-if(chart){
-chart.destroy();
 }
 
-chart=new Chart(ctx,{
+function drawChart(h,m,l){
+
+let ctx=document.getElementById("finalChart")
+
+if(!ctx) return
+
+new Chart(ctx,{
+
 type:"pie",
+
 data:{
+
 labels:["فوق المتوسط","ضمن المتوسط","دون المتوسط"],
+
 datasets:[{
-data:[high,mid,low],
-backgroundColor:["#2ecc71","#f1c40f","#e74c3c"]
+
+data:[h,m,l],
+
+backgroundColor:["green","orange","red"]
+
 }]
-}
-});
 
 }
 
-function quiz(){
+})
+
+}
+
+function randomQuiz(){
 
 let questions=[
 
 "ما معنى التوحيد؟",
 "اذكري أنواع التوحيد",
 "ما الفرق بين الربوبية والألوهية؟",
-"ما أهمية العقيدة الإسلامية؟",
-"ما حكم الشرك بالله؟"
+"ما حكم الشرك؟"
 
-];
+]
 
-let q=questions[Math.floor(Math.random()*questions.length)];
+let q = questions[Math.floor(Math.random()*questions.length)]
 
-document.getElementById("quizBox").innerHTML=q;
-
-}
-
-function saveData(){
-
-localStorage.setItem("students",JSON.stringify(students));
-localStorage.setItem("skills",JSON.stringify(skills));
+document.getElementById("quizBox").innerHTML=q
 
 }
-
-function loadData(){
-
-let s=localStorage.getItem("students");
-let k=localStorage.getItem("skills");
-
-if(s) students=JSON.parse(s);
-if(k) skills=JSON.parse(k);
-
-renderStudents();
-renderSkills();
-
-}
-
-window.onload=loadData;
