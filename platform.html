@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>منصة تحليل نتائج الطالبات</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+ن
+<style>
+
+body{
+font-family:Arial;
+background:#f2f5f7;
+margin:0;
+padding:20px
+}
+
+h1{
+color:#0b5a3c
+}
+
+.section{
+background:white;
+padding:15px;
+margin-bottom:20px;
+border-radius:8px
+}
+
+button{
+padding:8px 12px;
+margin:4px;
+cursor:pointer
+}
+
+input,select{
+padding:6px;
+margin:4px
+}
+
+table{
+border-collapse:collapse;
+width:100%;
+background:white
+}
+
+th,td{
+border:1px solid #ddd;
+padding:8px
+}
+
+th{
+background:#0b5a3c;
+color:white
+}
+
+.high{background:#d1f7e3}
+.mid{background:#fff3cd}
+.low{background:#f8d7da}
+
+</style>
+</head>
+
+<body>
+
+<h1>منصة تحليل نتائج الطالبات</h1>
+
+<div class="section">
+
+<h3>البيانات الأساسية</h3>
+
+اسم المدرسة
+<input id="school">
+
+اسم المعلمة
+<input id="teacher">
+
+المادة
+<input id="subject">
+
+العام الدراسي
+<input id="year">
+
+</div>
+
+<div class="section">
+
+<h3>الفصول</h3>
+
+<input id="className" placeholder="اسم الفصل">
+<button onclick="addClass()">إضافة فصل</button>
+
+<div id="classList"></div>
+
+</div>
+
+<div class="section">
+
+<h3>إضافة طالبة</h3>
+
+<select id="studentClass"></select>
+
+<input id="studentName" placeholder="اسم الطالبة">
+
+<button onclick="addStudent()">إضافة</button>
+
+</div>
+
+<div class="section">
+
+<h3>الطالبات</h3>
+
+<div id="studentsTable"></div>
+
+</div>
+
+<div class="section">
+
+<h3>إدخال الدرجات</h3>
+
+الفترة
+
+<select id="period">
+<option value="p1">الفترة الأولى</option>
+<option value="p2">الفترة الثانية</option>
+</select>
+
+<select id="gradeClass"></select>
+
+<button onclick="showGrades()">عرض</button>
+
+<div id="gradesTable"></div>
+
+</div>
+
+<div class="section">
+
+<h3>التحليل والرسوم البيانية</h3>
+
+<canvas id="chart"></canvas>
+
+</div>
+
+<div class="section">
+
+<h3>التقرير</h3>
+
+<button onclick="generateReport()">توليد التقرير</button>
+
+<div id="report"></div>
+
+</div>
+
+<script>
+
+let data={
+classes:["2ث1","2ث2","2ث3","2ث4","2ث5"],
+students:{},
+grades:{p1:{},p2:{}}
+}
+
+function save(){
+localStorage.setItem("schoolPlatform",JSON.stringify(data))
+}
+
+function load(){
+let saved=localStorage.getItem("schoolPlatform")
+if(saved){
+data=JSON.parse(saved)
+}
+}
+
+load()
+
+function refreshClassLists(){
+
+let selects=["studentClass","gradeClass"]
+
+selects.forEach(id=>{
+let s=document.getElementById(id)
+s.innerHTML=""
+data.classes.forEach(c=>{
+let o=document.createElement("option")
+o.value=c
+o.textContent=c
+s.appendChild(o)
+})
+})
+
+let list=document.getElementById("classList")
+list.innerHTML=""
+
+data.classes.forEach(c=>{
+let div=document.createElement("div")
+div.innerHTML=c+" <button onclick='deleteClass(\""+c+"\")'>حذف</button>"
+list.appendChild(div)
+})
+
+}
+
+refreshClassLists()
+
+function addClass(){
+
+let c=document.getElementById("className").value
+
+if(!c)return
+
+data.classes.push(c)
+
+refreshClassLists()
+
+save()
+
+}
+
+function deleteClass(c){
+
+data.classes=data.classes.filter(x=>x!=c)
+
+refreshClassLists()
+
+save()
+
+}
+
+function addStudent(){
+
+let name=document.getElementById("studentName").value
+let cls=document.getElementById("studentClass").value
+
+if(!data.students[cls]){
+data.students[cls]=[]
+}
+
+let id="s"+Date.now()
+
+data.students[cls].push({id,name})
+
+save()
+
+showStudents()
+
+}
+
+function showStudents(){
+
+let html="<table><tr><th>الفصل</th><th>الاسم</th><th></th></tr>"
+
+for(let cls in data.students){
+
+data.students[cls].forEach(s=>{
+
+html+=`
+<tr>
+<td>${cls}</td>
+<td>${s.name}</td>
+<td>
+<button onclick="deleteStudent('${cls}','${s.id}')">حذف</button>
+</td>
+</tr>
+`
+
+})
+
+}
+
+html+="</table>"
+
+document.getElementById("studentsTable").innerHTML=html
+
+}
+
+showStudents()
+
+function deleteStudent(cls,id){
+
+data.students[cls]=data.students[cls].filter(s=>s.id!=id)
+
+save()
+
+showStudents()
+
+}
+
+function classify(g){
+
+if(g>=90)return["فوق المتوسط","high"]
+
+if(g>=70)return["ضمن المتوسط","mid"]
+
+return["دون المتوسط","low"]
+
+}
+
+function showGrades(){
+
+let cls=document.getElementById("gradeClass").value
+let period=document.getElementById("period").value
+
+let students=data.students[cls]||[]
+
+if(!data.grades[period][cls]){
+data.grades[period][cls]={}
+}
+
+let html="<table><tr><th>الطالبة</th><th>الدرجة</th><th>التصنيف</th></tr>"
+
+students.forEach(s=>{
+
+let g=data.grades[period][cls][s.id]||""
+
+let c=classify(g)
+
+html+=`
+<tr>
+<td>${s.name}</td>
+<td>
+<input type="number" value="${g}"
+onchange="setGrade('${period}','${cls}','${s.id}',this.value)">
+</td>
+<td class="${c[1]}">${g?c[0]:""}</td>
+</tr>
+`
+
+})
+
+html+="</table>"
+
+document.getElementById("gradesTable").innerHTML=html
+
+}
+
+function setGrade(period,cls,id,val){
+
+if(!data.grades[period][cls]){
+data.grades[period][cls]={}
+}
+
+data.grades[period][cls][id]=Number(val)
+
+save()
+
+showGrades()
+
+}
+
+function generateReport(){
+
+let high=0
+let mid=0
+let low=0
+
+for(let cls of data.classes){
+
+let students=data.students[cls]||[]
+
+let g=data.grades.p2[cls]||{}
+
+students.forEach(s=>{
+
+let v=g[s.id]
+
+if(v>=90)high++
+else if(v>=70)mid++
+else if(v)low++
+
+})
+
+}
+
+let ctx=document.getElementById("chart")
+
+new Chart(ctx,{
+type:"pie",
+data:{
+labels:["فوق المتوسط","ضمن المتوسط","دون المتوسط"],
+datasets:[{
+data:[high,mid,low],
+backgroundColor:["#4caf50","#ffc107","#f44336"]
+}]
+}
+})
+
+document.getElementById("report").innerHTML=
+"فوق المتوسط: "+high+"<br>"+
+"ضمن المتوسط: "+mid+"<br>"+
+"دون المتوسط: "+low
+
+}
+
+</script>
+
+</body>
+</html>
