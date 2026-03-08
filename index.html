@@ -1,42 +1,42 @@
-  <!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>منصة الإتقان الذكي</title>
+<title>منصة تحليل نتائج الطالبات</title>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 
 body{
-font-family:tahoma;
-margin:0;
-background:#f3f6fb
+font-family:Tahoma;
+background:#f2f4f7;
+margin:0
 }
 
 header{
-background:#0f5132;
+background:#0b5c4a;
 color:white;
-text-align:center;
 padding:20px;
-font-size:28px
+text-align:center;
+font-size:26px
 }
 
 nav{
 display:flex;
-gap:10px;
 flex-wrap:wrap;
+gap:10px;
 justify-content:center;
-padding:10px;
-background:white
+background:white;
+padding:10px
 }
 
 button{
-padding:8px 14px;
+padding:10px 14px;
 border:none;
-background:#0f5132;
+background:#0b5c4a;
 color:white;
-border-radius:6px;
+border-radius:8px;
 cursor:pointer
 }
 
@@ -64,13 +64,12 @@ left:10px
 }
 
 </style>
-
 </head>
 
 <body>
 
 <header>
-منصة الإتقان الذكي
+منصة تحليل نتائج الطالبات
 </header>
 
 <button class="home" onclick="showPage('home')">🏠 الرئيسية</button>
@@ -78,86 +77,50 @@ left:10px
 <nav>
 
 <button onclick="showPage('home')">الرئيسية</button>
-<button onclick="showPage('class1')">ثاني ثانوي 1</button>
-<button onclick="showPage('class2')">ثاني ثانوي 2</button>
-<button onclick="showPage('class3')">ثاني ثانوي 3</button>
-<button onclick="showPage('class4')">ثاني ثانوي 4</button>
-<button onclick="showPage('class5')">ثاني ثانوي 5</button>
-
-<button onclick="showPage('analysis')">التحليل</button>
-<button onclick="showPage('games')">الألعاب</button>
+<button onclick="showPage('students')">الطالبات</button>
+<button onclick="showPage('grades')">إدخال الدرجات</button>
+<button onclick="showPage('analysis')">تحليل النتائج</button>
+<button onclick="showPage('plans')">الخطط</button>
+<button onclick="showPage('awards')">التكريم</button>
+<button onclick="showPage('parents')">أولياء الأمور</button>
 <button onclick="showPage('sources')">المصادر</button>
-<button onclick="showPage('quiz')">المسابقة</button>
+<button onclick="showPage('games')">الألعاب</button>
 
 </nav>
 
 <section id="home" style="display:block">
 
-<h2>ابدئي من هنا</h2>
+<h2>لوحة التحكم</h2>
 
 <p>
 
-1️⃣ أدخلي الطالبات للفصول  
-2️⃣ سجلي التقييم  
-3️⃣ افتحي التحليل
+1 إدخال أسماء الطالبات  
+2 إدخال الدرجات  
+3 عرض التحليل والخطط
 
 </p>
 
 </section>
 
-<!-- الفصول -->
+<section id="students">
 
-<section id="class1">
-<h2>ثاني ثانوي 1</h2>
+<h2>إدخال أسماء الطالبات</h2>
 
-<textarea id="students1" rows="6" style="width:100%"></textarea>
-<button onclick="addStudents(1)">إضافة الطالبات</button>
+<textarea id="names" rows="6" style="width:100%"></textarea>
 
-<table id="table1"></table>
+<button onclick="addStudents()">إضافة</button>
 
-</section>
-
-<section id="class2">
-<h2>ثاني ثانوي 2</h2>
-
-<textarea id="students2" rows="6" style="width:100%"></textarea>
-<button onclick="addStudents(2)">إضافة الطالبات</button>
-
-<table id="table2"></table>
+<table id="studentsTable"></table>
 
 </section>
 
-<section id="class3">
-<h2>ثاني ثانوي 3</h2>
+<section id="grades">
 
-<textarea id="students3" rows="6" style="width:100%"></textarea>
-<button onclick="addStudents(3)">إضافة الطالبات</button>
+<h2>إدخال الدرجات</h2>
 
-<table id="table3"></table>
+<table id="gradesTable"></table>
 
 </section>
-
-<section id="class4">
-<h2>ثاني ثانوي 4</h2>
-
-<textarea id="students4" rows="6" style="width:100%"></textarea>
-<button onclick="addStudents(4)">إضافة الطالبات</button>
-
-<table id="table4"></table>
-
-</section>
-
-<section id="class5">
-<h2>ثاني ثانوي 5</h2>
-
-<textarea id="students5" rows="6" style="width:100%"></textarea>
-<button onclick="addStudents(5)">إضافة الطالبات</button>
-
-<table id="table5"></table>
-
-</section>
-
-<!-- التحليل -->
 
 <section id="analysis">
 
@@ -169,23 +132,30 @@ left:10px
 
 </section>
 
-<!-- الألعاب -->
+<section id="plans">
 
-<section id="games">
+<h2>الخطط العلاجية والإثرائية</h2>
 
-<h2>الألعاب</h2>
-
-<ul>
-
-<li><a href="https://wordwall.net" target="_blank">Wordwall</a></li>
-<li><a href="https://kahoot.com" target="_blank">Kahoot</a></li>
-<li><a href="https://quizizz.com" target="_blank">Quizizz</a></li>
-
-</ul>
+<div id="remedial"></div>
+<div id="enrichment"></div>
 
 </section>
 
-<!-- المصادر -->
+<section id="awards">
+
+<h2>التكريم</h2>
+
+<div id="awardsList"></div>
+
+</section>
+
+<section id="parents">
+
+<h2>متابعة أولياء الأمور</h2>
+
+<textarea style="width:100%" rows="6"></textarea>
+
+</section>
 
 <section id="sources">
 
@@ -193,31 +163,42 @@ left:10px
 
 <ul>
 
-<li><a href="https://ien.edu.sa" target="_blank">منصة عين</a></li>
-<li><a href="https://schools.madrasati.sa" target="_blank">مدرستي</a></li>
+<li><a href="https://ien.edu.sa">عين</a></li>
+<li><a href="https://schools.madrasati.sa">مدرستي</a></li>
 
 </ul>
 
 </section>
 
-<!-- المسابقة -->
+<section id="games">
 
-<section id="quiz">
+<h2>الألعاب التعليمية</h2>
 
-<h2>مسابقة</h2>
+<ul>
 
-<p>ما معنى التوحيد؟</p>
+<li><a href="https://wordwall.net">Wordwall</a></li>
+<li><a href="https://kahoot.com">Kahoot</a></li>
+<li><a href="https://quizizz.com">Quizizz</a></li>
 
-<button onclick="answer(true)">إفراد الله بالعبادة</button>
-<button onclick="answer(false)">عبادة غير الله</button>
-
-<div id="quizResult"></div>
+</ul>
 
 </section>
 
 <script>
 
-let students = []
+let students=[]
+
+let skills=[
+
+"تعريف التوحيد",
+"توحيد الربوبية",
+"توحيد الألوهية",
+"الأسماء والصفات",
+"الشرك",
+"حقوق النبي",
+"فضل التوحيد"
+
+]
 
 function showPage(id){
 
@@ -227,32 +208,61 @@ document.getElementById(id).style.display="block"
 
 }
 
-function addStudents(c){
+function addStudents(){
 
-let text = document.getElementById("students"+c).value
+let text=document.getElementById("names").value
 
-students = text.split("\n")
+students=text.split("\n")
 
-let table="<tr><th>الطالبة</th><th>التقييم</th></tr>"
+let table="<tr><th>الطالبة</th></tr>"
+
+students.forEach(s=>{
+
+table+=`<tr><td>${s}</td></tr>`
+
+})
+
+document.getElementById("studentsTable").innerHTML=table
+
+generateGrades()
+
+}
+
+function generateGrades(){
+
+let table="<tr><th>الطالبة</th>"
+
+skills.forEach(skill=>{
+
+table+=`<th>${skill}</th>`
+
+})
+
+table+="</tr>"
 
 students.forEach((s,i)=>{
 
-table += `
-<tr>
-<td>${s}</td>
+table+=`<tr><td>${s}</td>`
+
+skills.forEach((skill,j)=>{
+
+table+=`
+
 <td>
-<select id="g${c}_${i}">
-<option>فوق المتوسط</option>
-<option>ضمن المتوسط</option>
-<option>دون المتوسط</option>
-</select>
+
+<input type="number" id="g${i}_${j}" min="0" max="100">
+
 </td>
-</tr>
+
 `
 
 })
 
-document.getElementById("table"+c).innerHTML = table
+table+="</tr>"
+
+})
+
+document.getElementById("gradesTable").innerHTML=table
 
 }
 
@@ -262,11 +272,21 @@ let high=0
 let mid=0
 let low=0
 
-document.querySelectorAll("select").forEach(s=>{
+students.forEach((s,i)=>{
 
-if(s.value=="فوق المتوسط") high++
-if(s.value=="ضمن المتوسط") mid++
-if(s.value=="دون المتوسط") low++
+skills.forEach((skill,j)=>{
+
+let g=document.getElementById(`g${i}_${j}`)
+
+if(!g || g.value=="") return
+
+let score=parseInt(g.value)
+
+if(score>=90) high++
+else if(score>=70) mid++
+else low++
+
+})
 
 })
 
@@ -278,29 +298,93 @@ data:{
 
 labels:["فوق المتوسط","ضمن المتوسط","دون المتوسط"],
 
-datasets:[{data:[high,mid,low]}]
+datasets:[{
+
+data:[high,mid,low]
+
+}]
 
 }
 
 })
 
-}
-
-function answer(correct){
-
-let r=document.getElementById("quizResult")
-
-if(correct){
-
-r.innerHTML="😊 أحسنت"
-r.style.color="green"
-
-}else{
-
-r.innerHTML="😢 إجابة خاطئة"
-r.style.color="red"
+generatePlans()
+generateAwards()
 
 }
+
+function generatePlans(){
+
+let remedial=[]
+let enrichment=[]
+
+students.forEach((s,i)=>{
+
+skills.forEach((skill,j)=>{
+
+let g=document.getElementById(`g${i}_${j}`)
+
+if(!g || g.value=="") return
+
+let score=parseInt(g.value)
+
+if(score<70){
+
+remedial.push(`${s} - ${skill}`)
+
+}
+
+if(score>=90){
+
+enrichment.push(`${s} - ${skill}`)
+
+}
+
+})
+
+})
+
+document.getElementById("remedial").innerHTML="<h3>الخطة العلاجية</h3>"+remedial.join("<br>")
+
+document.getElementById("enrichment").innerHTML="<h3>الخطة الإثرائية</h3>"+enrichment.join("<br>")
+
+}
+
+function generateAwards(){
+
+let awards=[]
+
+students.forEach((s,i)=>{
+
+let total=0
+let count=0
+
+skills.forEach((skill,j)=>{
+
+let g=document.getElementById(`g${i}_${j}`)
+
+if(!g || g.value=="") return
+
+total+=parseInt(g.value)
+count++
+
+})
+
+if(count>0){
+
+let avg=total/count
+
+if(avg>=90){
+
+awards.push(s)
+
+}
+
+}
+
+})
+
+document.getElementById("awardsList").innerHTML=awards.join("<br>")
 
 }
 
