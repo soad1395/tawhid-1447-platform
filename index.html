@@ -1,7 +1,6 @@
- <!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-
 <meta charset="UTF-8">
 <title>منصة الإتقان الذكي</title>
 
@@ -12,25 +11,24 @@
 body{
 font-family:tahoma;
 margin:0;
-background:#f4f6f8
+background:#f3f6fb
 }
 
 header{
 background:#0f5132;
 color:white;
-padding:20px;
 text-align:center;
+padding:20px;
 font-size:28px
 }
 
 nav{
-background:#ffffff;
-padding:10px;
 display:flex;
 gap:10px;
 flex-wrap:wrap;
 justify-content:center;
-border-bottom:1px solid #ddd
+padding:10px;
+background:white
 }
 
 button{
@@ -59,17 +57,7 @@ padding:8px;
 text-align:center
 }
 
-.correct{
-background:#4caf50;
-color:white
-}
-
-.wrong{
-background:#e53935;
-color:white
-}
-
-.homebtn{
+.home{
 position:fixed;
 top:10px;
 left:10px
@@ -82,23 +70,24 @@ left:10px
 <body>
 
 <header>
-منصة الإتقان الذكي لتحليل نتائج التوحيد
+منصة الإتقان الذكي
 </header>
 
-<button class="homebtn" onclick="show('home')">🏠 الرئيسية</button>
+<button class="home" onclick="showPage('home')">🏠 الرئيسية</button>
 
 <nav>
 
-<button onclick="show('classes')">الفصول</button>
-<button onclick="show('students')">الطالبات</button>
-<button onclick="show('skills')">المهارات</button>
-<button onclick="show('grades')">الرصد</button>
-<button onclick="show('analysis')">التحليل</button>
-<button onclick="show('reports')">التقارير</button>
-<button onclick="show('awards')">التكريم</button>
-<button onclick="show('quiz')">المسابقات</button>
-<button onclick="show('games')">الألعاب</button>
-<button onclick="show('sources')">المصادر</button>
+<button onclick="showPage('home')">الرئيسية</button>
+<button onclick="showPage('class1')">ثاني ثانوي 1</button>
+<button onclick="showPage('class2')">ثاني ثانوي 2</button>
+<button onclick="showPage('class3')">ثاني ثانوي 3</button>
+<button onclick="showPage('class4')">ثاني ثانوي 4</button>
+<button onclick="showPage('class5')">ثاني ثانوي 5</button>
+
+<button onclick="showPage('analysis')">التحليل</button>
+<button onclick="showPage('games')">الألعاب</button>
+<button onclick="showPage('sources')">المصادر</button>
+<button onclick="showPage('quiz')">المسابقة</button>
 
 </nav>
 
@@ -108,70 +97,67 @@ left:10px
 
 <p>
 
-1- إضافة الفصول<br>
-2- إضافة الطالبات<br>
-3- إدخال الرصد<br>
-4- تحليل النتائج<br>
-5- توليد التقرير
+1️⃣ أدخلي الطالبات للفصول  
+2️⃣ سجلي التقييم  
+3️⃣ افتحي التحليل
 
 </p>
 
 </section>
 
-<section id="classes">
+<!-- الفصول -->
 
-<h2>الفصول</h2>
+<section id="class1">
+<h2>ثاني ثانوي 1</h2>
 
-<ul>
+<textarea id="students1" rows="6" style="width:100%"></textarea>
+<button onclick="addStudents(1)">إضافة الطالبات</button>
 
-<li>ثاني ثانوي 1</li>
-<li>ثاني ثانوي 2</li>
-<li>ثاني ثانوي 3</li>
-<li>ثاني ثانوي 4</li>
-<li>ثاني ثانوي 5</li>
-
-</ul>
+<table id="table1"></table>
 
 </section>
 
-<section id="students">
+<section id="class2">
+<h2>ثاني ثانوي 2</h2>
 
-<h2>إضافة الطالبات جماعي</h2>
+<textarea id="students2" rows="6" style="width:100%"></textarea>
+<button onclick="addStudents(2)">إضافة الطالبات</button>
 
-<textarea id="studentsInput" rows="6" style="width:100%"></textarea>
-
-<button onclick="addStudents()">إضافة الطالبات</button>
-
-<table id="studentsTable"></table>
+<table id="table2"></table>
 
 </section>
 
-<section id="skills">
+<section id="class3">
+<h2>ثاني ثانوي 3</h2>
 
-<h2>المهارات</h2>
+<textarea id="students3" rows="6" style="width:100%"></textarea>
+<button onclick="addStudents(3)">إضافة الطالبات</button>
 
-<ul>
-
-<li>تعريف العقيدة</li>
-<li>مصادر العقيدة</li>
-<li>توحيد الربوبية</li>
-<li>توحيد الألوهية</li>
-<li>الأسماء والصفات</li>
-<li>نواقض التوحيد</li>
-<li>حقوق النبي</li>
-<li>نعمة التوحيد</li>
-
-</ul>
+<table id="table3"></table>
 
 </section>
 
-<section id="grades">
+<section id="class4">
+<h2>ثاني ثانوي 4</h2>
 
-<h2>الرصد</h2>
+<textarea id="students4" rows="6" style="width:100%"></textarea>
+<button onclick="addStudents(4)">إضافة الطالبات</button>
 
-<table id="gradesTable"></table>
+<table id="table4"></table>
 
 </section>
+
+<section id="class5">
+<h2>ثاني ثانوي 5</h2>
+
+<textarea id="students5" rows="6" style="width:100%"></textarea>
+<button onclick="addStudents(5)">إضافة الطالبات</button>
+
+<table id="table5"></table>
+
+</section>
+
+<!-- التحليل -->
 
 <section id="analysis">
 
@@ -183,37 +169,7 @@ left:10px
 
 </section>
 
-<section id="reports">
-
-<h2>التقرير</h2>
-
-<button onclick="report()">توليد التقرير</button>
-
-<div id="reportResult"></div>
-
-</section>
-
-<section id="awards">
-
-<h2>التكريم</h2>
-
-<div id="awardsList"></div>
-
-</section>
-
-<section id="quiz">
-
-<h2>مسابقة</h2>
-
-<p>ما معنى التوحيد؟</p>
-
-<button onclick="answer(true)">إفراد الله بالعبادة</button>
-
-<button onclick="answer(false)">عبادة غير الله</button>
-
-<div id="quizResult"></div>
-
-</section>
+<!-- الألعاب -->
 
 <section id="games">
 
@@ -229,6 +185,8 @@ left:10px
 
 </section>
 
+<!-- المصادر -->
+
 <section id="sources">
 
 <h2>المصادر</h2>
@@ -236,18 +194,32 @@ left:10px
 <ul>
 
 <li><a href="https://ien.edu.sa" target="_blank">منصة عين</a></li>
-<li><a href="https://schools.madrasati.sa" target="_blank">منصة مدرستي</a></li>
+<li><a href="https://schools.madrasati.sa" target="_blank">مدرستي</a></li>
 
 </ul>
 
 </section>
 
+<!-- المسابقة -->
+
+<section id="quiz">
+
+<h2>مسابقة</h2>
+
+<p>ما معنى التوحيد؟</p>
+
+<button onclick="answer(true)">إفراد الله بالعبادة</button>
+<button onclick="answer(false)">عبادة غير الله</button>
+
+<div id="quizResult"></div>
+
+</section>
+
 <script>
 
-let students=[]
-let grades=[]
+let students = []
 
-function show(id){
+function showPage(id){
 
 document.querySelectorAll("section").forEach(s=>s.style.display="none")
 
@@ -255,57 +227,32 @@ document.getElementById(id).style.display="block"
 
 }
 
-function addStudents(){
+function addStudents(c){
 
-let text=document.getElementById("studentsInput").value
+let text = document.getElementById("students"+c).value
 
-students=text.split("\n")
-
-let table="<tr><th>الطالبة</th></tr>"
-
-students.forEach(s=>{
-
-table+=`<tr><td>${s}</td></tr>`
-
-})
-
-document.getElementById("studentsTable").innerHTML=table
-
-renderGrades()
-
-}
-
-function renderGrades(){
+students = text.split("\n")
 
 let table="<tr><th>الطالبة</th><th>التقييم</th></tr>"
 
 students.forEach((s,i)=>{
 
-table+=`
-
+table += `
 <tr>
-
 <td>${s}</td>
-
 <td>
-
-<select id="g${i}">
-
+<select id="g${c}_${i}">
 <option>فوق المتوسط</option>
 <option>ضمن المتوسط</option>
 <option>دون المتوسط</option>
-
 </select>
-
 </td>
-
 </tr>
-
 `
 
 })
 
-document.getElementById("gradesTable").innerHTML=table
+document.getElementById("table"+c).innerHTML = table
 
 }
 
@@ -315,13 +262,11 @@ let high=0
 let mid=0
 let low=0
 
-students.forEach((s,i)=>{
+document.querySelectorAll("select").forEach(s=>{
 
-let v=document.getElementById("g"+i).value
-
-if(v=="فوق المتوسط") high++
-if(v=="ضمن المتوسط") mid++
-if(v=="دون المتوسط") low++
+if(s.value=="فوق المتوسط") high++
+if(s.value=="ضمن المتوسط") mid++
+if(s.value=="دون المتوسط") low++
 
 })
 
@@ -333,47 +278,27 @@ data:{
 
 labels:["فوق المتوسط","ضمن المتوسط","دون المتوسط"],
 
-datasets:[{
-
-data:[high,mid,low]
-
-}]
+datasets:[{data:[high,mid,low]}]
 
 }
 
 })
-
-}
-
-function report(){
-
-let text="تقرير النتائج<br><br>"
-
-students.forEach((s,i)=>{
-
-text+=s+" : "+document.getElementById("g"+i).value+"<br>"
-
-})
-
-document.getElementById("reportResult").innerHTML=text
 
 }
 
 function answer(correct){
 
+let r=document.getElementById("quizResult")
+
 if(correct){
 
-quizResult.innerHTML="😊 أحسنت"
+r.innerHTML="😊 أحسنت"
+r.style.color="green"
 
-quizResult.className="correct"
+}else{
 
-}
-
-else{
-
-quizResult.innerHTML="😢 إجابة خاطئة"
-
-quizResult.className="wrong"
+r.innerHTML="😢 إجابة خاطئة"
+r.style.color="red"
 
 }
 
