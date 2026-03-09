@@ -1,77 +1,47 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
-
 <meta charset="UTF-8">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>منصة الإتقان الذكي</title>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-
-body{
-font-family:Tahoma;
-background:#eef2f5;
-margin:0
-}
-
-header{
-background:#184d3b;
-color:white;
-text-align:center;
-padding:25px;
-font-size:28px
-}
+body{font-family:tahoma;background:#eef2f5;margin:0}
+header{background:#184d3b;color:#fff;text-align:center;padding:20px;font-size:26px}
 
 .cards{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-gap:25px;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
 padding:30px
 }
 
 .card{
 background:#123d2f;
-color:white;
-padding:40px;
+color:#fff;
+padding:35px;
 border-radius:18px;
 text-align:center;
-font-size:22px;
+font-size:20px;
 cursor:pointer
 }
 
-section{
-display:none;
-padding:20px
-}
+section{display:none;padding:20px}
 
-table{
-width:100%;
-border-collapse:collapse;
-background:white
-}
+table{width:100%;border-collapse:collapse;background:#fff}
+th,td{border:1px solid #ccc;padding:8px;text-align:center}
 
-th,td{
-border:1px solid #ddd;
-padding:8px;
-text-align:center
-}
+button{padding:8px 12px;margin:5px}
 
-.home{
-position:fixed;
-top:10px;
-left:10px;
-background:#1f6b52;
-border:none;
-color:white;
-padding:10px 16px;
-border-radius:10px
+#reportBox{
+background:#fff;
+padding:20px;
+border:1px solid #ccc;
+margin-top:20px
 }
-
 </style>
-
 </head>
 
 <body>
@@ -80,351 +50,288 @@ border-radius:10px
 منصة الإتقان الذكي لتحليل نتائج الطالبات
 </header>
 
-<button class="home" onclick="showPage('home')">🏠</button>
-
 <section id="home" style="display:block">
 
 <div class="cards">
 
-<div class="card" onclick="showPage('students')">الطالبات</div>
-
-<div class="card" onclick="showPage('grades')">إدخال التقييم</div>
-
-<div class="card" onclick="showPage('analysis')">تحليل النتائج</div>
-
-<div class="card" onclick="showPage('plans')">الخطط العلاجية</div>
-
-<div class="card" onclick="showPage('awards')">التكريم</div>
-
-<div class="card" onclick="showPage('parents')">أولياء الأمور</div>
-
-<div class="card" onclick="showPage('sources')">المصادر</div>
-
-<div class="card" onclick="showPage('games')">الألعاب</div>
+<div class="card" onclick="openPage('students')">الطالبات</div>
+<div class="card" onclick="openPage('grades')">إدخال التقييم</div>
+<div class="card" onclick="openPage('analysis')">تحليل النتائج</div>
+<div class="card" onclick="openPage('plans')">الخطط</div>
+<div class="card" onclick="openPage('report')">التقارير</div>
+<div class="card" onclick="openPage('awards')">التكريم</div>
+<div class="card" onclick="openPage('parents')">أولياء الأمور</div>
+<div class="card" onclick="openPage('sources')">المصادر</div>
+<div class="card" onclick="openPage('games')">الألعاب</div>
+<div class="card" onclick="openPage('quiz')">المسابقات</div>
+<div class="card" onclick="openPage('archive')">الأرشيف</div>
 
 </div>
-
 </section>
-
 
 <section id="students">
-
-<h2>إدخال أسماء الطالبات</h2>
-
+<h2>إضافة الطالبات</h2>
 <textarea id="names" rows="6" style="width:100%"></textarea>
-
 <button onclick="addStudents()">إضافة</button>
-
 <table id="studentsTable"></table>
-
 </section>
-
 
 <section id="grades">
-
 <h2>إدخال الدرجات</h2>
-
 <table id="gradesTable"></table>
-
 </section>
-
 
 <section id="analysis">
-
 <h2>تحليل النتائج</h2>
-
 <canvas id="chart"></canvas>
-
 <button onclick="analyze()">تحليل</button>
-
 </section>
-
 
 <section id="plans">
-
 <h2>الخطط</h2>
-
 <div id="remedial"></div>
-
 <div id="enrichment"></div>
-
 </section>
 
+<section id="report">
+<h2>توليد التقرير</h2>
+
+<button onclick="generateReport()">توليد التقرير</button>
+<button onclick="printReport()">طباعة</button>
+<button onclick="copyReport()">نسخ إلى Word</button>
+
+<div id="reportBox"></div>
+</section>
 
 <section id="awards">
-
 <h2>التكريم</h2>
-
 <div id="awardsList"></div>
-
 </section>
-
 
 <section id="parents">
-
 <h2>متابعة أولياء الأمور</h2>
-
 <textarea rows="6" style="width:100%"></textarea>
-
 </section>
-
 
 <section id="sources">
-
 <h2>المصادر</h2>
-
 <ul>
-
 <li><a href="https://ien.edu.sa">عين</a></li>
-
 <li><a href="https://schools.madrasati.sa">مدرستي</a></li>
-
 </ul>
-
 </section>
-
 
 <section id="games">
-
-<h2>الألعاب التعليمية</h2>
-
+<h2>الألعاب</h2>
 <ul>
-
 <li><a href="https://wordwall.net">Wordwall</a></li>
-
 <li><a href="https://kahoot.com">Kahoot</a></li>
-
 <li><a href="https://quizizz.com">Quizizz</a></li>
-
 </ul>
-
 </section>
 
+<section id="quiz">
+<h2>المسابقات</h2>
+<div id="questionBox"></div>
+<button onclick="nextQuestion()">سؤال جديد</button>
+</section>
+
+<section id="archive">
+<h2>الأرشيف</h2>
+<input id="yearInput" placeholder="السنة">
+<button onclick="saveArchive()">حفظ</button>
+<table id="archiveTable"></table>
+</section>
 
 <script>
 
 let students=[]
+let skills=[
+"تعريف التوحيد",
+"توحيد الربوبية",
+"توحيد الألوهية",
+"الأسماء والصفات",
+"الشرك",
+"حقوق النبي",
+"فضل التوحيد"
+]
 
-
-let units = {
-
-"الوحدة 1":["تعريف التوحيد","أهمية التوحيد"],
-
-"الوحدة 2":["توحيد الربوبية","أدلة الربوبية"],
-
-"الوحدة 3":["توحيد الألوهية","أدلة الألوهية"],
-
-"الوحدة 4":["الأسماء والصفات","منهج أهل السنة"],
-
-"الوحدة 5":["الشرك","أنواع الشرك"],
-
-"الوحدة 6":["حقوق النبي ﷺ","محبة النبي"],
-
-"الوحدة 7":["فضل التوحيد","ثمرات التوحيد"]
-
-}
-
-
-let skills=[]
-
-for(let unit in units){
-
-units[unit].forEach(skill=>{
-
-skills.push(unit+" - "+skill)
-
-})
-
-}
-
-
-
-function showPage(id){
-
+function openPage(id){
 document.querySelectorAll("section").forEach(s=>s.style.display="none")
-
 document.getElementById(id).style.display="block"
-
 }
-
-
 
 function addStudents(){
-
 let text=document.getElementById("names").value
-
 students=text.split("\n")
 
 let table="<tr><th>الطالبة</th></tr>"
-
 students.forEach(s=>{
-
 table+=`<tr><td>${s}</td></tr>`
-
 })
 
-document.getElementById("studentsTable").innerHTML=table
-
+studentsTable.innerHTML=table
 generateGrades()
-
 }
 
-
-
 function generateGrades(){
-
 let table="<tr><th>الطالبة</th>"
-
 skills.forEach(skill=>{
-
 table+=`<th>${skill}</th>`
-
 })
-
 table+="</tr>"
 
 students.forEach((s,i)=>{
-
 table+=`<tr><td>${s}</td>`
-
 skills.forEach((skill,j)=>{
-
 table+=`<td><input type="number" id="g${i}_${j}" min="0" max="100"></td>`
-
 })
-
 table+="</tr>"
-
 })
 
-document.getElementById("gradesTable").innerHTML=table
-
+gradesTable.innerHTML=table
 }
 
-
+let high=0,mid=0,low=0
 
 function analyze(){
 
-let high=0
-
-let mid=0
-
-let low=0
+high=0
+mid=0
+low=0
 
 students.forEach((s,i)=>{
-
 skills.forEach((skill,j)=>{
 
 let g=document.getElementById(`g${i}_${j}`)
-
-if(!g||g.value=="") return
+if(!g||g.value=="")return
 
 let score=parseInt(g.value)
 
-if(score>=90) high++
-
-else if(score>=70) mid++
-
+if(score>=90)high++
+else if(score>=70)mid++
 else low++
 
 })
-
 })
 
-
-
-new Chart(document.getElementById("chart"),{
-
+new Chart(chart,{
 type:"pie",
-
 data:{
-
 labels:["فوق المتوسط","ضمن المتوسط","دون المتوسط"],
-
 datasets:[{data:[high,mid,low]}]
-
 }
-
 })
-
 
 generatePlans()
-
 generateAwards()
-
 }
-
-
 
 function generatePlans(){
 
-let remedial=[]
+remedial.innerHTML="<h3>الخطة العلاجية</h3>"+low+" حالات تحتاج علاج"
 
-let enrichment=[]
-
-students.forEach((s,i)=>{
-
-skills.forEach((skill,j)=>{
-
-let g=document.getElementById(`g${i}_${j}`)
-
-if(!g||g.value=="") return
-
-let score=parseInt(g.value)
-
-if(score<70) remedial.push(`${s} - ${skill}`)
-
-if(score>=90) enrichment.push(`${s} - ${skill}`)
-
-})
-
-})
-
-
-document.getElementById("remedial").innerHTML="<h3>الخطة العلاجية</h3>"+remedial.join("<br>")
-
-document.getElementById("enrichment").innerHTML="<h3>الخطة الإثرائية</h3>"+enrichment.join("<br>")
+enrichment.innerHTML="<h3>الخطة الإثرائية</h3>"+high+" حالات متفوقة"
 
 }
-
-
 
 function generateAwards(){
 
-let awards=[]
-
-students.forEach((s,i)=>{
-
-let total=0
-
-let count=0
-
-skills.forEach((skill,j)=>{
-
-let g=document.getElementById(`g${i}_${j}`)
-
-if(!g||g.value=="") return
-
-total+=parseInt(g.value)
-
-count++
-
-})
-
-if(count>0){
-
-let avg=total/count
-
-if(avg>=90) awards.push(s)
+awardsList.innerHTML="<h3>الطالبات المتفوقات</h3>"+high+" طالبة"
 
 }
 
-})
+function generateReport(){
 
+reportBox.innerHTML=`
+<h3>تقرير نتائج الطالبات</h3>
 
-document.getElementById("awardsList").innerHTML=awards.join("<br>")
+<p>عدد الطالبات: ${students.length}</p>
+
+<p>فوق المتوسط: ${high}</p>
+<p>ضمن المتوسط: ${mid}</p>
+<p>دون المتوسط: ${low}</p>
+
+<p>الخطة العلاجية مطبقة للطالبات دون المتوسط.</p>
+<p>الخطة الإثرائية مطبقة للطالبات المتفوقات.</p>
+`
 
 }
+
+function printReport(){
+window.print()
+}
+
+function copyReport(){
+
+let text=reportBox.innerText
+
+navigator.clipboard.writeText(text)
+
+alert("تم نسخ التقرير ويمكن لصقه في Word")
+
+}
+
+let questions=[
+{q:"ما معنى التوحيد؟",c:["إفراد الله بالعبادة","الشرك","الكفر"],a:0},
+{q:"كم عدد أركان الإسلام؟",c:["4","5","6"],a:1}
+]
+
+function nextQuestion(){
+
+let q=questions[Math.floor(Math.random()*questions.length)]
+
+let html=`<h3>${q.q}</h3>`
+
+q.c.forEach((c,i)=>{
+html+=`<button onclick="check(${i},${q.a})">${c}</button><br><br>`
+})
+
+questionBox.innerHTML=html
+}
+
+function check(i,a){
+
+if(i==a)
+questionBox.innerHTML+="<p style='color:green'>✔ إجابة صحيحة</p>"
+else
+questionBox.innerHTML+="<p style='color:red'>❌ إجابة خاطئة</p>"
+
+}
+
+function saveArchive(){
+
+let year=yearInput.value
+
+localStorage.setItem("archive_"+year,JSON.stringify(students))
+
+loadArchive()
+
+}
+
+function loadArchive(){
+
+let table=""
+
+for(let i=0;i<localStorage.length;i++){
+
+let key=localStorage.key(i)
+
+if(key.startsWith("archive_")){
+
+let year=key.replace("archive_","")
+
+table+=`<tr><td>${year}</td></tr>`
+
+}
+
+}
+
+archiveTable.innerHTML=table
+
+}
+
+loadArchive()
 
 </script>
 
