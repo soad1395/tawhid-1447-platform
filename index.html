@@ -2,336 +2,347 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>منصة الإتقان الذكي</title>
+<title>منصة الإتقان الذكي لتحليل نتائج الطالبات</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-body{font-family:tahoma;background:#eef2f5;margin:0}
-header{background:#184d3b;color:#fff;text-align:center;padding:20px;font-size:26px}
 
-.cards{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
-padding:30px
+body{
+font-family:tahoma;
+background:#0f172a;
+color:white;
+margin:0;
+}
+
+header{
+background:#020617;
+padding:20px;
+text-align:center;
+}
+
+h1{
+margin:0;
+}
+
+nav{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+background:#1e293b;
+padding:10px;
+gap:10px;
+}
+
+nav button{
+padding:10px 15px;
+border:none;
+background:#22c55e;
+color:white;
+border-radius:6px;
+cursor:pointer;
+}
+
+section{
+display:none;
+padding:20px;
+}
+
+.active{
+display:block;
 }
 
 .card{
-background:#123d2f;
-color:#fff;
-padding:35px;
-border-radius:18px;
-text-align:center;
-font-size:20px;
-cursor:pointer
-}
-
-section{display:none;padding:20px}
-
-table{width:100%;border-collapse:collapse;background:#fff}
-th,td{border:1px solid #ccc;padding:8px;text-align:center}
-
-button{padding:8px 12px;margin:5px}
-
-#reportBox{
-background:#fff;
+background:#1e293b;
 padding:20px;
-border:1px solid #ccc;
-margin-top:20px
+margin:10px 0;
+border-radius:10px;
 }
+
+input,select{
+padding:6px;
+margin:4px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:10px;
+}
+
+td,th{
+border:1px solid #334155;
+padding:6px;
+text-align:center;
+}
+
+footer{
+text-align:center;
+padding:20px;
+background:#020617;
+margin-top:40px;
+}
+
 </style>
 </head>
 
 <body>
 
 <header>
-منصة الإتقان الذكي لتحليل نتائج الطالبات
+<h1>منصة الإتقان الذكي لتحليل نتائج الطالبات</h1>
 </header>
 
-<section id="home" style="display:block">
+<nav>
+<button onclick="showPage('home')">الرئيسية</button>
+<button onclick="showPage('students')">الطالبات</button>
+<button onclick="showPage('skills')">المهارات</button>
+<button onclick="showPage('grades')">الدرجات</button>
+<button onclick="showPage('analysis')">التحليل</button>
+<button onclick="showPage('quiz')">المسابقة</button>
+<button onclick="showPage('parents')">أولياء الأمور</button>
+<button onclick="showPage('games')">الألعاب</button>
+<button onclick="showPage('sources')">المصادر</button>
+</nav>
 
-<div class="cards">
+<section id="home" class="active">
 
-<div class="card" onclick="openPage('students')">الطالبات</div>
-<div class="card" onclick="openPage('grades')">إدخال التقييم</div>
-<div class="card" onclick="openPage('analysis')">تحليل النتائج</div>
-<div class="card" onclick="openPage('plans')">الخطط</div>
-<div class="card" onclick="openPage('report')">التقارير</div>
-<div class="card" onclick="openPage('awards')">التكريم</div>
-<div class="card" onclick="openPage('parents')">أولياء الأمور</div>
-<div class="card" onclick="openPage('sources')">المصادر</div>
-<div class="card" onclick="openPage('games')">الألعاب</div>
-<div class="card" onclick="openPage('quiz')">المسابقات</div>
-<div class="card" onclick="openPage('archive')">الأرشيف</div>
-
+<div class="card">
+اسم المدرسة <input id="school">
+اسم المعلمة <input id="teacher">
+اسم المديرة <input id="principal">
+العام الدراسي <input id="year" value="1447">
 </div>
+
+<div class="card">
+عدد الطالبات: <span id="countStudents">0</span><br>
+عدد المهارات: <span id="countSkills">0</span>
+</div>
+
 </section>
 
 <section id="students">
-<h2>إضافة الطالبات</h2>
-<textarea id="names" rows="6" style="width:100%"></textarea>
-<button onclick="addStudents()">إضافة</button>
-<table id="studentsTable"></table>
+
+<div class="card">
+<input id="studentName">
+<button onclick="addStudent()">إضافة طالبة</button>
+</div>
+
+<table id="studentsTable">
+<tr>
+<th>الاسم</th>
+</tr>
+</table>
+
+</section>
+
+<section id="skills">
+
+<div class="card">
+<input id="skillName">
+<button onclick="addSkill()">إضافة مهارة</button>
+</div>
+
+<table id="skillsTable">
+<tr>
+<th>المهارة</th>
+</tr>
+</table>
+
 </section>
 
 <section id="grades">
-<h2>إدخال الدرجات</h2>
-<table id="gradesTable"></table>
+
+<table id="gradesTable">
+</table>
+
 </section>
 
 <section id="analysis">
-<h2>تحليل النتائج</h2>
+
 <canvas id="chart"></canvas>
-<button onclick="analyze()">تحليل</button>
-</section>
 
-<section id="plans">
-<h2>الخطط</h2>
-<div id="remedial"></div>
-<div id="enrichment"></div>
-</section>
-
-<section id="report">
-<h2>توليد التقرير</h2>
-
-<button onclick="generateReport()">توليد التقرير</button>
-<button onclick="printReport()">طباعة</button>
-<button onclick="copyReport()">نسخ إلى Word</button>
-
-<div id="reportBox"></div>
-</section>
-
-<section id="awards">
-<h2>التكريم</h2>
-<div id="awardsList"></div>
-</section>
-
-<section id="parents">
-<h2>متابعة أولياء الأمور</h2>
-<textarea rows="6" style="width:100%"></textarea>
-</section>
-
-<section id="sources">
-<h2>المصادر</h2>
-<ul>
-<li><a href="https://ien.edu.sa">عين</a></li>
-<li><a href="https://schools.madrasati.sa">مدرستي</a></li>
-</ul>
-</section>
-
-<section id="games">
-<h2>الألعاب</h2>
-<ul>
-<li><a href="https://wordwall.net">Wordwall</a></li>
-<li><a href="https://kahoot.com">Kahoot</a></li>
-<li><a href="https://quizizz.com">Quizizz</a></li>
-</ul>
 </section>
 
 <section id="quiz">
-<h2>المسابقات</h2>
-<div id="questionBox"></div>
-<button onclick="nextQuestion()">سؤال جديد</button>
+
+<button onclick="generateQuiz()">توليد مسابقة</button>
+
+<div id="quizBox"></div>
+
 </section>
 
-<section id="archive">
-<h2>الأرشيف</h2>
-<input id="yearInput" placeholder="السنة">
-<button onclick="saveArchive()">حفظ</button>
-<table id="archiveTable"></table>
+<section id="parents">
+
+<div class="card">
+اسم الطالبة <input id="pname">
+سبب التواصل <input id="preason">
+<button onclick="addParent()">حفظ</button>
+</div>
+
+<div id="parentsList"></div>
+
 </section>
+
+<section id="games">
+
+<div class="card">
+
+<a href="https://wordwall.net" target="_blank">Wordwall</a><br>
+<a href="https://kahoot.com" target="_blank">Kahoot</a><br>
+<a href="https://quizizz.com" target="_blank">Quizizz</a><br>
+<a href="https://blooket.com" target="_blank">Blooket</a>
+
+</div>
+
+</section>
+
+<section id="sources">
+
+<div class="card">
+
+<a href="https://ien.edu.sa" target="_blank">منصة عين</a><br>
+<a href="https://schools.madrasati.sa" target="_blank">مدرستي</a>
+
+</div>
+
+</section>
+
+<footer>
+© جميع الحقوق محفوظة 2026
+</footer>
 
 <script>
 
 let students=[]
-let skills=[
-"تعريف التوحيد",
-"توحيد الربوبية",
-"توحيد الألوهية",
-"الأسماء والصفات",
-"الشرك",
-"حقوق النبي",
-"فضل التوحيد"
-]
+let skills=[]
 
-function openPage(id){
-document.querySelectorAll("section").forEach(s=>s.style.display="none")
-document.getElementById(id).style.display="block"
+function showPage(id){
+document.querySelectorAll("section").forEach(s=>s.classList.remove("active"))
+document.getElementById(id).classList.add("active")
 }
 
-function addStudents(){
-let text=document.getElementById("names").value
-students=text.split("\n")
+function addStudent(){
 
-let table="<tr><th>الطالبة</th></tr>"
-students.forEach(s=>{
-table+=`<tr><td>${s}</td></tr>`
-})
+let name=document.getElementById("studentName").value
 
-studentsTable.innerHTML=table
-generateGrades()
+students.push(name)
+
+let table=document.getElementById("studentsTable")
+
+let row=table.insertRow()
+
+row.insertCell(0).innerText=name
+
+updateCounts()
+
+renderGrades()
+
 }
 
-function generateGrades(){
-let table="<tr><th>الطالبة</th>"
-skills.forEach(skill=>{
-table+=`<th>${skill}</th>`
-})
-table+="</tr>"
+function addSkill(){
 
-students.forEach((s,i)=>{
-table+=`<tr><td>${s}</td>`
-skills.forEach((skill,j)=>{
-table+=`<td><input type="number" id="g${i}_${j}" min="0" max="100"></td>`
-})
-table+="</tr>"
-})
+let skill=document.getElementById("skillName").value
 
-gradesTable.innerHTML=table
+skills.push(skill)
+
+let table=document.getElementById("skillsTable")
+
+let row=table.insertRow()
+
+row.insertCell(0).innerText=skill
+
+updateCounts()
+
+renderGrades()
+
 }
 
-let high=0,mid=0,low=0
+function updateCounts(){
+
+document.getElementById("countStudents").innerText=students.length
+document.getElementById("countSkills").innerText=skills.length
+
+}
+
+function renderGrades(){
+
+let table=document.getElementById("gradesTable")
+
+table.innerHTML=""
+
+let head="<tr><th>الطالبة</th>"
+
+skills.forEach(s=>head+="<th>"+s+"</th>")
+
+head+="</tr>"
+
+table.innerHTML=head
+
+students.forEach(st=>{
+
+let row="<tr><td>"+st+"</td>"
+
+skills.forEach(()=>{
+
+row+="<td><input type='number' min='0' max='100'></td>"
+
+})
+
+row+="</tr>"
+
+table.innerHTML+=row
+
+})
+
+}
 
 function analyze(){
 
-high=0
-mid=0
-low=0
+let scores=[]
 
-students.forEach((s,i)=>{
-skills.forEach((skill,j)=>{
-
-let g=document.getElementById(`g${i}_${j}`)
-if(!g||g.value=="")return
-
-let score=parseInt(g.value)
-
-if(score>=90)high++
-else if(score>=70)mid++
-else low++
-
-})
+document.querySelectorAll("#gradesTable input").forEach(i=>{
+scores.push(Number(i.value))
 })
 
-new Chart(chart,{
-type:"pie",
+let high=scores.filter(s=>s>=90).length
+let mid=scores.filter(s=>s>=70 && s<90).length
+let low=scores.filter(s=>s<70).length
+
+new Chart(document.getElementById("chart"),{
+type:"bar",
 data:{
 labels:["فوق المتوسط","ضمن المتوسط","دون المتوسط"],
-datasets:[{data:[high,mid,low]}]
+datasets:[{
+data:[high,mid,low]
+}]
 }
 })
 
-generatePlans()
-generateAwards()
 }
 
-function generatePlans(){
+function generateQuiz(){
 
-remedial.innerHTML="<h3>الخطة العلاجية</h3>"+low+" حالات تحتاج علاج"
+let box=document.getElementById("quizBox")
 
-enrichment.innerHTML="<h3>الخطة الإثرائية</h3>"+high+" حالات متفوقة"
+box.innerHTML=""
 
-}
-
-function generateAwards(){
-
-awardsList.innerHTML="<h3>الطالبات المتفوقات</h3>"+high+" طالبة"
-
-}
-
-function generateReport(){
-
-reportBox.innerHTML=`
-<h3>تقرير نتائج الطالبات</h3>
-
-<p>عدد الطالبات: ${students.length}</p>
-
-<p>فوق المتوسط: ${high}</p>
-<p>ضمن المتوسط: ${mid}</p>
-<p>دون المتوسط: ${low}</p>
-
-<p>الخطة العلاجية مطبقة للطالبات دون المتوسط.</p>
-<p>الخطة الإثرائية مطبقة للطالبات المتفوقات.</p>
-`
-
-}
-
-function printReport(){
-window.print()
-}
-
-function copyReport(){
-
-let text=reportBox.innerText
-
-navigator.clipboard.writeText(text)
-
-alert("تم نسخ التقرير ويمكن لصقه في Word")
-
-}
-
-let questions=[
-{q:"ما معنى التوحيد؟",c:["إفراد الله بالعبادة","الشرك","الكفر"],a:0},
-{q:"كم عدد أركان الإسلام؟",c:["4","5","6"],a:1}
-]
-
-function nextQuestion(){
-
-let q=questions[Math.floor(Math.random()*questions.length)]
-
-let html=`<h3>${q.q}</h3>`
-
-q.c.forEach((c,i)=>{
-html+=`<button onclick="check(${i},${q.a})">${c}</button><br><br>`
+skills.forEach(skill=>{
+box.innerHTML+="<p>اشرح: "+skill+"</p>"
 })
 
-questionBox.innerHTML=html
 }
 
-function check(i,a){
+function addParent(){
 
-if(i==a)
-questionBox.innerHTML+="<p style='color:green'>✔ إجابة صحيحة</p>"
-else
-questionBox.innerHTML+="<p style='color:red'>❌ إجابة خاطئة</p>"
+let name=document.getElementById("pname").value
+let reason=document.getElementById("preason").value
 
-}
+let div=document.getElementById("parentsList")
 
-function saveArchive(){
-
-let year=yearInput.value
-
-localStorage.setItem("archive_"+year,JSON.stringify(students))
-
-loadArchive()
+div.innerHTML+="<p>"+name+" - "+reason+"</p>"
 
 }
-
-function loadArchive(){
-
-let table=""
-
-for(let i=0;i<localStorage.length;i++){
-
-let key=localStorage.key(i)
-
-if(key.startsWith("archive_")){
-
-let year=key.replace("archive_","")
-
-table+=`<tr><td>${year}</td></tr>`
-
-}
-
-}
-
-archiveTable.innerHTML=table
-
-}
-
-loadArchive()
 
 </script>
 
