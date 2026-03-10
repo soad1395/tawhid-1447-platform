@@ -1,350 +1,72 @@
- <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<title>منصة الإتقان الذكي لتحليل نتائج الطالبات</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<style>
-
-body{
-font-family:tahoma;
-background:#0f172a;
-color:white;
-margin:0;
-}
-
-header{
-background:#020617;
-padding:20px;
-text-align:center;
-}
-
-h1{
-margin:0;
-}
-
-nav{
-display:flex;
-flex-wrap:wrap;
-justify-content:center;
-background:#1e293b;
-padding:10px;
-gap:10px;
-}
-
-nav button{
-padding:10px 15px;
-border:none;
-background:#22c55e;
-color:white;
-border-radius:6px;
-cursor:pointer;
-}
-
-section{
-display:none;
-padding:20px;
-}
-
-.active{
-display:block;
-}
-
-.card{
-background:#1e293b;
-padding:20px;
-margin:10px 0;
-border-radius:10px;
-}
-
-input,select{
-padding:6px;
-margin:4px;
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-margin-top:10px;
-}
-
-td,th{
-border:1px solid #334155;
-padding:6px;
-text-align:center;
-}
-
-footer{
-text-align:center;
-padding:20px;
-background:#020617;
-margin-top:40px;
-}
-
-</style>
-</head>
-
-<body>
-
-<header>
-<h1>منصة الإتقان الذكي لتحليل نتائج الطالبات</h1>
-</header>
-
-<nav>
-<button onclick="showPage('home')">الرئيسية</button>
-<button onclick="showPage('students')">الطالبات</button>
-<button onclick="showPage('skills')">المهارات</button>
-<button onclick="showPage('grades')">الدرجات</button>
-<button onclick="showPage('analysis')">التحليل</button>
-<button onclick="showPage('quiz')">المسابقة</button>
-<button onclick="showPage('parents')">أولياء الأمور</button>
-<button onclick="showPage('games')">الألعاب</button>
-<button onclick="showPage('sources')">المصادر</button>
-</nav>
+ Create a full professional Arabic RTL educational dashboard called "منصة الإتقان لتحليل نتائج التوحيد".
 
-<section id="home" class="active">
+It must be a single page web app using HTML, CSS, JavaScript.
 
-<div class="card">
-اسم المدرسة <input id="school">
-اسم المعلمة <input id="teacher">
-اسم المديرة <input id="principal">
-العام الدراسي <input id="year" value="1447">
-</div>
+Sections required:
 
-<div class="card">
-عدد الطالبات: <span id="countStudents">0</span><br>
-عدد المهارات: <span id="countSkills">0</span>
-</div>
+Dashboard with icons.
 
-</section>
+Data section:
+school
+teacher
+principal
+year
+subject
 
-<section id="students">
+Classes section (5 editable classes).
 
-<div class="card">
-<input id="studentName">
-<button onclick="addStudent()">إضافة طالبة</button>
-</div>
+Students section:
+add students manually or paste list.
 
-<table id="studentsTable">
-<tr>
-<th>الاسم</th>
-</tr>
-</table>
+Skills section:
+upload curriculum PDF and automatically extract:
+Unit → Lesson → Skill.
 
-</section>
+Allow editing and deleting skills.
 
-<section id="skills">
+Grades section:
+enter grades per student and skill.
+Two periods: period 1 and period 2.
 
-<div class="card">
-<input id="skillName">
-<button onclick="addSkill()">إضافة مهارة</button>
-</div>
+Automatic classification:
+فوق المتوسط
+ضمن المتوسط
+دون المتوسط
 
-<table id="skillsTable">
-<tr>
-<th>المهارة</th>
-</tr>
-</table>
+Analysis section:
+automatic charts using Chart.js.
 
-</section>
+Generate automatically:
+remedial plans
+enrichment plans
+learning loss.
 
-<section id="grades">
+Reports section:
+generate printable reports.
 
-<table id="gradesTable">
-</table>
+Awards section.
 
-</section>
+Parents communication notes.
 
-<section id="analysis">
+Quiz competition module.
 
-<canvas id="chart"></canvas>
+Educational games:
+Wordwall
+Kahoot
+Quizizz
 
-</section>
+Resources:
+IEN
+Madrasati
 
-<section id="quiz">
+Archive system for each year.
 
-<button onclick="generateQuiz()">توليد مسابقة</button>
+Export reports to PDF and Word.
 
-<div id="quizBox"></div>
+LocalStorage autosave.
 
-</section>
+Back to home button on every page.
 
-<section id="parents">
+Modern professional interface like education dashboards.
 
-<div class="card">
-اسم الطالبة <input id="pname">
-سبب التواصل <input id="preason">
-<button onclick="addParent()">حفظ</button>
-</div>
-
-<div id="parentsList"></div>
-
-</section>
-
-<section id="games">
-
-<div class="card">
-
-<a href="https://wordwall.net" target="_blank">Wordwall</a><br>
-<a href="https://kahoot.com" target="_blank">Kahoot</a><br>
-<a href="https://quizizz.com" target="_blank">Quizizz</a><br>
-<a href="https://blooket.com" target="_blank">Blooket</a>
-
-</div>
-
-</section>
-
-<section id="sources">
-
-<div class="card">
-
-<a href="https://ien.edu.sa" target="_blank">منصة عين</a><br>
-<a href="https://schools.madrasati.sa" target="_blank">مدرستي</a>
-
-</div>
-
-</section>
-
-<footer>
-© جميع الحقوق محفوظة 2026
-</footer>
-
-<script>
-
-let students=[]
-let skills=[]
-
-function showPage(id){
-document.querySelectorAll("section").forEach(s=>s.classList.remove("active"))
-document.getElementById(id).classList.add("active")
-}
-
-function addStudent(){
-
-let name=document.getElementById("studentName").value
-
-students.push(name)
-
-let table=document.getElementById("studentsTable")
-
-let row=table.insertRow()
-
-row.insertCell(0).innerText=name
-
-updateCounts()
-
-renderGrades()
-
-}
-
-function addSkill(){
-
-let skill=document.getElementById("skillName").value
-
-skills.push(skill)
-
-let table=document.getElementById("skillsTable")
-
-let row=table.insertRow()
-
-row.insertCell(0).innerText=skill
-
-updateCounts()
-
-renderGrades()
-
-}
-
-function updateCounts(){
-
-document.getElementById("countStudents").innerText=students.length
-document.getElementById("countSkills").innerText=skills.length
-
-}
-
-function renderGrades(){
-
-let table=document.getElementById("gradesTable")
-
-table.innerHTML=""
-
-let head="<tr><th>الطالبة</th>"
-
-skills.forEach(s=>head+="<th>"+s+"</th>")
-
-head+="</tr>"
-
-table.innerHTML=head
-
-students.forEach(st=>{
-
-let row="<tr><td>"+st+"</td>"
-
-skills.forEach(()=>{
-
-row+="<td><input type='number' min='0' max='100'></td>"
-
-})
-
-row+="</tr>"
-
-table.innerHTML+=row
-
-})
-
-}
-
-function analyze(){
-
-let scores=[]
-
-document.querySelectorAll("#gradesTable input").forEach(i=>{
-scores.push(Number(i.value))
-})
-
-let high=scores.filter(s=>s>=90).length
-let mid=scores.filter(s=>s>=70 && s<90).length
-let low=scores.filter(s=>s<70).length
-
-new Chart(document.getElementById("chart"),{
-type:"bar",
-data:{
-labels:["فوق المتوسط","ضمن المتوسط","دون المتوسط"],
-datasets:[{
-data:[high,mid,low]
-}]
-}
-})
-
-}
-
-function generateQuiz(){
-
-let box=document.getElementById("quizBox")
-
-box.innerHTML=""
-
-skills.forEach(skill=>{
-box.innerHTML+="<p>اشرح: "+skill+"</p>"
-})
-
-}
-
-function addParent(){
-
-let name=document.getElementById("pname").value
-let reason=document.getElementById("preason").value
-
-let div=document.getElementById("parentsList")
-
-div.innerHTML+="<p>"+name+" - "+reason+"</p>"
-
-}
-
-</script>
-
-</body>
-</html>
+Return the full project with all code.
