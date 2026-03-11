@@ -215,7 +215,7 @@ const page = await pdfass="space-y-4"></div>
                         <div class="text-4xl font-black text-teal-600" id="stat-total-classes">0</div>
                     </div>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div class="bg-white p-6 rounded-2xl shadow">
                         <h3 class="font-bold mb-4 text-center">توزيع المستويات (الفترة الحالية)</h3>
                         <canvas id="chart-levels" height="250"></canvas>
@@ -1369,44 +1369,90 @@ alert("مشكلة في الحفظ")
 </section>
 
 
-<!-- ===== المصادر التعليمية ===== -->
-
-<section style="text-align:center;padding:40px">
-
-<h2>المصادر التعليمية</h2>
-
-<a href="https://ien.edu.sa" target="_blank">
-<button>منصة عين</button>
-</a>
-
-<a href="https://schools.madrasati.sa" target="_blank">
-<button>منصة مدرستي</button>
-</a>
-
-<a href="https://ien.edu.sa/Books" target="_blank">
-<button>الكتب الدراسية</button>
-</a>
 <script>
-
-function showPage(pageId){
-
-document.querySelectorAll(".page-content").forEach(function(page){
-page.style.display="none";
-});
-
-let page=document.getElementById("page-"+pageId);
-
-if(page){
-page.style.display="block";
+function classifyScore(score){
+score=parseInt(score)
+if(score>=85) return "فوق المتوسط"
+if(score>=60) return "ضمن المتوسط"
+return "دون المتوسط"
 }
 
+function calculateLevels(){
+
+if(typeof grades==="undefined") return
+
+let above=0
+let middle=0
+let below=0
+
+grades.forEach(g=>{
+let level=classifyScore(g.score)
+
+if(level==="فوق المتوسط") above++
+if(level==="ضمن المتوسط") middle++
+if(level==="دون المتوسط") below++
+})
+
+let canvas=document.getElementById("chart-levels")
+if(!canvas) return
+
+new Chart(canvas,{
+type:"pie",
+data:{
+labels:["فوق المتوسط","ضمن المتوسط","دون المتوسط"],
+datasets:[{
+data:[above,middle,below],
+backgroundColor:["#22c55e","#facc15","#ef4444"]
+}]
+}
+})
 }
 
-window.onload=function(){
-showPage("home");
-}
+setTimeout(()=>{calculateLevels()},1000)
+</script>
 
 </script>
 </section>/section>
 </div>
 </html>
+<script>
+function classifyScore(score){
+score=parseInt(score)
+if(score>=85) return "فوق المتوسط"
+if(score>=60) return "ضمن المتوسط"
+return "دون المتوسط"
+}
+
+function calculateLevels(){
+
+if(typeof grades==="undefined") return
+
+let above=0
+let middle=0
+let below=0
+
+grades.forEach(g=>{
+let level=classifyScore(g.score)
+
+if(level==="فوق المتوسط") above++
+if(level==="ضمن المتوسط") middle++
+if(level==="دون المتوسط") below++
+})
+
+let canvas=document.getElementById("chart-levels")
+if(!canvas) return
+
+new Chart(canvas,{
+type:"pie",
+data:{
+labels:["فوق المتوسط","ضمن المتوسط","دون المتوسط"],
+datasets:[{
+data:[above,middle,below],
+backgroundColor:["#22c55e","#facc15","#ef4444"]
+}]
+}
+})
+}
+
+setTimeout(()=>{calculateLevels()},1000)
+</script>
