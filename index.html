@@ -1090,6 +1090,168 @@ students.push({name
 <a href="https://schools.madrasati.sa" target="_blank">
 <button>🏫 منصة مدرستي</button>
 </a>
+<!-- ===== النظام الأساسي للحفظ والتحليل ===== -->
 
+<script>
+
+// ===== فتح الصفحات =====
+function showPage(pageId){
+
+document.querySelectorAll(".page").forEach(p=>{
+p.style.display="none"
+})
+
+let page=document.getElementById(pageId)
+if(page){
+page.style.display="block"
+}
+
+}
+
+// ===== التخزين =====
+function saveData(key,data){
+localStorage.setItem(key,JSON.stringify(data))
+}
+
+function loadData(key){
+let data=localStorage.getItem(key)
+return data?JSON.parse(data):[]
+}
+
+// ===== قواعد البيانات =====
+let students=loadData("students")
+let grades=loadData("grades")
+let skills=loadData("skills")
+
+// ===== إضافة طالب =====
+function addStudent(name){
+
+students.push({
+name:name
+})
+
+saveData("students",students)
+
+}
+
+// ===== إضافة مهارة =====
+function addSkill(name){
+
+skills.push({
+name:name
+})
+
+saveData("skills",skills)
+
+}
+
+// ===== تسجيل درجة =====
+function addGrade(student,skill,score){
+
+grades.push({
+student:student,
+skill:skill,
+score:score,
+level:classify(score)
+})
+
+saveData("grades",grades)
+
+}
+
+// ===== التصنيف =====
+function classify(score){
+
+score=parseInt(score)
+
+if(score>=85){
+return "فوق المتوسط"
+}
+
+if(score>=60){
+return "ضمن المتوسط"
+}
+
+return "دون المتوسط"
+
+}
+
+// ===== اختبار الحفظ =====
+function testSave(){
+
+saveData("test","ok")
+
+let result=loadData("test")
+
+if(result==="ok"){
+alert("✅ الحفظ يعمل بنجاح")
+}else{
+alert("❌ مشكلة في الحفظ")
+}
+
+}
+
+// ===== تشغيل النظام =====
+window.onload=function(){
+
+console.log("الطلاب:",students)
+console.log("المهارات:",skills)
+console.log("الدرجات:",grades)
+
+}
+
+</script>
+
+
+<!-- ===== الألعاب التعليمية ===== -->
+
+<section style="text-align:center;padding:40px">
+
+<h2>🎮 الألعاب التعليمية</h2>
+
+<a href="https://kahoot.com" target="_blank">
+<button style="padding:12px 20px;margin:8px;background:#6c5ce7;color:white;border:none;border-radius:8px">Kahoot</button>
+</a>
+
+<a href="https://quizizz.com" target="_blank">
+<button style="padding:12px 20px;margin:8px;background:#00b894;color:white;border:none;border-radius:8px">Quizizz</button>
+</a>
+
+<a href="https://wordwall.net" target="_blank">
+<button style="padding:12px 20px;margin:8px;background:#fdcb6e;border:none;border-radius:8px">Wordwall</button>
+</a>
+
+<a href="https://www.blooket.com" target="_blank">
+<button style="padding:12px 20px;margin:8px;background:#e17055;color:white;border:none;border-radius:8px">Blooket</button>
+</a>
+
+</section>
+
+
+<!-- ===== المصادر التعليمية ===== -->
+
+<section style="text-align:center;padding:40px">
+
+<h2>📚 المصادر التعليمية</h2>
+
+<a href="https://ien.edu.sa" target="_blank">
+<button style="padding:12px 20px;margin:8px;background:#0984e3;color:white;border:none;border-radius:8px">
+منصة عين
+</button>
+</a>
+
+<a href="https://schools.madrasati.sa" target="_blank">
+<button style="padding:12px 20px;margin:8px;background:#2d3436;color:white;border:none;border-radius:8px">
+منصة مدرستي
+</button>
+</a>
+
+<a href="https://ien.edu.sa/Books" target="_blank">
+<button style="padding:12px 20px;margin:8px;background:#00cec9;color:white;border:none;border-radius:8px">
+الكتب الدراسية
+</button>
+</a>
+
+</section>
 </div>
 </html>
