@@ -160,18 +160,29 @@
             </div>
 
             <!-- Curriculum PDF Page -->
-            <div id="page-curriculum" class="page-content hidden space-y-6 animate-fade-in">
-                <div class="bg-white p-8 rounded-3xl shadow-lg text-center border-2 border-dashed border-green-300">
-                    <div class="text-6xl mb-4 text-green-600">📄</div>
-                    <h2 class="text-2xl font-bold mb-4">رفع منهج التوحيد PDF</h2>
-                    <p class="text-slate-500 mb-6">قم برفع ملف المنهج ليقوم النظام تلقائياً باستخراج الوحدات والدروس والمهارات</p>
-                    <input type="file" id="pdf-upload" accept="application/pdf" class="hidden" onchange="processPDF(event)">
-                    <button onclick="document.getElementById('pdf-upload').click()" id="upload-btn" class="bg-green-600 text-white px-8 py-3 rounded-2xl font-bold hover:bg-green-700 transition-all">اختر ملف PDF</button>
-                    <div id="pdf-status" class="mt-4 text-sm font-medium"></div>
-                </div>
-                <div id="extracted-preview" class="hidden bg-white p-6 rounded-2xl shadow">
-                    <h3 class="font-bold border-b pb-2 mb-4">البيانات المستخرجة:</h3>
-                    <div id="skills-tree" class="space-y-4"></div>
+<script>
+
+async function processPDF(event){
+
+const file = event.target.files[0];
+
+if(!file){
+return;
+}
+
+const reader = new FileReader();
+
+reader.onload = async function(){
+
+const typedarray = new Uint8Array(this.result);
+
+const pdf = await pdfjsLib.getDocument(typedarray).promise;
+
+let textContent = "";
+
+for(let i = 1; i <= pdf.numPages; i++){
+
+const page = await pdfass="space-y-4"></div>
                 </div>
             </div>
 
