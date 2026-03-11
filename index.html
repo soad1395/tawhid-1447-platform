@@ -893,3 +893,33 @@
     </script>
 </body>
 </html>
+<script>
+
+
+const STORAGE_KEY = "tawhid_platform_data";
+
+function saveState(){
+localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+function loadState(){
+const saved = localStorage.getItem(STORAGE_KEY);
+if(saved){
+state = JSON.parse(saved);
+}
+}
+
+window.onload = function(){
+loadState();
+renderClasses();
+renderStudents();
+}
+
+/* مثال عند إضافة طالبة */
+function addStudent(name,classId){
+state.students.push({name,classId});
+saveState();
+renderStudents();
+}
+
+</script>
