@@ -1456,3 +1456,111 @@ backgroundColor:["#22c55e","#facc15","#ef4444"]
 
 setTimeout(()=>{calculateLevels()},1000)
 </script>
+<script>
+
+/* ===== نظام الحفظ ===== */
+
+const STORAGE_KEY="tawhid_platform"
+
+function saveState(){
+localStorage.setItem(STORAGE_KEY,JSON.stringify(state))
+}
+
+function loadState(){
+let saved=localStorage.getItem(STORAGE_KEY)
+if(saved){
+state=JSON.parse(saved)
+}
+}
+
+/* ===== تصنيف الدرجات ===== */
+
+function classifyScore(score){
+
+score=parseInt(score)
+
+if(score>=85) return "فوق المتوسط"
+
+if(score>=70) return "ضمن المتوسط"
+
+return "دون المتوسط"
+
+}
+
+
+/* ===== الرسم البياني ===== */
+
+function calculateLevels(){
+
+let above=0
+let middle=0
+let below=0
+
+Object.values(state.grades).forEach(g=>{
+
+let total=(g.test||0)+(g.tasks||0)
+
+let level=classifyScore(total)
+
+if(level==="فوق المتوسط") above++
+
+else if(level==="ضمن المتوسط") middle++
+
+else below++
+
+})
+
+let canvas=document.getElementById("chart-levels")
+
+if(!canvas) return
+
+new Chart(canvas,{
+type:"pie",
+data:{
+labels:["فوق المتوسط","ضمن المتوسط","دون المتوسط"],
+datasets:[{
+data:[above,middle,below],
+backgroundColor:["#22c55e","#facc15","#ef4444"]
+}]
+}
+})
+
+}
+
+
+/* ===== حفظ تلقائي عند تغيير الدرجات ===== */
+
+function updateGrade(sId,period,field,value){
+
+const gId=`${sId}_${period}`
+
+if(!state.grades[gId]){
+
+state.grades[gId]={test:0,tasks:0}
+
+}
+
+state.grades[gId][field]=parseInt(value)||0
+
+saveState()
+
+calculateLevels()
+
+}
+
+
+/* ===== تحميل البيانات عند فتح المنصة ===== */
+
+window.onload=function(){
+
+loadState()
+
+if(typeof renderClasses==="function") renderClasses()
+
+if(typeof renderStudents==="function") renderStudents()
+
+calculateLevels()
+
+}
+
+</script>
