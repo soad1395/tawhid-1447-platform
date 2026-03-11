@@ -922,4 +922,74 @@ saveState();
 renderStudents();
 }
 
+ <script>
+
+/* ===== الحفظ التلقائي ===== */
+
+function saveData(key,data){
+localStorage.setItem(key,JSON.stringify(data))
+}
+
+function loadData(key){
+let d=localStorage.getItem(key)
+return d?JSON.parse(d):[]
+}
+
+/* ===== تخزين الطالبات ===== */
+
+let students=loadData("students")
+
+function addStudent(name,cls){
+students.push({name         
 </script>
+<div class="games">
+
+<button onclick="window.open('https://kahoot.com','_blank')">
+🎮 Kahoot
+</button>
+
+<button onclick="window.open('https://quizizz.com','_blank')">
+⚡ Quizizz
+</button>
+
+<button onclick="window.open('https://wordwall.net','_blank')">
+🧩 Wordwall
+</button>
+
+<button onclick="window.open('https://www.blooket.com','_blank')">
+🎯 Blooket
+</button>
+
+<button onclick="window.open('https://www.baamboozle.com','_blank')">
+🏆 Baamboozle
+</button>
+</div><div class="resources">
+
+<button onclick="window.open('https://https://ien.edu.sa/Questionshttps://ien.edu.sa/Resourceshttps://ien.edu.sa/Bookshttps://ien.edu.sa/Books
+ https://kahoot.com/https://quizizz.com/https://wordwall.net/https://www.blooket.com/https://ien.edu.sahttps://schools.madrasati.sa<!-- الألعاب -->
+<div class="games">
+
+<button onclick="window.open('https://kahoot.com','_blank')">Kahoot</button>
+
+<button onclick="window.open('https://quizizz.com','_blank')">Quizizz</button>
+
+<button onclick="window.open('https://wordwall.net','_blank')">Wordwall</button>
+
+<button onclick="window.open('https://www.blooket.com','_blank')">Blooket</button>
+
+</div>
+
+
+<!-- المصادر -->
+<div class="resources">
+
+<button onclick="window.open('https://ien.edu.sa','_blank')">منصة عين</button>
+
+<button onclick="window.open('https://schools.madrasati.sa','_blank')">منصة مدرستي</button>
+
+<button onclick="window.open('https://ien.edu.sa/Books','_blank')">الكتب الدراسية</button>
+
+</div>
+
+</body>
+</html>
