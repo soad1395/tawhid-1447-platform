@@ -1411,7 +1411,27 @@ alert("مشكلة في الحفظ")
 <a href="https://ien.edu.sa/Books" target="_blank">
 <button>الكتب الدراسية</button>
 </a>
+<script>
 
+function showPage(pageId){
+
+document.querySelectorAll(".page-content").forEach(function(page){
+page.style.display="none";
+});
+
+let page=document.getElementById("page-"+pageId);
+
+if(page){
+page.style.display="block";
+}
+
+}
+
+window.onload=function(){
+showPage("home");
+}
+
+</script>
 </section>/section>
 </div>
 </html>
