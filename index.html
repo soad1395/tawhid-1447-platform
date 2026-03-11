@@ -1252,6 +1252,166 @@ console.log("الدرجات:",grades)
 </button>
 </a>
 
+<<script>
+
+/* ===== الحفظ ===== */
+
+function saveData(key,data){
+localStorage.setItem(key,JSON.stringify(data))
+}
+
+function loadData(key){
+let data=localStorage.getItem(key)
+return data?JSON.parse(data):[]
+}
+
+let students = loadData("students")
+let grades = loadData("grades")
+let skills = loadData("skills")
+
+
+/* ===== إضافة طالب ===== */
+
+function addStudent(name){
+
+students.push({
+name:name
+})
+
+saveData("students",students)
+
+}
+
+
+/* ===== إضافة مهارة ===== */
+
+function addSkill(skill){
+
+skills.push({
+skill:skill
+})
+
+saveData("skills",skills)
+
+}
+
+
+/* ===== تسجيل درجة ===== */
+
+function addGrade(student,skill,score){
+
+let level = classify(score)
+
+grades.push({
+student:student,
+skill:skill,
+score:score,
+level:level
+})
+
+saveData("grades",grades)
+
+}
+
+
+/* ===== التصنيف ===== */
+
+function classify(score){
+
+score=parseInt(score)
+
+if(score>=85){
+return "فوق المتوسط"
+}
+
+if(score>=60){
+return "ضمن المتوسط"
+}
+
+return "دون المتوسط"
+
+}
+
+
+/* ===== فتح الصفحات ===== */
+
+function showPage(id){
+
+document.querySelectorAll(".page").forEach(p=>{
+p.style.display="none"
+})
+
+let page=document.getElementById(id)
+
+if(page){
+page.style.display="block"
+}
+
+}
+
+
+/* ===== اختبار الحفظ ===== */
+
+function testSave(){
+
+saveData("test","ok")
+
+let t=loadData("test")
+
+if(t==="ok"){
+alert("الحفظ يعمل")
+}else{
+alert("مشكلة في الحفظ")
+}
+
+}
+
+</script>
+
+
+<!-- ===== الألعاب التعليمية ===== -->
+
+<section style="text-align:center;padding:40px">
+
+<h2>الألعاب التعليمية</h2>
+
+<a href="https://kahoot.com" target="_blank">
+<button>Kahoot</button>
+</a>
+
+<a href="https://quizizz.com" target="_blank">
+<button>Quizizz</button>
+</a>
+
+<a href="https://wordwall.net" target="_blank">
+<button>Wordwall</button>
+</a>
+
+<a href="https://www.blooket.com" target="_blank">
+<button>Blooket</button>
+</a>
+
 </section>
+
+
+<!-- ===== المصادر التعليمية ===== -->
+
+<section style="text-align:center;padding:40px">
+
+<h2>المصادر التعليمية</h2>
+
+<a href="https://ien.edu.sa" target="_blank">
+<button>منصة عين</button>
+</a>
+
+<a href="https://schools.madrasati.sa" target="_blank">
+<button>منصة مدرستي</button>
+</a>
+
+<a href="https://ien.edu.sa/Books" target="_blank">
+<button>الكتب الدراسية</button>
+</a>
+
+</section>/section>
 </div>
 </html>
