@@ -1,78 +1,65 @@
  <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>منصة تحليل نتائج التوحيد</title>
+<title>منصة التوحيد</title>
 
-<script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
 <style>
+
 body{
 font-family:Tahoma;
-background:#f0fdf4;
-}
-
-.page{
-display:none;
-}
-
-.active{
-display:block;
+background:#f4fff6;
+padding:20px;
 }
 
 .card{
 background:white;
 padding:20px;
-border-radius:16px;
-box-shadow:0 5px 15px rgba(0,0,0,0.1);
-cursor:pointer;
-text-align:center;
+border-radius:15px;
+box-shadow:0 0 10px rgba(0,0,0,.1);
+margin:10px;
 }
 
-.card:hover{
-transform:scale(1.05);
+button{
+background:#1b5e20;
+color:white;
+border:none;
+padding:10px 20px;
+border-radius:8px;
+cursor:pointer;
 }
+
 </style>
 
 </head>
 
-<body class="p-6">
+<body>
 
-<h1 class="text-3xl font-bold text-center mb-10 text-green-700">
-منصة تحليل نتائج مادة التوحيد
-</h1>
+<h1>منصة تحليل نتائج التوحيد</h1>
 
-<!-- الصفحة الرئيسية -->
+<div class="card">
 
-<div id="home" class="page active grid grid-cols-2 md:grid-cols-4 gap-4">
+<h2>رفع المنهج</h2>
 
-<div class="card" onclick="openPage('students')">👩‍🎓 الطالبات</div>
+<input type="file" id="pdfFile">
 
-<div class="card" onclick="openPage('grades')">✍️ إدخال الدرجات</div>
+<button onclick="extractPDF()">استخراج الوحدات</button>
 
-<div class="card" onclick="openPage('analysis')">📊 التحليل</div>
-
-<div class="card" onclick="openPage('reports')">📋 التقارير</div>
-
-<div class="card" onclick="openPage('games')">🎮 الألعاب</div>
-
-<div class="card" onclick="openPage('sources')">📚 المصادر</div>
+<div id="units"></div>
 
 </div>
 
-<!-- الطالبات -->
+<div class="card">
 
-<div id="students" class="page">
+<h2>الطالبات</h2>
 
-<button onclick="goHome()">⬅ العودة</button>
-
-<h2 class="text-2xl mt-4 mb-4">إدارة الطالبات</h2>
-
-<input id="studentName" placeholder="اسم الطالبة" class="border p-2">
+<input id="studentName" placeholder="اسم الطالبة">
 
 <button onclick="addStudent()">إضافة</button>
 
@@ -80,206 +67,188 @@ transform:scale(1.05);
 
 </div>
 
-<!-- الدرجات -->
+<div class="card">
 
-<div id="grades" class="page">
-
-<button onclick="goHome()">⬅ العودة</button>
-
-<h2 class="text-2xl mt-4 mb-4">إدخال الدرجات</h2>
+<h2>الدرجات</h2>
 
 <select id="studentSelect"></select>
 
-<input id="testScore" placeholder="درجة الاختبار من 60">
+<input id="testScore" placeholder="اختبار من 60">
 
-<input id="taskScore" placeholder="المهام من 40">
+<input id="taskScore" placeholder="مهام من 40">
 
 <button onclick="saveGrade()">حفظ</button>
 
 </div>
 
-<!-- التحليل -->
+<div class="card">
 
-<div id="analysis" class="page">
-
-<button onclick="goHome()">⬅ العودة</button>
-
-<h2 class="text-2xl mt-4 mb-4">التحليل</h2>
+<h2>التحليل</h2>
 
 <canvas id="chart"></canvas>
 
 </div>
 
-<!-- التقارير -->
-
-<div id="reports" class="page">
-
-<button onclick="goHome()">⬅ العودة</button>
-
-<h2 class="text-2xl mt-4 mb-4">التقارير</h2>
-
-<button onclick="window.print()">طباعة</button>
-
-<button onclick="exportWord()">تصدير Word</button>
-
-<div id="reportContent"></div>
-
-</div>
-
-<!-- الألعاب -->
-
-<div id="games" class="page">
-
-<button onclick="goHome()">⬅ العودة</button>
-
-<h2 class="text-2xl mb-4">الألعاب التعليمية</h2>
-
-<a href="https://kahoot.com" target="_blank">🎮 Kahoot</a><br>
-<a href="https://quizizz.com" target="_blank">⚡ Quizizz</a><br>
-<a href="https://wordwall.net" target="_blank">🧩 Wordwall</a><br>
-<a href="https://www.blooket.com" target="_blank">🎯 Blooket</a>
-
-</div>
-
-<!-- المصادر -->
-
-<div id="sources" class="page">
-
-<button onclick="goHome()">⬅ العودة</button>
-
-<h2 class="text-2xl mb-4">المصادر التعليمية</h2>
-
-<a href="https://ien.edu.sa" target="_blank">منصة عين</a><br>
-<a href="https://schools.madrasati.sa" target="_blank">منصة مدرستي</a><br>
-<a href="https://ien.edu.sa/Books" target="_blank">الكتب الدراسية</a>
-
-</div>
-
 <script>
 
-let students = JSON.parse(localStorage.getItem("students")||"[]")
-let grades = JSON.parse(localStorage.getItem("grades")||"[]")
+let data = JSON.parse(localStorage.getItem("platformData")) || {
 
-function saveData(){
-localStorage.setItem("students",JSON.stringify(students))
-localStorage.setItem("grades",JSON.stringify(grades))
-}
+students:[],
+units:[],
+grades:[]
 
-function openPage(id){
+};
 
-document.querySelectorAll(".page").forEach(p=>{
-p.classList.remove("active")
-})
+function save(){
 
-document.getElementById(id).classList.add("active")
-
-}
-
-function goHome(){
-openPage("home")
-}
-
-function addStudent(){
-
-let name=document.getElementById("studentName").value
-
-students.push(name)
-
-saveData()
-
-renderStudents()
+localStorage.setItem("platformData",JSON.stringify(data));
 
 }
 
 function renderStudents(){
 
-let ul=document.getElementById("studentsList")
-let select=document.getElementById("studentSelect")
+let ul=document.getElementById("studentsList");
+let select=document.getElementById("studentSelect");
 
-ul.innerHTML=""
-select.innerHTML=""
+ul.innerHTML="";
+select.innerHTML="";
 
-students.forEach(s=>{
+data.students.forEach(s=>{
 
-let li=document.createElement("li")
-li.innerText=s
-ul.appendChild(li)
+let li=document.createElement("li");
+li.innerText=s;
 
-let opt=document.createElement("option")
-opt.value=s
-opt.innerText=s
-select.appendChild(opt)
+ul.appendChild(li);
 
-})
+let opt=document.createElement("option");
+opt.value=s;
+opt.innerText=s;
+
+select.appendChild(opt);
+
+});
+
+}
+
+function addStudent(){
+
+let name=document.getElementById("studentName").value;
+
+data.students.push(name);
+
+save();
+
+renderStudents();
+
+}
+
+async function extractPDF(){
+
+let file=document.getElementById("pdfFile").files[0];
+
+if(!file) return;
+
+let pdf=await pdfjsLib.getDocument(URL.createObjectURL(file)).promise;
+
+let text="";
+
+for(let i=1;i<=pdf.numPages;i++){
+
+let page=await pdf.getPage(i);
+
+let content=await page.getTextContent();
+
+content.items.forEach(item=>{
+
+text+=item.str+" ";
+
+});
+
+}
+
+let regex=/الوحدة\s+[^\n]+/g;
+
+let units=text.match(regex) || [];
+
+data.units=units;
+
+save();
+
+let div=document.getElementById("units");
+
+div.innerHTML="";
+
+units.forEach(u=>{
+
+let p=document.createElement("p");
+p.innerText=u;
+
+div.appendChild(p);
+
+});
 
 }
 
 function saveGrade(){
 
-let student=document.getElementById("studentSelect").value
-let test=parseInt(document.getElementById("testScore").value||0)
-let task=parseInt(document.getElementById("taskScore").value||0)
+let student=document.getElementById("studentSelect").value;
 
-let total=test+task
+let test=parseInt(document.getElementById("testScore").value||0);
 
-grades.push({student,total})
+let task=parseInt(document.getElementById("taskScore").value||0);
 
-saveData()
+let total=test+task;
 
-renderChart()
+data.grades.push({student,total});
+
+save();
+
+renderChart();
 
 }
 
 function renderChart(){
 
-let above=0
-let middle=0
-let below=0
+let above=0;
+let middle=0;
+let below=0;
 
-grades.forEach(g=>{
+data.grades.forEach(g=>{
 
-if(g.total>=85) above++
-else if(g.total>=60) middle++
-else below++
+if(g.total>=85) above++;
 
-})
+else if(g.total>=60) middle++;
+
+else below++;
+
+});
 
 new Chart(document.getElementById("chart"),{
 
 type:"pie",
 
 data:{
+
 labels:["فوق المتوسط","ضمن المتوسط","دون المتوسط"],
+
 datasets:[{
+
 data:[above,middle,below],
+
 backgroundColor:["green","orange","red"]
+
 }]
-}
-
-})
 
 }
 
-function exportWord(){
-
-let content=document.getElementById("reportContent").innerHTML
-
-let blob=new Blob([content],{type:"application/msword"})
-
-let url=URL.createObjectURL(blob)
-
-let a=document.createElement("a")
-a.href=url
-a.download="report.doc"
-a.click()
+});
 
 }
 
-renderStudents()
-renderChart()
+renderStudents();
+renderChart();
 
 </script>
 
 </body>
 </html>
-
