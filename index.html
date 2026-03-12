@@ -1,11 +1,8 @@
  <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>منصة تحليل نتائج التوحيد</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
@@ -14,7 +11,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
-
 body{
 font-family:'Tajawal',sans-serif;
 background:#f0fdf4;
@@ -39,9 +35,7 @@ transform:scale(1.05)
 display:none;
 margin-top:30px
 }
-
 </style>
-
 </head>
 
 <body class="p-8">
@@ -50,21 +44,15 @@ margin-top:30px
 منصة تحليل نتائج مادة التوحيد
 </h1>
 
-
 <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
 
 <div class="card" onclick="showPage('students')">👩‍🎓 الطالبات</div>
-
 <div class="card" onclick="showPage('grades')">✍️ الدرجات</div>
-
 <div class="card" onclick="showPage('analysis')">📊 التحليل</div>
-
 <div class="card" onclick="showPage('games')">🎮 الألعاب</div>
-
 <div class="card" onclick="showPage('resources')">📚 المصادر</div>
 
 </div>
-
 
 
 <!-- الطالبات -->
@@ -86,7 +74,6 @@ class="bg-green-600 text-white px-4 py-2 rounded">
 </div>
 
 
-
 <!-- الدرجات -->
 
 <div id="grades" class="page">
@@ -106,7 +93,6 @@ class="bg-blue-600 text-white px-4 py-2 rounded">
 </div>
 
 
-
 <!-- التحليل -->
 
 <div id="analysis" class="page">
@@ -118,7 +104,6 @@ class="bg-blue-600 text-white px-4 py-2 rounded">
 </div>
 
 
-
 <!-- الألعاب -->
 
 <div id="games" class="page text-center">
@@ -126,31 +111,26 @@ class="bg-blue-600 text-white px-4 py-2 rounded">
 <h2 class="text-xl font-bold mb-6">الألعاب التعليمية</h2>
 
 <a href="https://kahoot.com" target="_blank">
-<button class="bg-purple-600 text-white px-6 py-3 rounded m-2">
-🎮 Kahoot
-</button>
+<button class="bg-purple-600 text-white px-6 py-3 rounded m-2">🎮 Kahoot</button>
 </a>
 
 <a href="https://quizizz.com" target="_blank">
-<button class="bg-green-600 text-white px-6 py-3 rounded m-2">
-⚡ Quizizz
-</button>
+<button class="bg-green-600 text-white px-6 py-3 rounded m-2">⚡ Quizizz</button>
 </a>
 
 <a href="https://wordwall.net" target="_blank">
-<button class="bg-yellow-500 text-black px-6 py-3 rounded m-2">
-🧩 Wordwall
-</button>
+<button class="bg-yellow-500 text-black px-6 py-3 rounded m-2">🧩 Wordwall</button>
 </a>
 
 <a href="https://blooket.com" target="_blank">
-<button class="bg-red-500 text-white px-6 py-3 rounded m-2">
-🎯 Blooket
-</button>
+<button class="bg-red-500 text-white px-6 py-3 rounded m-2">🎯 Blooket</button>
+</a>
+
+<a href="https://baamboozle.com" target="_blank">
+<button class="bg-orange-500 text-white px-6 py-3 rounded m-2">🏆 Baamboozle</button>
 </a>
 
 </div>
-
 
 
 <!-- المصادر -->
@@ -160,43 +140,31 @@ class="bg-blue-600 text-white px-4 py-2 rounded">
 <h2 class="text-xl font-bold mb-6">المصادر التعليمية</h2>
 
 <a href="https://ien.edu.sa" target="_blank">
-<button class="bg-blue-600 text-white px-6 py-3 rounded m-2">
-📚 منصة عين
-</button>
+<button class="bg-blue-600 text-white px-6 py-3 rounded m-2">📚 منصة عين</button>
 </a>
 
 <a href="https://schools.madrasati.sa" target="_blank">
-<button class="bg-gray-800 text-white px-6 py-3 rounded m-2">
-🏫 منصة مدرستي
-</button>
+<button class="bg-gray-800 text-white px-6 py-3 rounded m-2">🏫 منصة مدرستي</button>
 </a>
 
 <a href="https://ien.edu.sa/Books" target="_blank">
-<button class="bg-cyan-600 text-white px-6 py-3 rounded m-2">
-📖 الكتب الدراسية
-</button>
+<button class="bg-cyan-600 text-white px-6 py-3 rounded m-2">📖 الكتب الدراسية</button>
 </a>
 
 </div>
 
 
-
 <script>
 
-
 function showPage(id){
-
 document.querySelectorAll(".page").forEach(p=>{
 p.style.display="none"
 })
-
 document.getElementById(id).style.display="block"
-
 }
 
 
-
-/* التخزين */
+/* التخزين /
 
 function saveData(key,data){
 localStorage.setItem(key,JSON.stringify(data))
@@ -208,133 +176,12 @@ return d?JSON.parse(d):[]
 }
 
 
-
-/* قواعد البيانات */
+/ قواعد البيانات /
 
 let students=loadData("students")
 let grades=loadData("grades")
 
 
+/ إضافة طالبة */
 
-/* إضافة طالبة */
-
-function addStudent(){
-
-let name=document.getElementById("studentName").value
-
-if(!name) return
-
-students.push({name})
-
-saveData("students",students)
-
-renderStudents()
-
-document.getElementById("studentName").value=""
-
-}
-
-
-
-/* عرض الطالبات */
-
-function renderStudents(){
-
-let list=document.getElementById("studentsList")
-
-let select=document.getElementById("studentSelect")
-
-list.innerHTML=""
-select.innerHTML=""
-
-students.forEach((s,i)=>{
-
-list.innerHTML+=`<li>${s.name}</li>`
-
-select.innerHTML+=`<option value="${i}">${s.name}</option>`
-
-})
-
-}
-
-
-
-/* إضافة درجة */
-
-function addGrade(){
-
-let student=document.getElementById("studentSelect").value
-
-let score=parseInt(document.getElementById("scoreInput").value)
-
-grades.push({
-student:student,
-score:score
-})
-
-saveData("grades",grades)
-
-calculateLevels()
-
-}
-
-
-
-/* التصنيف */
-
-function classify(score){
-
-if(score>=85) return "فوق المتوسط"
-
-if(score>=60) return "ضمن المتوسط"
-
-return "دون المتوسط"
-
-}
-
-
-
-/* التحليل */
-
-function calculateLevels(){
-
-let above=0
-let middle=0
-let below=0
-
-grades.forEach(g=>{
-
-let level=classify(g.score)
-
-if(level==="فوق المتوسط") above++
-else if(level==="ضمن المتوسط") middle++
-else below++
-
-})
-
-let ctx=document.getElementById("chart")
-
-if(!ctx) return
-
-new Chart(ctx,{
-type:"pie",
-data:{
-labels:["فوق المتوسط","ضمن المتوسط","دون المتوسط"],
-datasets:[{
-data:[above,middle,below],
-backgroundColor:["#22c55e","#facc15","#ef4444"]
-}]
-}
-})
-
-}
-
-
-
-renderStudents()
-calculateLevels()
-
-</script>
-
-</body>
-</html>
+function addStudent(
