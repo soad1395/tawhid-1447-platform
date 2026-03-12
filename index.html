@@ -1755,5 +1755,31 @@ btn.onclick=()=>window.open(sources.books,"_blank")
 })
 
 })
+<script>
 
-</script>
+/* ===== إصلاح الأزرار والأيقونات ===== */
+
+document.addEventListener("DOMContentLoaded",function(){
+
+function link(btn,text,url){
+if(btn.innerText.includes(text)){
+btn.onclick=function(){
+window.open(url,"_blank")
+}
+}
+}
+
+document.querySelectorAll("button").forEach(btn=>{
+
+link(btn,"Kahoot","https://kahoot.com")
+link(btn,"Quizizz","https://quizizz.com")
+link(btn,"Wordwall","https://wordwall.net")
+link(btn,"Blooket","https://www.blooket.com")
+link(btn,"Baamboozle","https://www.baamboozle.com")
+
+link(btn,"عين","https://ien.edu.sa")
+link(btn,"مدرستي","https://schools.madrasati.sa")
+link(btn,"الكتب","https://ien.edu.sa/Books")
+
+})
+</scrip>
