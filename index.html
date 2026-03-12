@@ -1689,3 +1689,71 @@ backgroundColor:["#22c55e","#facc15","#ef4444"]
 setTimeout(calculateLevels,1000)
 
 </script>
+<script>
+
+/* ===== تشغيل الأيقونات والروابط ===== */
+
+document.addEventListener("DOMContentLoaded",function(){
+
+/* الألعاب */
+
+let games={
+kahoot:"https://kahoot.com",
+quizizz:"https://quizizz.com",
+wordwall:"https://wordwall.net",
+blooket:"https://www.blooket.com",
+baamboozle:"https://www.baamboozle.com"
+}
+
+/* المصادر */
+
+let sources={
+ein:"https://ien.edu.sa",
+madrasti:"https://schools.madrasati.sa",
+books:"https://ien.edu.sa/Books"
+}
+
+
+/* ربط الأزرار */
+
+document.querySelectorAll("button").forEach(btn=>{
+
+let t=btn.innerText.toLowerCase()
+
+if(t.includes("kahoot")){
+btn.onclick=()=>window.open(games.kahoot,"_blank")
+}
+
+if(t.includes("quizizz")){
+btn.onclick=()=>window.open(games.quizizz,"_blank")
+}
+
+if(t.includes("wordwall")){
+btn.onclick=()=>window.open(games.wordwall,"_blank")
+}
+
+if(t.includes("blooket")){
+btn.onclick=()=>window.open(games.blooket,"_blank")
+}
+
+if(t.includes("baamboozle")){
+btn.onclick=()=>window.open(games.baamboozle,"_blank")
+}
+
+if(t.includes("عين")){
+btn.onclick=()=>window.open(sources.ein,"_blank")
+}
+
+if(t.includes("مدرستي")){
+btn.onclick=()=>window.open(sources.madrasti,"_blank")
+}
+
+if(t.includes("الكتب")){
+btn.onclick=()=>window.open(sources.books,"_blank")
+}
+
+})
+
+})
+
+</script>
