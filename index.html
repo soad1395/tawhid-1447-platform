@@ -1781,5 +1781,150 @@ link(btn,"عين","https://ien.edu.sa")
 link(btn,"مدرستي","https://schools.madrasati.sa")
 link(btn,"الكتب","https://ien.edu.sa/Books")
 
+})<script>
+
+/* ===== إصلاح التنقل بين الصفحات ===== */
+
+function showPage(pageId){
+
+document.querySelectorAll(".page-content").forEach(p=>{
+p.classList.add("hidden)
+
+let page=document.getElementById("page-"+pageId)
+
+if(page){
+page.classList.remove("hidden")
+}
+
+window.scrollTo(0,0)
+
+}
+
+
+/* ===== نظام الحفظ ===== */
+
+const STORAGE_KEY="TAWHID_PLATFORM_DATA"
+
+function saveState(){
+
+localStorage.setItem(STORAGE_KEY,JSON.stringify(state))
+
+}
+
+function loadState(){
+
+let saved=localStorage.getItem(STORAGE_KEY)
+
+if(saved){
+
+state=JSON.parse(saved)
+
+}
+
+}
+
+
+/* ===== تشغيل المنصة ===== */
+
+window.addEventListener("load",()=>{
+
+loadState()
+
+if(typeof renderClasses==="function"){
+renderClasses()
+}
+
+if(typeof renderStudents==="function"){
+renderStudents()
+}
+
 })
-</scrip>
+
+
+/* ===== روابط الألعاب ===== */
+
+function openGame(url){
+
+window.open(url,"_blank")
+
+}
+
+
+/* ===== روابط المصادر ===== */
+
+function openSource(url){
+
+window.open(url,"_blank")
+
+}
+
+
+/* ===== استخراج المهارات من PDF ===== */
+
+async function extractSkillsFromPDF(file){
+
+const arrayBuffer=await file.arrayBuffer()
+
+const pdf=await pdfjsLib.getDocument(arrayBuffer).promise
+
+let text=""
+
+for(let i=1;i<=pdf.numPages;i++){
+
+const page=await pdf.getPage(i)
+
+const content=await page.getTextContent()
+
+text+=content.items.map(i=>i.str).join(" ")
+
+}
+
+let skills=[]
+
+let lines=text.split("\n")
+
+lines.forEach(line=>{
+
+if(
+line.includes("الوحدة")||
+line.includes("الدرس")||
+line.includes("مهارة")
+){
+
+skills.push(line.trim())
+
+}
+
+})
+
+state.curriculum.units=skills.map(s=>({
+name:s,
+lessons:[]
+}))
+
+saveState()
+
+alert("تم استخراج المهارات من الملف")
+
+}
+
+
+/* ===== رفع المنهج ===== */
+
+document.addEventListener("change",function(e){
+
+if(e.target.id==="pdfUpload"){
+
+let file=e.target.files[0]
+
+if(file){
+
+extractSkillsFromPDF(file)
+
+}
+
+}
+
+})
+
+</scrip/>
