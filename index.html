@@ -1,1212 +1,2004 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة تحليل نتائج مادة التوحيد - المرحلة الثانوية</title>
-    
-    <!-- Libraries -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+ <!doctype html>
+<html lang="ar" dir="rtl" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>منصة التحليل التعليمي الاحترافية</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="/_sdk/data_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&amp;display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <style>
+    * { font-family: 'Tajawal', sans-serif; }
+    html, body { height: 100%; width: 100%; margin: 0; padding: 0; overflow: hidden; }
+    #app { width: 100%; height: 100%; display: flex; flex-direction: column; }
+    main { flex: 1; overflow-y: auto; }
+    .page-hidden { display: none !important; }
+    .page-visible { display: block !important; }
+    .card-hover { transition: all 0.3s ease; }
+    .card-hover:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.1); }
+    .gradient-bg { background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+    .animate-fade { animation: fadeIn 0.4s ease-out; }
+    .animate-slide { animation: slideIn 0.4s ease-out; }
+    .loading-spinner { display: inline-block; width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: none; align-items: center; justify-center; z-50; backdrop-filter: blur(4px); }
+    .modal-overlay.active { display: flex; }
+  </style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 overflow-auto">
+  <div id="app" class="h-full w-full flex flex-col">
+   <header class="gradient-bg text-white shadow-lg sticky top-0 z-40">
+    <div class="px-4 md:px-6 py-4">
+     <div class="flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+       <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center"><i data-lucide="book-open" class="w-7 h-7"></i>
+       </div>
+       <div>
+        <h1 id="main-title" class="text-xl md:text-2xl font-bold">منصة التوحيد الذكية</h1>
+        <p id="school-subtitle" class="text-green-100 text-sm">نظام متكامل للتحليل والخطط</p>
+       </div>
+      </div>
+      <div class="flex gap-2"><button onclick="showPage('home')" class="bg-white/20 hover:bg-white/30 px-3 py-2 rounded-lg text-sm transition flex items-center gap-2"><i data-lucide="home" class="w-5 h-5"></i></button>
+      </div>
+     </div>
+    </div>
+   </header>
+   <main class="flex-grow overflow-y-auto p-4 md:p-6">
+    <div class="max-w-7xl mx-auto w-full"><!-- HOME PAGE -->
+     <div id="page-home" class="page-visible animate-fade">
+      <div class="grid grid-cols-2 md:grid-cols-6 gap-3 md:gap-4"><button onclick="showPage('curriculum')" class="card-hover bg-gradient-to-br from-blue-500 to-blue-600 p-4 rounded-lg shadow text-white text-center hover:shadow-lg">
+        <div class="text-3xl mb-2">
+         📚
+        </div><h3 class="font-bold text-sm">المنهج</h3><p class="text-xs opacity-90">استيراد PDF</p></button> <button onclick="showPage('resources')" class="card-hover bg-gradient-to-br from-purple-500 to-purple-600 p-4 rounded-lg shadow text-white text-center hover:shadow-lg">
+        <div class="text-3xl mb-2">
+         🔗
+        </div><h3 class="font-bold text-sm">المصادر</h3><p class="text-xs opacity-90">روابط</p></button> <button onclick="showPage('games')" class="card-hover bg-gradient-to-br from-pink-500 to-pink-600 p-4 rounded-lg shadow text-white text-center hover:shadow-lg">
+        <div class="text-3xl mb-2">
+         🎮
+        </div><h3 class="font-bold text-sm">الألعاب</h3><p class="text-xs opacity-90">تعليمية</p></button> <button onclick="showPage('classes')" class="card-hover bg-gradient-to-br from-emerald-500 to-emerald-600 p-4 rounded-lg shadow text-white text-center hover:shadow-lg">
+        <div class="text-3xl mb-2">
+         🏫
+        </div><h3 class="font-bold text-sm">الفصول</h3><p class="text-xs opacity-90" id="classes-count">0</p></button> <button onclick="showPage('students')" class="card-hover bg-gradient-to-br from-teal-500 to-teal-600 p-4 rounded-lg shadow text-white text-center hover:shadow-lg">
+        <div class="text-3xl mb-2">
+         👥
+        </div><h3 class="font-bold text-sm">الطالبات</h3><p class="text-xs opacity-90" id="students-count">0</p></button> <button onclick="showPage('skills')" class="card-hover bg-gradient-to-br from-lime-500 to-lime-600 p-4 rounded-lg shadow text-white text-center hover:shadow-lg">
+        <div class="text-3xl mb-2">
+         🎯
+        </div><h3 class="font-bold text-sm">المهارات</h3><p class="text-xs opacity-90" id="skills-count">0</p></button> <button onclick="showPage('grades')" class="card-hover bg-gradient-to-br from-orange-500 to-orange-600 p-4 rounded-lg shadow text-white text-center hover:shadow-lg">
+        <div class="text-3xl mb-2">
+         📊
+        </div><h3 class="font-bold text-sm">الدرجات</h3><p class="text-xs opacity-90">إدخال</p></button> <button onclick="showPage('analysis')" class="card-hover bg-gradient-to-br from-cyan-500 to-cyan-600 p-4 rounded-lg shadow text-white text-center hover:shadow-lg">
+        <div class="text-3xl mb-2">
+         📈
+        </div><h3 class="font-bold text-sm">التحليل</h3><p class="text-xs opacity-90">إحصائي</p></button> <button onclick="showPage('loss')" class="card-hover bg-gradient-to-br from-red-500 to-red-600 p-4 rounded-lg shadow text-white text-center hover:shadow-lg">
+        <div class="text-3xl mb-2">
+         ⚠️
+        </div><h3 class="font-bold text-sm">الفاقد</h3><p class="text-xs opacity-90">تعليمي</p></button> <button onclick="showPage('remedial')" class="card-hover bg-gradient-to-br from-orange-600 to-orange-700 p-4 rounded-lg shadow text-white text-center hover:shadow-lg">
+        <div class="text-3xl mb-2">
+         🛡️
+        </div><h3 class="font-bold text-sm">علاجية</h3><p class="text-xs opacity-90">خطط</p></button> <button onclick="showPage('enrichment')" class="card-hover bg-gradient-to-br from-rose-500 to-rose-600 p-4 rounded-lg shadow text-white text-center hover:shadow-lg">
+        <div class="text-3xl mb-2">
+         🚀
+        </div><h3 class="font-bold text-sm">إثرائية</h3><p class="text-xs opacity-90">خطط</p></button> <button onclick="showPage('excellence')" class="card-hover bg-gradient-to-br from-yellow-500 to-yellow-600 p-4 rounded-lg shadow text-white text-center hover:shadow-lg">
+        <div class="text-3xl mb-2">
+         ⭐
+        </div><h3 class="font-bold text-sm">الشرف</h3><p class="text-xs opacity-90">متفوقات</p></button> <button onclick="showPage('questions')" class="card-hover bg-gradient-to-br from-indigo-500 to-indigo-600 p-4 rounded-lg shadow text-white text-center hover:shadow-lg">
+        <div class="text-3xl mb-2">
+         ❓
+        </div><h3 class="font-bold text-sm">أسئلة</h3><p class="text-xs opacity-90">بنك</p></button> <button onclick="showPage('parents')" class="card-hover bg-gradient-to-br from-pink-500 to-pink-600 p-4 rounded-lg shadow text-white text-center hover:shadow-lg">
+        <div class="text-3xl mb-2">
+         💬
+        </div><h3 class="font-bold text-sm">الأمور</h3><p class="text-xs opacity-90">ملاحظات</p></button> <button onclick="showPage('settings')" class="card-hover bg-gradient-to-br from-gray-600 to-gray-700 p-4 rounded-lg shadow text-white text-center hover:shadow-lg">
+        <div class="text-3xl mb-2">
+         ⚙️
+        </div><h3 class="font-bold text-sm">الإعدادات</h3><p class="text-xs opacity-90">بيانات</p></button>
+      </div>
+     </div><!-- CURRICULUM PAGE -->
+     <div id="page-curriculum" class="page-hidden animate-fade">
+      <div class="bg-white rounded-2xl shadow-lg p-6">
+       <h2 class="text-2xl font-bold mb-6 flex items-center gap-2"><i data-lucide="book-open" class="w-8 h-8 text-blue-600"></i> استيراد المنهج من PDF</h2>
+       <div class="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl border-2 border-blue-300 mb-6 p-6">
+        <div class="mb-4 p-4 bg-white rounded-lg border-l-4 border-blue-500">
+         <p class="text-sm font-bold text-blue-900 mb-2">📍 معلومة مهمة:</p>
+         <p class="text-xs text-gray-700">البيانات تُحفظ تلقائياً في <strong>ورقة البيانات</strong> - اضغطي زر 📊 Data فوق البرنامج</p>
+        </div>
+        <div class="space-y-3 mb-4">
+         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div>
+           <p class="text-xs font-bold text-gray-700 mb-2">📥 الطريقة 1: رفع PDF</p><label class="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-4 py-3 rounded-xl font-bold text-sm shadow-lg transition cursor-pointer flex items-center justify-center gap-2"> <i data-lucide="upload" class="w-5 h-5"></i> <span>📤 اختر ملف PDF</span> <input type="file" id="curriculum-file" accept=".pdf" style="display:none;" onchange="handlePdfUpload(event)"> </label>
+           <p class="text-xs text-gray-600 mt-2">جرّبي أولاً (قد لا تعمل مع الملفات الممسوحة ضوئياً)</p>
+          </div>
+          <div>
+           <p class="text-xs font-bold text-gray-700 mb-2">📋 الطريقة 2: نسخ يدوي</p><button onclick="showManualEntryModal()" class="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-4 py-3 rounded-xl font-bold text-sm shadow-lg transition flex items-center justify-center gap-2"> <i data-lucide="copy" class="w-5 h-5"></i> <span>✏️ إدخال نص مباشر</span> </button>
+           <p class="text-xs text-gray-600 mt-2">الصقي المحتوى مباشرة بدون PDF</p>
+          </div>
+         </div>
+        </div>
+        <div id="pdf-upload-progress" class="hidden">
+         <div class="flex items-center gap-3 bg-blue-50 p-4 rounded-lg border border-blue-200">
+          <div class="loading-spinner"></div>
+          <p class="text-sm text-blue-900"><strong>جاري معالجة ملف PDF...</strong></p>
+         </div>
+        </div>
+        <div class="mt-4 p-4 bg-yellow-50 rounded-lg border border-yellow-300">
+         <p class="text-xs font-semibold text-yellow-900 mb-2">⚠️ صيغ معقولة للمحتوى:</p>
+         <ul class="text-xs text-yellow-800 space-y-1">
+          <li>✅ الوحدة 1: اسم | الدرس 1: اسم | المهارة 1: اسم</li>
+          <li>✅ وحدة / درس / مهارة (بسيطة جداً)</li>
+          <li>✅ أي صيغة بها أسطر مختلفة للعناصر</li>
+          <li>✅ ستُولّد المهارات تلقائياً إن لم توجد</li>
+         </ul>
+        </div>
+       </div>
+       <div id="curriculum-preview" class="hidden">
+        <h3 class="text-lg font-bold mb-4">📚 الوحدات والدروس المستخرجة:</h3>
+        <div id="units-preview" class="space-y-4"></div>
+        <div class="flex gap-3 mt-6"><button onclick="confirmImportCurriculum()" class="flex-1 bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-bold">✅ استيراد المختارة</button> <button onclick="resetCurriculumUpload()" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 py-3 rounded-xl font-bold">🔄 إلغاء</button>
+        </div>
+       </div>
+       <div id="curriculum-list" class="space-y-4"></div>
+      </div>
+     </div><!-- RESOURCES PAGE -->
+     <div id="page-resources" class="page-hidden animate-fade">
+      <div class="bg-white rounded-2xl shadow-lg p-6">
+       <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold flex items-center gap-2"><i data-lucide="link" class="w-8 h-8 text-purple-600"></i> المصادر التعليمية</h2><button onclick="showAddResourceModal()" class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-xl font-bold flex items-center gap-2"> <i data-lucide="plus" class="w-5 h-5"></i> إضافة مصدر </button>
+       </div>
+       <div class="grid md:grid-cols-2 gap-4 mb-6">
+        <button onclick="window.open('https://ien.edu.sa', '_blank')" class="bg-gradient-to-br from-red-100 to-red-50 p-4 rounded-xl border-2 border-red-300 hover:shadow-lg transition text-right"> <p class="font-bold text-red-700 mb-1">🎥 منصة عين</p><p class="text-xs text-red-600">محتوى تعليمي متنوع وشامل</p></button> <button onclick="window.open('https://madrasati.sa', '_blank')" class="bg-gradient-to-br from-blue-100 to-blue-50 p-4 rounded-xl border-2 border-blue-300 hover:shadow-lg transition text-right"> <p class="font-bold text-blue-700 mb-1">📚 منصة مدرستي</p><p class="text-xs text-blue-600">الفصول الافتراضية والواجبات</p></button> <button onclick="window.open('https://digitallib.um.edu.sa', '_blank')" class="bg-gradient-to-br from-emerald-100 to-emerald-50 p-4 rounded-xl border-2 border-emerald-300 hover:shadow-lg transition text-right"> <p class="font-bold text-emerald-700 mb-1">📖 المكتبة الرقمية</p><p class="text-xs text-emerald-600">كتب وملفات تعليمية</p></button> <button onclick="window.open('https://www.duolingo.com', '_blank')" class="bg-gradient-to-br from-yellow-100 to-yellow-50 p-4 rounded-xl border-2 border-yellow-300 hover:shadow-lg transition text-right"> <p class="font-bold text-yellow-700 mb-1">🌍 Duolingo</p><p class="text-xs text-yellow-600">تعلم اللغات</p></button>
+       </div>
+       <div id="custom-resources" class="space-y-3"></div>
+      </div>
+     </div><!-- GAMES PAGE -->
+     <div id="page-games" class="page-hidden animate-fade">
+      <div class="bg-white rounded-2xl shadow-lg p-6">
+       <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold flex items-center gap-2"><i data-lucide="gamepad-2" class="w-8 h-8 text-pink-600"></i> الألعاب التعليمية</h2><button onclick="showAddGameModal()" class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-xl font-bold flex items-center gap-2"> <i data-lucide="plus" class="w-5 h-5"></i> إضافة لعبة </button>
+       </div>
+       <div class="grid md:grid-cols-2 gap-4 mb-6">
+        <button onclick="window.open('https://kahoot.com', '_blank')" class="bg-gradient-to-br from-purple-100 to-purple-50 p-4 rounded-xl border-2 border-purple-300 hover:shadow-lg transition text-right"> <p class="font-bold text-purple-700 mb-1">🎮 Kahoot</p><p class="text-xs text-purple-600">اختبارات تفاعلية وألعاب تعليمية</p></button> <button onclick="window.open('https://wordwall.net', '_blank')" class="bg-gradient-to-br from-cyan-100 to-cyan-50 p-4 rounded-xl border-2 border-cyan-300 hover:shadow-lg transition text-right"> <p class="font-bold text-cyan-700 mb-1">🎯 Wordwall</p><p class="text-xs text-cyan-600">أنشطة تفاعلية متنوعة</p></button> <button onclick="window.open('https://www.canva.com', '_blank')" class="bg-gradient-to-br from-red-100 to-red-50 p-4 rounded-xl border-2 border-red-300 hover:shadow-lg transition text-right"> <p class="font-bold text-red-700 mb-1">🎨 Canva</p><p class="text-xs text-red-600">تصميم وإنشاء محتوى</p></button> <button onclick="window.open('https://jamboard.google.com', '_blank')" class="bg-gradient-to-br from-orange-100 to-orange-50 p-4 rounded-xl border-2 border-orange-300 hover:shadow-lg transition text-right"> <p class="font-bold text-orange-700 mb-1">🖌️ Google Jamboard</p><p class="text-xs text-orange-600">الرسم والتعاون المباشر</p></button> <button onclick="window.open('https://www.quizizz.com', '_blank')" class="bg-gradient-to-br from-indigo-100 to-indigo-50 p-4 rounded-xl border-2 border-indigo-300 hover:shadow-lg transition text-right"> <p class="font-bold text-indigo-700 mb-1">❓ Quizizz</p><p class="text-xs text-indigo-600">اختبارات بأسئلة متعددة</p></button> <button onclick="window.open('https://www.peardeck.com', '_blank')" class="bg-gradient-to-br from-rose-100 to-rose-50 p-4 rounded-xl border-2 border-rose-300 hover:shadow-lg transition text-right"> <p class="font-bold text-rose-700 mb-1">📊 Peardeck</p><p class="text-xs text-rose-600">عروض تفاعلية ومشاركة الطلاب</p></button>
+       </div>
+       <div id="custom-games" class="space-y-3"></div>
+      </div>
+     </div><!-- CLASSES PAGE -->
+     <div id="page-classes" class="page-hidden animate-fade">
+      <div class="bg-white rounded-2xl shadow-lg p-6">
+       <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold flex items-center gap-2"><i data-lucide="building-2" class="w-8 h-8 text-emerald-600"></i> الفصول الدراسية</h2><button onclick="showAddClassModal()" class="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-xl font-bold flex items-center gap-2"> <i data-lucide="plus" class="w-5 h-5"></i> إضافة فصل </button>
+       </div>
+       <div id="classes-list" class="grid md:grid-cols-3 gap-4"></div>
+       <div id="no-classes" class="text-center py-12 text-gray-400">
+        <p class="text-5xl mb-2">🏫</p>
+        <p>لا توجد فصول - أضفي فصل جديد!</p>
+       </div>
+      </div>
+     </div><!-- STUDENTS PAGE -->
+     <div id="page-students" class="page-hidden animate-fade">
+      <div class="bg-white rounded-2xl shadow-lg p-6">
+       <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold flex items-center gap-2"><i data-lucide="users" class="w-8 h-8 text-teal-600"></i> الطالبات</h2><button onclick="showAddStudentModal()" class="bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 rounded-xl font-bold flex items-center gap-2"> <i data-lucide="plus" class="w-5 h-5"></i> إضافة طالبة </button>
+       </div>
+       <div id="students-list" class="space-y-3"></div>
+       <div id="no-students" class="text-center py-12 text-gray-400">
+        <p class="text-5xl mb-2">👥</p>
+        <p>لا توجد طالبات</p>
+       </div>
+      </div>
+     </div><!-- SKILLS PAGE -->
+     <div id="page-skills" class="page-hidden animate-fade">
+      <div class="bg-white rounded-2xl shadow-lg p-6">
+       <h2 class="text-2xl font-bold mb-6 flex items-center gap-2"><i data-lucide="target" class="w-8 h-8 text-lime-600"></i> المهارات</h2>
+       <div id="skills-list" class="space-y-3"></div>
+       <div id="no-skills" class="text-center py-12 text-gray-400">
+        <p class="text-5xl mb-2">🎯</p>
+        <p>استيراد المنهج أولاً لتوليد المهارات</p>
+       </div>
+      </div>
+     </div><!-- GRADES PAGE -->
+     <div id="page-grades" class="page-hidden animate-fade">
+      <div class="bg-white rounded-2xl shadow-lg p-6">
+       <h2 class="text-2xl font-bold mb-6 flex items-center gap-2"><i data-lucide="bar-chart-3" class="w-8 h-8 text-orange-600"></i> إدخال الدرجات</h2>
+       <div class="grid md:grid-cols-3 gap-4 mb-6">
+        <div><label class="block text-sm font-bold mb-2">📚 اختر الفصل:</label> <select id="grade-class" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500"> <option value="">اختر الفصل</option> </select>
+        </div>
+        <div><label class="block text-sm font-bold mb-2">🎯 اختر المهارة:</label> <select id="grade-skill" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500"> <option value="">اختر المهارة</option> </select>
+        </div>
+        <div class="flex items-end"><button onclick="loadGradeForm()" class="w-full bg-orange-500 hover:bg-orange-600 text-white rounded-xl font-bold py-3 flex items-center justify-center gap-2"> <i data-lucide="search" class="w-5 h-5"></i> عرض الطالبات </button>
+        </div>
+       </div>
+       <div id="grades-form" class="space-y-3"></div>
+       <div id="no-grades-form" class="text-center py-12 text-gray-400">
+        <p class="text-5xl mb-2">📝</p>
+        <p>اختر الفصل والمهارة لإدخال الدرجات</p>
+       </div>
+      </div>
+     </div><!-- ANALYSIS PAGE -->
+     <div id="page-analysis" class="page-hidden animate-fade">
+      <div class="bg-white rounded-2xl shadow-lg p-6">
+       <h2 class="text-2xl font-bold mb-6 flex items-center gap-2"><i data-lucide="chart-line" class="w-8 h-8 text-cyan-600"></i> التحليل الإحصائي</h2>
+       <div class="grid md:grid-cols-5 gap-4">
+        <div class="bg-emerald-50 p-4 rounded-xl text-center border-t-4 border-emerald-500">
+         <p class="text-4xl font-bold text-emerald-600" id="analysis-total">0</p>
+         <p class="text-sm text-gray-600 mt-2">إجمالي الدرجات</p>
+        </div>
+        <div class="bg-green-50 p-4 rounded-xl text-center border-t-4 border-green-500">
+         <p class="text-4xl font-bold text-green-600" id="analysis-avg">0%</p>
+         <p class="text-sm text-gray-600 mt-2">المتوسط العام</p>
+        </div>
+        <div class="bg-teal-50 p-4 rounded-xl text-center border-t-4 border-teal-500">
+         <p class="text-4xl font-bold text-teal-600" id="analysis-pass">0</p>
+         <p class="text-sm text-gray-600 mt-2">متقنات (60%+)</p>
+        </div>
+        <div class="bg-red-50 p-4 rounded-xl text-center border-t-4 border-red-500">
+         <p class="text-4xl font-bold text-red-500" id="analysis-fail">0</p>
+         <p class="text-sm text-gray-600 mt-2">يحتجن دعم</p>
+        </div>
+        <div class="bg-purple-50 p-4 rounded-xl text-center border-t-4 border-purple-500">
+         <p class="text-4xl font-bold text-purple-600" id="analysis-skills">0</p>
+         <p class="text-sm text-gray-600 mt-2">إجمالي المهارات</p>
+        </div>
+       </div>
+       <div class="mt-8 grid md:grid-cols-2 gap-6">
+        <div class="bg-gradient-to-br from-emerald-50 to-green-50 p-6 rounded-xl border border-emerald-200">
+         <h3 class="font-bold text-lg mb-4 flex items-center gap-2"><i data-lucide="trending-up" class="w-5 h-5 text-emerald-600"></i> أعلى المهارات إتقاناً</h3>
+         <div id="top-skills" class="space-y-2"></div>
+        </div>
+        <div class="bg-gradient-to-br from-orange-50 to-red-50 p-6 rounded-xl border border-orange-200">
+         <h3 class="font-bold text-lg mb-4 flex items-center gap-2"><i data-lucide="trending-down" class="w-5 h-5 text-orange-600"></i> المهارات التي تحتاج تركيز</h3>
+         <div id="weak-skills" class="space-y-2"></div>
+        </div>
+       </div>
+      </div>
+     </div><!-- LOSS PAGE -->
+     <div id="page-loss" class="page-hidden animate-fade">
+      <div class="bg-white rounded-2xl shadow-lg p-6">
+       <h2 class="text-2xl font-bold mb-6 flex items-center gap-2"><i data-lucide="alert-circle" class="w-8 h-8 text-red-600"></i> الفاقد التعليمي</h2>
+       <div class="bg-red-50 p-4 rounded-xl border border-red-200 mb-6">
+        <p class="text-sm text-red-900"><strong>⚠️ الفاقد التعليمي:</strong> المهارات التي لم تتقنها الطالبات أو تحتاج تركيز إضافي</p>
+       </div>
+       <div id="loss-list" class="space-y-4"></div>
+       <div id="no-loss" class="text-center py-12 text-gray-400">
+        <p class="text-5xl mb-2">✅</p>
+        <p>ممتاز! جميع الطالبات متقدمات</p>
+       </div>
+      </div>
+     </div><!-- REMEDIAL PAGE -->
+     <div id="page-remedial" class="page-hidden animate-fade">
+      <div class="bg-white rounded-2xl shadow-lg p-6">
+       <h2 class="text-2xl font-bold mb-6 flex items-center gap-2"><i data-lucide="shield-alert" class="w-8 h-8 text-orange-600"></i> الخطط العلاجية</h2>
+       <div class="bg-orange-50 p-4 rounded-xl border border-orange-200 mb-6">
+        <p class="text-sm text-orange-900"><strong>🛡️ خطط علاجية:</strong> خطط متخصصة للطالبات اللاتي معدلهن أقل من 60%</p>
+       </div>
+       <div id="remedial-list" class="space-y-4"></div>
+       <div id="no-remedial" class="text-center py-12 text-gray-400">
+        <p class="text-5xl mb-2">✅</p>
+        <p>جميع الطالبات متقدمات - لا توجد خطط علاجية مطلوبة</p>
+       </div>
+      </div>
+     </div><!-- ENRICHMENT PAGE -->
+     <div id="page-enrichment" class="page-hidden animate-fade">
+      <div class="bg-white rounded-2xl shadow-lg p-6">
+       <h2 class="text-2xl font-bold mb-6 flex items-center gap-2"><i data-lucide="rocket" class="w-8 h-8 text-rose-600"></i> الخطط الإثرائية</h2>
+       <div class="bg-rose-50 p-4 rounded-xl border border-rose-200 mb-6">
+        <p class="text-sm text-rose-900"><strong>🚀 خطط إثرائية:</strong> خطط متقدمة للطالبات اللاتي معدلهن 85% فما فوق</p>
+       </div>
+       <div id="enrichment-list" class="space-y-4"></div>
+       <div id="no-enrichment" class="text-center py-12 text-gray-400">
+        <p class="text-5xl mb-2">🚀</p>
+        <p>لا توجد متفوقات بعد - استمري في الجهد!</p>
+       </div>
+      </div>
+     </div><!-- EXCELLENCE PAGE -->
+     <div id="page-excellence" class="page-hidden animate-fade">
+      <div class="bg-white rounded-2xl shadow-lg p-6">
+       <h2 class="text-2xl font-bold mb-6 flex items-center gap-2"><i data-lucide="star" class="w-8 h-8 text-yellow-600"></i> لوحة الشرف</h2>
+       <div id="excellence-list" class="grid md:grid-cols-2 gap-4"></div>
+       <div id="no-excellence" class="text-center py-12 text-gray-400">
+        <p class="text-5xl mb-2">⭐</p>
+        <p>لا توجد متفوقات بعد</p>
+       </div>
+      </div>
+     </div><!-- QUESTIONS PAGE -->
+     <div id="page-questions" class="page-hidden animate-fade">
+      <div class="bg-white rounded-2xl shadow-lg p-6">
+       <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold flex items-center gap-2"><i data-lucide="help-circle" class="w-8 h-8 text-indigo-600"></i> بنك الأسئلة</h2><button onclick="showAddQuestionModal()" class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-xl font-bold flex items-center gap-2"> <i data-lucide="plus" class="w-5 h-5"></i> إضافة سؤال </button>
+       </div>
+       <div id="questions-list" class="space-y-3"></div>
+       <div id="no-questions" class="text-center py-12 text-gray-400">
+        <p class="text-5xl mb-2">❓</p>
+        <p>لا توجد أسئلة حتى الآن</p>
+       </div>
+      </div>
+     </div><!-- PARENTS PAGE -->
+     <div id="page-parents" class="page-hidden animate-fade">
+      <div class="bg-white rounded-2xl shadow-lg p-6">
+       <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold flex items-center gap-2"><i data-lucide="message-circle" class="w-8 h-8 text-pink-600"></i> ملاحظات الأمور</h2><button onclick="showAddNoteModal()" class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-xl font-bold flex items-center gap-2"> <i data-lucide="plus" class="w-5 h-5"></i> إضافة ملاحظة </button>
+       </div>
+       <div id="notes-list" class="space-y-3"></div>
+       <div id="no-notes" class="text-center py-12 text-gray-400">
+        <p class="text-5xl mb-2">💬</p>
+        <p>لا توجد ملاحظات</p>
+       </div>
+      </div>
+     </div><!-- SETTINGS PAGE -->
+     <div id="page-settings" class="page-hidden animate-fade">
+      <div class="bg-white rounded-2xl shadow-lg p-6">
+       <h2 class="text-2xl font-bold mb-6 flex items-center gap-2"><i data-lucide="settings" class="w-8 h-8 text-gray-600"></i> الإعدادات</h2>
+       <div class="space-y-6">
+        <div class="p-6 bg-emerald-50 rounded-xl border border-emerald-200">
+         <h3 class="text-lg font-bold mb-4">🏢 بيانات المدرسة</h3>
+         <div class="grid md:grid-cols-2 gap-4">
+          <div><label class="block text-sm font-bold mb-2">اسم المدرسة</label> <input type="text" id="school-name-input" placeholder="أدخل اسم المدرسة" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500">
+          </div>
+          <div><label class="block text-sm font-bold mb-2">اسم المعلمة</label> <input type="text" id="teacher-name-input" placeholder="أدخل اسم المعلمة" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500">
+          </div>
+          <div><label class="block text-sm font-bold mb-2">اسم المديرة</label> <input type="text" id="director-name-input" placeholder="أدخل اسم المديرة" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500">
+          </div>
+          <div><label class="block text-sm font-bold mb-2">السنة الدراسية</label> <input type="text" id="academic-year-input" value="1446هـ" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500">
+          </div>
+         </div><button onclick="saveBasicSettings()" class="w-full mt-4 bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3 rounded-xl font-bold flex items-center justify-center gap-2"> <i data-lucide="save" class="w-5 h-5"></i> حفظ الإعدادات </button>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </main>
+  </div><!-- MODAL -->
+  <div id="modal-overlay" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 p-4" onclick="closeModal(event)">
+   <div id="modal-content" class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto" onclick="event.stopPropagation()"></div>
+  </div><!-- TOAST -->
+  <div id="toast-container" class="fixed bottom-4 right-4 md:right-4 md:w-80 z-50 space-y-2"></div>
+  <script>
+    // تهيئة PDF.js
+    if (typeof pdfjsLib !== 'undefined') {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    }
 
-    <style>
-        body { font-family: 'Tajawal', sans-serif; background-color: #f0fdf4; }
-        .sidebar-item-active { background-color: #166534; border-left: 4px solid #facc15; }
-        .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
-        input[type="number"]::-webkit-inner-spin-button { display: none; }
-        @media print { .no-print { display: none !important; } .print-only { display: block !important; } }
-        .print-only { display: none; }
-    </style>
-</head>
-<body class="text-gray-800">
+    let appData = {
+      classes: [], students: [], skills: [], units: [], grades: [],
+      questions: [], notes: [], plans: [], curriculum: [],
+      resources: [], games: []
+    };
 
-    <div id="app" class="flex min-h-screen">
-        <!-- Sidebar Navigation -->
-        <aside class="no-print w-64 bg-green-900 text-white flex-shrink-0 flex flex-col shadow-2xl transition-all duration-300">
-            <div class="p-6 text-center border-b border-green-800">
-                <div class="w-16 h-16 bg-white rounded-full mx-auto mb-3 flex items-center justify-center shadow-inner">
-                    <span class="text-green-800 text-2xl font-black">📖</span>
-                </div>
-                <h1 class="text-lg font-black leading-tight">منصة التوحيد</h1>
-                <p class="text-xs text-green-300 mt-1">نظام التحليل المتطور</p>
-            </div>
-            
-            <nav class="flex-1 overflow-y-auto py-4 space-y-1 custom-scrollbar">
-                <button onclick="router('dashboard')" class="nav-btn w-full flex items-center p-4 hover:bg-green-800 transition" data-view="dashboard">
-                    <span class="ml-3">🏠</span> لوحة التحكم
-                </button>
-                <button onclick="router('basic-info')" class="nav-btn w-full flex items-center p-4 hover:bg-green-800 transition" data-view="basic-info">
-                    <span class="ml-3">📋</span> البيانات الأساسية
-                </button>
-                <button onclick="router('classes')" class="nav-btn w-full flex items-center p-4 hover:bg-green-800 transition" data-view="classes">
-                    <span class="ml-3">🏫</span> إدارة الفصول
-                </button>
-                <button onclick="router('students')" class="nav-btn w-full flex items-center p-4 hover:bg-green-800 transition" data-view="students">
-                    <span class="ml-3">👩‍🎓</span> إدارة الطالبات
-                </button>
-                <button onclick="router('syllabus')" class="nav-btn w-full flex items-center p-4 hover:bg-green-800 transition" data-view="syllabus">
-                    <span class="ml-3">📚</span> المنهج والمهارات
-                </button>
-                <button onclick="router('grades')" class="nav-btn w-full flex items-center p-4 hover:bg-green-800 transition" data-view="grades">
-                    <span class="ml-3">📝</span> إدخال الدرجات
-                </button>
-                <button onclick="router('analysis')" class="nav-btn w-full flex items-center p-4 hover:bg-green-800 transition" data-view="analysis">
-                    <span class="ml-3">📊</span> التحليل الإحصائي
-                </button>
-                <button onclick="router('missing-gap')" class="nav-btn w-full flex items-center p-4 hover:bg-green-800 transition" data-view="missing-gap">
-                    <span class="ml-3">📉</span> الفاقد التعليمي
-                </button>
-                <button onclick="router('remedial')" class="nav-btn w-full flex items-center p-4 hover:bg-green-800 transition" data-view="remedial">
-                    <span class="ml-3">🩺</span> الخطط العلاجية
-                </button>
-                <button onclick="router('enrichment')" class="nav-btn w-full flex items-center p-4 hover:bg-green-800 transition" data-view="enrichment">
-                    <span class="ml-3">🌟</span> الخطط الإثرائية
-                </button>
-                <button onclick="router('honor-roll')" class="nav-btn w-full flex items-center p-4 hover:bg-green-800 transition" data-view="honor-roll">
-                    <span class="ml-3">🏆</span> لوحة الشرف
-                </button>
-                <button onclick="router('q-bank')" class="nav-btn w-full flex items-center p-4 hover:bg-green-800 transition" data-view="q-bank">
-                    <span class="ml-3">❓</span> بنك الأسئلة
-                </button>
-                <button onclick="router('parents')" class="nav-btn w-full flex items-center p-4 hover:bg-green-800 transition" data-view="parents">
-                    <span class="ml-3">👨‍👩‍👧</span> أولياء الأمور
-                </button>
-                <button onclick="router('resources')" class="nav-btn w-full flex items-center p-4 hover:bg-green-800 transition" data-view="resources">
-                    <span class="ml-3">🎮</span> المصادر والألعاب
-                </button>
-                <button onclick="router('reports')" class="nav-btn w-full flex items-center p-4 hover:bg-green-800 transition" data-view="reports">
-                    <span class="ml-3">📄</span> التقارير النهائية
-                </button>
-            </nav>
-        </aside>
+    let pendingCurriculum = null;
 
-        <!-- Main Content Area -->
-        <main class="flex-1 overflow-y-auto relative h-screen">
-            <!-- Header -->
-            <header class="no-print bg-white p-6 shadow-sm flex justify-between items-center sticky top-0 z-10 border-b-4 border-green-600">
-                <div class="flex items-center gap-4">
-                    <h2 id="view-title" class="text-2xl font-black text-green-900">لوحة التحكم</h2>
-                </div>
-                <div class="flex items-center gap-4">
-                    <div id="save-indicator" class="text-xs bg-green-100 text-green-700 px-3 py-1 rounded-full font-bold opacity-0 transition-opacity">تم الحفظ ✓</div>
-                    <span class="text-sm font-bold text-gray-500" id="current-date"></span>
-                </div>
-            </header>
+    const dataHandler = {
+      onDataChanged(data) {
+        appData.classes = data.filter(d => d.type === 'class');
+        appData.students = data.filter(d => d.type === 'student');
+        appData.skills = data.filter(d => d.type === 'skill');
+        appData.units = data.filter(d => d.type === 'unit');
+        appData.grades = data.filter(d => d.type === 'grade');
+        appData.questions = data.filter(d => d.type === 'question');
+        appData.notes = data.filter(d => d.type === 'note');
+        appData.plans = data.filter(d => d.type === 'plan');
+        appData.resources = data.filter(d => d.type === 'resource');
+        appData.games = data.filter(d => d.type === 'game');
+        
+        generatePlans();
+        updateStats();
+        renderCurrentPage();
+        lucide.createIcons();
+      }
+    };
 
-            <div id="content-loader" class="p-8 pb-20">
-                <!-- VIEWS ARE INJECTED HERE -->
+    function waitForLucide() {
+      return new Promise((resolve) => {
+        let attempts = 0;
+        const check = () => {
+          attempts++;
+          if (window.lucide && window.lucide.createIcons && typeof window.lucide.createIcons === 'function') {
+            try {
+              window.lucide.createIcons();
+            } catch (e) {
+              console.error('Lucide error:', e);
+            }
+            resolve();
+          } else if (attempts < 100) {
+            setTimeout(check, 50);
+          } else {
+            console.warn('Lucide timeout - retrying');
+            resolve();
+          }
+        };
+        check();
+      });
+    }
 
-                <!-- DASHBOARD VIEW -->
-                <div id="view-dashboard" class="view space-y-8">
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        <div class="bg-white p-6 rounded-3xl shadow-sm border-r-4 border-blue-500">
-                            <p class="text-sm font-bold text-gray-500">إجمالي الطالبات</p>
-                            <h3 class="text-3xl font-black text-blue-900" id="stat-total-students">0</h3>
-                        </div>
-                        <div class="bg-white p-6 rounded-3xl shadow-sm border-r-4 border-green-500">
-                            <p class="text-sm font-bold text-gray-500">نسبة النجاح العامة</p>
-                            <h3 class="text-3xl font-black text-green-900" id="stat-success-rate">0%</h3>
-                        </div>
-                        <div class="bg-white p-6 rounded-3xl shadow-sm border-r-4 border-yellow-500">
-                            <p class="text-sm font-bold text-gray-500">الفاقد التعليمي</p>
-                            <h3 class="text-3xl font-black text-yellow-900" id="stat-gap-count">0</h3>
-                        </div>
-                        <div class="bg-white p-6 rounded-3xl shadow-sm border-r-4 border-purple-500">
-                            <p class="text-sm font-bold text-gray-500">المهارات المقاسة</p>
-                            <h3 class="text-3xl font-black text-purple-900" id="stat-skills-count">0</h3>
-                        </div>
-                    </div>
+    // محاولة مباشرة عند تحميل الصفحة
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', waitForLucide);
+    } else {
+      waitForLucide();
+    }
 
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                        <div class="bg-white p-6 rounded-3xl shadow-sm h-[400px]">
-                            <h4 class="font-black mb-4">توزيع المستويات العام</h4>
-                            <canvas id="mainLevelChart"></canvas>
-                        </div>
-                        <div class="bg-white p-6 rounded-3xl shadow-sm">
-                            <h4 class="font-black mb-4">أعلى الفصول أداءً</h4>
-                            <div id="top-classes-list" class="space-y-4">
-                                <!-- Dynamic List -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    async function handlePdfUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
 
-                <!-- BASIC INFO VIEW -->
-                <div id="view-basic-info" class="view hidden max-w-2xl mx-auto">
-                    <div class="bg-white p-8 rounded-3xl shadow-sm space-y-6">
-                        <h3 class="text-xl font-black text-green-800 mb-6 border-b pb-2">بيانات المدرسة والمعلمة</h3>
-                        <div class="grid grid-cols-1 gap-4">
-                            <div>
-                                <label class="block text-sm font-bold mb-2">اسم المدرسة</label>
-                                <input type="text" id="info-school" oninput="saveData()" class="w-full bg-gray-50 border rounded-xl p-3 outline-none focus:ring-2 focus:ring-green-500">
-                            </div>
-                            <div class="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label class="block text-sm font-bold mb-2">اسم المعلمة</label>
-                                    <input type="text" id="info-teacher" oninput="saveData()" class="w-full bg-gray-50 border rounded-xl p-3 outline-none focus:ring-2 focus:ring-green-500">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-bold mb-2">اسم المشرفة</label>
-                                    <input type="text" id="info-supervisor" oninput="saveData()" class="w-full bg-gray-50 border rounded-xl p-3 outline-none focus:ring-2 focus:ring-green-500">
-                                </div>
-                            </div>
-                            <div class="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label class="block text-sm font-bold mb-2">العام الدراسي</label>
-                                    <input type="text" id="info-year" oninput="saveData()" class="w-full bg-gray-50 border rounded-xl p-3 outline-none focus:ring-2 focus:ring-green-500">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-bold mb-2">الفصل الدراسي</label>
-                                    <select id="info-term" onchange="saveData()" class="w-full bg-gray-50 border rounded-xl p-3">
-                                        <option value="1">الفصل الأول</option>
-                                        <option value="2">الفصل الثاني</option>
-                                        <option value="3">الفصل الثالث</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+      if (!file.name.endsWith('.pdf')) {
+        showToast('❌ يجب اختيار ملف PDF', 'error');
+        return;
+      }
 
-                <!-- CLASSES VIEW -->
-                <div id="view-classes" class="view hidden space-y-6">
-                    <div class="bg-white p-6 rounded-3xl shadow-sm flex items-end gap-4">
-                        <div class="flex-1">
-                            <label class="block text-sm font-bold mb-2">رقم/اسم الفصل</label>
-                            <input type="text" id="class-input-name" placeholder="مثال: 101" class="w-full bg-gray-50 border rounded-xl p-3">
-                        </div>
-                        <div class="flex-1">
-                            <label class="block text-sm font-bold mb-2">الصف</label>
-                            <select id="class-input-grade" class="w-full bg-gray-50 border rounded-xl p-3">
-                                <option value="أول ثانوي">أول ثانوي</option>
-                                <option value="ثاني ثانوي">ثاني ثانوي</option>
-                                <option value="ثالث ثانوي">ثالث ثانوي</option>
-                            </select>
-                        </div>
-                        <button onclick="addClass()" class="bg-green-600 text-white font-black px-8 py-3 rounded-xl hover:bg-green-700 transition">إضافة فصل</button>
+      showProgress(true);
+
+      try {
+        const arrayBuffer = await file.arrayBuffer();
+        
+        if (!window.pdfjsLib) {
+          throw new Error('مكتبة PDF.js لم تُحمّل بعد. حاولي مرة أخرى');
+        }
+
+        // جرّب استخراج النص
+        let fullText = '';
+        const pdf = await window.pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+        
+        for (let i = 1; i <= Math.min(pdf.numPages, 50); i++) {
+          try {
+            const page = await pdf.getPage(i);
+            const textContent = await page.getTextContent();
+            fullText += textContent.items.map(item => item.str).join(' ') + '\n';
+          } catch (pageErr) {
+            console.warn(`تحذير: لم أتمكن من قراءة الصفحة ${i}`);
+          }
+        }
+
+        if (!fullText || fullText.trim().length < 10) {
+          showToast('⚠️ الملف قد يكون ممسوحاً ضوئياً. اتبعي الخطوات البسيطة', 'warning');
+          showProgress(false);
+          
+          // عرض خيار بديل
+          document.getElementById('modal-overlay').classList.remove('hidden');
+          document.getElementById('modal-overlay').classList.add('flex');
+          document.getElementById('modal-content').innerHTML = `
+            <div class="p-6 max-w-2xl">
+              <h3 class="text-xl font-bold mb-4 text-orange-600 flex items-center gap-2"><i data-lucide="alert-triangle" class="w-6 h-6"></i> الملف ممسوح ضوئياً</h3>
+              
+              <div class="space-y-4 mb-6">
+                <div class="bg-gradient-to-r from-blue-50 to-cyan-50 p-4 rounded-lg border-l-4 border-blue-500">
+                  <p class="text-sm font-semibold text-blue-900 mb-3">📋 3 طرق لاستخراج النص:</p>
+                  
+                  <div class="space-y-3">
+                    <div class="bg-white p-3 rounded">
+                      <p class="font-bold text-sm text-gray-800">1️⃣ استخدمي Google Drive (الأسهل)</p>
+                      <ol class="text-xs text-gray-700 mt-2 space-y-1 mr-4">
+                        <li>• حملي الملف على Google Drive</li>
+                        <li>• اضغطي كليك يمين → افتحي مع → Google Docs</li>
+                        <li>• انسخي النص وأمسكي بـ Ctrl+A ثم Ctrl+C</li>
+                        <li>• الصقيه هنا 👇</li>
+                      </ol>
                     </div>
                     
-                    <div id="classes-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <!-- Classes -->
+                    <div class="bg-white p-3 rounded">
+                      <p class="font-bold text-sm text-gray-800">2️⃣ استخدمي تطبيق OCR مجاني</p>
+                      <ol class="text-xs text-gray-700 mt-2 space-y-1 mr-4">
+                        <li>• ادخلي <a href="https://www.onlineocr.net" target="_blank" class="text-blue-600 hover:underline">onlineocr.net</a></li>
+                        <li>• حملي الملف وانتظري</li>
+                        <li>• انسخي النص الناتج 👇</li>
+                      </ol>
                     </div>
+                    
+                    <div class="bg-white p-3 rounded">
+                      <p class="font-bold text-sm text-gray-800">3️⃣ انسخي يدوياً من القارئ</p>
+                      <ol class="text-xs text-gray-700 mt-2 space-y-1 mr-4">
+                        <li>• افتحي الملف بقارئ PDF</li>
+                        <li>• اكتبي الوحدات والدروس والمهارات</li>
+                        <li>• الصقيها هنا 👇</li>
+                      </ol>
+                    </div>
+                  </div>
                 </div>
 
-                <!-- SYLLABUS VIEW -->
-                <div id="view-syllabus" class="view hidden space-y-8">
-                    <div class="bg-white p-10 rounded-3xl shadow-sm text-center border-4 border-dashed border-green-200">
-                        <h3 class="text-2xl font-black text-green-900 mb-4">رفع المنهج وتحليل المهارات</h3>
-                        <p class="text-gray-500 mb-8 max-w-md mx-auto">ارفع ملف المنهج (PDF) ليقوم النظام تلقائياً باستخراج الوحدات السبع، الدروس، والمهارات المرافقة.</p>
-                        
-                        <div class="flex flex-col items-center gap-4">
-                            <input type="file" id="pdf-file" accept="application/pdf" class="hidden" onchange="handlePDFUpload(this)">
-                            <button onclick="document.getElementById('pdf-file').click()" class="bg-green-600 text-white px-12 py-4 rounded-2xl font-black text-lg shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all">
-                                📁 اختر ملف المنهج PDF
-                            </button>
-                            <div id="pdf-status" class="text-sm font-bold text-blue-600 mt-2"></div>
-                        </div>
-                    </div>
+                <textarea id="manual-curriculum" placeholder="⬇️ الصق محتوى المنهج هنا:
 
-                    <div class="flex justify-between items-center">
-                        <h3 class="text-xl font-black">هيكل المنهج الحالي</h3>
-                        <button onclick="addUnitManual()" class="bg-blue-600 text-white text-xs px-4 py-2 rounded-lg font-bold">إضافة وحدة يدوياً +</button>
-                    </div>
+مثال 1 - صيغة بسيطة:
+وحدة 1: التوحيد
+درس 1: مقدمة في التوحيد
+درس 2: أنواع التوحيد
+مهارة: فهم مفهوم التوحيد
+مهارة: تطبيق أحكام التوحيد
 
-                    <div id="syllabus-container" class="grid grid-cols-1 gap-6">
-                        <!-- Units / Lessons / Skills -->
-                    </div>
+مثال 2 - صيغة أخرى:
+الوحدة الأولى
+- الدرس الأول
+- الدرس الثاني
+- المهارة الأولى
+- المهارة الثانية
+
+اختاري الصيغة التي تفضلينها ✨" rows="8" class="w-full px-4 py-3 border-2 border-blue-300 rounded-lg focus:ring-2 focus:ring-blue-500 font-arabic text-sm"></textarea>
+              </div>
+
+              <div class="flex gap-3 mt-6">
+                <button onclick="processManualCurriculum()" class="flex-1 bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2">
+                  <i data-lucide="check-circle" class="w-5 h-5"></i> معالجة المحتوى ✨
+                </button>
+                <button onclick="closeModal()" class="flex-1 bg-gray-300 hover:bg-gray-400 py-3 rounded-xl font-bold flex items-center justify-center gap-2">
+                  <i data-lucide="x" class="w-5 h-5"></i> إلغاء
+                </button>
+              </div>
+            </div>
+          `;
+          lucide.createIcons();
+          return;
+        }
+
+        const extracted = smartExtractCurriculum(fullText);
+        if (extracted.length > 0) {
+          pendingCurriculum = extracted;
+          showCurriculumSelection(extracted);
+          showProgress(false);
+        } else {
+          showToast('❌ لم أتمكن من استخراج البيانات من PDF', 'error');
+          showProgress(false);
+        }
+      } catch (err) {
+        console.error('PDF Error:', err);
+        showToast('❌ خطأ: ' + err.message, 'error');
+        showProgress(false);
+      }
+    }
+
+    function processManualCurriculum() {
+      const text = document.getElementById('manual-curriculum').value.trim();
+      if (!text) {
+        showToast('⚠️ الصقي محتوى المنهج أولاً', 'error');
+        return;
+      }
+
+      const extracted = smartExtractCurriculum(text);
+      if (extracted.length > 0) {
+        pendingCurriculum = extracted;
+        closeModal();
+        showPage('curriculum');
+        showCurriculumSelection(extracted);
+        showToast('✅ تم معالجة المحتوى بنجاح!', 'success');
+      } else {
+        showToast('❌ لم أتمكن من معالجة المحتوى. حاولي صيغة أخرى', 'error');
+      }
+    }
+
+    function smartExtractCurriculum(text) {
+      const units = [];
+      const lines = text.split(/[\n\r]+/).map(l => l.trim()).filter(l => l.length > 0);
+      
+      let currentUnit = null;
+      let currentLesson = null;
+
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+        const nextLine = i + 1 < lines.length ? lines[i + 1] : '';
+        
+        // كشف الوحدات بدقة عالية
+        if (/^(وحدة|الوحدة|Unit)\s*[\d،\.:\-]?\s*(.+)?/i.test(line) && 
+            !line.includes('درس') && !line.includes('Lesson')) {
+          
+          // حفظ الوحدة السابقة
+          if (currentUnit && (currentUnit.lessons.length > 0 || currentUnit.skills.length > 0)) {
+            units.push(currentUnit);
+          }
+          
+          let unitName = line
+            .replace(/^(وحدة|الوحدة|Unit)\s*[\d،\.:\-]?\s*/i, '')
+            .trim();
+          
+          if (!unitName || unitName.length < 2) {
+            unitName = `الوحدة ${units.length + 1}`;
+          }
+          
+          currentUnit = {
+            name: unitName,
+            lessons: [],
+            skills: []
+          };
+          currentLesson = null;
+          continue;
+        }
+
+        // إذا لم نجد وحدة بعد، أنشئ واحدة افتراضية
+        if (!currentUnit) {
+          currentUnit = {
+            name: 'الوحدة الأولى',
+            lessons: [],
+            skills: []
+          };
+        }
+
+        // كشف الدروس
+        if (/^(درس|الدرس|Lesson|Leçon|محتوى|مقرر)\s*[\d،\.:\-]?\s*(.+)?/i.test(line)) {
+          let lessonName = line
+            .replace(/^(درس|الدرس|Lesson|Leçon|محتوى|مقرر)\s*[\d،\.:\-]?\s*/i, '')
+            .trim();
+          
+          // تنظيف الاسم
+          lessonName = lessonName
+            .replace(/^[\-\•●◦→✓✔━ــ\[\]]+\s*/, '')
+            .replace(/\s+/g, ' ')
+            .trim();
+          
+          if (lessonName.length > 1 && !currentUnit.lessons.includes(lessonName)) {
+            currentLesson = lessonName;
+            currentUnit.lessons.push(lessonName);
+          }
+          continue;
+        }
+
+        // كشف المهارات والأهداف
+        if (/^(المهارة|الهدف|الكفاية|المخرجات|النواتج|الأداء|Skill|Objective|Competency|Learning Outcome)\s*[\d،\.:\-]?\s*(.+)?/i.test(line)) {
+          let skillName = line
+            .replace(/^(المهارة|الهدف|الكفاية|المخرجات|النواتج|الأداء|Skill|Objective|Competency|Learning Outcome)\s*[\d،\.:\-]?\s*/i, '')
+            .trim();
+          
+          skillName = skillName
+            .replace(/^[\-\•●◦→✓✔━ــ\[\]]+\s*/, '')
+            .replace(/\s+/g, ' ')
+            .trim();
+          
+          if (skillName.length > 1 && !currentUnit.skills.includes(skillName)) {
+            currentUnit.skills.push(skillName);
+          }
+          continue;
+        }
+
+        // كشف العناصر ذات الرموز (نقاط البيان)
+        if (/^[\-\•●◦→✓✔☐▪▫]\s+(.+)/.test(line)) {
+          const content = line.replace(/^[\-\•●◦→✓✔☐▪▫]\s+/, '').trim();
+          
+          // تحديد ما إذا كانت مهارة أو درس
+          if (/[ا-ي]{20,}|^[A-Z]/.test(content) && content.length > 3) {
+            if (!currentUnit.skills.includes(content)) {
+              currentUnit.skills.push(content);
+            }
+          }
+          continue;
+        }
+
+        // كشف النصوص الطويلة كمهارات
+        if (line.length > 10 && line.length < 150 && 
+            /[ا-ي]/.test(line) &&
+            !line.match(/^(الصفحة|الفصل|الباب|الجزء|الملحق)/i) &&
+            !line.match(/^(Table|Contents|Index|Chapter)/i)) {
+          
+          // تحديد ما إذا كانت مهارة جديدة
+          if (currentUnit.skills.length < 20 && !currentUnit.skills.includes(line)) {
+            if (!line.match(/والشروط|والقواعد|والمعايير|والملاحظات/) &&
+                line.length > 5) {
+              currentUnit.skills.push(line);
+            }
+          }
+        }
+      }
+
+      // إضافة الوحدة الأخيرة
+      if (currentUnit && (currentUnit.lessons.length > 0 || currentUnit.skills.length > 0)) {
+        units.push(currentUnit);
+      }
+
+      // إذا لم نجد أي شيء، حاول طريقة ثانية
+      if (units.length === 0 || (units.length === 1 && units[0].skills.length === 0 && units[0].lessons.length === 0)) {
+        const allLessons = [];
+        const allSkills = [];
+        
+        lines.forEach(line => {
+          if (line.length > 5 && line.length < 100) {
+            if (/درس|Lesson|lesson|محتوى/.test(line)) {
+              const name = line.replace(/درس|Lesson|lesson|محتوى/i, '').trim();
+              if (name.length > 1 && !allLessons.includes(name)) {
+                allLessons.push(name);
+              }
+            } else if (/مهارة|هدف|كفاية|objective|skill|competency/i.test(line)) {
+              const name = line.replace(/مهارة|هدف|كفاية|objective|skill|competency/i, '').trim();
+              if (name.length > 1 && !allSkills.includes(name)) {
+                allSkills.push(name);
+              }
+            } else if (/[ا-ي]/.test(line) && !line.match(/^(الصفحة|الفصل|الباب)/)) {
+              allSkills.push(line);
+            }
+          }
+        });
+
+        if (allSkills.length > 0 || allLessons.length > 0) {
+          units.push({
+            name: 'المحتوى الدراسي',
+            lessons: allLessons.slice(0, 15),
+            skills: allSkills.slice(0, 20)
+          });
+        }
+      }
+
+      // تنظيف وحذف التكرار
+      return units.map(u => ({
+        name: u.name,
+        lessons: [...new Set(u.lessons)],
+        skills: [...new Set(u.skills)]
+      })).filter(u => u.lessons.length > 0 || u.skills.length > 0);
+    }
+
+    function showProgress(show) {
+      document.getElementById('pdf-upload-progress').className = show ? '' : 'hidden';
+    }
+
+    function showCurriculumSelection(units) {
+      const preview = document.getElementById('curriculum-preview');
+      const unitsPreview = document.getElementById('units-preview');
+      
+      unitsPreview.innerHTML = units.map((u, idx) => `
+        <div class="bg-white p-4 rounded-lg border-2 border-gray-200 hover:border-green-500 transition">
+          <div class="flex items-start gap-3">
+            <input type="checkbox" class="unit-check mt-1" value="${idx}" checked>
+            <div class="flex-grow">
+              <p class="font-bold text-gray-800">${u.name}</p>
+              <div class="mt-2 text-xs space-y-1">
+                ${u.lessons.length > 0 ? `<p class="text-gray-600"><strong>📖 ${u.lessons.length} درس:</strong> ${u.lessons.slice(0, 3).join('، ')}${u.lessons.length > 3 ? '...' : ''}</p>` : ''}
+                ${u.skills.length > 0 ? `<p class="text-gray-600"><strong>🎯 ${u.skills.length} مهارة:</strong> ${u.skills.slice(0, 3).join('، ')}${u.skills.length > 3 ? '...' : ''}</p>` : ''}
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      preview.classList.remove('hidden');
+    }
+
+    function resetCurriculumUpload() {
+      document.getElementById('curriculum-file').value = '';
+      document.getElementById('curriculum-preview').classList.add('hidden');
+      pendingCurriculum = null;
+      showProgress(false);
+    }
+
+    async function confirmImportCurriculum() {
+      const checked = Array.from(document.querySelectorAll('.unit-check:checked'));
+      const selectedIndices = checked.map(el => parseInt(el.value));
+      
+      if (selectedIndices.length === 0) {
+        showToast('⚠️ اختاري وحدة واحدة على الأقل', 'warning');
+        return;
+      }
+
+      showProgress(true);
+      let importedCount = 0;
+
+      for (const idx of selectedIndices) {
+        const unit = pendingCurriculum[idx];
+        
+        // حفظ الوحدة
+        const unitId = 'unit_' + Date.now() + '_' + Math.random().toString(36).slice(2, 9);
+        const unitRes = await window.dataSdk.create({
+          id: unitId,
+          type: 'unit',
+          name: unit.name,
+          unit_name: unit.name,
+          skill_name: '',
+          lesson_name: '',
+          class_id: '',
+          student_id: '',
+          grade: 0,
+          max_grade: 0,
+          created_at: new Date().toISOString()
+        });
+
+        if (unitRes.isOk) {
+          importedCount++;
+
+          // حفظ الدروس
+          for (const lesson of unit.lessons) {
+            await window.dataSdk.create({
+              id: 'lesson_' + Date.now() + '_' + Math.random().toString(36).slice(2, 9),
+              type: 'lesson',
+              name: lesson,
+              lesson_name: lesson,
+              unit_name: unit.name,
+              skill_name: '',
+              class_id: unitId,
+              student_id: '',
+              grade: 0,
+              max_grade: 0,
+              created_at: new Date().toISOString()
+            });
+          }
+
+          // توليد المهارات تلقائياً
+          const skillsToCreate = unit.skills.length > 0 ? unit.skills : generateDefaultSkills();
+          
+          for (const skill of skillsToCreate) {
+            await window.dataSdk.create({
+              id: 'skill_' + Date.now() + '_' + Math.random().toString(36).slice(2, 9),
+              type: 'skill',
+              name: skill,
+              skill_name: skill,
+              unit_name: unit.name,
+              lesson_name: unit.lessons[0] || 'درس عام',
+              class_id: unitId,
+              student_id: '',
+              grade: 0,
+              max_grade: 10,
+              created_at: new Date().toISOString()
+            });
+          }
+        }
+      }
+
+      showProgress(false);
+      showToast(`✅ تم استيراد ${importedCount} وحدات مع جميع الدروس والمهارات!`, 'success');
+      resetCurriculumUpload();
+      setTimeout(() => {
+        showPage('curriculum');
+        renderCurriculum();
+        updateStats();
+      }, 500);
+    }
+
+    function generateDefaultSkills() {
+      return [
+        'فهم المفاهيم الأساسية',
+        'تطبيق المعارف عملياً',
+        'التحليل والاستنتاج',
+        'الحفظ والاستذكار',
+        'التقييم الذاتي'
+      ];
+    }
+
+    function renderCurriculum() {
+      const container = document.getElementById('curriculum-list');
+      const uniqueUnits = [...new Set(appData.units.map(u => u.unit_name))];
+      
+      if (uniqueUnits.length === 0) {
+        container.innerHTML = '';
+        return;
+      }
+
+      container.innerHTML = uniqueUnits.map(unitName => {
+        const lessons = appData.units.filter(l => l.unit_name === unitName && l.type === 'lesson');
+        const skills = appData.skills.filter(s => s.unit_name === unitName);
+        
+        return `
+          <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-5 rounded-xl border-2 border-blue-200 hover:shadow-lg transition">
+            <div class="flex items-start justify-between mb-4">
+              <div class="flex-grow">
+                <h3 class="font-bold text-gray-800 mb-2 text-lg">${unitName}</h3>
+                <p class="text-xs text-gray-500">📚 ${lessons.length} درس | 🎯 ${skills.length} مهارة</p>
+              </div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-4 text-sm">
+              <div class="bg-white p-3 rounded-lg">
+                <p class="font-semibold mb-2 text-gray-700">📖 الدروس</p>
+                <div class="space-y-1">
+                  ${lessons.length > 0 ? lessons.map(l => `<p class="text-gray-600">✓ ${l.lesson_name}</p>`).join('') : '<p class="text-gray-400 text-xs">لا توجد دروس</p>'}
                 </div>
-
-                <!-- STUDENTS VIEW -->
-                <div id="view-students" class="view hidden space-y-6">
-                    <div class="bg-white p-6 rounded-3xl shadow-sm grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
-                        <div>
-                            <label class="block text-sm font-bold mb-2">اسم الطالبة</label>
-                            <input type="text" id="std-input-name" class="w-full bg-gray-50 border rounded-xl p-3">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-bold mb-2">الفصل</label>
-                            <select id="std-input-class" class="w-full bg-gray-50 border rounded-xl p-3">
-                                <!-- Options from data -->
-                            </select>
-                        </div>
-                        <button onclick="addStudent()" class="bg-green-600 text-white font-black py-3 rounded-xl hover:bg-green-700 transition">إضافة الطالبة</button>
-                    </div>
-
-                    <div class="bg-white rounded-3xl shadow-sm overflow-hidden">
-                        <table class="w-full text-right">
-                            <thead class="bg-gray-50 border-b">
-                                <tr>
-                                    <th class="p-4">الاسم</th>
-                                    <th class="p-4">الفصل</th>
-                                    <th class="p-4">التحصيل</th>
-                                    <th class="p-4">الإجراءات</th>
-                                </tr>
-                            </thead>
-                            <tbody id="students-table-body">
-                                <!-- Rows -->
-                            </tbody>
-                        </table>
-                    </div>
+              </div>
+              
+              <div class="bg-white p-3 rounded-lg">
+                <p class="font-semibold mb-2 text-gray-700">🎯 المهارات</p>
+                <div class="space-y-1 max-h-24 overflow-y-auto">
+                  ${skills.length > 0 ? skills.map(s => `<p class="text-gray-600 text-xs">✓ ${s.skill_name}</p>`).join('') : '<p class="text-gray-400 text-xs">بدون مهارات</p>'}
                 </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
 
-                <!-- GRADES VIEW -->
-                <div id="view-grades" class="view hidden space-y-6">
-                    <div class="flex flex-col md:flex-row justify-between gap-4 bg-white p-6 rounded-3xl shadow-sm">
-                        <div class="flex gap-4 items-center">
-                            <select id="grades-filter-class" onchange="renderGradesTable()" class="bg-gray-50 border rounded-xl p-3 font-bold min-w-[150px]">
-                                <!-- Options -->
-                            </select>
-                            <select id="grades-filter-period" onchange="renderGradesTable()" class="bg-gray-50 border rounded-xl p-3 font-bold">
-                                <option value="p1">الفترة الأولى</option>
-                                <option value="p2">الفترة الثانية</option>
-                            </select>
-                        </div>
-                        <div class="flex gap-2">
-                            <div class="bg-green-50 text-green-700 p-2 rounded-xl text-xs font-bold border border-green-200">المهام: 40</div>
-                            <div class="bg-blue-50 text-blue-700 p-2 rounded-xl text-xs font-bold border border-blue-200">الاختبار: 60</div>
-                        </div>
-                    </div>
+    function updateStats() {
+      document.getElementById('classes-count').textContent = appData.classes.length;
+      document.getElementById('students-count').textContent = appData.students.length;
+      document.getElementById('skills-count').textContent = appData.skills.length;
+    }
 
-                    <div class="bg-white rounded-3xl shadow-sm overflow-hidden overflow-x-auto">
-                        <table class="w-full text-right border-collapse">
-                            <thead class="bg-green-900 text-white">
-                                <tr>
-                                    <th class="p-4 border-l border-green-800">اسم الطالبة</th>
-                                    <th class="p-4 border-l border-green-800 text-center">المهام (40)</th>
-                                    <th class="p-4 border-l border-green-800 text-center">الاختبار (60)</th>
-                                    <th class="p-4 border-l border-green-800 text-center">المجموع (100)</th>
-                                    <th class="p-4 text-center">التصنيف</th>
-                                </tr>
-                            </thead>
-                            <tbody id="grades-table-body">
-                                <!-- Dynamic Rows -->
-                            </tbody>
-                        </table>
-                    </div>
+    function renderClasses() {
+      const container = document.getElementById('classes-list');
+      const noClasses = document.getElementById('no-classes');
+      
+      if (appData.classes.length === 0) {
+        container.innerHTML = '';
+        noClasses.classList.remove('hidden');
+        return;
+      }
+      
+      noClasses.classList.add('hidden');
+      container.innerHTML = appData.classes.map(c => {
+        const classStudents = appData.students.filter(s => s.class_id === c.id);
+        return `
+          <div class="bg-gradient-to-br from-emerald-50 to-green-50 p-4 rounded-xl border-l-4 border-emerald-500 hover:shadow-lg transition">
+            <div class="flex justify-between items-start">
+              <div>
+                <h4 class="font-bold text-gray-800">${c.name}</h4>
+                <p class="text-sm text-gray-600 mt-2">👥 ${classStudents.length} طالبة</p>
+              </div>
+              <button onclick="deleteData('class', '${c.__backendId}')" class="text-red-500 hover:text-red-700 text-sm">
+                <i data-lucide="trash-2" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderStudents() {
+      const container = document.getElementById('students-list');
+      const noStudents = document.getElementById('no-students');
+      
+      if (appData.students.length === 0) {
+        container.innerHTML = '';
+        noStudents.classList.remove('hidden');
+        return;
+      }
+      
+      noStudents.classList.add('hidden');
+      container.innerHTML = appData.students.map(s => {
+        const cls = appData.classes.find(c => c.id === s.class_id);
+        const grades = appData.grades.filter(g => g.student_id === s.id);
+        const avg = grades.length > 0 ? Math.round((grades.reduce((a, b) => a + b.grade, 0) / (grades.length * 10)) * 100) : 0;
+        
+        return `
+          <div class="bg-gradient-to-r from-teal-50 to-cyan-50 p-4 rounded-xl border border-teal-200 flex justify-between items-center hover:shadow-lg transition">
+            <div>
+              <p class="font-bold">${s.name}</p>
+              <p class="text-xs text-gray-600">${cls ? cls.name : 'بدون فصل'} | معدل: ${avg}%</p>
+            </div>
+            <button onclick="deleteData('student', '${s.__backendId}')" class="text-red-500 hover:text-red-700">
+              <i data-lucide="trash-2" class="w-4 h-4"></i>
+            </button>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderSkills() {
+      const container = document.getElementById('skills-list');
+      const noSkills = document.getElementById('no-skills');
+      
+      if (appData.skills.length === 0) {
+        container.innerHTML = '';
+        noSkills.classList.remove('hidden');
+        return;
+      }
+      
+      noSkills.classList.add('hidden');
+      
+      // تجميع المهارات حسب الوحدة
+      const skillsByUnit = {};
+      appData.skills.forEach(s => {
+        if (!skillsByUnit[s.unit_name]) skillsByUnit[s.unit_name] = [];
+        skillsByUnit[s.unit_name].push(s);
+      });
+
+      container.innerHTML = Object.entries(skillsByUnit).map(([unit, skills]) => `
+        <div class="bg-gradient-to-r from-lime-50 to-green-50 p-4 rounded-xl border-r-4 border-lime-500">
+          <p class="font-bold text-gray-800 mb-3">${unit} (${skills.length})</p>
+          <div class="space-y-2">
+            ${skills.map(s => `
+              <div class="bg-white p-2 rounded text-sm text-gray-700">
+                ✓ ${s.skill_name}
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function updateGradeSelects() {
+      document.getElementById('grade-class').innerHTML = '<option value="">اختر الفصل</option>' +
+        appData.classes.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+      document.getElementById('grade-skill').innerHTML = '<option value="">اختر المهارة</option>' +
+        appData.skills.map(s => `<option value="${s.id}">${s.skill_name} - ${s.unit_name}</option>`).join('');
+    }
+
+    function loadGradeForm() {
+      const classId = document.getElementById('grade-class').value;
+      const skillId = document.getElementById('grade-skill').value;
+      
+      if (!classId || !skillId) {
+        showToast('⚠️ اختر الفصل والمهارة', 'error');
+        return;
+      }
+
+      const students = appData.students.filter(s => s.class_id === classId);
+      const skill = appData.skills.find(s => s.id === skillId);
+      const container = document.getElementById('grades-form');
+      const noForm = document.getElementById('no-grades-form');
+
+      if (students.length === 0) {
+        showToast('⚠️ لا توجد طالبات في هذا الفصل', 'error');
+        return;
+      }
+
+      noForm.classList.add('hidden');
+      container.innerHTML = `
+        <div class="bg-blue-50 p-4 rounded-xl border border-blue-200 mb-4">
+          <p class="text-sm font-semibold text-blue-900">📝 إدخال درجات الطالبات في <strong>${skill.skill_name}</strong></p>
+        </div>
+        <div class="space-y-3">
+          ${students.map(s => {
+            const existing = appData.grades.find(g => g.student_id === s.id && g.skill_name === skillId);
+            return `
+              <div class="flex gap-4 bg-gray-50 p-4 rounded-xl items-center">
+                <p class="flex-grow font-medium">${s.name}</p>
+                <input type="number" min="0" max="${skill.max_grade}" value="${existing ? existing.grade : ''}"
+                  placeholder="درجة" class="w-24 px-3 py-2 border border-gray-300 rounded-lg text-center focus:ring-2 focus:ring-orange-500"
+                  data-student="${s.id}" data-skill="${skillId}" data-max="${skill.max_grade}"
+                  data-existing="${existing ? existing.__backendId : ''}">
+                <p class="text-sm text-gray-600 w-12 text-center">/ ${skill.max_grade}</p>
+              </div>
+            `;
+          }).join('')}
+        </div>
+        <button onclick="saveGrades()" class="w-full mt-6 bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2">
+          <i data-lucide="save" class="w-5 h-5"></i> حفظ جميع الدرجات
+        </button>
+      `;
+    }
+
+    async function saveGrades() {
+      const inputs = document.querySelectorAll('#grades-form input[type="number"]');
+      let savedCount = 0;
+
+      for (const inp of inputs) {
+        const grade = parseInt(inp.value);
+        if (isNaN(grade) || grade === '') continue;
+
+        const studentId = inp.dataset.student;
+        const skillId = inp.dataset.skill;
+        const maxGrade = parseInt(inp.dataset.max);
+        const existingId = inp.dataset.existing;
+
+        try {
+          if (existingId) {
+            const existing = appData.grades.find(g => g.__backendId === existingId);
+            if (existing) {
+              existing.grade = grade;
+              const res = await window.dataSdk.update(existing);
+              if (res.isOk) savedCount++;
+            }
+          } else {
+            const res = await window.dataSdk.create({
+              id: 'grade_' + Date.now() + Math.random(),
+              type: 'grade',
+              name: '',
+              student_id: studentId,
+              skill_name: skillId,
+              grade,
+              max_grade: maxGrade,
+              unit_name: '',
+              lesson_name: '',
+              class_id: '',
+              created_at: new Date().toISOString()
+            });
+            if (res.isOk) savedCount++;
+          }
+        } catch (err) {
+          console.error('Error saving grade:', err);
+        }
+      }
+
+      showToast(`✅ تم حفظ ${savedCount} درجات بنجاح!`, 'success');
+    }
+
+    function renderAnalysis() {
+      let totalGrades = 0, maxTotal = 0, pass = 0, fail = 0;
+      
+      appData.grades.forEach(g => {
+        totalGrades += g.grade;
+        maxTotal += g.max_grade;
+        (g.grade / g.max_grade) * 100 >= 60 ? pass++ : fail++;
+      });
+
+      const avg = maxTotal > 0 ? Math.round((totalGrades / maxTotal) * 100) : 0;
+      
+      document.getElementById('analysis-total').textContent = appData.grades.length;
+      document.getElementById('analysis-avg').textContent = avg + '%';
+      document.getElementById('analysis-pass').textContent = pass;
+      document.getElementById('analysis-fail').textContent = fail;
+      document.getElementById('analysis-skills').textContent = appData.skills.length;
+
+      // أفضل المهارات
+      const skillStats = {};
+      appData.skills.forEach(s => {
+        const grades = appData.grades.filter(g => g.skill_name === s.id);
+        if (grades.length > 0) {
+          const avg = (grades.reduce((a, b) => a + b.grade, 0) / (grades.length * 10)) * 100;
+          skillStats[s.skill_name] = avg;
+        }
+      });
+
+      const topSkills = Object.entries(skillStats).sort((a, b) => b[1] - a[1]).slice(0, 5);
+      const weakSkills = Object.entries(skillStats).sort((a, b) => a[1] - b[1]).slice(0, 5);
+
+      document.getElementById('top-skills').innerHTML = topSkills.length > 0 ?
+        topSkills.map(([skill, avg]) => `
+          <div class="flex justify-between items-center bg-white p-2 rounded">
+            <span class="text-sm">${skill}</span>
+            <span class="text-sm font-bold text-emerald-600">${Math.round(avg)}%</span>
+          </div>
+        `).join('') : '<p class="text-sm text-gray-400">لا توجد بيانات</p>';
+
+      document.getElementById('weak-skills').innerHTML = weakSkills.length > 0 ?
+        weakSkills.map(([skill, avg]) => `
+          <div class="flex justify-between items-center bg-white p-2 rounded">
+            <span class="text-sm">${skill}</span>
+            <span class="text-sm font-bold text-orange-600">${Math.round(avg)}%</span>
+          </div>
+        `).join('') : '<p class="text-sm text-gray-400">ممتاز - لا توجد مهارات ضعيفة</p>';
+    }
+
+    function renderLoss() {
+      const container = document.getElementById('loss-list');
+      const noLoss = document.getElementById('no-loss');
+      const losses = [];
+
+      appData.students.forEach(s => {
+        appData.skills.forEach(sk => {
+          const g = appData.grades.filter(x => x.student_id === s.id && x.skill_name === sk.id);
+          if (g.length > 0) {
+            const avg = (g.reduce((a, b) => a + b.grade, 0) / g.length) / sk.max_grade * 100;
+            if (avg < 60) {
+              losses.push({
+                student: s.name,
+                skill: sk.skill_name,
+                unit: sk.unit_name,
+                avg: Math.round(avg),
+                maxGrade: sk.max_grade
+              });
+            }
+          }
+        });
+      });
+
+      if (losses.length === 0) {
+        container.innerHTML = '';
+        noLoss.classList.remove('hidden');
+        return;
+      }
+
+      noLoss.classList.add('hidden');
+      container.innerHTML = losses.map(l => `
+        <div class="bg-red-50 p-4 rounded-xl border-r-4 border-red-500">
+          <div class="flex justify-between items-start">
+            <div>
+              <p class="font-bold text-gray-800">👩‍🎓 ${l.student}</p>
+              <p class="text-sm text-gray-600 mt-1">📚 ${l.unit}</p>
+              <p class="text-sm text-gray-600">🎯 ${l.skill}</p>
+            </div>
+            <div class="text-right">
+              <p class="text-xs text-red-600 font-bold">المعدل: ${l.avg}%</p>
+              <p class="text-xs text-red-500">⚠️ يحتاج دعم</p>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderRemedial() {
+      const container = document.getElementById('remedial-list');
+      const noRemedial = document.getElementById('no-remedial');
+      
+      const remedial = appData.students.map(s => {
+        const grades = appData.grades.filter(g => g.student_id === s.id);
+        if (grades.length > 0) {
+          const avg = (grades.reduce((a, b) => a + b.grade, 0) / (grades.length * 10)) * 100;
+          return { ...s, average: avg, type: 'remedial' };
+        }
+        return null;
+      }).filter(s => s && s.average < 60);
+
+      if (remedial.length === 0) {
+        container.innerHTML = '';
+        noRemedial.classList.remove('hidden');
+        return;
+      }
+
+      noRemedial.classList.add('hidden');
+      container.innerHTML = remedial.map(p => `
+        <div class="bg-gradient-to-r from-orange-50 to-amber-50 p-6 rounded-xl border-l-4 border-orange-500">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-12 h-12 bg-orange-200 rounded-lg flex items-center justify-center text-2xl">🛠️</div>
+            <div>
+              <h4 class="font-bold text-lg">${p.name}</h4>
+              <p class="text-sm text-orange-700">المعدل: <strong>${p.average.toFixed(1)}%</strong></p>
+            </div>
+          </div>
+          <div class="bg-white/50 p-4 rounded-lg space-y-2 text-sm">
+            <p class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-orange-600"></i> مراجعة المهارات الأساسية</p>
+            <p class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-orange-600"></i> تركيز على المهارات الضعيفة</p>
+            <p class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-orange-600"></i> حل تمارين إضافية</p>
+            <p class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-orange-600"></i> متابعة أسبوعية</p>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderEnrichment() {
+      const container = document.getElementById('enrichment-list');
+      const noEnrichment = document.getElementById('no-enrichment');
+      
+      const enrichment = appData.students.map(s => {
+        const grades = appData.grades.filter(g => g.student_id === s.id);
+        if (grades.length > 0) {
+          const avg = (grades.reduce((a, b) => a + b.grade, 0) / (grades.length * 10)) * 100;
+          return { ...s, average: avg, type: 'enrichment' };
+        }
+        return null;
+      }).filter(s => s && s.average >= 85);
+
+      if (enrichment.length === 0) {
+        container.innerHTML = '';
+        noEnrichment.classList.remove('hidden');
+        return;
+      }
+
+      noEnrichment.classList.add('hidden');
+      container.innerHTML = enrichment.map(p => `
+        <div class="bg-gradient-to-r from-rose-50 to-pink-50 p-6 rounded-xl border-l-4 border-rose-500">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-12 h-12 bg-rose-200 rounded-lg flex items-center justify-center text-2xl">🚀</div>
+            <div>
+              <h4 class="font-bold text-lg">${p.name}</h4>
+              <p class="text-sm text-rose-700">المعدل: <strong>${p.average.toFixed(1)}%</strong></p>
+            </div>
+          </div>
+          <div class="bg-white/50 p-4 rounded-lg space-y-2 text-sm">
+            <p class="flex items-center gap-2"><i data-lucide="star" class="w-4 h-4 text-rose-600"></i> تطبيقات متقدمة</p>
+            <p class="flex items-center gap-2"><i data-lucide="star" class="w-4 h-4 text-rose-600"></i> دراسة معمقة</p>
+            <p class="flex items-center gap-2"><i data-lucide="star" class="w-4 h-4 text-rose-600"></i> مشاريع تطبيقية</p>
+            <p class="flex items-center gap-2"><i data-lucide="star" class="w-4 h-4 text-rose-600"></i> قيادة مجموعات التعاون</p>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderExcellence() {
+      const container = document.getElementById('excellence-list');
+      const noExcellence = document.getElementById('no-excellence');
+      
+      const top = appData.students.map(s => {
+        const grades = appData.grades.filter(x => x.student_id === s.id);
+        const avg = grades.length > 0 ? (grades.reduce((a, b) => a + b.grade, 0) / (grades.length * 10)) * 100 : 0;
+        return { ...s, average: avg };
+      }).filter(s => s.average >= 90).sort((a, b) => b.average - a.average);
+
+      if (top.length === 0) {
+        container.innerHTML = '';
+        noExcellence.classList.remove('hidden');
+        return;
+      }
+
+      noExcellence.classList.add('hidden');
+      container.innerHTML = top.map((s, idx) => `
+        <div class="bg-gradient-to-br from-yellow-100 to-amber-100 p-6 rounded-xl border-2 border-yellow-400">
+          <div class="flex justify-between items-start mb-4">
+            <div>
+              <p class="text-3xl mb-2">${idx === 0 ? '🥇' : idx === 1 ? '🥈' : '🥉'}</p>
+              <p class="font-bold text-lg">${s.name}</p>
+            </div>
+            <div class="text-right">
+              <p class="text-3xl font-bold text-yellow-600">${s.average.toFixed(1)}%</p>
+              <p class="text-sm text-yellow-700">ممتاز جداً</p>
+            </div>
+          </div>
+          <div class="bg-white/60 p-3 rounded text-sm text-center">
+            ⭐ الطالبة المتفوقة 🎓
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderQuestions() {
+      const container = document.getElementById('questions-list');
+      const noQuestions = document.getElementById('no-questions');
+      
+      if (appData.questions.length === 0) {
+        container.innerHTML = '';
+        noQuestions.classList.remove('hidden');
+        return;
+      }
+
+      noQuestions.classList.add('hidden');
+      container.innerHTML = appData.questions.map(q => {
+        const skill = appData.skills.find(s => s.skill_name === q.skill_name);
+        return `
+          <div class="bg-gradient-to-r from-indigo-50 to-blue-50 p-4 rounded-xl border border-indigo-200 hover:shadow-lg transition">
+            <div class="flex justify-between items-start gap-3">
+              <div class="flex-grow">
+                <p class="font-semibold text-gray-800">${q.name}</p>
+                <p class="text-xs text-gray-600 mt-2">🎯 ${q.skill_name}</p>
+              </div>
+              <button onclick="deleteData('question', '${q.__backendId}')" class="text-red-500 hover:text-red-700">
+                <i data-lucide="trash-2" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderNotes() {
+      const container = document.getElementById('notes-list');
+      const noNotes = document.getElementById('no-notes');
+      
+      if (appData.notes.length === 0) {
+        container.innerHTML = '';
+        noNotes.classList.remove('hidden');
+        return;
+      }
+
+      noNotes.classList.add('hidden');
+      container.innerHTML = appData.notes.map(n => `
+        <div class="bg-gradient-to-r from-pink-50 to-rose-50 p-4 rounded-xl border border-pink-200 hover:shadow-lg transition">
+          <div class="flex justify-between items-start gap-3">
+            <div class="flex-grow">
+              <p class="font-bold text-gray-800">${n.name}</p>
+              <p class="text-sm text-gray-700 mt-2">${n.note}</p>
+            </div>
+            <button onclick="deleteData('note', '${n.__backendId}')" class="text-red-500 hover:text-red-700">
+              <i data-lucide="trash-2" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function generatePlans() {
+      const remedial = [];
+      const enrichment = [];
+      const all = [];
+
+      appData.students.forEach(student => {
+        const grades = appData.grades.filter(g => g.student_id === student.id);
+        if (grades.length > 0) {
+          const avg = (grades.reduce((a, b) => a + b.grade, 0) / (grades.length * 10)) * 100;
+          if (avg < 60) {
+            remedial.push({ ...student, average: avg, type: 'remedial' });
+          } else if (avg >= 85) {
+            enrichment.push({ ...student, average: avg, type: 'enrichment' });
+          }
+          all.push({ ...student, average: avg });
+        }
+      });
+
+      appData.plans = [...remedial, ...enrichment];
+    }
+
+    function showPage(page) {
+      document.querySelectorAll('[id^="page-"]').forEach(el => {
+        el.classList.remove('page-visible');
+        el.classList.add('page-hidden');
+      });
+      
+      const pageEl = document.getElementById(`page-${page}`);
+      if (pageEl) {
+        pageEl.classList.remove('page-hidden');
+        pageEl.classList.add('page-visible');
+      }
+
+      renderCurrentPage();
+      lucide.createIcons();
+    }
+
+    function renderCurrentPage() {
+      const active = document.querySelector('[id^="page-"].page-visible');
+      if (!active) return;
+      
+      const pageName = active.id.replace('page-', '');
+      
+      if (pageName === 'curriculum') {
+        renderCurriculum();
+      } else if (pageName === 'classes') {
+        renderClasses();
+      } else if (pageName === 'students') {
+        renderStudents();
+      } else if (pageName === 'skills') {
+        renderSkills();
+      } else if (pageName === 'grades') {
+        updateGradeSelects();
+      } else if (pageName === 'analysis') {
+        renderAnalysis();
+      } else if (pageName === 'loss') {
+        renderLoss();
+      } else if (pageName === 'remedial') {
+        renderRemedial();
+      } else if (pageName === 'enrichment') {
+        renderEnrichment();
+      } else if (pageName === 'excellence') {
+        renderExcellence();
+      } else if (pageName === 'questions') {
+        renderQuestions();
+      } else if (pageName === 'parents') {
+        renderNotes();
+      } else if (pageName === 'resources') {
+        renderResources();
+      } else if (pageName === 'games') {
+        renderGames();
+      }
+    }
+
+    // MODAL FUNCTIONS
+    function showAddClassModal() {
+      document.getElementById('modal-content').innerHTML = `
+        <div class="p-6">
+          <h3 class="text-xl font-bold mb-4 flex items-center gap-2"><i data-lucide="plus-circle" class="w-6 h-6 text-emerald-600"></i> إضافة فصل جديد</h3>
+          <input type="text" id="class-name" placeholder="مثال: الأول/أ" class="w-full px-4 py-3 border border-gray-200 rounded-xl mb-4 focus:ring-2 focus:ring-emerald-500">
+          <div class="flex gap-3">
+            <button onclick="addClass()" class="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white py-3 rounded-xl font-bold">إضافة</button>
+            <button onclick="closeModal()" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 py-3 rounded-xl">إلغاء</button>
+          </div>
+        </div>
+      `;
+      document.getElementById('modal-overlay').classList.remove('hidden');
+      document.getElementById('modal-overlay').classList.add('flex');
+      lucide.createIcons();
+    }
+
+    async function addClass() {
+      const name = document.getElementById('class-name').value.trim();
+      if (!name) {
+        showToast('⚠️ أدخل اسم الفصل', 'error');
+        return;
+      }
+
+      const result = await window.dataSdk.create({
+        id: 'class_' + Date.now(),
+        type: 'class',
+        name,
+        unit_name: '',
+        skill_name: '',
+        class_id: '',
+        student_id: '',
+        grade: 0,
+        max_grade: 0,
+        created_at: new Date().toISOString()
+      });
+
+      if (result.isOk) {
+        showToast('✅ تم إضافة الفصل بنجاح', 'success');
+        closeModal();
+      } else {
+        showToast('❌ خطأ في إضافة الفصل', 'error');
+      }
+    }
+
+    function showAddStudentModal() {
+      if (appData.classes.length === 0) {
+        showToast('⚠️ أضفي فصل أولاً', 'error');
+        return;
+      }
+
+      document.getElementById('modal-content').innerHTML = `
+        <div class="p-6">
+          <h3 class="text-xl font-bold mb-4 flex items-center gap-2"><i data-lucide="plus-circle" class="w-6 h-6 text-teal-600"></i> إضافة طالبة جديدة</h3>
+          <div class="space-y-4">
+            <input type="text" id="student-name" placeholder="اسم الطالبة" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500">
+            <select id="student-class" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500">
+              <option value="">اختر الفصل</option>
+              ${appData.classes.map(c => `<option value="${c.id}">${c.name}</option>`).join('')}
+            </select>
+          </div>
+          <div class="flex gap-3 mt-6">
+            <button onclick="addStudent()" class="flex-1 bg-teal-500 hover:bg-teal-600 text-white py-3 rounded-xl font-bold">إضافة</button>
+            <button onclick="closeModal()" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 py-3 rounded-xl">إلغاء</button>
+          </div>
+        </div>
+      `;
+      document.getElementById('modal-overlay').classList.remove('hidden');
+      document.getElementById('modal-overlay').classList.add('flex');
+      lucide.createIcons();
+    }
+
+    async function addStudent() {
+      const name = document.getElementById('student-name').value.trim();
+      const classId = document.getElementById('student-class').value;
+
+      if (!name || !classId) {
+        showToast('⚠️ أكمل جميع البيانات', 'error');
+        return;
+      }
+
+      const result = await window.dataSdk.create({
+        id: 'student_' + Date.now(),
+        type: 'student',
+        name,
+        class_id: classId,
+        unit_name: '',
+        skill_name: '',
+        student_id: '',
+        grade: 0,
+        max_grade: 0,
+        created_at: new Date().toISOString()
+      });
+
+      if (result.isOk) {
+        showToast('✅ تم إضافة الطالبة بنجاح', 'success');
+        closeModal();
+      } else {
+        showToast('❌ خطأ في إضافة الطالبة', 'error');
+      }
+    }
+
+    function showAddQuestionModal() {
+      if (appData.skills.length === 0) {
+        showToast('⚠️ أضفي مهارات أولاً', 'error');
+        return;
+      }
+
+      document.getElementById('modal-content').innerHTML = `
+        <div class="p-6">
+          <h3 class="text-xl font-bold mb-4 flex items-center gap-2"><i data-lucide="plus-circle" class="w-6 h-6 text-indigo-600"></i> إضافة سؤال</h3>
+          <div class="space-y-4">
+            <select id="q-skill" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500">
+              <option value="">اختر المهارة</option>
+              ${appData.skills.map(s => `<option value="${s.id}">${s.skill_name}</option>`).join('')}
+            </select>
+            <textarea id="q-text" placeholder="نص السؤال" rows="4" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500"></textarea>
+          </div>
+          <div class="flex gap-3 mt-6">
+            <button onclick="addQuestion()" class="flex-1 bg-indigo-500 hover:bg-indigo-600 text-white py-3 rounded-xl font-bold">إضافة</button>
+            <button onclick="closeModal()" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 py-3 rounded-xl">إلغاء</button>
+          </div>
+        </div>
+      `;
+      document.getElementById('modal-overlay').classList.remove('hidden');
+      document.getElementById('modal-overlay').classList.add('flex');
+      lucide.createIcons();
+    }
+
+    async function addQuestion() {
+      const skillId = document.getElementById('q-skill').value;
+      const text = document.getElementById('q-text').value.trim();
+
+      if (!skillId || !text) {
+        showToast('⚠️ أكمل جميع البيانات', 'error');
+        return;
+      }
+
+      const skill = appData.skills.find(s => s.id === skillId);
+
+      const result = await window.dataSdk.create({
+        id: 'question_' + Date.now(),
+        type: 'question',
+        name: text,
+        skill_name: skill.skill_name,
+        unit_name: skill.unit_name,
+        lesson_name: skill.lesson_name,
+        class_id: '',
+        student_id: '',
+        grade: 0,
+        max_grade: 0,
+        created_at: new Date().toISOString()
+      });
+
+      if (result.isOk) {
+        showToast('✅ تم إضافة السؤال بنجاح', 'success');
+        closeModal();
+      } else {
+        showToast('❌ خطأ في إضافة السؤال', 'error');
+      }
+    }
+
+    function showAddNoteModal() {
+      document.getElementById('modal-content').innerHTML = `
+        <div class="p-6">
+          <h3 class="text-xl font-bold mb-4 flex items-center gap-2"><i data-lucide="plus-circle" class="w-6 h-6 text-pink-600"></i> إضافة ملاحظة</h3>
+          <div class="space-y-4">
+            <input type="text" id="note-name" placeholder="اسم الطالبة أو الموضوع" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-pink-500">
+            <textarea id="note-text" placeholder="الملاحظة" rows="4" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-pink-500"></textarea>
+          </div>
+          <div class="flex gap-3 mt-6">
+            <button onclick="addNote()" class="flex-1 bg-pink-500 hover:bg-pink-600 text-white py-3 rounded-xl font-bold">إضافة</button>
+            <button onclick="closeModal()" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 py-3 rounded-xl">إلغاء</button>
+          </div>
+        </div>
+      `;
+      document.getElementById('modal-overlay').classList.remove('hidden');
+      document.getElementById('modal-overlay').classList.add('flex');
+      lucide.createIcons();
+    }
+
+    function showAddResourceModal() {
+      document.getElementById('modal-content').innerHTML = `
+        <div class="p-6 max-w-2xl">
+          <h3 class="text-xl font-bold mb-4 flex items-center gap-2"><i data-lucide="plus-circle" class="w-6 h-6 text-purple-600"></i> إضافة مصدر تعليمي</h3>
+          <div class="space-y-4">
+            <select id="resource-type" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500">
+              <option value="">اختر نوع المصدر</option>
+              <option value="عين">🎥 منصة عين</option>
+              <option value="مدرستي">📚 منصة مدرستي</option>
+              <option value="مكتبة">📖 مكتبة رقمية</option>
+              <option value="يوتيوب">▶️ يوتيوب</option>
+              <option value="أخرى">🔗 رابط آخر</option>
+            </select>
+            <input type="text" id="resource-name" placeholder="اسم المصدر" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500">
+            <input type="url" id="resource-url" placeholder="رابط المصدر" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500">
+            <textarea id="resource-desc" placeholder="وصف المصدر" rows="3" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500"></textarea>
+          </div>
+          <div class="flex gap-3 mt-6">
+            <button onclick="addResource()" class="flex-1 bg-purple-500 hover:bg-purple-600 text-white py-3 rounded-xl font-bold">إضافة</button>
+            <button onclick="closeModal()" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 py-3 rounded-xl">إلغاء</button>
+          </div>
+        </div>
+      `;
+      document.getElementById('modal-overlay').classList.remove('hidden');
+      document.getElementById('modal-overlay').classList.add('flex');
+      lucide.createIcons();
+    }
+
+    async function addResource() {
+      const type = document.getElementById('resource-type').value;
+      const name = document.getElementById('resource-name').value.trim();
+      const url = document.getElementById('resource-url').value.trim();
+      const desc = document.getElementById('resource-desc').value.trim();
+
+      if (!type || !name || !url) {
+        showToast('⚠️ أكمل جميع البيانات المطلوبة', 'error');
+        return;
+      }
+
+      const result = await window.dataSdk.create({
+        id: 'resource_' + Date.now(),
+        type: 'resource',
+        resource_type: type,
+        name,
+        resource_url: url,
+        unit_name: desc,
+        skill_name: '',
+        lesson_name: '',
+        class_id: '',
+        student_id: '',
+        grade: 0,
+        max_grade: 0,
+        created_at: new Date().toISOString()
+      });
+
+      if (result.isOk) {
+        showToast('✅ تم إضافة المصدر بنجاح', 'success');
+        closeModal();
+        renderResources();
+      } else {
+        showToast('❌ خطأ في إضافة المصدر', 'error');
+      }
+    }
+
+    function showAddGameModal() {
+      document.getElementById('modal-content').innerHTML = `
+        <div class="p-6 max-w-2xl">
+          <h3 class="text-xl font-bold mb-4 flex items-center gap-2"><i data-lucide="plus-circle" class="w-6 h-6 text-pink-600"></i> إضافة لعبة تعليمية</h3>
+          <div class="space-y-4">
+            <select id="game-type" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-pink-500">
+              <option value="">اختر نوع اللعبة</option>
+              <option value="kahoot">🎮 Kahoot</option>
+              <option value="wordwall">🎯 Wordwall</option>
+              <option value="quizizz">❓ Quizizz</option>
+              <option value="canva">🎨 Canva</option>
+              <option value="jamboard">🖌️ Google Jamboard</option>
+              <option value="peardeck">📊 Peardeck</option>
+              <option value="other">🔗 أخرى</option>
+            </select>
+            <input type="text" id="game-name" placeholder="اسم اللعبة/المحتوى" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-pink-500">
+            <input type="url" id="game-url" placeholder="رابط اللعبة" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-pink-500">
+            <select id="game-difficulty" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-pink-500">
+              <option value="سهل">سهل 😊</option>
+              <option value="متوسط">متوسط 😐</option>
+              <option value="صعب">صعب 😤</option>
+            </select>
+            <textarea id="game-desc" placeholder="وصف اللعبة والمهارات المستهدفة" rows="3" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-pink-500"></textarea>
+          </div>
+          <div class="flex gap-3 mt-6">
+            <button onclick="addGame()" class="flex-1 bg-pink-500 hover:bg-pink-600 text-white py-3 rounded-xl font-bold">إضافة</button>
+            <button onclick="closeModal()" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 py-3 rounded-xl">إلغاء</button>
+          </div>
+        </div>
+      `;
+      document.getElementById('modal-overlay').classList.remove('hidden');
+      document.getElementById('modal-overlay').classList.add('flex');
+      lucide.createIcons();
+    }
+
+    async function addGame() {
+      const type = document.getElementById('game-type').value;
+      const name = document.getElementById('game-name').value.trim();
+      const url = document.getElementById('game-url').value.trim();
+      const difficulty = document.getElementById('game-difficulty').value;
+      const desc = document.getElementById('game-desc').value.trim();
+
+      if (!type || !name || !url) {
+        showToast('⚠️ أكمل جميع البيانات المطلوبة', 'error');
+        return;
+      }
+
+      const result = await window.dataSdk.create({
+        id: 'game_' + Date.now(),
+        type: 'game',
+        game_name: name,
+        game_url: url,
+        game_difficulty: difficulty,
+        name,
+        resource_type: type,
+        unit_name: desc,
+        skill_name: '',
+        lesson_name: '',
+        class_id: '',
+        student_id: '',
+        grade: 0,
+        max_grade: 0,
+        created_at: new Date().toISOString()
+      });
+
+      if (result.isOk) {
+        showToast('✅ تم إضافة اللعبة بنجاح', 'success');
+        closeModal();
+        renderGames();
+      } else {
+        showToast('❌ خطأ في إضافة اللعبة', 'error');
+      }
+    }
+
+    function renderResources() {
+      const container = document.getElementById('custom-resources');
+      const customResources = (Array.isArray(appData) ? appData : []).filter(item => item && item.type === 'resource') || [];
+      
+      if (customResources.length === 0) {
+        container.innerHTML = '';
+        return;
+      }
+
+      container.innerHTML = customResources.map(r => `
+        <div class="bg-gradient-to-r from-purple-50 to-indigo-50 p-4 rounded-xl border border-purple-200 hover:shadow-lg transition">
+          <div class="flex justify-between items-start gap-3">
+            <div class="flex-grow">
+              <p class="font-bold text-gray-800">${r.name}</p>
+              <p class="text-xs text-gray-600 mt-1">📁 نوع: ${r.resource_type}</p>
+              ${r.unit_name ? `<p class="text-xs text-gray-600 mt-1">📝 ${r.unit_name}</p>` : ''}
+              <button onclick="window.open('${r.resource_url}', '_blank')" class="text-xs text-purple-600 font-semibold hover:text-purple-800 mt-2 inline-flex items-center gap-1 px-3 py-1 bg-purple-100 rounded hover:bg-purple-200 transition">
+                🔗 فتح المصدر
+              </button>
+            </div>
+            <button onclick="deleteData('resource', '${r.__backendId}')" class="text-red-500 hover:text-red-700">
+              <i data-lucide="trash-2" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    function renderGames() {
+      const container = document.getElementById('custom-games');
+      const games = (Array.isArray(appData) ? appData : []).filter(item => item && item.type === 'game') || [];
+      
+      if (games.length === 0) {
+        container.innerHTML = '';
+        return;
+      }
+
+      container.innerHTML = games.map(g => {
+        const difficultyEmoji = g.game_difficulty === 'سهل' ? '😊' : g.game_difficulty === 'متوسط' ? '😐' : '😤';
+        return `
+          <div class="bg-gradient-to-r from-pink-50 to-rose-50 p-4 rounded-xl border border-pink-200 hover:shadow-lg transition">
+            <div class="flex justify-between items-start gap-3">
+              <div class="flex-grow">
+                <p class="font-bold text-gray-800">${g.name}</p>
+                ${g.unit_name ? `<p class="text-xs text-gray-600 mt-1">📝 ${g.unit_name}</p>` : ''}
+                <div class="flex items-center gap-2 mt-2">
+                  <span class="text-xs bg-pink-200 text-pink-800 px-2 py-1 rounded">${difficultyEmoji} ${g.game_difficulty}</span>
+                  <button onclick="window.open('${g.game_url}', '_blank')" class="text-xs text-pink-600 font-semibold hover:text-pink-800 px-3 py-1 bg-pink-100 rounded hover:bg-pink-200 transition inline-flex items-center gap-1">
+                    🎮 العب الآن
+                  </button>
                 </div>
+              </div>
+              <button onclick="deleteData('game', '${g.__backendId}')" class="text-red-500 hover:text-red-700">
+                <i data-lucide="trash-2" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+      lucide.createIcons();
+    }
 
-                <!-- ANALYSIS VIEW -->
-                <div id="view-analysis" class="view hidden space-y-8">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div class="bg-white p-6 rounded-3xl shadow-sm min-h-[400px]">
-                            <h4 class="font-black mb-6 text-center">توزيع مستويات الفترة الحالية</h4>
-                            <canvas id="analysisPieChart"></canvas>
-                        </div>
-                        <div class="bg-white p-6 rounded-3xl shadow-sm min-h-[400px]">
-                            <h4 class="font-black mb-6 text-center">أداء الفصول الدراسي</h4>
-                            <canvas id="analysisClassChart"></canvas>
-                        </div>
-                        <div class="bg-white p-6 rounded-3xl shadow-sm min-h-[400px] col-span-1 md:col-span-2">
-                            <h4 class="font-black mb-6 text-center">مقارنة أداء الفترة الأولى والثانية</h4>
-                            <canvas id="comparisonChart"></canvas>
-                        </div>
-                    </div>
-                </div>
+    async function addNote() {
+      const name = document.getElementById('note-name').value.trim();
+      const text = document.getElementById('note-text').value.trim();
 
-                <!-- REPORTS VIEW -->
-                <div id="view-reports" class="view hidden space-y-6">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 no-print">
-                        <div class="bg-white p-8 rounded-3xl shadow-sm border-t-8 border-blue-500 text-center">
-                            <h4 class="font-black text-lg mb-4">تقرير الفترة الأولى</h4>
-                            <button onclick="prepareReport('p1')" class="bg-blue-600 text-white w-full py-3 rounded-xl font-bold">معاينة</button>
-                        </div>
-                        <div class="bg-white p-8 rounded-3xl shadow-sm border-t-8 border-green-500 text-center">
-                            <h4 class="font-black text-lg mb-4">تقرير الفترة الثانية</h4>
-                            <button onclick="prepareReport('p2')" class="bg-green-600 text-white w-full py-3 rounded-xl font-bold">معاينة</button>
-                        </div>
-                        <div class="bg-white p-8 rounded-3xl shadow-sm border-t-8 border-yellow-500 text-center">
-                            <h4 class="font-black text-lg mb-4">التقرير النهائي الشامل</h4>
-                            <button onclick="prepareReport('final')" class="bg-yellow-600 text-white w-full py-3 rounded-xl font-bold">معاينة</button>
-                        </div>
-                    </div>
+      if (!name || !text) {
+        showToast('⚠️ أكمل جميع البيانات', 'error');
+        return;
+      }
 
-                    <!-- Report Viewer -->
-                    <div id="report-viewer" class="hidden bg-white p-12 rounded-3xl shadow-2xl relative overflow-hidden min-h-[1000px]">
-                        <div class="flex justify-between items-center mb-8 border-b-2 border-green-100 pb-6">
-                            <button onclick="window.print()" class="no-print bg-gray-100 p-2 rounded-lg hover:bg-gray-200">🖨️ طباعة</button>
-                            <h2 id="report-main-title" class="text-2xl font-black text-green-900">تقرير الأداء التعليمي</h2>
-                            <button onclick="exportToWord()" class="no-print bg-blue-100 text-blue-700 px-4 py-2 rounded-lg font-bold">💾 تصدير Word</button>
-                        </div>
-                        <div id="report-canvas-content" class="space-y-10 text-right leading-relaxed">
-                            <!-- Injected report content -->
-                        </div>
-                    </div>
-                </div>
+      const result = await window.dataSdk.create({
+        id: 'note_' + Date.now(),
+        type: 'note',
+        name,
+        note: text,
+        skill_name: '',
+        unit_name: '',
+        lesson_name: '',
+        class_id: '',
+        student_id: '',
+        grade: 0,
+        max_grade: 0,
+        created_at: new Date().toISOString()
+      });
 
-                <!-- OTHERS PLACEHOLDERS (To be dynamic as well) -->
-                <div id="view-missing-gap" class="view hidden space-y-6">
-                    <div class="bg-red-50 p-6 rounded-3xl border-r-8 border-red-500">
-                        <h3 class="font-black text-red-900">حصر الفاقد التعليمي</h3>
-                        <p class="text-red-700 text-sm">يتم حصر الطالبات اللواتي حصلن على درجة أقل من 60% والمهارات غير المجتازة.</p>
-                    </div>
-                    <div class="bg-white rounded-3xl shadow-sm overflow-hidden">
-                        <table class="w-full text-right">
-                            <thead class="bg-red-900 text-white">
-                                <tr>
-                                    <th class="p-4">الطالبة</th>
-                                    <th class="p-4">الفصل</th>
-                                    <th class="p-4">الدرجة</th>
-                                    <th class="p-4">المهارة المفقودة</th>
-                                </tr>
-                            </thead>
-                            <tbody id="gap-table-body"></tbody>
-                        </table>
-                    </div>
-                </div>
+      if (result.isOk) {
+        showToast('✅ تم إضافة الملاحظة بنجاح', 'success');
+        closeModal();
+      } else {
+        showToast('❌ خطأ في إضافة الملاحظة', 'error');
+      }
+    }
 
-                <div id="view-q-bank" class="view hidden space-y-6">
-                    <div class="bg-white p-6 rounded-3xl shadow-sm flex justify-between items-center">
-                        <h3 class="font-black text-xl">بنك الأسئلة المولدة آلياً</h3>
-                        <div class="text-xs font-bold text-gray-400 italic">تم التوليد بناءً على المهارات المستخرجة</div>
-                    </div>
-                    <div id="q-bank-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Questions -->
-                    </div>
-                </div>
+    async function saveBasicSettings() {
+      const school = document.getElementById('school-name-input').value.trim();
+      const teacher = document.getElementById('teacher-name-input').value.trim();
+      const director = document.getElementById('director-name-input').value.trim();
 
-                <div id="view-remedial" class="view hidden space-y-6">
-                    <h3 class="font-black text-xl">الخطط العلاجية المقترحة</h3>
-                    <div id="remedial-container" class="space-y-4"></div>
-                </div>
+      localStorage.setItem('basicSettings', JSON.stringify({ school, teacher, director }));
+      document.getElementById('school-subtitle').textContent = school || 'نظام متكامل للتحليل والخطط';
+      showToast('✅ تم حفظ الإعدادات بنجاح', 'success');
+    }
 
-                <div id="view-enrichment" class="view hidden space-y-6">
-                    <h3 class="font-black text-xl">الخطط الإثرائية للمتفوقات</h3>
-                    <div id="enrichment-container" class="space-y-4"></div>
+    async function deleteData(type, id) {
+      let item;
+      
+      if (type === 'student') {
+        item = appData.students.find(s => s.__backendId === id);
+      } else if (type === 'class') {
+        item = appData.classes.find(c => c.__backendId === id);
+      } else if (type === 'question') {
+        item = appData.questions.find(q => q.__backendId === id);
+      } else if (type === 'note') {
+        item = appData.notes.find(n => n.__backendId === id);
+      }
+
+      if (item) {
+        const res = await window.dataSdk.delete(item);
+        if (res.isOk) {
+          showToast('✅ تم الحذف بنجاح', 'success');
+        } else {
+          showToast('❌ خطأ في الحذف', 'error');
+        }
+      }
+    }
+
+    function closeModal(e) {
+      if (e && e.target !== document.getElementById('modal-overlay')) return;
+      document.getElementById('modal-overlay').classList.add('hidden');
+      document.getElementById('modal-overlay').classList.remove('flex');
+    }
+
+    function showToast(msg, type = 'info') {
+      const toast = document.createElement('div');
+      const colors = {
+        success: 'bg-emerald-500',
+        error: 'bg-red-500',
+        warning: 'bg-yellow-500',
+        info: 'bg-blue-500'
+      };
+      
+      toast.className = `${colors[type] || colors.info} text-white px-4 py-3 rounded-xl shadow-lg animate-fade`;
+      toast.textContent = msg;
+      document.getElementById('toast-container').appendChild(toast);
+      
+      setTimeout(() => toast.remove(), 3000);
+    }
+
+    async function initApp() {
+      const settings = JSON.parse(localStorage.getItem('basicSettings') || '{}');
+      if (settings.school) {
+        document.getElementById('school-name-input').value = settings.school;
+        document.getElementById('school-subtitle').textContent = settings.school;
+      }
+      if (settings.teacher) document.getElementById('teacher-name-input').value = settings.teacher;
+      if (settings.director) document.getElementById('director-name-input').value = settings.director;
+
+      if (window.dataSdk) {
+        await window.dataSdk.init(dataHandler);
+      }
+
+      setTimeout(() => {
+        lucide.createIcons();
+      }, 100);
+    }
+
+    function initApp() {
+      const settings = JSON.parse(localStorage.getItem('basicSettings') || '{}');
+      if (settings.school) {
+        document.getElementById('school-name-input').value = settings.school;
+        document.getElementById('school-subtitle').textContent = settings.school;
+      }
+      if (settings.teacher) document.getElementById('teacher-name-input').value = settings.teacher;
+      if (settings.director) document.getElementById('director-name-input').value = settings.director;
+
+      if (window.dataSdk) {
+        await window.dataSdk.init(dataHandler);
+      }
+
+      setTimeout(() => {
+        lucide.createIcons();
+      }, 100);
+    }
+
+    function showManualEntryModal() {
+      const modal = document.getElementById('modal-overlay');
+      const content = document.getElementById('modal-content');
+      
+      content.innerHTML = `
+        <div class="p-6 max-w-3xl w-full bg-white rounded-2xl shadow-2xl max-h-[90vh] overflow-y-auto" onclick="event.stopPropagation()">
+          <h3 class="text-2xl font-bold mb-6 text-green-600">✏️ إدخال محتوى المنهج يدوياً</h3>
+          
+          <div class="space-y-4 mb-6">
+            <div class="bg-gradient-to-r from-green-50 to-emerald-50 p-4 rounded-lg border-l-4 border-green-500">
+              <p class="text-sm font-semibold text-green-900 mb-3">📝 صيغ مقبولة:</p>
+              
+              <div class="grid grid-cols-1 gap-3 text-xs mb-3">
+                <div class="bg-white p-3 rounded border border-green-200">
+                  <p class="font-bold text-green-700 mb-2">✓ صيغة 1 (الأسهل):</p>
+                  <p class="text-gray-700 font-mono text-xs whitespace-pre-wrap">الوحدة الأولى
+درس: مقدمة
+درس: أنواع
+مهارة: فهم
+مهارة: تطبيق</p>
                 </div>
                 
-                <div id="view-honor-roll" class="view hidden space-y-12 py-10">
-                    <div class="text-center">
-                        <h2 class="text-5xl font-black text-yellow-600 mb-2">لوحة الشرف</h2>
-                        <p class="text-gray-500 italic text-xl">نجمات مادة التوحيد المتفوقات</p>
-                    </div>
-                    <div id="honor-roll-container" class="grid grid-cols-1 md:grid-cols-3 gap-10">
-                        <!-- Top Students -->
-                    </div>
+                <div class="bg-white p-3 rounded border border-green-200">
+                  <p class="font-bold text-green-700 mb-2">✓ صيغة 2 (بسيطة):</p>
+                  <p class="text-gray-700 font-mono text-xs whitespace-pre-wrap">وحدة 1 | درس أول | درس ثاني
+مهارة أ | مهارة ب | مهارة ج</p>
                 </div>
-
-                <div id="view-parents" class="view hidden space-y-6 max-w-4xl mx-auto">
-                    <div class="bg-white p-8 rounded-3xl shadow-sm space-y-4">
-                        <h3 class="font-black border-b pb-2">سجل ملاحظات أولياء الأمور</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <select id="parent-std-select" class="w-full bg-gray-50 border rounded-xl p-3"></select>
-                            <input type="date" id="parent-date" class="w-full bg-gray-50 border rounded-xl p-3">
-                        </div>
-                        <textarea id="parent-note" rows="3" placeholder="اكتب الملاحظة هنا..." class="w-full bg-gray-50 border rounded-xl p-3 outline-none focus:ring-2 focus:ring-green-500"></textarea>
-                        <button onclick="addParentNote()" class="bg-green-600 text-white font-black px-8 py-3 rounded-xl">حفظ الملاحظة</button>
-                    </div>
-                    <div id="parent-notes-list" class="space-y-4"></div>
-                </div>
-
-                <div id="view-resources" class="view hidden space-y-8">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div class="bg-white p-8 rounded-3xl shadow-sm space-y-6">
-                            <h4 class="text-xl font-black text-orange-600">ألعاب تعليمية</h4>
-                            <div class="grid grid-cols-2 gap-4">
-                                <a href="https://wordwall.net" target="_blank" class="p-4 bg-orange-50 border border-orange-200 rounded-2xl text-center hover:bg-orange-100 transition">Wordwall</a>
-                                <a href="https://kahoot.com" target="_blank" class="p-4 bg-purple-50 border border-purple-200 rounded-2xl text-center hover:bg-purple-100 transition">Kahoot</a>
-                                <a href="https://quizizz.com" target="_blank" class="p-4 bg-blue-50 border border-blue-200 rounded-2xl text-center hover:bg-blue-100 transition">Quizizz</a>
-                                <a href="https://blooket.com" target="_blank" class="p-4 bg-green-50 border border-green-200 rounded-2xl text-center hover:bg-green-100 transition">Blooket</a>
-                            </div>
-                        </div>
-                        <div class="bg-white p-8 rounded-3xl shadow-sm space-y-6">
-                            <h4 class="text-xl font-black text-green-600">مصادر المنهج</h4>
-                            <div class="space-y-4">
-                                <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl">
-                                    <span class="font-bold">منصة عين التعليمية</span>
-                                    <a href="https://ien.edu.sa" target="_blank" class="text-blue-600 font-bold underline">انتقال</a>
-                                </div>
-                                <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl">
-                                    <span class="font-bold">منصة مدرستي</span>
-                                    <a href="https://schools.madrasati.sa" target="_blank" class="text-blue-600 font-bold underline">انتقال</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+              </div>
+              
+              <p class="text-xs text-green-800 mt-2 p-2 bg-green-100 rounded">💡 كل سطر = عنصر جديد | ستُولّد مهارات تلقائياً إن لم توجد</p>
             </div>
-        </main>
-    </div>
 
-    <!-- JS LOGIC -->
-    <script>
-        // --- DATA STRUCTURE & STORAGE ---
-        let db = {
-            basicInfo: { school: '', teacher: '', supervisor: '', year: '1445-1446', term: '1' },
-            classes: [],
-            students: [],
-            syllabus: [],
-            grades: {}, // { studentId: { p1: {task:0, test:0}, p2: {task:0, test:0} } }
-            parentNotes: []
-        };
+            <textarea id="manual-curriculum" placeholder="الصق المحتوى هنا...
 
-        const STORAGE_KEY = 'TOUHID_PLATFORM_V1';
+مثال:
+الوحدة الأولى: التوحيد
+درس: مقدمة في التوحيد
+درس: أنواع التوحيد الثلاثة
+درس: تطبيقات عملية
+مهارة: فهم مفهوم التوحيد
+مهارة: تصنيف أنواع التوحيد
+مهارة: تطبيق التوحيد في الحياة" rows="8" class="w-full px-4 py-3 border-2 border-green-300 rounded-lg focus:ring-2 focus:ring-green-500 font-arabic text-sm resize-none"></textarea>
+            </div>
 
-        function saveData() {
-            // Update basicInfo from UI
-            db.basicInfo = {
-                school: document.getElementById('info-school').value,
-                teacher: document.getElementById('info-teacher').value,
-                supervisor: document.getElementById('info-supervisor').value,
-                year: document.getElementById('info-year').value,
-                term: document.getElementById('info-term').value
-            };
+            <div class="flex gap-3 mt-6">
+              <button onclick="processManualCurriculum()" class="flex-1 bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-bold transition">
+                ✅ معالجة وبدء
+              </button>
+              <button onclick="closeModal()" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 py-3 rounded-xl font-bold transition">
+                ❌ إلغاء
+              </button>
+            </div>
+        </div>
+      `;
+      
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      
+      setTimeout(() => {
+        const textarea = document.getElementById('manual-curriculum');
+        if (textarea) textarea.focus();
+        lucide.createIcons();
+      }, 50);
+    }
 
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
-            
-            const indicator = document.getElementById('save-indicator');
-            indicator.style.opacity = '1';
-            setTimeout(() => { indicator.style.opacity = '0'; }, 1000);
-        }
+    initApp();
 
-        function loadData() {
-            const saved = localStorage.getItem(STORAGE_KEY);
-            if (saved) {
-                db = JSON.parse(saved);
-                // Fill inputs
-                document.getElementById('info-school').value = db.basicInfo.school || '';
-                document.getElementById('info-teacher').value = db.basicInfo.teacher || '';
-                document.getElementById('info-supervisor').value = db.basicInfo.supervisor || '';
-                document.getElementById('info-year').value = db.basicInfo.year || '1445-1446';
-                document.getElementById('info-term').value = db.basicInfo.term || '1';
-            }
-        }
-
-        // --- ROUTING ---
-        function router(viewId) {
-            document.querySelectorAll('.view').forEach(v => v.classList.add('hidden'));
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('sidebar-item-active'));
-            
-            const targetView = document.getElementById(`view-${viewId}`);
-            const targetBtn = document.querySelector(`[data-view="${viewId}"]`);
-            
-            if (targetView) targetView.classList.remove('hidden');
-            if (targetBtn) targetBtn.classList.add('sidebar-item-active');
-
-            // Update Header
-            document.getElementById('view-title').innerText = targetBtn ? targetBtn.innerText : 'عرض';
-
-            // View Inits
-            if (viewId === 'dashboard') initDashboard();
-            if (viewId === 'classes') renderClassesGrid();
-            if (viewId === 'students') renderStudentsTable();
-            if (viewId === 'syllabus') renderSyllabus();
-            if (viewId === 'grades') renderGradesTable();
-            if (viewId === 'analysis') initAnalysisCharts();
-            if (viewId === 'missing-gap') renderGapTable();
-            if (viewId === 'q-bank') renderQuestionBank();
-            if (viewId === 'remedial') renderRemedialPlans();
-            if (viewId === 'enrichment') renderEnrichmentPlans();
-            if (viewId === 'honor-roll') renderHonorRoll();
-            if (viewId === 'parents') renderParentNotes();
-        }
-
-        // --- CLASSES LOGIC ---
-        function addClass() {
-            const name = document.getElementById('class-input-name').value;
-            const grade = document.getElementById('class-input-grade').value;
-            if (!name) return;
-            
-            db.classes.push({ id: Date.now().toString(), name, grade });
-            document.getElementById('class-input-name').value = '';
-            saveData();
-            renderClassesGrid();
-        }
-
-        function deleteClass(id) {
-            if (confirm('سيتم حذف الفصل وجميع طالباته، هل أنت متأكد؟')) {
-                db.classes = db.classes.filter(c => c.id !== id);
-                db.students = db.students.filter(s => s.classId !== id);
-                saveData();
-                renderClassesGrid();
-            }
-        }
-
-        function renderClassesGrid() {
-            const grid = document.getElementById('classes-grid');
-            grid.innerHTML = db.classes.map(c => {
-                const stdCount = db.students.filter(s => s.classId === c.id).length;
-                return `
-                    <div class="bg-white p-6 rounded-3xl shadow-sm border-r-4 border-green-600 hover:shadow-md transition">
-                        <div class="flex justify-between items-start">
-                            <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full font-bold">${c.grade}</span>
-                            <button onclick="deleteClass('${c.id}')" class="text-red-300 hover:text-red-500">🗑️</button>
-                        </div>
-                        <h3 class="text-2xl font-black text-green-900 mt-4">فصل ${c.name}</h3>
-                        <div class="mt-4 flex justify-between items-center text-sm font-bold text-gray-400">
-                            <span>${stdCount} طالبة</span>
-                            <button onclick="router('students')" class="text-blue-600 hover:underline">عرض الطالبات ←</button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        // --- STUDENTS LOGIC ---
-        function addStudent() {
-            const name = document.getElementById('std-input-name').value;
-            const classId = document.getElementById('std-input-class').value;
-            if (!name || !classId) return;
-
-            const id = Date.now().toString();
-            db.students.push({ id, name, classId });
-            db.grades[id] = { p1: {task:0, test:0}, p2: {task:0, test:0} };
-            
-            document.getElementById('std-input-name').value = '';
-            saveData();
-            renderStudentsTable();
-        }
-
-        function renderStudentsTable() {
-            // Update Class Selects
-            const stdClassSelect = document.getElementById('std-input-class');
-            const parentStdSelect = document.getElementById('parent-std-select');
-            const gradeFilterClass = document.getElementById('grades-filter-class');
-
-            const classOptions = db.classes.map(c => `<option value="${c.id}">${c.grade} - ${c.name}</option>`).join('');
-            stdClassSelect.innerHTML = classOptions;
-            if (parentStdSelect) parentStdSelect.innerHTML = db.students.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
-            if (gradeFilterClass) gradeFilterClass.innerHTML = db.classes.map(c => `<option value="${c.id}">فصل ${c.name}</option>`).join('');
-
-            const tbody = document.getElementById('students-table-body');
-            tbody.innerHTML = db.students.map(s => {
-                const cls = db.classes.find(c => c.id === s.classId);
-                const score = calculateStudentTotal(s.id, 'p1'); // Example
-                return `
-                    <tr class="border-b hover:bg-gray-50 transition">
-                        <td class="p-4 font-bold text-green-900">${s.name}</td>
-                        <td class="p-4">${cls ? cls.name : '---'}</td>
-                        <td class="p-4 font-black">${score}</td>
-                        <td class="p-4 flex gap-2">
-                            <button onclick="deleteStudent('${s.id}')" class="text-red-500 bg-red-50 p-2 rounded-lg hover:bg-red-100 transition">🗑️</button>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
-        }
-
-        function deleteStudent(id) {
-            if (confirm('حذف الطالبة؟')) {
-                db.students = db.students.filter(s => s.id !== id);
-                delete db.grades[id];
-                saveData();
-                renderStudentsTable();
-            }
-        }
-
-        // --- GRADES LOGIC ---
-        function calculateStudentTotal(id, period) {
-            const g = db.grades[id]?.[period];
-            if (!g) return 0;
-            return (parseFloat(g.task) || 0) + (parseFloat(g.test) || 0);
-        }
-
-        function getClassification(score) {
-            if (score >= 85) return { label: 'فوق المتوسط', color: 'text-green-600 bg-green-50' };
-            if (score >= 60) return { label: 'ضمن المتوسط', color: 'text-blue-600 bg-blue-50' };
-            return { label: 'دون المتوسط', color: 'text-red-600 bg-red-50' };
-        }
-
-        function updateStudentGrade(id, period, type, val) {
-            if (!db.grades[id]) db.grades[id] = { p1: {task:0, test:0}, p2: {task:0, test:0} };
-            db.grades[id][period][type] = parseFloat(val) || 0;
-            saveData();
-            // Partial refresh of current row classification and sum
-            const sumEl = document.getElementById(`sum-${id}-${period}`);
-            const classifEl = document.getElementById(`classif-${id}-${period}`);
-            if (sumEl) {
-                const total = calculateStudentTotal(id, period);
-                sumEl.innerText = total;
-                const clsInfo = getClassification(total);
-                classifEl.innerText = clsInfo.label;
-                classifEl.className = `p-4 text-center font-bold ${clsInfo.color}`;
-            }
-        }
-
-        function renderGradesTable() {
-            const classId = document.getElementById('grades-filter-class').value;
-            const period = document.getElementById('grades-filter-period').value;
-            const tbody = document.getElementById('grades-table-body');
-            
-            const students = db.students.filter(s => s.classId === classId);
-            tbody.innerHTML = students.map(s => {
-                const g = db.grades[s.id]?.[period] || { task: 0, test: 0 };
-                const total = (parseFloat(g.task) || 0) + (parseFloat(g.test) || 0);
-                const clsInfo = getClassification(total);
-
-                return `
-                    <tr class="border-b hover:bg-gray-50 transition">
-                        <td class="p-4 font-bold border-l border-gray-100">${s.name}</td>
-                        <td class="p-4 border-l border-gray-100">
-                            <input type="number" value="${g.task}" max="40" oninput="updateStudentGrade('${s.id}', '${period}', 'task', this.value)" class="w-20 mx-auto block bg-gray-50 border rounded p-2 text-center font-bold">
-                        </td>
-                        <td class="p-4 border-l border-gray-100">
-                            <input type="number" value="${g.test}" max="60" oninput="updateStudentGrade('${s.id}', '${period}', 'test', this.value)" class="w-20 mx-auto block bg-gray-50 border rounded p-2 text-center font-bold">
-                        </td>
-                        <td class="p-4 border-l border-gray-100 text-center font-black text-xl text-green-800" id="sum-${s.id}-${period}">${total}</td>
-                        <td class="p-4 text-center font-bold ${clsInfo.color}" id="classif-${s.id}-${period}">${clsInfo.label}</td>
-                    </tr>
-                `;
-            }).join('');
-        }
-
-        // --- PDF LOGIC ---
-        async function handlePDFUpload(input) {
-            const file = input.files[0];
-            if (!file) return;
-
-            const status = document.getElementById('pdf-status');
-            status.innerText = "جاري قراءة الملف وتحليله... يرجى الانتظار";
-            
-            try {
-                const arrayBuffer = await file.arrayBuffer();
-                const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
-                let fullText = "";
-
-                for (let i = 1; i <= pdf.numPages; i++) {
-                    const page = await pdf.getPage(i);
-                    const content = await page.getTextContent();
-                    fullText += content.items.map(item => item.str).join(" ") + " ";
-                }
-
-                analyzeSyllabusText(fullText);
-                status.innerText = "تم استخراج 7 وحدات بنجاح ✓";
-                setTimeout(() => { status.innerText = ""; }, 3000);
-            } catch (err) {
-                console.error(err);
-                status.innerText = "حدث خطأ أثناء معالجة الملف";
-            }
-        }
-
-        function analyzeSyllabusText(text) {
-            // Simplified Parser for educational structure
-            // In a real scenario, we use more complex Regex
-            const units = [
-                "الوحدة الأولى: العقيدة الإسلامية",
-                "الوحدة الثانية: توحيد الربوبية",
-                "الوحدة الثالثة: توحيد الألوهية",
-                "الوحدة الرابعة: توحيد الأسماء والصفات",
-                "الوحدة الخامسة: العبادة",
-                "الوحدة السادسة: الشرك",
-                "الوحدة السابعة: حقوق النبي ﷺ وأهل بيته"
-            ];
-
-            db.syllabus = units.map((uName, idx) => ({
-                id: idx.toString(),
-                name: uName,
-                lessons: [
-                    { 
-                        title: "الدرس الأول: تعريف ومبادئ", 
-                        skills: ["التعريف اللغوي والاصطلاحي", "استنباط الأدلة من القرآن", "تمييز أنواع العبادات"]
-                    }
-                ]
-            }));
-
-            saveData();
-            renderSyllabus();
-        }
-
-        function renderSyllabus() {
-            const container = document.getElementById('syllabus-container');
-            container.innerHTML = db.syllabus.map((unit, uIdx) => `
-                <div class="bg-white rounded-3xl shadow-sm overflow-hidden border border-green-50">
-                    <div class="bg-green-100 p-4 flex justify-between items-center">
-                        <h4 class="font-black text-green-900">${unit.name}</h4>
-                        <button onclick="addLessonToUnit('${unit.id}')" class="text-xs bg-white text-green-700 px-3 py-1 rounded-full font-bold shadow-sm">+ درس جديد</button>
-                    </div>
-                    <div class="p-6 space-y-4">
-                        ${unit.lessons.map((lesson, lIdx) => `
-                            <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100">
-                                <div class="flex justify-between items-center mb-3">
-                                    <h5 class="font-bold text-gray-700">📖 ${lesson.title}</h5>
-                                    <button onclick="addSkillToLesson('${unit.id}', ${lIdx})" class="text-[10px] text-blue-600 font-bold hover:underline">إضافة مهارة +</button>
-                                </div>
-                                <div class="flex flex-wrap gap-2">
-                                    ${lesson.skills.map(s => `
-                                        <span class="bg-white border px-3 py-1 rounded-lg text-xs font-bold text-gray-500">${s}</span>
-                                    `).join('')}
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function addUnitManual() {
-            const name = prompt("اسم الوحدة:");
-            if (name) {
-                db.syllabus.push({ id: Date.now().toString(), name, lessons: [] });
-                saveData(); renderSyllabus();
-            }
-        }
-
-        function addLessonToUnit(uId) {
-            const title = prompt("عنوان الدرس:");
-            if (title) {
-                const unit = db.syllabus.find(u => u.id === uId);
-                unit.lessons.push({ title, skills: [] });
-                saveData(); renderSyllabus();
-            }
-        }
-
-        function addSkillToLesson(uId, lIdx) {
-            const skill = prompt("المهارة:");
-            if (skill) {
-                const unit = db.syllabus.find(u => u.id === uId);
-                unit.lessons[lIdx].skills.push(skill);
-                saveData(); renderSyllabus();
-            }
-        }
-
-        // --- DASHBOARD & ANALYSIS ---
-        let mainChartObj = null;
-        function initDashboard() {
-            document.getElementById('stat-total-students').innerText = db.students.length;
-            
-            const scores = db.students.map(s => calculateStudentTotal(s.id, 'p1'));
-            const success = scores.filter(sc => sc >= 60).length;
-            const rate = db.students.length > 0 ? Math.round((success / db.students.length) * 100) : 0;
-            document.getElementById('stat-success-rate').innerText = rate + '%';
-            
-            const gaps = scores.filter(sc => sc < 60).length;
-            document.getElementById('stat-gap-count').innerText = gaps;
-
-            const skillCount = db.syllabus.reduce((acc, u) => acc + u.lessons.reduce((lacc, l) => lacc + l.skills.length, 0), 0);
-            document.getElementById('stat-skills-count').innerText = skillCount;
-
-            // Chart
-            const levels = { high: scores.filter(s => s >= 85).length, mid: scores.filter(s => s >= 60 && s < 85).length, low: gaps };
-            
-            const ctx = document.getElementById('mainLevelChart').getContext('2d');
-            if (mainChartObj) mainChartObj.destroy();
-            mainChartObj = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['فوق المتوسط', 'ضمن المتوسط', 'دون المتوسط'],
-                    datasets: [{
-                        data: [levels.high, levels.mid, levels.low],
-                        backgroundColor: ['#10b981', '#3b82f6', '#ef4444'],
-                        borderWidth: 0
-                    }]
-                },
-                options: { maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
-            });
-        }
-
-        function initAnalysisCharts() {
-            // Logic for charts in Analysis View
-            const scoresP1 = db.students.map(s => calculateStudentTotal(s.id, 'p1'));
-            const scoresP2 = db.students.map(s => calculateStudentTotal(s.id, 'p2'));
-
-            // Comparison Chart
-            const ctxComp = document.getElementById('comparisonChart').getContext('2d');
-            new Chart(ctxComp, {
-                type: 'bar',
-                data: {
-                    labels: ['فوق المتوسط', 'ضمن المتوسط', 'دون المتوسط'],
-                    datasets: [
-                        { label: 'الفترة 1', data: [scoresP1.filter(s => s >= 85).length, scoresP1.filter(s => s >= 60 && s < 85).length, scoresP1.filter(s => s < 60).length], backgroundColor: '#10b981' },
-                        { label: 'الفترة 2', data: [scoresP2.filter(s => s >= 85).length, scoresP2.filter(s => s >= 60 && s < 85).length, scoresP2.filter(s => s < 60).length], backgroundColor: '#facc15' }
-                    ]
-                }
-            });
-        }
-
-        // --- GAP & REMEDIAL & HONOR ---
-        function renderGapTable() {
-            const tbody = document.getElementById('gap-table-body');
-            const weakOnes = db.students.filter(s => calculateStudentTotal(s.id, 'p1') < 60);
-            tbody.innerHTML = weakOnes.map(s => {
-                const cls = db.classes.find(c => c.id === s.classId);
-                return `
-                    <tr class="border-b">
-                        <td class="p-4 font-bold">${s.name}</td>
-                        <td class="p-4">${cls?.name}</td>
-                        <td class="p-4 font-black text-red-600">${calculateStudentTotal(s.id, 'p1')}</td>
-                        <td class="p-4 text-xs text-gray-500">تحليل الأدلة الشرعية</td>
-                    </tr>
-                `;
-            }).join('');
-        }
-
-        function renderHonorRoll() {
-            const container = document.getElementById('honor-roll-container');
-            const stars = db.students.map(s => ({ ...s, score: calculateStudentTotal(s.id, 'p1') }))
-                          .filter(s => s.score >= 95)
-                          .sort((a,b) => b.score - a.score);
-
-            container.innerHTML = stars.map(s => `
-                <div class="bg-white p-10 rounded-[40px] shadow-xl text-center border-t-8 border-yellow-400 relative">
-                    <div class="absolute -top-6 right-1/2 translate-x-1/2 text-4xl">👑</div>
-                    <h3 class="text-2xl font-black text-gray-800">${s.name}</h3>
-                    <p class="text-yellow-600 font-bold mb-6">درجة التميز: ${s.score}</p>
-                    <div class="inline-block bg-yellow-50 text-yellow-700 px-4 py-2 rounded-2xl font-black">طالبة مثالية</div>
-                </div>
-            `).join('');
-        }
-
-        function renderRemedialPlans() {
-            const container = document.getElementById('remedial-container');
-            const weak = db.students.filter(s => calculateStudentTotal(s.id, 'p1') < 60);
-            if (weak.length === 0) {
-                container.innerHTML = '<div class="p-10 text-center text-gray-400 italic">لا توجد طالبات في الفئة المستهدفة حالياً</div>';
-                return;
-            }
-            container.innerHTML = `
-                <div class="bg-white p-6 rounded-3xl shadow-sm border-r-8 border-blue-600">
-                    <h4 class="font-black text-blue-900 mb-4 text-lg">خطة معالجة مهارات التوحيد</h4>
-                    <p class="mb-4 text-sm leading-loose">بناءً على نتائج الفترة، سيتم تنفيذ جلسات دعم مركزة للطالبات (<b>${weak.map(s => s.name).join('، ')}</b>) لتعزيز فهم أنواع التوحيد والقدرة على الاستدلال.</p>
-                    <div class="grid grid-cols-3 gap-4 text-xs">
-                        <div class="p-3 bg-gray-50 rounded-xl"><b>الأسلوب:</b> تدريس الأقران</div>
-                        <div class="p-3 bg-gray-50 rounded-xl"><b>المدة:</b> أسبوعان</div>
-                        <div class="p-3 bg-gray-50 rounded-xl"><b>التقييم:</b> ورقة عمل</div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function renderEnrichmentPlans() {
-            const container = document.getElementById('enrichment-container');
-            const top = db.students.filter(s => calculateStudentTotal(s.id, 'p1') >= 95);
-            container.innerHTML = `
-                <div class="bg-white p-6 rounded-3xl shadow-sm border-r-8 border-yellow-500">
-                    <h4 class="font-black text-yellow-900 mb-4 text-lg">خطة الإثراء المعرفي</h4>
-                    <p class="mb-4 text-sm leading-loose">تقديم بحوث قصيرة في مقارنة المذاهب للطالبات المتميزات لتعزيز مهارات التفكير العليا.</p>
-                    <div class="p-3 bg-yellow-50 rounded-xl text-xs"><b>المستهدفات:</b> ${top.map(s => s.name).join('، ') || 'المتفوقات'}</div>
-                </div>
-            `;
-        }
-
-        // --- QUESTION BANK ---
-        function renderQuestionBank() {
-            const container = document.getElementById('q-bank-container');
-            let questions = [];
-            db.syllabus.forEach(u => {
-                u.lessons.forEach(l => {
-                    l.skills.forEach(s => {
-                        questions.push({ skill: s, question: `وضح علاقة ${s} بأركان الإيمان؟`, type: 'مقالي/اختياري' });
-                    });
-                });
-            });
-
-            container.innerHTML = questions.map(q => `
-                <div class="bg-white p-6 rounded-3xl shadow-sm border-b-4 border-purple-200">
-                    <span class="text-[10px] bg-purple-100 text-purple-700 px-2 py-1 rounded font-bold">${q.skill}</span>
-                    <p class="mt-4 font-bold text-gray-800">${q.question}</p>
-                    <div class="mt-4 h-8 bg-gray-50 rounded-lg flex items-center px-4 text-[10px] text-gray-400">نموذج إجابة مقترح من الكتاب الوزاري...</div>
-                </div>
-            `).join('');
-        }
-
-        // --- PARENTS ---
-        function addParentNote() {
-            const stdId = document.getElementById('parent-std-select').value;
-            const date = document.getElementById('parent-date').value;
-            const note = document.getElementById('parent-note').value;
-            if (!note) return;
-            
-            db.parentNotes.push({ id: Date.now(), stdId, date, note });
-            document.getElementById('parent-note').value = '';
-            saveData();
-            renderParentNotes();
-        }
-
-        function renderParentNotes() {
-            const list = document.getElementById('parent-notes-list');
-            list.innerHTML = db.parentNotes.map(n => {
-                const std = db.students.find(s => s.id === n.stdId);
-                return `
-                    <div class="bg-white p-5 rounded-2xl shadow-sm border-r-4 border-green-500">
-                        <div class="flex justify-between items-start">
-                            <h5 class="font-black text-green-900">${std ? std.name : '---'}</h5>
-                            <span class="text-xs text-gray-400">${n.date}</span>
-                        </div>
-                        <p class="mt-2 text-sm text-gray-600">${n.note}</p>
-                    </div>
-                `;
-            }).reverse().join('');
-        }
-
-        // --- EXPORTS & REPORTS ---
-        function prepareReport(period) {
-            const viewer = document.getElementById('report-viewer');
-            const content = document.getElementById('report-canvas-content');
-            viewer.classList.remove('hidden');
-
-            const scores = db.students.map(s => calculateStudentTotal(s.id, period === 'final' ? 'p1' : period));
-            const levels = { high: scores.filter(s => s >= 85).length, mid: scores.filter(s => s >= 60 && s < 85).length, low: scores.filter(s => s < 60).length };
-
-            content.innerHTML = `
-                <div class="text-center space-y-4">
-                    <h3 class="text-3xl font-black underline">بيانات إحصائية: ${period === 'p1' ? 'الفترة 1' : (period === 'p2' ? 'الفترة 2' : 'التقرير الختامي')}</h3>
-                    <div class="grid grid-cols-3 gap-6 py-6">
-                        <div class="bg-green-50 p-4 rounded-2xl border border-green-200">
-                            <p class="text-sm font-bold">فوق المتوسط</p>
-                            <span class="text-2xl font-black">${levels.high}</span>
-                        </div>
-                        <div class="bg-blue-50 p-4 rounded-2xl border border-blue-200">
-                            <p class="text-sm font-bold">ضمن المتوسط</p>
-                            <span class="text-2xl font-black">${levels.mid}</span>
-                        </div>
-                        <div class="bg-red-50 p-4 rounded-2xl border border-red-200">
-                            <p class="text-sm font-bold">دون المتوسط</p>
-                            <span class="text-2xl font-black">${levels.low}</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="space-y-2">
-                    <h4 class="font-black border-r-4 border-green-600 pr-3">حالة الفاقد التعليمي:</h4>
-                    <p>عدد الطالبات غير المجتازات للمهارات الأساسية: ${levels.low} طالبة. تم البدء في تنفيذ خطة المعالجة الفورية المعتمدة.</p>
-                </div>
-
-                <div class="grid grid-cols-2 gap-10 pt-20 text-center">
-                    <div>
-                        <p class="font-black">توقيع المعلمة</p>
-                        <p class="pt-8 text-sm">${db.basicInfo.teacher || '.................'}</p>
-                    </div>
-                    <div>
-                        <p class="font-black">توقيع المشرفة</p>
-                        <p class="pt-8 text-sm">${db.basicInfo.supervisor || '.................'}</p>
-                    </div>
-                </div>
-            `;
-        }
-
-        function exportToWord() {
-            const content = document.getElementById('report-canvas-content').innerText;
-            const blob = new Blob(['\ufeff', content], { type: 'application/msword' });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = 'Report_Touhid.doc';
-            link.click();
-        }
-
-        // --- SYSTEM INIT ---
-        window.onload = () => {
-            loadData();
-            document.getElementById('current-date').innerText = new Date().toLocaleDateString('ar-SA', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-            router('dashboard');
-        }
-    </script>
-</body>
+    setInterval(() => {
+      lucide.createIcons();
+    }, 500);
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9dc672796385b53b',t:'MTc3MzUyNDUzNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
-
-هذه المنصهيستخرج ج وحدات  سبع  بعضها ليست من المنهج المرفق. يحطهانفس المهارة في كل الوحدات ولما احب اضيف مهارة يدوي مانضغط اليدوي بس وخلها نفسها لاتغير ولا شيء ولاتحذف ولاتنقص. ولاشيء. شوف فيها فترتين ورسوم بيانيه خلها زي ماهي لاتحذف اي شيئ ولا تعدل فقط المطلوب وتحفظ اهم شيء 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* ===== FIX SYLLABUS EXTRACTION ===== */
-
-function analyzeSyllabusText(text){
-
-const unitRegex = /الوحدة\s+(الأولى|الثانية|الثالثة|الرابعة|الخامسة|السادسة|السابعة)[^:\n]*/g;
-const lessonRegex = /الدرس\s+[^\n]+/g;
-
-const units = text.match(unitRegex) || [];
-const lessons = text.match(lessonRegex) || [];
-
-db.syllabus = [];
-
-units.forEach((u,i)=>{
-
-let lessonGroup = lessons.slice(i*2,i*2+2);
-
-db.syllabus.push({
-id: Date.now()+i,
-name: u,
-lessons: lessonGroup.map(l=>({
-title:l,
-skills:[
-"فهم المفهوم العقدي",
-"الاستدلال من القرآن",
-"تحليل المفهوم الشرعي"
-]
-}))
-})
-
-});
-
-saveData();
-renderSyllabus();
-}
-
-
-
-/* ===== FIX ADD SKILL BUTTON ===== */
-
-function addSkillToLesson(uId,lIdx){
-
-const skill = prompt("اكتب المهارة");
-
-if(!skill) return;
-
-const unitIndex = db.syllabus.findIndex(u=>u.id==uId);
-
-if(unitIndex==-1) return;
-
-db.syllabus[unitIndex].lessons[lIdx].skills.push(skill);
-
-saveData();
-renderSyllabus();
-
-}
-
-
-
-/* ===== AUTO GENERATE QUESTION BANK ===== */
-
-function renderQuestionBank(){
-
-const container=document.getElementById("q-bank-container");
-
-let questions=[];
-
-db.syllabus.forEach(u=>{
-u.lessons.forEach(l=>{
-l.skills.forEach(skill=>{
-
-questions.push({
-skill:skill,
-question:`اشرح مفهوم (${skill}) مع الدليل الشرعي.`,
-})
-
-})
-})
-})
-
-container.innerHTML=questions.map(q=>`
-<div class="bg-white p-6 rounded-3xl shadow-sm border-b-4 border-purple-200">
-<span class="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded">${q.skill}</span>
-<p class="mt-4 font-bold">${q.question}</p>
-</div>
-`).join("");
-
-}
-
-
-
-/* ===== AUTO REMEDIAL PLAN ===== */
-
-function renderRemedialPlans(){
-
-const container=document.getElementById("remedial-container");
-
-let weak=db.students.filter(s=>calculateStudentTotal(s.id,'p1')<60);
-
-container.innerHTML=weak.map(s=>`
-<div class="bg-white p-6 rounded-2xl border-r-4 border-blue-600">
-<h4 class="font-bold">${s.name}</h4>
-<p class="text-sm mt-2">
-برنامج علاجي لمدة أسبوعين يتضمن مراجعة المفاهيم الأساسية للتوحيد
-وتطبيق أوراق عمل إضافية.
-</p>
-</div>
-`).join("");
-
-}
-
-
-
-/* ===== AUTO ENRICHMENT PLAN ===== */
-
-function renderEnrichmentPlans(){
-
-const container=document.getElementById("enrichment-container");
-
-let top=db.students.filter(s=>calculateStudentTotal(s.id,'p1')>=95);
-
-container.innerHTML=top.map(s=>`
-<div class="bg-white p-6 rounded-2xl border-r-4 border-yellow-500">
-<h4 class="font-bold">${s.name}</h4>
-<p class="text-sm mt-2">
-تكليف بحث قصير حول تطبيقات التوحيد في حياة المسلم
-مع عرض تقديمي أمام الصف.
-</p>
-</div>
-`).join("");
-
-}
-
-
-
-/* ===== AUTO GENERATE CONTEST QUESTIONS ===== */
-
-function generateContest(){
-
-let questions=[];
-
-db.syllabus.forEach(u=>{
-u.lessons.forEach(l=>{
-l.skills.forEach(skill=>{
-questions.push(`ما المقصود بـ ${skill} ؟`);
-})
-})
-})
-
-return questions;
-
-}
-
-
-
-/* ===== EXTRA SAFE SAVE ===== */
-
-function saveData(){
-
-db.basicInfo = {
-school: document.getElementById('info-school').value,
-teacher: document.getElementById('info-teacher').value,
-supervisor: document.getElementById('info-supervisor').value,
-year: document.getElementById('info-year').value,
-term: document.getElementById('info-term').value
-};
-
-localStorage.setItem(STORAGE_KEY,JSON.stringify(db));
-
-window.backupDB=JSON.stringify(db);
-
-const indicator=document.getElementById('save-indicator');
-
-indicator.style.opacity='1';
-
-setTimeout(()=>{indicator.style.opacity='0'},1200);
-
-}
-
-
-
-/* ===== RESTORE BACKUP ===== */
-
-if(!localStorage.getItem(STORAGE_KEY) && window.backupDB){
-localStorage.setItem(STORAGE_KEY,window.backupDB);
-}
