@@ -4,243 +4,233 @@
 <meta charset="UTF-8">
 <title>منصة الإتقان الذكي</title>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-
 <style>
-body{font-family:Arial;background:#eef3ef;margin:0}
-.header{background:#2f855a;color:#fff;padding:15px;text-align:center;font-size:20px}
-.container{padding:20px}
-.card{background:#fff;padding:15px;margin-bottom:15px;border-radius:10px}
-input,textarea{width:100%;padding:8px;margin-top:5px}
-button{padding:8px;background:#2f855a;color:#fff;border:none;margin-top:5px}
+body{font-family:tahoma;background:#eef3ef;margin:0}
+header{background:#2e7d32;color:#fff;padding:15px;text-align:center}
+.container{padding:15px}
+.card{background:#fff;border-radius:12px;padding:15px;margin:10px 0}
+button{background:#2e7d32;color:#fff;padding:8px;border:none;border-radius:8px}
+input,textarea,select{width:100%;padding:8px;margin:5px 0}
+.nav{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
 </style>
 </head>
 
 <body>
 
-<div class="header">🎓 منصة تحليل نتائج مادة التوحيد</div>
+<header>📊 منصة الإتقان الذكي</header>
 
 <div class="container">
 
-<!-- البيانات الأساسية -->
-<div class="card">
-<h3>⚙️ البيانات الأساسية</h3>
-<input id="school" placeholder="اسم المدرسة">
-<input id="teacher" placeholder="اسم المعلمة">
-<input id="manager" placeholder="اسم المديرة">
-<input id="subject" placeholder="المادة">
-<input id="year" placeholder="العام الدراسي">
+<div class="nav">
+<button onclick="show('data')">البيانات</button>
+<button onclick="show('students')">الطالبات</button>
+<button onclick="show('skills')">المهارات</button>
+<button onclick="show('grades')">الدرجات</button>
+<button onclick="show('analysis')">التحليل</button>
+<button onclick="show('loss')">الفاقد</button>
+<button onclick="show('parents')">أولياء الأمور</button>
+<button onclick="show('awards')">التكريم</button>
+<button onclick="show('games')">الألعاب</button>
+<button onclick="show('archive')">الأرشيف</button>
 </div>
 
-<!-- رفع المنهج -->
-<div class="card">
-<h3>📄 المنهج</h3>
-<input type="file" id="pdfFile">
-<button onclick="readPDF()">توليد المهارات</button>
-<div id="skillsList"></div>
+<!-- البيانات -->
+<div id="data" class="card section">
+<h3>⚙️ البيانات</h3>
+<input id="school" placeholder="المدرسة">
+<input id="teacher" placeholder="المعلمة">
+<input id="manager" placeholder="المديرة">
+<input id="subject" placeholder="المادة">
+<input id="year" placeholder="العام">
 </div>
 
 <!-- الطالبات -->
-<div class="card">
+<div id="students" class="card section" style="display:none">
 <h3>👩‍🎓 الطالبات</h3>
 <textarea id="names"></textarea>
-<button onclick="addStudents()">إضافة</button>
+<button onclick="saveStudents()">حفظ</button>
 <div id="studentsList"></div>
 </div>
 
+<!-- المهارات -->
+<div id="skills" class="card section" style="display:none">
+<h3>🧠 المهارات</h3>
+<input id="skillInput">
+<button onclick="addSkill()">إضافة</button>
+<button onclick="autoSkills()">توليد</button>
+<div id="skillsList"></div>
+</div>
+
 <!-- الدرجات -->
-<div class="card">
-<h3>✍️ الدرجات (فترتين)</h3>
+<div id="grades" class="card section" style="display:none">
+<h3>✏️ الدرجات (فترتين)</h3>
+<select id="term">
+<option value="1">الفترة الأولى</option>
+<option value="2">الفترة الثانية</option>
+</select>
 <div id="gradesList"></div>
 </div>
 
 <!-- التحليل -->
-<div class="card">
+<div id="analysis" class="card section" style="display:none">
 <h3>📊 التحليل</h3>
 <div id="analysisList"></div>
-<canvas id="chart"></canvas>
 </div>
 
 <!-- الفاقد -->
-<div class="card">
-<h3>⚠️ الفاقد التعليمي</h3>
+<div id="loss" class="card section" style="display:none">
+<h3>⚠️ الفاقد</h3>
 <div id="lossList"></div>
 </div>
 
 <!-- أولياء الأمور -->
-<div class="card">
+<div id="parents" class="card section" style="display:none">
 <h3>👨‍👩‍👧 أولياء الأمور</h3>
-<input id="pname" placeholder="اسم ولي الأمر">
-<input id="pphone" placeholder="رقم الجوال">
+<input id="pname">
+<input id="pphone">
 <button onclick="addParent()">حفظ</button>
 <div id="parentsList"></div>
 </div>
 
-<!-- التقارير -->
-<div class="card">
-<h3>📋 التقارير</h3>
-<button onclick="window.print()">🖨️ طباعة</button>
-<div id="reportList"></div>
-</div>
-
 <!-- التكريم -->
-<div class="card">
+<div id="awards" class="card section" style="display:none">
 <h3>🏆 التكريم</h3>
 <div id="awardsList"></div>
 </div>
 
-<!-- الأرشيف -->
-<div class="card">
-<h3>📁 الأرشيف</h3>
-<div id="archiveList"></div>
-</div>
-
 <!-- الألعاب -->
-<div class="card">
+<div id="games" class="card section" style="display:none">
 <h3>🎮 الألعاب</h3>
 <a href="https://kahoot.com" target="_blank">Kahoot</a><br>
-<a href="https://quizizz.com" target="_blank">Quizizz</a><br>
-<a href="https://wordwall.net" target="_blank">Wordwall</a><br>
-<a href="https://blooket.com" target="_blank">Blooket</a>
+<a href="https://quizizz.com" target="_blank">Quizizz</a>
 </div>
 
-<!-- المصادر -->
-<div class="card">
-<h3>🌐 المصادر</h3>
-<a href="https://ien.edu.sa" target="_blank">عين</a><br>
-<a href="https://schools.madrasati.sa" target="_blank">مدرستي</a>
+<!-- الأرشيف -->
+<div id="archive" class="card section" style="display:none">
+<h3>📂 الأرشيف</h3>
+<input id="archiveTitle">
+<textarea id="archiveContent"></textarea>
+<button onclick="saveArchive()">حفظ</button>
+<div id="archiveList"></div>
 </div>
 
 </div>
 
 <script>
 
-// حفظ تلقائي لكل شيء
-document.querySelectorAll("input,textarea").forEach(el=>{
-el.oninput=()=>localStorage.setItem(el.id,el.value);
-});
-
-// تحميل البيانات الأساسية
-window.onload=()=>{
-["school","teacher","manager","subject","year"].forEach(id=>{
-let el=document.getElementById(id);
-if(el) el.value=localStorage.getItem(id)||"";
-});
-render();
-};
-
-// الطلاب
-let students = JSON.parse(localStorage.getItem("students")||"[]");
-
-function save(){localStorage.setItem("students",JSON.stringify(students));}
-
-function addStudents(){
-let names=document.getElementById("names").value.split("\n");
-names.forEach(n=>{
-if(n.trim())students.push({name:n,g1:0,g2:0});
-});
-save();render();
+function show(id){
+document.querySelectorAll('.section').forEach(s=>s.style.display='none');
+document.getElementById(id).style.display='block';
 }
 
-function render(){
-let sHTML="",gHTML="";
+function saveStudents(){
+let data=document.getElementById("names").value.split("\n");
+localStorage.setItem("students",JSON.stringify(data));
+renderStudents();
+}
+
+function renderStudents(){
+let data=JSON.parse(localStorage.getItem("students")||"[]");
+let html="";
+data.forEach(s=>html+=`<div>${s}</div>`);
+document.getElementById("studentsList").innerHTML=html;
+renderGrades();
+}
+
+function addSkill(){
+let s=document.getElementById("skillInput").value;
+let skills=JSON.parse(localStorage.getItem("skills")||"[]");
+skills.push(s);
+localStorage.setItem("skills",JSON.stringify(skills));
+renderSkills();
+}
+
+function autoSkills(){
+let list=["تمييز التوحيد","الشرك","العبادة"];
+localStorage.setItem("skills",JSON.stringify(list));
+renderSkills();
+}
+
+function renderSkills(){
+let data=JSON.parse(localStorage.getItem("skills")||"[]");
+let html="";
+data.forEach(s=>html+=`<div>${s}</div>`);
+document.getElementById("skillsList").innerHTML=html;
+}
+
+function renderGrades(){
+let students=JSON.parse(localStorage.getItem("students")||"[]");
+let html="";
 students.forEach((s,i)=>{
-sHTML+=s.name+"<br>";
-gHTML+=`${s.name}
-ف1 <input value="${s.g1}" onchange="setGrade(${i},this.value,1)">
-ف2 <input value="${s.g2}" onchange="setGrade(${i},this.value,2)"><br>`;
+html+=`${s} <input type="number" onchange="saveGrade(${i},this.value)"><br>`;
 });
-document.getElementById("studentsList").innerHTML=sHTML;
-document.getElementById("gradesList").innerHTML=gHTML;
-analyze();
+document.getElementById("gradesList").innerHTML=html;
 }
 
-function setGrade(i,val,t){
-val=Number(val);
-if(t==1)students[i].g1=val;
-else students[i].g2=val;
-
-let avg=(students[i].g1+students[i].g2)/2;
-
-if(avg>=90)students[i].level="فوق المتوسط";
-else if(avg>=70)students[i].level="ضمن المتوسط";
-else students[i].level="دون المتوسط";
-
-save();
+function saveGrade(i,v){
+let term=document.getElementById("term").value;
+let grades=JSON.parse(localStorage.getItem("grades")||"{}");
+if(!grades[term]) grades[term]=[];
+grades[term][i]=v;
+localStorage.setItem("grades",JSON.stringify(grades));
 analyze();
 }
 
 function analyze(){
-let html="",loss="",aw="";
-let h=0,m=0,l=0;
+let students=JSON.parse(localStorage.getItem("students")||"[]");
+let grades=JSON.parse(localStorage.getItem("grades")||"{}");
+let term=document.getElementById("term").value;
+let g=grades[term]||[];
 
-students.forEach(s=>{
-html+=`${s.name} - ${s.level||""}<br>`;
-
-if(s.level==="فوق المتوسط"){h++;aw+="🏆 "+s.name+"<br>";}
-else if(s.level==="ضمن المتوسط") m++;
-else {l++;loss+=s.name+"<br>";}
+let html="",loss="",awards="";
+students.forEach((s,i)=>{
+let x=g[i]||0;
+html+=`${s} - ${x}<br>`;
+if(x<60) loss+=`<div>${s}</div>`;
+if(x>90) awards+=`<div>${s}</div>`;
 });
 
 document.getElementById("analysisList").innerHTML=html;
 document.getElementById("lossList").innerHTML=loss;
-document.getElementById("awardsList").innerHTML=aw;
-document.getElementById("reportList").innerHTML=html;
-document.getElementById("archiveList").innerHTML+=html+"<hr>";
-
-new Chart(document.getElementById("chart"),{
-type:"pie",
-data:{labels:["فوق","ضمن","دون"],datasets:[{data:[h,m,l]}]}
-});
+document.getElementById("awardsList").innerHTML=awards;
 }
 
-// أولياء الأمور
 function addParent(){
 let n=document.getElementById("pname").value;
 let p=document.getElementById("pphone").value;
-document.getElementById("parentsList").innerHTML+=`${n} - ${p}<br>`;
+let data=JSON.parse(localStorage.getItem("parents")||"[]");
+data.push({n,p});
+localStorage.setItem("parents",JSON.stringify(data));
+renderParents();
 }
 
-// قراءة PDF
-async function readPDF(){
-let file=document.getElementById("pdfFile").files[0];
-if(!file)return;
-
-let reader=new FileReader();
-reader.onload=async function(){
-let pdf=await pdfjsLib.getDocument(new Uint8Array(this.result)).promise;
-let text="";
-for(let i=1;i<=pdf.numPages;i++){
-let page=await pdf.getPage(i);
-let content=await page.getTextContent();
-content.items.forEach(it=>text+=it.str+" ");
-}
-generateSkills(text);
-};
-reader.readAsArrayBuffer(file);
-}
-
-// توليد المهارات
-function generateSkills(text){
-let units=[
-"العقيدة الإسلامية",
-"توحيد الربوبية",
-"توحيد الألوهية",
-"الأسماء والصفات",
-"نواقض التوحيد",
-"حقوق النبي",
-"نعمة التوحيد"
-];
-
+function renderParents(){
+let data=JSON.parse(localStorage.getItem("parents")||"[]");
 let html="";
-units.forEach(u=>{
-html+=`<h4>${u}</h4>`;
-let words=text.split(" ").slice(0,10);
-words.forEach(w=>html+="✔ "+w+"<br>");
-});
-document.getElementById("skillsList").innerHTML=html;
+data.forEach(d=>html+=`<div>${d.n}-${d.p}</div>`);
+document.getElementById("parentsList").innerHTML=html;
 }
+
+function saveArchive(){
+let t=document.getElementById("archiveTitle").value;
+let c=document.getElementById("archiveContent").value;
+let data=JSON.parse(localStorage.getItem("archive")||"[]");
+data.push({t,c});
+localStorage.setItem("archive",JSON.stringify(data));
+renderArchive();
+}
+
+function renderArchive(){
+let data=JSON.parse(localStorage.getItem("archive")||"[]");
+let html="";
+data.forEach(d=>html+=`<div>${d.t}</div>`);
+document.getElementById("archiveList").innerHTML=html;
+}
+
+renderStudents();
+renderSkills();
+renderParents();
+renderArchive();
 
 </script>
 
