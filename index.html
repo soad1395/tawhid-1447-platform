@@ -2,245 +2,220 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>منصة تحليل نتائج التوحيد</title>
+<title>منصة التوحيد النهائية</title>
 
 <style>
-body{font-family:Arial;background:#eef3ef;margin:0}
+body{font-family:tahoma;background:#eef3ef;margin:0}
 .header{background:#2f855a;color:#fff;padding:15px;text-align:center;font-size:20px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:15px;padding:20px}
-.card{
-background:#fff;padding:20px;text-align:center;border-radius:12px;
-box-shadow:0 2px 5px rgba(0,0,0,.1);cursor:pointer;
-border-bottom:5px solid #ccc;font-size:16px
-}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;padding:20px}
+.card{background:#fff;padding:15px;border-radius:12px;text-align:center;cursor:pointer}
 .section{display:none;padding:20px}
 .active{display:block}
-input,textarea,select{width:100%;padding:10px;margin-top:5px}
-button{padding:10px;background:#2f855a;color:#fff;border:none;margin-top:5px}
+input,textarea,select{width:100%;padding:8px;margin-top:5px}
+button{padding:8px;background:#2f855a;color:#fff;border:none;margin-top:5px}
 .dark{background:#111;color:#fff}
-.dark .card{background:#222;color:#fff}
-.chart{margin-top:20px}
+.dark .card{background:#222}
 </style>
 </head>
 
 <body>
 
-<div class="header">🎓 منصة تحليل نتائج مادة التوحيد</div>
+<div class="header">🎓 منصة التوحيد</div>
 
 <div id="home" class="section active">
 <div class="grid">
-
-<div class="card" onclick="show('classes')">🏫 إدارة الفصول</div>
-<div class="card" onclick="show('students')">👩‍🎓 الطالبات</div>
-<div class="card" onclick="show('grades')">✍️ إدخال الدرجات</div>
-<div class="card" onclick="show('analysis')">📊 التحليل</div>
-<div class="card" onclick="show('loss')">⚠️ الفاقد</div>
-<div class="card" onclick="show('plans')">💊 الخطط</div>
-
+<div class="card" onclick="go('data')">⚙️ البيانات</div>
+<div class="card" onclick="go('classes')">🏫 الفصول</div>
+<div class="card" onclick="go('students')">👩‍🎓 الطالبات</div>
+<div class="card" onclick="go('grades')">✍️ الدرجات</div>
+<div class="card" onclick="go('analysis')">📊 التحليل</div>
+<div class="card" onclick="go('loss')">⚠️ الفاقد</div>
+<div class="card" onclick="go('plans')">💊 الخطط</div>
+<div class="card" onclick="go('parents')">👨‍👩‍👧 أولياء الأمور</div>
+<div class="card" onclick="go('sources')">🌐 المصادر</div>
+<div class="card" onclick="go('games')">🎮 الألعاب</div>
+<div class="card" onclick="go('awards')">🏆 التكريم</div>
+<div class="card" onclick="go('archive')">📁 الأرشيف</div>
+<div class="card" onclick="go('reports')">📋 التقارير</div>
 </div>
 
-<button onclick="toggleDark()">🌙 الوضع الليلي</button>
+<button onclick="toggleDark()">🌙 وضع ليلي</button>
+</div>
+
+<!-- البيانات -->
+<div id="data" class="section">
+<h3>البيانات الأساسية</h3>
+<input id="school" placeholder="المدرسة">
+<input id="teacher" placeholder="المعلمة">
+<input id="year" placeholder="السنة">
+<button onclick="saveData()">حفظ</button>
 </div>
 
 <!-- الفصول -->
 <div id="classes" class="section">
-<h3>الفصول</h3>
-<input id="className" placeholder="اسم الفصل">
-<button onclick="addClass()">إضافة</button>
+<input id="className">
+<button onclick="addClass()">إضافة فصل</button>
 <div id="classList"></div>
-<button onclick="show('home')">رجوع</button>
 </div>
 
 <!-- الطالبات -->
 <div id="students" class="section">
-<h3>الطالبات</h3>
-
 <select id="classSelect"></select>
-
-<textarea id="studentsInput" placeholder="أدخل الأسماء كل اسم في سطر"></textarea>
-
+<textarea id="names"></textarea>
 <button onclick="addStudents()">حفظ</button>
-
 <div id="studentsList"></div>
-
-<button onclick="show('home')">رجوع</button>
 </div>
 
 <!-- الدرجات -->
 <div id="grades" class="section">
-<h3>الدرجات</h3>
-
 <select id="studentSelect"></select>
-
 <input id="g1" placeholder="الفترة الأولى">
 <input id="g2" placeholder="الفترة الثانية">
-
 <button onclick="saveGrades()">حفظ</button>
-
-<button onclick="show('home')">رجوع</button>
 </div>
 
 <!-- التحليل -->
 <div id="analysis" class="section">
-<h3>التحليل</h3>
-
-<div id="result"></div>
-
-<canvas id="chart" width="300" height="300"></canvas>
-
-<button onclick="show('home')">رجوع</button>
+<div id="analysisResult"></div>
 </div>
 
 <!-- الفاقد -->
 <div id="loss" class="section">
-<h3>الفاقد التعليمي</h3>
 <div id="lossList"></div>
-<button onclick="show('home')">رجوع</button>
 </div>
 
 <!-- الخطط -->
 <div id="plans" class="section">
-<h3>الخطط</h3>
 <div id="plansList"></div>
-<button onclick="show('home')">رجوع</button>
+</div>
+
+<!-- أولياء الأمور -->
+<div id="parents" class="section">
+<input id="pname">
+<input id="pphone">
+<button onclick="addParent()">حفظ</button>
+<div id="parentsList"></div>
+</div>
+
+<!-- المصادر -->
+<div id="sources" class="section">
+<a href="https://ien.edu.sa" target="_blank">عين</a><br>
+<a href="https://schools.madrasati.sa" target="_blank">مدرستي</a>
+</div>
+
+<!-- الألعاب -->
+<div id="games" class="section">
+<a href="https://kahoot.com" target="_blank">Kahoot</a><br>
+<a href="https://quizizz.com" target="_blank">Quizizz</a><br>
+<a href="https://wordwall.net" target="_blank">Wordwall</a><br>
+<a href="https://blooket.com" target="_blank">Blooket</a>
+</div>
+
+<!-- التكريم -->
+<div id="awards" class="section">
+<div id="awardsList"></div>
+</div>
+
+<!-- الأرشيف -->
+<div id="archive" class="section">
+<button onclick="saveArchive()">حفظ نسخة</button>
+<div id="archiveList"></div>
+</div>
+
+<!-- التقارير -->
+<div id="reports" class="section">
+<button onclick="window.print()">طباعة</button>
 </div>
 
 <script>
-function show(id){
+let classes=JSON.parse(localStorage.getItem('c')||'[]')
+let students=JSON.parse(localStorage.getItem('s')||'[]')
+let parents=JSON.parse(localStorage.getItem('p')||'[]')
+let archive=JSON.parse(localStorage.getItem('a')||'[]')
+
+function saveAll(){
+localStorage.setItem('c',JSON.stringify(classes))
+localStorage.setItem('s',JSON.stringify(students))
+localStorage.setItem('p',JSON.stringify(parents))
+localStorage.setItem('a',JSON.stringify(archive))
+}
+
+function go(x){
 document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'))
-document.getElementById(id).classList.add('active')
-if(id==="analysis") analyze()
-if(id==="loss") renderLoss()
-if(id==="plans") renderPlans()
-}
-
-let classes=JSON.parse(localStorage.getItem('classes')||'[]')
-let students=JSON.parse(localStorage.getItem('students')||'[]')
-
-function save(){
-localStorage.setItem('classes',JSON.stringify(classes))
-localStorage.setItem('students',JSON.stringify(students))
-}
-
-function addClass(){
-let name=document.getElementById('className').value
-if(!name)return
-classes.push(name)
-save()
+document.getElementById(x).classList.add('active')
+if(x=="analysis") analyze()
+if(x=="loss") showLoss()
+if(x=="plans") showPlans()
 render()
 }
 
+function addClass(){classes.push(className.value);saveAll();render()}
 function addStudents(){
-let text=document.getElementById('studentsInput').value
-let c=document.getElementById('classSelect').value
-if(!text||!c)return
-text.split('\n').forEach(n=>{
-students.push({name:n,class:c,g1:0,g2:0})
-})
-save()
-render()
+names.value.split('\n').forEach(n=>students.push({name:n,class:classSelect.value,g1:0,g2:0}))
+saveAll();render()
 }
 
 function saveGrades(){
-let name=document.getElementById('studentSelect').value
-let g1=+document.getElementById('g1').value
-let g2=+document.getElementById('g2').value
-let s=students.find(x=>x.name===name)
-s.g1=g1
-s.g2=g2
-save()
-}
-
-function render(){
-let cl=document.getElementById('classList')
-cl.innerHTML=''
-classes.forEach(c=>{
-cl.innerHTML+=`<div>${c}</div>`
-})
-
-let cs=document.getElementById('classSelect')
-cs.innerHTML=''
-classes.forEach(c=>{
-cs.innerHTML+=`<option>${c}</option>`
-})
-
-let sl=document.getElementById('studentsList')
-sl.innerHTML=''
-students.forEach(s=>{
-sl.innerHTML+=`<div>${s.name} (${s.class})</div>`
-})
-
-let ss=document.getElementById('studentSelect')
-ss.innerHTML=''
-students.forEach(s=>{
-ss.innerHTML+=`<option>${s.name}</option>`
-})
+let s=students.find(x=>x.name==studentSelect.value)
+s.g1=+g1.value
+s.g2=+g2.value
+saveAll()
 }
 
 function analyze(){
-let high=0,mid=0,low=0
+let h=0,m=0,l=0
 students.forEach(s=>{
-let avg=(s.g1+s.g2)/2
-if(avg>=90)high++
-else if(avg>=70)mid++
-else low++
+let a=(s.g1+s.g2)/2
+if(a>=90)h++;else if(a>=70)m++;else l++
 })
-document.getElementById('result').innerText=
-`فوق المتوسط: ${high} | ضمن المتوسط: ${mid} | دون المتوسط: ${low}`
-
-drawChart(high,mid,low)
+analysisResult.innerText=`فوق: ${h} | ضمن: ${m} | دون: ${l}`
 }
 
-function drawChart(a,b,c){
-let ctx=document.getElementById('chart').getContext('2d')
-ctx.clearRect(0,0,300,300)
-
-let total=a+b+c
-let start=0
-
-function draw(val,color){
-let angle=(val/total)*Math.PI*2
-ctx.beginPath()
-ctx.moveTo(150,150)
-ctx.fillStyle=color
-ctx.arc(150,150,100,start,start+angle)
-ctx.fill()
-start+=angle
+function showLoss(){
+lossList.innerHTML=students.filter(s=>(s.g1+s.g2)/2<70).map(s=>s.name).join("<br>")
 }
 
-draw(a,'green')
-draw(b,'orange')
-draw(c,'red')
+function showPlans(){
+plansList.innerHTML=students.map(s=>{
+let a=(s.g1+s.g2)/2
+if(a<70)return s.name+" علاجية"
+if(a<90)return s.name+" متابعة"
+return s.name+" إثرائية"
+}).join("<br>")
 }
 
-function renderLoss(){
-let div=document.getElementById('lossList')
-div.innerHTML=''
-students.forEach(s=>{
-let avg=(s.g1+s.g2)/2
-if(avg<70){
-div.innerHTML+=`<div>${s.name} - فاقد</div>`
-}
-})
+function addParent(){
+parents.push(pname.value+"-"+pphone.value)
+saveAll()
+render()
 }
 
-function renderPlans(){
-let div=document.getElementById('plansList')
-div.innerHTML=''
-students.forEach(s=>{
-let avg=(s.g1+s.g2)/2
-if(avg<70) div.innerHTML+=`<div>${s.name} خطة علاجية</div>`
-else if(avg<90) div.innerHTML+=`<div>${s.name} متابعة</div>`
-else div.innerHTML+=`<div>${s.name} إثرائية</div>`
-})
+function saveArchive(){
+archive.push(JSON.stringify(students))
+saveAll()
+render()
 }
 
-function toggleDark(){
-document.body.classList.toggle('dark')
+function render(){
+classSelect.innerHTML=classes.map(c=>`<option>${c}</option>`).join("")
+studentSelect.innerHTML=students.map(s=>`<option>${s.name}</option>`).join("")
+studentsList.innerHTML=students.map(s=>s.name+"("+s.class+")").join("<br>")
+classList.innerHTML=classes.join("<br>")
+parentsList.innerHTML=parents.join("<br>")
+archiveList.innerHTML=archive.length+" نسخة محفوظة"
+awardsList.innerHTML=students.filter(s=>(s.g1+s.g2)/2>=90).map(s=>s.name).join("<br>")
 }
+
+function saveData(){
+localStorage.setItem('school',school.value)
+localStorage.setItem('teacher',teacher.value)
+localStorage.setItem('year',year.value)
+}
+
+function toggleDark(){document.body.classList.toggle('dark')}
 
 render()
 </script>
 
 </body>
-</html>
+</html> 
