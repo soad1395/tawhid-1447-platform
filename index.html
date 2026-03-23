@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
@@ -24,9 +24,7 @@ button{padding:10px;background:#2f855a;color:#fff;border:none;margin-top:5px}
 
 <body>
 
-<div class="header">🎓 منصة الإتقان الذكي</div>
-
-<div id="home" class="section active">
+<div class="header">🎓 منصة تحليل نتائج مادة التوحيد</div>
 
 <!-- ✅ البيانات + رفع المنهج -->
 <div style="background:#f8f9fa;padding:15px;border-radius:12px;margin:15px">
@@ -46,7 +44,9 @@ button{padding:10px;background:#2f855a;color:#fff;border:none;margin-top:5px}
 
 </div>
 
-<!-- البطاقات (نفس منصتك بدون تغيير) -->
+<!-- الصفحة الرئيسية -->
+<div id="home" class="section active">
+
 <div class="grid">
 <div class="card">📄 رفع المنهج PDF</div>
 <div class="card">👩‍🎓 الطالبات</div>
@@ -61,7 +61,6 @@ button{padding:10px;background:#2f855a;color:#fff;border:none;margin-top:5px}
 <div class="card">🚀 الخطط الإثرائية</div>
 <div class="card">💊 الخطط العلاجية</div>
 
-<!-- ✅ الأرشيف -->
 <div class="card" onclick="go('archive')">📁 الأرشيف</div>
 
 <div class="card">🌐 المصادر التعليمية</div>
@@ -144,7 +143,7 @@ document.getElementById("archiveList").innerHTML =
 archive.map(a=>"<div>"+a+"</div>").join("");
 }
 
-// تنقل
+// التنقل
 function go(x){
 document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
 let target=document.getElementById(x);
@@ -154,6 +153,38 @@ if(x==="archive") renderArchive();
 }
 
 </script>
+<!-- ✅ الإضافات النهائية -->
+<div style="background:#f8f9fa;padding:15px;border-radius:12px;margin:15px">
 
+<h3 style="color:#2f855a">📌 البيانات الأساسية</h3>
+
+<input id="subjectName" placeholder="اسم المادة">
+<input id="teacherName" placeholder="اسم المعلمة">
+<input id="schoolName" placeholder="اسم المدرسة">
+
+<label style="display:block;background:#2f855a;color:#fff;padding:10px;border-radius:10px;margin-top:10px;text-align:center;cursor:pointer">
+📄 رفع المنهج PDF
+<input type="file" accept="application/pdf" onchange="processPDF(this)" hidden>
+</label>
+
+<div id="skillsList"></div>
+
+</div>
+
+<!-- زر الأرشيف -->
+<div onclick="go('archive')" style="position:fixed;bottom:20px;left:20px;background:#2f855a;color:#fff;padding:10px 15px;border-radius:10px;cursor:pointer">
+📁 الأرشيف
+</div>
+
+<!-- صفحة الأرشيف -->
+<div id="archive" class="section">
+<h3>📁 الأرشيف</h3>
+<button onclick="saveArchive()">حفظ نسخة</button>
+<div id="archiveList"></div>
+<button onclick="go('home')">رجوع</button>
+</div>
 </body>
 </html>
+
+https://github.com/soad1395/smart-mastery-platform
+هذا الكود والرابط الصحيح بس بود الإضافات 
