@@ -2,145 +2,112 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>منصة الإتقان الذكي</title>
 
-<!-- PDF -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 
-<!-- Icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
 <style>
-body {
-    font-family: Tahoma;
-    background: #f0f2f5;
-    margin: 0;
-    padding: 20px;
+body{font-family:Arial;background:#eef3ef;margin:0}
+.header{background:#2f855a;color:#fff;padding:15px;text-align:center;font-size:20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:15px;padding:20px}
+.card{
+background:#fff;padding:20px;text-align:center;border-radius:12px;
+box-shadow:0 2px 5px rgba(0,0,0,.1);cursor:pointer;
+border-bottom:5px solid #ccc;font-size:16px
 }
-
-.container {
-    max-width: 1000px;
-    margin: auto;
-    background: white;
-    padding: 20px;
-    border-radius: 20px;
-}
-
-.header {
-    background: #2d6a4f;
-    color: white;
-    padding: 20px;
-    border-radius: 15px;
-    text-align: center;
-}
-
-.btn {
-    padding: 10px;
-    border-radius: 10px;
-    border: none;
-    margin: 5px;
-    cursor: pointer;
-}
-
-.card {
-    background: #f8f9fa;
-    padding: 15px;
-    border-radius: 10px;
-    text-align: center;
-}
-
-.upload-section {
-    background: #e9f5ee;
-    padding: 20px;
-    border-radius: 15px;
-    margin-top: 20px;
-}
-
-input {
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    width: 100%;
-}
-
-#skillsList {
-    margin-top: 15px;
-    background: white;
-    padding: 10px;
-    border-radius: 10px;
-}
+.section{display:none;padding:20px}
+.active{display:block}
+input,textarea{width:100%;padding:10px;margin-top:5px}
+button{padding:10px;background:#2f855a;color:#fff;border:none;margin-top:5px}
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="header">🎓 منصة تحليل نتائج مادة التوحيد</div>
 
-<div class="header">
-<h1>منصة الإتقان الذكي</h1>
-</div>
+<!-- الصفحة الرئيسية -->
+<div id="home" class="section active">
 
-<!-- البيانات -->
-<div class="upload-section">
+<div style="background:#f8f9fa;padding:15px;border-radius:12px;margin:15px">
 
-<h3>البيانات الأساسية</h3>
+<h3 style="color:#2f855a">📌 البيانات الأساسية</h3>
 
-<input type="text" id="subjectName" placeholder="اسم المادة"><br><br>
-<input type="text" id="teacherName" placeholder="اسم المعلمة"><br><br>
+<input id="subjectName" placeholder="اسم المادة">
+<input id="teacherName" placeholder="اسم المعلمة">
+<input id="schoolName" placeholder="اسم المدرسة">
 
-<label style="background:#2d6a4f;color:white;padding:10px;border-radius:10px;cursor:pointer;display:block;text-align:center;">
-رفع المنهج PDF
-<input type="file" id="file-upload" accept="application/pdf" onchange="processPDF(this)" hidden>
+<label style="display:block;background:#2f855a;color:#fff;padding:10px;border-radius:10px;margin-top:10px;text-align:center;cursor:pointer">
+📄 رفع المنهج PDF
+<input type="file" accept="application/pdf" onchange="processPDF(this)" hidden>
 </label>
 
-<div id="skillsList">
-المهارات تظهر هنا
+<div id="skillsList"></div>
+
+</div>
+
+<div class="grid">
+<div class="card">📄 رفع المنهج PDF</div>
+<div class="card">👩‍🎓 الطالبات</div>
+<div class="card">🏫 إدارة الفصول</div>
+<div class="card">⚙️ البيانات الأساسية</div>
+<div class="card">⚠️ الفاقد التعليمي</div>
+<div class="card">📊 التحليل الإحصائي</div>
+<div class="card">✍️ إدخال الدرجات</div>
+<div class="card">🎯 المهارات والوحدات</div>
+<div class="card">👨‍👩‍👧 أولياء الأمور</div>
+<div class="card">📋 التقارير النهائية</div>
+<div class="card">🚀 الخطط الإثرائية</div>
+<div class="card">💊 الخطط العلاجية</div>
+<div class="card" onclick="go('archive')">📁 الأرشيف</div>
+<div class="card">🌐 المصادر التعليمية</div>
+<div class="card">🎮 المسابقات والألعاب</div>
+<div class="card">🏆 لوحة الشرف</div>
 </div>
 
 </div>
 
+<!-- الأرشيف -->
+<div id="archive" class="section">
+<h3>📁 الأرشيف</h3>
+<button onclick="saveArchive()">حفظ نسخة</button>
+<div id="archiveList"></div>
+<button onclick="go('home')">رجوع</button>
 </div>
 
 <script>
 
-pdfjsLib.GlobalWorkerOptions.workerSrc =
-'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
-
-
-// حفظ تلقائي
-["subjectName","teacherName"].forEach(id=>{
+// ===== إصلاح مهم: التأكد من وجود العنصر قبل التعامل =====
+["subjectName","teacherName","schoolName"].forEach(id=>{
 let el=document.getElementById(id);
-
-if(localStorage.getItem(id)){
-el.value=localStorage.getItem(id);
-}
+if(el){
+let saved = localStorage.getItem(id);
+if(saved) el.value=saved;
 
 el.addEventListener("input",()=>{
 localStorage.setItem(id,el.value);
 });
+}
 });
 
+// ===== PDF =====
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
 
-// قراءة PDF
 async function processPDF(input){
-
 let file=input.files[0];
 if(!file)return;
 
 let reader=new FileReader();
 
 reader.onload=async function(){
-
 let pdf=await pdfjsLib.getDocument(new Uint8Array(this.result)).promise;
 
 let skills=[];
 
 for(let i=1;i<=pdf.numPages;i++){
-
 let page=await pdf.getPage(i);
 let txt=await page.getTextContent();
-
 let text=txt.items.map(s=>s.str).join(" ");
 
 let match=text.match(/(أن\s\w+[^.]{10,50}|يميز\s[^.]{10,50}|يعدد\s[^.]{10,50})/g);
@@ -148,37 +115,39 @@ let match=text.match(/(أن\s\w+[^.]{10,50}|يميز\s[^.]{10,50}|يعدد\s[^.]
 if(match)skills.push(...match);
 }
 
-showSkills(skills);
+skills=[...new Set(skills)];
 
+document.getElementById("skillsList").innerHTML =
+skills.map(s=>"<div>"+s+"</div>").join("");
+
+localStorage.setItem("skills",JSON.stringify(skills));
 };
 
 reader.readAsArrayBuffer(file);
 }
 
-
-// عرض المهارات
-function showSkills(skills){
-
-let box=document.getElementById("skillsList");
-
-if(!skills.length){
-box.innerHTML="لم يتم العثور على مهارات";
-return;
+// ===== الأرشيف =====
+function saveArchive(){
+let archive=JSON.parse(localStorage.getItem("archive")||"[]");
+archive.push(new Date().toLocaleString());
+localStorage.setItem("archive",JSON.stringify(archive));
+renderArchive();
 }
 
-skills=[...new Set(skills)];
-
-box.innerHTML="<ul>"+skills.map(s=>"<li>"+s+"</li>").join("")+"</ul>";
-
-localStorage.setItem("skills",JSON.stringify(skills));
+function renderArchive(){
+let archive=JSON.parse(localStorage.getItem("archive")||"[]");
+document.getElementById("archiveList").innerHTML =
+archive.map(a=>"<div>"+a+"</div>").join("");
 }
 
+// ===== التنقل =====
+function go(x){
+document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+let target=document.getElementById(x);
+if(target) target.classList.add('active');
 
-// استرجاع
-window.onload=()=>{
-let saved=JSON.parse(localStorage.getItem("skills"));
-if(saved)showSkills(saved);
-};
+if(x==="archive") renderArchive();
+}
 
 </script>
 
