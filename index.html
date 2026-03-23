@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
@@ -17,7 +17,7 @@ border-bottom:5px solid #ccc;font-size:16px
 }
 .section{display:none;padding:20px}
 .active{display:block}
-input,textarea{width:100%;padding:10px;margin-top:5px}
+input{width:100%;padding:10px;margin-top:5px}
 button{padding:10px;background:#2f855a;color:#fff;border:none;margin-top:5px}
 </style>
 </head>
@@ -26,9 +26,7 @@ button{padding:10px;background:#2f855a;color:#fff;border:none;margin-top:5px}
 
 <div class="header">🎓 منصة تحليل نتائج مادة التوحيد</div>
 
-<!-- الصفحة الرئيسية -->
-<div id="home" class="section active">
-
+<!-- ✅ البيانات + رفع المنهج -->
 <div style="background:#f8f9fa;padding:15px;border-radius:12px;margin:15px">
 
 <h3 style="color:#2f855a">📌 البيانات الأساسية</h3>
@@ -46,6 +44,9 @@ button{padding:10px;background:#2f855a;color:#fff;border:none;margin-top:5px}
 
 </div>
 
+<!-- الصفحة الرئيسية -->
+<div id="home" class="section active">
+
 <div class="grid">
 <div class="card">📄 رفع المنهج PDF</div>
 <div class="card">👩‍🎓 الطالبات</div>
@@ -59,7 +60,10 @@ button{padding:10px;background:#2f855a;color:#fff;border:none;margin-top:5px}
 <div class="card">📋 التقارير النهائية</div>
 <div class="card">🚀 الخطط الإثرائية</div>
 <div class="card">💊 الخطط العلاجية</div>
+
+<!-- ✅ الأرشيف -->
 <div class="card" onclick="go('archive')">📁 الأرشيف</div>
+
 <div class="card">🌐 المصادر التعليمية</div>
 <div class="card">🎮 المسابقات والألعاب</div>
 <div class="card">🏆 لوحة الشرف</div>
@@ -77,11 +81,11 @@ button{padding:10px;background:#2f855a;color:#fff;border:none;margin-top:5px}
 
 <script>
 
-// ===== حفظ البيانات (إصلاح عدم الكراش) =====
+// حفظ البيانات
 ["subjectName","teacherName","schoolName"].forEach(id=>{
 let el=document.getElementById(id);
 if(el){
-let saved = localStorage.getItem(id);
+let saved=localStorage.getItem(id);
 if(saved) el.value=saved;
 
 el.addEventListener("input",()=>{
@@ -90,16 +94,7 @@ localStorage.setItem(id,el.value);
 }
 });
 
-// ===== تحميل المهارات المحفوظة عند فتح الصفحة =====
-window.onload = () => {
-let savedSkills = JSON.parse(localStorage.getItem("skills") || "[]");
-if(savedSkills.length){
-document.getElementById("skillsList").innerHTML =
-savedSkills.map(s=>"<div>"+s+"</div>").join("");
-}
-};
-
-// ===== PDF =====
+// PDF
 pdfjsLib.GlobalWorkerOptions.workerSrc =
 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
 
@@ -135,7 +130,7 @@ localStorage.setItem("skills",JSON.stringify(skills));
 reader.readAsArrayBuffer(file);
 }
 
-// ===== الأرشيف =====
+// الأرشيف
 function saveArchive(){
 let archive=JSON.parse(localStorage.getItem("archive")||"[]");
 archive.push(new Date().toLocaleString());
@@ -149,10 +144,7 @@ document.getElementById("archiveList").innerHTML =
 archive.map(a=>"<div>"+a+"</div>").join("");
 }
 
-// ===== تحميل الأرشيف تلقائياً =====
-window.addEventListener("DOMContentLoaded", renderArchive);
-
-// ===== التنقل =====
+// التنقل
 function go(x){
 document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
 let target=document.getElementById(x);
