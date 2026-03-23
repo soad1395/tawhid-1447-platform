@@ -1,10 +1,8 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>منصة تحليل النتائج</title>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<title>منصة تحليل نتائج التوحيد</title>
 
 <style>
 body{font-family:Arial;background:#eef3ef;margin:0}
@@ -19,7 +17,9 @@ border-bottom:5px solid #ccc;font-size:16px
 .active{display:block}
 input,textarea,select{width:100%;padding:10px;margin-top:5px}
 button{padding:10px;background:#2f855a;color:#fff;border:none;margin-top:5px}
-.chart{width:100%;height:300px}
+.dark{background:#111;color:#fff}
+.dark .card{background:#222;color:#fff}
+.chart{margin-top:20px}
 </style>
 </head>
 
@@ -29,234 +29,217 @@ button{padding:10px;background:#2f855a;color:#fff;border:none;margin-top:5px}
 
 <div id="home" class="section active">
 <div class="grid">
-<div class="card" onclick="show('pdf')">📄 رفع المنهج PDF</div>
-<div class="card" onclick="show('students')">👩‍🎓 الطالبات</div>
+
 <div class="card" onclick="show('classes')">🏫 إدارة الفصول</div>
-<div class="card" onclick="show('basic')">⚙️ البيانات الأساسية</div>
-<div class="card" onclick="show('loss')">⚠️ الفاقد التعليمي</div>
-<div class="card" onclick="show('analysis')">📊 التحليل الإحصائي</div>
+<div class="card" onclick="show('students')">👩‍🎓 الطالبات</div>
 <div class="card" onclick="show('grades')">✍️ إدخال الدرجات</div>
-<div class="card" onclick="show('skills')">🎯 المهارات والوحدات</div>
-<div class="card" onclick="show('parents')">👨‍👩‍👧 أولياء الأمور</div>
-<div class="card" onclick="show('reports')">📋 التقارير النهائية</div>
-<div class="card" onclick="show('plus')">🚀 الخطط الإثرائية</div>
-<div class="card" onclick="show('treatment')">💊 الخطط العلاجية</div>
-<div class="card" onclick="show('archive')">📁 الأرشيف</div>
-<div class="card" onclick="show('sources')">🌐 المصادر التعليمية</div>
-<div class="card" onclick="show('games')">🎮 المسابقات والألعاب</div>
-<div class="card" onclick="show('honor')">🏆 لوحة الشرف</div>
-</div>
+<div class="card" onclick="show('analysis')">📊 التحليل</div>
+<div class="card" onclick="show('loss')">⚠️ الفاقد</div>
+<div class="card" onclick="show('plans')">💊 الخطط</div>
+
 </div>
 
-<!-- Supabase -->
-<script>
-const supabase = supabase.createClient(
-"https://YOUR_PROJECT.supabase.co",
-"YOUR_ANON_KEY"
-)
-</script>
-
-<script>
-function show(id){
-document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'))
-document.getElementById(id).classList.add('active')
-}
-</script>
-
-<!-- البيانات الأساسية -->
-<div id="basic" class="section">
-<h3>البيانات الأساسية</h3>
-<input id="school" placeholder="اسم المدرسة">
-<input id="teacher" placeholder="اسم المعلمة">
-<input id="manager" placeholder="اسم المديرة">
-<input id="year" placeholder="السنة">
-<input id="term" placeholder="الترم">
-<input id="subject" placeholder="المادة">
-<button onclick="saveBasic()">حفظ</button>
+<button onclick="toggleDark()">🌙 الوضع الليلي</button>
 </div>
 
-<script>
-async function saveBasic(){
-await supabase.from('basic').upsert({
-id:1,
-school:school.value,
-teacher:teacher.value,
-manager:manager.value,
-year:year.value,
-term:term.value,
-subject:subject.value
-})
-}
-</script>
+<!-- الفصول -->
+<div id="classes" class="section">
+<h3>الفصول</h3>
+<input id="className" placeholder="اسم الفصل">
+<button onclick="addClass()">إضافة</button>
+<div id="classList"></div>
+<button onclick="show('home')">رجوع</button>
+</div>
 
 <!-- الطالبات -->
 <div id="students" class="section">
 <h3>الطالبات</h3>
-<textarea id="names"></textarea>
-<button onclick="saveStudents()">حفظ</button>
-<div id="list"></div>
+
+<select id="classSelect"></select>
+
+<textarea id="studentsInput" placeholder="أدخل الأسماء كل اسم في سطر"></textarea>
+
+<button onclick="addStudents()">حفظ</button>
+
+<div id="studentsList"></div>
+
+<button onclick="show('home')">رجوع</button>
 </div>
-
-<script>
-async function saveStudents(){
-let arr = names.value.split("\n")
-for(let n of arr){
-await supabase.from('students').insert({name:n})
-}
-loadStudents()
-}
-async function loadStudents(){
-let {data}=await supabase.from('students').select()
-list.innerHTML=data.map(s=>s.name).join("<br>")
-}
-loadStudents()
-</script>
-
-<!-- المهارات -->
-<div id="skills" class="section">
-<h3>الوحدات</h3>
-<div id="skillsList"></div>
-</div>
-
-<script>
-const units=[
-"العقيدة الإسلامية",
-"توحيد الربوبية",
-"توحيد الألوهية والعبادة",
-"توحيد الأسماء والصفات",
-"عقائد تنافي التوحيد",
-"حقوق النبي",
-"نعمة التوحيد"
-]
-
-function renderSkills(){
-skillsList.innerHTML=""
-units.forEach(u=>{
-let div=document.createElement("div")
-div.innerHTML=`<b>${u}</b><br>
-<input placeholder="أضف مهارة" onchange="addSkill('${u}',this.value)">`
-skillsList.appendChild(div)
-})
-}
-
-async function addSkill(unit,skill){
-await supabase.from('skills').insert({unit,skill})
-}
-
-renderSkills()
-</script>
 
 <!-- الدرجات -->
 <div id="grades" class="section">
 <h3>الدرجات</h3>
-<select id="studentSel"></select>
+
+<select id="studentSelect"></select>
+
 <input id="g1" placeholder="الفترة الأولى">
 <input id="g2" placeholder="الفترة الثانية">
+
 <button onclick="saveGrades()">حفظ</button>
+
+<button onclick="show('home')">رجوع</button>
 </div>
-
-<script>
-async function loadSelect(){
-let {data}=await supabase.from('students').select()
-studentSel.innerHTML=data.map(s=>`<option>${s.name}</option>`).join("")
-}
-loadSelect()
-
-async function saveGrades(){
-await supabase.from('grades').insert({
-name:studentSel.value,
-t1:g1.value,
-t2:g2.value
-})
-}
-</script>
 
 <!-- التحليل -->
 <div id="analysis" class="section">
 <h3>التحليل</h3>
-<div id="analysisResult"></div>
-</div>
 
-<script>
-async function loadAnalysis(){
-let {data}=await supabase.from('grades').select()
-let f=0,m=0,l=0
-data.forEach(d=>{
-let avg=(+d.t1 + +d.t2)/2
-if(avg>=90)f++
-else if(avg>=70)m++
-else l++
-})
-analysisResult.innerHTML=`فوق: ${f} | ضمن: ${m} | دون: ${l}`
-}
-loadAnalysis()
-</script>
+<div id="result"></div>
+
+<canvas id="chart" width="300" height="300"></canvas>
+
+<button onclick="show('home')">رجوع</button>
+</div>
 
 <!-- الفاقد -->
 <div id="loss" class="section">
 <h3>الفاقد التعليمي</h3>
 <div id="lossList"></div>
+<button onclick="show('home')">رجوع</button>
+</div>
+
+<!-- الخطط -->
+<div id="plans" class="section">
+<h3>الخطط</h3>
+<div id="plansList"></div>
+<button onclick="show('home')">رجوع</button>
 </div>
 
 <script>
-async function loadLoss(){
-let {data}=await supabase.from('grades').select()
-lossList.innerHTML=data.filter(d=>((+d.t1+d.t2)/2)<70)
-.map(d=>d.name).join("<br>")
+function show(id){
+document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'))
+document.getElementById(id).classList.add('active')
+if(id==="analysis") analyze()
+if(id==="loss") renderLoss()
+if(id==="plans") renderPlans()
 }
-loadLoss()
-</script>
 
-<!-- أولياء الأمور -->
-<div id="parents" class="section">
-<h3>أولياء الأمور</h3>
-<input id="pname" placeholder="اسم الطالبة">
-<input id="parent" placeholder="ولي الأمر">
-<input id="phone" placeholder="رقم">
-<button onclick="saveParent()">حفظ</button>
-</div>
+let classes=JSON.parse(localStorage.getItem('classes')||'[]')
+let students=JSON.parse(localStorage.getItem('students')||'[]')
 
-<script>
-async function saveParent(){
-await supabase.from('parents').insert({
-student:pname.value,parent:parent.value,phone:phone.value
+function save(){
+localStorage.setItem('classes',JSON.stringify(classes))
+localStorage.setItem('students',JSON.stringify(students))
+}
+
+function addClass(){
+let name=document.getElementById('className').value
+if(!name)return
+classes.push(name)
+save()
+render()
+}
+
+function addStudents(){
+let text=document.getElementById('studentsInput').value
+let c=document.getElementById('classSelect').value
+if(!text||!c)return
+text.split('\n').forEach(n=>{
+students.push({name:n,class:c,g1:0,g2:0})
+})
+save()
+render()
+}
+
+function saveGrades(){
+let name=document.getElementById('studentSelect').value
+let g1=+document.getElementById('g1').value
+let g2=+document.getElementById('g2').value
+let s=students.find(x=>x.name===name)
+s.g1=g1
+s.g2=g2
+save()
+}
+
+function render(){
+let cl=document.getElementById('classList')
+cl.innerHTML=''
+classes.forEach(c=>{
+cl.innerHTML+=`<div>${c}</div>`
+})
+
+let cs=document.getElementById('classSelect')
+cs.innerHTML=''
+classes.forEach(c=>{
+cs.innerHTML+=`<option>${c}</option>`
+})
+
+let sl=document.getElementById('studentsList')
+sl.innerHTML=''
+students.forEach(s=>{
+sl.innerHTML+=`<div>${s.name} (${s.class})</div>`
+})
+
+let ss=document.getElementById('studentSelect')
+ss.innerHTML=''
+students.forEach(s=>{
+ss.innerHTML+=`<option>${s.name}</option>`
 })
 }
-</script>
 
-<!-- التقارير -->
-<div id="reports" class="section">
-<h3>التقارير</h3>
-<button onclick="window.print()">طباعة</button>
-</div>
+function analyze(){
+let high=0,mid=0,low=0
+students.forEach(s=>{
+let avg=(s.g1+s.g2)/2
+if(avg>=90)high++
+else if(avg>=70)mid++
+else low++
+})
+document.getElementById('result').innerText=
+`فوق المتوسط: ${high} | ضمن المتوسط: ${mid} | دون المتوسط: ${low}`
 
-<!-- المصادر -->
-<div id="sources" class="section">
-<a href="https://ien.edu.sa" target="_blank">عين</a><br>
-<a href="https://schools.madrasati.sa" target="_blank">مدرستي</a>
-</div>
-
-<!-- الألعاب -->
-<div id="games" class="section">
-<a href="https://kahoot.com" target="_blank">Kahoot</a><br>
-<a href="https://quizizz.com" target="_blank">Quizizz</a><br>
-<a href="https://wordwall.net" target="_blank">Wordwall</a><br>
-<a href="https://blooket.com" target="_blank">Blooket</a>
-</div>
-
-<!-- الشرف -->
-<div id="honor" class="section">
-<h3>لوحة الشرف</h3>
-<div id="honorList"></div>
-</div>
-
-<script>
-async function loadHonor(){
-let {data}=await supabase.from('grades').select()
-honorList.innerHTML=data.filter(d=>((+d.t1+d.t2)/2)>=90)
-.map(d=>d.name).join("<br>")
+drawChart(high,mid,low)
 }
-loadHonor()
+
+function drawChart(a,b,c){
+let ctx=document.getElementById('chart').getContext('2d')
+ctx.clearRect(0,0,300,300)
+
+let total=a+b+c
+let start=0
+
+function draw(val,color){
+let angle=(val/total)*Math.PI*2
+ctx.beginPath()
+ctx.moveTo(150,150)
+ctx.fillStyle=color
+ctx.arc(150,150,100,start,start+angle)
+ctx.fill()
+start+=angle
+}
+
+draw(a,'green')
+draw(b,'orange')
+draw(c,'red')
+}
+
+function renderLoss(){
+let div=document.getElementById('lossList')
+div.innerHTML=''
+students.forEach(s=>{
+let avg=(s.g1+s.g2)/2
+if(avg<70){
+div.innerHTML+=`<div>${s.name} - فاقد</div>`
+}
+})
+}
+
+function renderPlans(){
+let div=document.getElementById('plansList')
+div.innerHTML=''
+students.forEach(s=>{
+let avg=(s.g1+s.g2)/2
+if(avg<70) div.innerHTML+=`<div>${s.name} خطة علاجية</div>`
+else if(avg<90) div.innerHTML+=`<div>${s.name} متابعة</div>`
+else div.innerHTML+=`<div>${s.name} إثرائية</div>`
+})
+}
+
+function toggleDark(){
+document.body.classList.toggle('dark')
+}
+
+render()
 </script>
 
 </body>
