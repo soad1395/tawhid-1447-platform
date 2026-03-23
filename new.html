@@ -1,42 +1,10 @@
- أنشئ لي موقع كامل من ملف واحد فقط (HTML + CSS + JavaScript)
-
-لا تستخدم React ولا Vue ولا ملفات متعددة  
-لا تستخدم مكتبات خارجية  
-أبغى ملف واحد فقط index.html  
-
-الموقع يكون منصة تحليل نتائج تعليمية عربية  
-بنفس التصميم التالي:
-- بطاقات مربعة ملونة
-- هيدر أخضر
-- واجهة مثل منصة مدرستي
-
-المطلوب:
-- الطالبات
-- الفصول
-- البيانات الأساسية
-- المهارات والوحدات (7 وحدات)
-- إدخال الدرجات (فترتين)
-- التحليل (فوق/ضمن/دون المتوسط)
-- الفاقد التعليمي
-- الخطط العلاجية
-- الخطط الإثرائية
-- أولياء الأمور
-- التقارير (طباعة)
-- الأرشيف
-- المصادر (عين + مدرستي)
-- الألعاب (Kahoot, Quizizz, Wordwall, Blooket)
-
-مهم:
-- لا تغيّر التصميم
-- لا تضيف شرح
-- أعطني الكود كامل جاهز
-
-ثم استخدم هذا الكود كنقطة بداية:
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <title>منصة تحليل النتائج</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
 <style>
 body{font-family:Arial;background:#eef3ef;margin:0}
@@ -49,8 +17,9 @@ border-bottom:5px solid #ccc;font-size:16px
 }
 .section{display:none;padding:20px}
 .active{display:block}
-input,textarea{width:100%;padding:10px;margin-top:5px}
+input,textarea,select{width:100%;padding:10px;margin-top:5px}
 button{padding:10px;background:#2f855a;color:#fff;border:none;margin-top:5px}
+.chart{width:100%;height:300px}
 </style>
 </head>
 
@@ -60,96 +29,235 @@ button{padding:10px;background:#2f855a;color:#fff;border:none;margin-top:5px}
 
 <div id="home" class="section active">
 <div class="grid">
-<div class="card">📄 رفع المنهج PDF</div>
-<div class="card">👩‍🎓 الطالبات</div>
-<div class="card">🏫 إدارة الفصول</div>
-<div class="card">⚙️ البيانات الأساسية</div>
-<div class="card">⚠️ الفاقد التعليمي</div>
-<div class="card">📊 التحليل الإحصائي</div>
-<div class="card">✍️ إدخال الدرجات</div>
-<div class="card">🎯 المهارات والوحدات</div>
-<div class="card">👨‍👩‍👧 أولياء الأمور</div>
-<div class="card">📋 التقارير النهائية</div>
-<div class="card">🚀 الخطط الإثرائية</div>
-<div class="card">💊 الخطط العلاجية</div>
-<div class="card">📁 الأرشيف</div>
-<div class="card">🌐 المصادر التعليمية</div>
-<div class="card">🎮 المسابقات والألعاب</div>
-<div class="card">🏆 لوحة الشرف</div>
+<div class="card" onclick="show('pdf')">📄 رفع المنهج PDF</div>
+<div class="card" onclick="show('students')">👩‍🎓 الطالبات</div>
+<div class="card" onclick="show('classes')">🏫 إدارة الفصول</div>
+<div class="card" onclick="show('basic')">⚙️ البيانات الأساسية</div>
+<div class="card" onclick="show('loss')">⚠️ الفاقد التعليمي</div>
+<div class="card" onclick="show('analysis')">📊 التحليل الإحصائي</div>
+<div class="card" onclick="show('grades')">✍️ إدخال الدرجات</div>
+<div class="card" onclick="show('skills')">🎯 المهارات والوحدات</div>
+<div class="card" onclick="show('parents')">👨‍👩‍👧 أولياء الأمور</div>
+<div class="card" onclick="show('reports')">📋 التقارير النهائية</div>
+<div class="card" onclick="show('plus')">🚀 الخطط الإثرائية</div>
+<div class="card" onclick="show('treatment')">💊 الخطط العلاجية</div>
+<div class="card" onclick="show('archive')">📁 الأرشيف</div>
+<div class="card" onclick="show('sources')">🌐 المصادر التعليمية</div>
+<div class="card" onclick="show('games')">🎮 المسابقات والألعاب</div>
+<div class="card" onclick="show('honor')">🏆 لوحة الشرف</div>
 </div>
 </div>
+
+<!-- Supabase -->
 <script>
-// ✅ حفظ تلقائي
-function saveData(){
-  localStorage.setItem("students", JSON.stringify(students||[]));
-  localStorage.setItem("skills", JSON.stringify(skills||[]));
-  localStorage.setItem("archive", JSON.stringify(archive||[]));
-}
+const supabase = supabase.createClient(
+"https://YOUR_PROJECT.supabase.co",
+"YOUR_ANON_KEY"
+)
+</script>
 
-// تحميل تلقائي
-let students = JSON.parse(localStorage.getItem("students")||"[]");
-let skills = JSON.parse(localStorage.getItem("skills")||"[]");
-let archive = JSON.parse(localStorage.getItem("archive")||"[]");
-
-// =======================
-// 📥 توليد المهارات من ملف
-// =======================
-function loadSkillsFromFile(input){
-  const file = input.files[0];
-  if(!file) return;
-
-  const reader = new FileReader();
-  reader.onload = function(e){
-    const lines = e.target.result.split("\n");
-    skills = lines.filter(x=>x.trim()!="");
-    saveData();
-    alert("تم تحميل المهارات ✔");
-  };
-  reader.readAsText(file);
-}
-
-// =======================
-// 🗂️ الأرشيف
-// =======================
-function addToArchive(){
-  archive.push({
-    date:new Date().toLocaleDateString(),
-    data:students
-  });
-  saveData();
-  alert("تم حفظ نسخة في الأرشيف ✔");
-}
-
-// عرض الأرشيف
-function showArchive(){
-  let html="";
-  archive.forEach(a=>{
-    html += `<div style="margin:5px;padding:10px;background:#eee;border-radius:8px">
-      📁 ${a.date} - عدد الطالبات: ${a.data.length}
-    </div>`;
-  });
-  document.getElementById("archiveBox").innerHTML = html;
-}
-
-// =======================
-// 📊 الفاقد التعليمي
-// =======================
-function calcLoss(){
-  let lost = students.filter(s=>s.avg < 50);
-  alert("عدد الفاقد: " + lost.length);
+<script>
+function show(id){
+document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'))
+document.getElementById(id).classList.add('active')
 }
 </script>
-<<div style="margin-top:10px">
 
-<button onclick="document.getElementById('fileInput').click()">📥 تحميل المهارات</button>
-<input type="file" id="fileInput" style="display:none" onchange="loadSkillsFromFile(this)">
-
-<button onclick="addToArchive()">🗂️ حفظ أرشيف</button>
-<button onclick="showArchive()">📂 عرض الأرشيف</button>
-
-<button onclick="calcLoss()">⚠️ الفاقد التعليمي</button>
-
+<!-- البيانات الأساسية -->
+<div id="basic" class="section">
+<h3>البيانات الأساسية</h3>
+<input id="school" placeholder="اسم المدرسة">
+<input id="teacher" placeholder="اسم المعلمة">
+<input id="manager" placeholder="اسم المديرة">
+<input id="year" placeholder="السنة">
+<input id="term" placeholder="الترم">
+<input id="subject" placeholder="المادة">
+<button onclick="saveBasic()">حفظ</button>
 </div>
 
-<div id="archiveBox"></div>/body>
+<script>
+async function saveBasic(){
+await supabase.from('basic').upsert({
+id:1,
+school:school.value,
+teacher:teacher.value,
+manager:manager.value,
+year:year.value,
+term:term.value,
+subject:subject.value
+})
+}
+</script>
+
+<!-- الطالبات -->
+<div id="students" class="section">
+<h3>الطالبات</h3>
+<textarea id="names"></textarea>
+<button onclick="saveStudents()">حفظ</button>
+<div id="list"></div>
+</div>
+
+<script>
+async function saveStudents(){
+let arr = names.value.split("\n")
+for(let n of arr){
+await supabase.from('students').insert({name:n})
+}
+loadStudents()
+}
+async function loadStudents(){
+let {data}=await supabase.from('students').select()
+list.innerHTML=data.map(s=>s.name).join("<br>")
+}
+loadStudents()
+</script>
+
+<!-- المهارات -->
+<div id="skills" class="section">
+<h3>الوحدات</h3>
+<div id="skillsList"></div>
+</div>
+
+<script>
+const units=[
+"العقيدة الإسلامية",
+"توحيد الربوبية",
+"توحيد الألوهية والعبادة",
+"توحيد الأسماء والصفات",
+"عقائد تنافي التوحيد",
+"حقوق النبي",
+"نعمة التوحيد"
+]
+
+function renderSkills(){
+skillsList.innerHTML=""
+units.forEach(u=>{
+let div=document.createElement("div")
+div.innerHTML=`<b>${u}</b><br>
+<input placeholder="أضف مهارة" onchange="addSkill('${u}',this.value)">`
+skillsList.appendChild(div)
+})
+}
+
+async function addSkill(unit,skill){
+await supabase.from('skills').insert({unit,skill})
+}
+
+renderSkills()
+</script>
+
+<!-- الدرجات -->
+<div id="grades" class="section">
+<h3>الدرجات</h3>
+<select id="studentSel"></select>
+<input id="g1" placeholder="الفترة الأولى">
+<input id="g2" placeholder="الفترة الثانية">
+<button onclick="saveGrades()">حفظ</button>
+</div>
+
+<script>
+async function loadSelect(){
+let {data}=await supabase.from('students').select()
+studentSel.innerHTML=data.map(s=>`<option>${s.name}</option>`).join("")
+}
+loadSelect()
+
+async function saveGrades(){
+await supabase.from('grades').insert({
+name:studentSel.value,
+t1:g1.value,
+t2:g2.value
+})
+}
+</script>
+
+<!-- التحليل -->
+<div id="analysis" class="section">
+<h3>التحليل</h3>
+<div id="analysisResult"></div>
+</div>
+
+<script>
+async function loadAnalysis(){
+let {data}=await supabase.from('grades').select()
+let f=0,m=0,l=0
+data.forEach(d=>{
+let avg=(+d.t1 + +d.t2)/2
+if(avg>=90)f++
+else if(avg>=70)m++
+else l++
+})
+analysisResult.innerHTML=`فوق: ${f} | ضمن: ${m} | دون: ${l}`
+}
+loadAnalysis()
+</script>
+
+<!-- الفاقد -->
+<div id="loss" class="section">
+<h3>الفاقد التعليمي</h3>
+<div id="lossList"></div>
+</div>
+
+<script>
+async function loadLoss(){
+let {data}=await supabase.from('grades').select()
+lossList.innerHTML=data.filter(d=>((+d.t1+d.t2)/2)<70)
+.map(d=>d.name).join("<br>")
+}
+loadLoss()
+</script>
+
+<!-- أولياء الأمور -->
+<div id="parents" class="section">
+<h3>أولياء الأمور</h3>
+<input id="pname" placeholder="اسم الطالبة">
+<input id="parent" placeholder="ولي الأمر">
+<input id="phone" placeholder="رقم">
+<button onclick="saveParent()">حفظ</button>
+</div>
+
+<script>
+async function saveParent(){
+await supabase.from('parents').insert({
+student:pname.value,parent:parent.value,phone:phone.value
+})
+}
+</script>
+
+<!-- التقارير -->
+<div id="reports" class="section">
+<h3>التقارير</h3>
+<button onclick="window.print()">طباعة</button>
+</div>
+
+<!-- المصادر -->
+<div id="sources" class="section">
+<a href="https://ien.edu.sa" target="_blank">عين</a><br>
+<a href="https://schools.madrasati.sa" target="_blank">مدرستي</a>
+</div>
+
+<!-- الألعاب -->
+<div id="games" class="section">
+<a href="https://kahoot.com" target="_blank">Kahoot</a><br>
+<a href="https://quizizz.com" target="_blank">Quizizz</a><br>
+<a href="https://wordwall.net" target="_blank">Wordwall</a><br>
+<a href="https://blooket.com" target="_blank">Blooket</a>
+</div>
+
+<!-- الشرف -->
+<div id="honor" class="section">
+<h3>لوحة الشرف</h3>
+<div id="honorList"></div>
+</div>
+
+<script>
+async function loadHonor(){
+let {data}=await supabase.from('grades').select()
+honorList.innerHTML=data.filter(d=>((+d.t1+d.t2)/2)>=90)
+.map(d=>d.name).join("<br>")
+}
+loadHonor()
+</script>
+
+</body>
 </html>
