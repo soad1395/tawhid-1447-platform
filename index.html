@@ -24,7 +24,9 @@ button{padding:10px;background:#2f855a;color:#fff;border:none;margin-top:5px}
 
 <body>
 
-<div class="header">🎓 منصة تحليل نتائج مادة التوحيد</div>
+<div class="header">🎓 منصة الإتقان الذكي</div>
+
+<div id="home" class="section active">
 
 <!-- ✅ البيانات + رفع المنهج -->
 <div style="background:#f8f9fa;padding:15px;border-radius:12px;margin:15px">
@@ -44,9 +46,7 @@ button{padding:10px;background:#2f855a;color:#fff;border:none;margin-top:5px}
 
 </div>
 
-<!-- الصفحة الرئيسية -->
-<div id="home" class="section active">
-
+<!-- البطاقات (نفس منصتك بدون تغيير) -->
 <div class="grid">
 <div class="card">📄 رفع المنهج PDF</div>
 <div class="card">👩‍🎓 الطالبات</div>
@@ -144,7 +144,7 @@ document.getElementById("archiveList").innerHTML =
 archive.map(a=>"<div>"+a+"</div>").join("");
 }
 
-// التنقل
+// تنقل
 function go(x){
 document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
 let target=document.getElementById(x);
