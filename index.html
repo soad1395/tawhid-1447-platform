@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
@@ -10,11 +10,8 @@
 body{font-family:Arial;background:#eef3ef;margin:0}
 .header{background:#2f855a;color:#fff;padding:15px;text-align:center;font-size:20px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:15px;padding:20px}
-.card{
-background:#fff;padding:20px;text-align:center;border-radius:12px;
-box-shadow:0 2px 5px rgba(0,0,0,.1);cursor:pointer;
-border-bottom:5px solid #ccc;font-size:16px
-}
+.card{background:#fff;padding:20px;text-align:center;border-radius:12px;
+box-shadow:0 2px 5px rgba(0,0,0,.1);cursor:pointer;border-bottom:5px solid #ccc}
 .section{display:none;padding:20px}
 .active{display:block}
 input{width:100%;padding:10px;margin-top:5px}
@@ -26,26 +23,22 @@ button{padding:10px;background:#2f855a;color:#fff;border:none;margin-top:5px}
 
 <div class="header">🎓 منصة تحليل نتائج مادة التوحيد</div>
 
-<!-- ✅ البيانات + رفع المنهج -->
-<div style="background:#f8f9fa;padding:15px;border-radius:12px;margin:15px">
+<div id="home" class="section active">
 
+<div style="background:#f8f9fa;padding:15px;border-radius:12px;margin:15px">
 <h3 style="color:#2f855a">📌 البيانات الأساسية</h3>
 
 <input id="subjectName" placeholder="اسم المادة">
 <input id="teacherName" placeholder="اسم المعلمة">
 <input id="schoolName" placeholder="اسم المدرسة">
 
-<label style="display:block;background:#2f855a;color:#fff;padding:10px;border-radius:10px;margin-top:10px;text-align:center;cursor:pointer">
+<label style="background:#2f855a;color:#fff;padding:10px;border-radius:10px;display:block;text-align:center;margin-top:10px;cursor:pointer">
 📄 رفع المنهج PDF
-<input type="file" accept="application/pdf" onchange="processPDF(this)" hidden>
+<input type="file" hidden onchange="processPDF(this)">
 </label>
 
 <div id="skillsList"></div>
-
 </div>
-
-<!-- الصفحة الرئيسية -->
-<div id="home" class="section active">
 
 <div class="grid">
 <div class="card">📄 رفع المنهج PDF</div>
@@ -55,22 +48,12 @@ button{padding:10px;background:#2f855a;color:#fff;border:none;margin-top:5px}
 <div class="card">⚠️ الفاقد التعليمي</div>
 <div class="card">📊 التحليل الإحصائي</div>
 <div class="card">✍️ إدخال الدرجات</div>
-<div class="card">🎯 المهارات والوحدات</div>
-<div class="card">👨‍👩‍👧 أولياء الأمور</div>
-<div class="card">📋 التقارير النهائية</div>
-<div class="card">🚀 الخطط الإثرائية</div>
-<div class="card">💊 الخطط العلاجية</div>
-
+<div class="card">🎯 المهارات</div>
 <div class="card" onclick="go('archive')">📁 الأرشيف</div>
-
-<div class="card">🌐 المصادر التعليمية</div>
-<div class="card">🎮 المسابقات والألعاب</div>
-<div class="card">🏆 لوحة الشرف</div>
 </div>
 
 </div>
 
-<!-- الأرشيف -->
 <div id="archive" class="section">
 <h3>📁 الأرشيف</h3>
 <button onclick="saveArchive()">حفظ نسخة</button>
@@ -80,109 +63,57 @@ button{padding:10px;background:#2f855a;color:#fff;border:none;margin-top:5px}
 
 <script>
 
-// حفظ البيانات
 ["subjectName","teacherName","schoolName"].forEach(id=>{
 let el=document.getElementById(id);
-if(el){
-let saved=localStorage.getItem(id);
-if(saved) el.value=saved;
-
-el.addEventListener("input",()=>{
-localStorage.setItem(id,el.value);
-});
-}
+if(localStorage.getItem(id)) el.value=localStorage.getItem(id);
+el.oninput=()=>localStorage.setItem(id,el.value);
 });
 
-// PDF
 pdfjsLib.GlobalWorkerOptions.workerSrc =
 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
 
 async function processPDF(input){
 let file=input.files[0];
-if(!file)return;
-
 let reader=new FileReader();
 
 reader.onload=async function(){
 let pdf=await pdfjsLib.getDocument(new Uint8Array(this.result)).promise;
-
 let skills=[];
 
 for(let i=1;i<=pdf.numPages;i++){
 let page=await pdf.getPage(i);
 let txt=await page.getTextContent();
 let text=txt.items.map(s=>s.str).join(" ");
-
 let match=text.match(/(أن\s\w+[^.]{10,50}|يميز\s[^.]{10,50}|يعدد\s[^.]{10,50})/g);
-
 if(match)skills.push(...match);
 }
 
 skills=[...new Set(skills)];
-
-document.getElementById("skillsList").innerHTML =
-skills.map(s=>"<div>"+s+"</div>").join("");
-
-localStorage.setItem("skills",JSON.stringify(skills));
+skillsList.innerHTML=skills.map(s=>"<div>"+s+"</div>").join("");
 };
 
 reader.readAsArrayBuffer(file);
 }
 
-// الأرشيف
 function saveArchive(){
-let archive=JSON.parse(localStorage.getItem("archive")||"[]");
-archive.push(new Date().toLocaleString());
-localStorage.setItem("archive",JSON.stringify(archive));
+let a=JSON.parse(localStorage.getItem("archive")||"[]");
+a.push(new Date().toLocaleString());
+localStorage.setItem("archive",JSON.stringify(a));
 renderArchive();
 }
 
 function renderArchive(){
-let archive=JSON.parse(localStorage.getItem("archive")||"[]");
-document.getElementById("archiveList").innerHTML =
-archive.map(a=>"<div>"+a+"</div>").join("");
+let a=JSON.parse(localStorage.getItem("archive")||"[]");
+archiveList.innerHTML=a.map(x=>"<div>"+x+"</div>").join("");
 }
 
-// التنقل
 function go(x){
 document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-let target=document.getElementById(x);
-if(target) target.classList.add('active');
-
-if(x==="archive") renderArchive();
+document.getElementById(x).classList.add('active');
+if(x=="archive") renderArchive();
 }
 
 </script>
-<!-- ✅ الإضافات النهائية -->
-<div style="background:#f8f9fa;padding:15px;border-radius:12px;margin:15px">
 
-<h3 style="color:#2f855a">📌 البيانات الأساسية</h3>
-
-<input id="subjectName" placeholder="اسم المادة">
-<input id="teacherName" placeholder="اسم المعلمة">
-<input id="schoolName" placeholder="اسم المدرسة">
-
-<label style="display:block;background:#2f855a;color:#fff;padding:10px;border-radius:10px;margin-top:10px;text-align:center;cursor:pointer">
-📄 رفع المنهج PDF
-<input type="file" accept="application/pdf" onchange="processPDF(this)" hidden>
-</label>
-
-<div id="skillsList"></div>
-
-</div>
-
-<!-- زر الأرشيف -->
-<div onclick="go('archive')" style="position:fixed;bottom:20px;left:20px;background:#2f855a;color:#fff;padding:10px 15px;border-radius:10px;cursor:pointer">
-📁 الأرشيف
-</div>
-
-<!-- صفحة الأرشيف -->
-<div id="archive" class="section">
-<h3>📁 الأرشيف</h3>
-<button onclick="saveArchive()">حفظ نسخة</button>
-<div id="archiveList"></div>
-<button onclick="go('home')">رجوع</button>
-</div>
 </body>
 </html>
-
